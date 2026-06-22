@@ -39,8 +39,12 @@
         #username-input:focus { outline: none; border-color: #3b82f6; }
         
         /* User History Styles */
-        .history-btn { padding: 8px 14px; background: #f1f5f9; color: #475569; border: 2px solid #e2e8f0; border-radius: 12px; font-weight: 800; font-family: 'Nunito', sans-serif; cursor: pointer; transition: all 0.2s; font-size: 14px; }
-        .history-btn:hover { background: #e2e8f0; color: #1e293b; border-color: #cbd5e1; }
+        .history-chip { display: inline-flex; align-items: stretch; background: #f1f5f9; border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; margin: 4px; transition: all 0.2s; }
+        .history-chip:hover { border-color: #cbd5e1; }
+        .history-btn { padding: 8px 14px; background: transparent; color: #475569; border: none; font-weight: 800; font-family: 'Nunito', sans-serif; cursor: pointer; font-size: 14px; }
+        .history-btn:hover { background: #e2e8f0; color: #1e293b; }
+        .delete-btn { padding: 8px 12px; background: #fee2e2; color: #ef4444; border: none; border-left: 2px solid #e2e8f0; cursor: pointer; font-weight: 900; font-size: 16px; display: flex; align-items: center; }
+        .delete-btn:hover { background: #fca5a5; color: #b91c1c; }
 
         #question-text { font-size: 20px; font-weight: 800; color: #1e293b; margin: 15px 0; min-height: 28px; line-height: 1.3; }
         #pokemon-image { width: 200px; height: 200px; margin: 10px auto; display: block; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2)); }
@@ -104,18 +108,22 @@
             
             <div class="menu-box">
                 <h3>GUESS MODE</h3>
+                <p>Identify the Pokémon from its dark silhouette.</p>
                 <button class="primary-btn btn-blue" onclick="startGame('GUESS')">Play Guess Mode</button>
             </div>
             <div class="menu-box">
                 <h3>TYPES MODE</h3>
+                <p>Test your knowledge on elemental types.</p>
                 <button class="primary-btn btn-green" onclick="startGame('TYPES')">Play Types Mode</button>
             </div>
             <div class="menu-box">
                 <h3>EVOLUTIONS MODE</h3>
+                <p>Who does this Pokémon evolve into?</p>
                 <button class="primary-btn btn-orange" onclick="startGame('EVOLUTIONS')">Play Evolutions Mode</button>
             </div>
             <div class="menu-box">
                 <h3>TRIVIA MODE</h3>
+                <p>Questions about regions, types, and weaknesses!</p>
                 <button class="primary-btn btn-purple" onclick="startGame('TRIVIA')">Play Trivia Mode</button>
             </div>
         </div>
@@ -183,14 +191,28 @@
             if (knownUsers.length > 0) {
                 container.classList.remove('hidden');
                 knownUsers.forEach(user => {
-                    const btn = document.createElement('button');
-                    btn.className = 'history-btn';
-                    btn.innerText = user;
-                    btn.onclick = () => {
+                    const chip = document.createElement('div');
+                    chip.className = 'history-chip';
+
+                    // Name Button
+                    const nameBtn = document.createElement('button');
+                    nameBtn.className = 'history-btn';
+                    nameBtn.innerText = user;
+                    nameBtn.onclick = () => {
                         document.getElementById('username-input').value = user;
-                        loginUser(); // Auto-login when clicked
+                        loginUser(); 
                     };
-                    list.appendChild(btn);
+
+                    // Delete Button
+                    const delBtn = document.createElement('button');
+                    delBtn.className = 'delete-btn';
+                    delBtn.innerHTML = '&times;'; // The "x" symbol
+                    delBtn.title = "Delete Player";
+                    delBtn.onclick = () => deleteUser(user);
+
+                    chip.appendChild(nameBtn);
+                    chip.appendChild(delBtn);
+                    list.appendChild(chip);
                 });
             } else {
                 container.classList.add('hidden');
@@ -222,6 +244,23 @@
             homeScreen.classList.add('hidden');
             renderUserHistory();
             loginScreen.classList.remove('hidden');
+        }
+
+        // --- NEW: Delete User Function ---
+        function deleteUser(userToDelete) {
+            const confirmDelete = confirm(`Are you sure you want to delete ${userToDelete}? This will permanently erase their XP and Level.`);
+            
+            if (confirmDelete) {
+                // Remove from the array
+                knownUsers = knownUsers.filter(u => u !== userToDelete);
+                localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
+                
+                // Wipe their XP data completely
+                localStorage.removeItem(`xp_${userToDelete}`);
+                
+                // Refresh the list on the screen
+                renderUserHistory();
+            }
         }
 
         function loadUserData(username) {
