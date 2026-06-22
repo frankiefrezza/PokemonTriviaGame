@@ -2,19 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    
     <title>Pokémon Trivia Game</title>
-    
-<link rel="icon" href="app-icon.png" type="image/png">
-<link rel="apple-touch-icon" href="app-icon.png">
-    
+<link rel="icon" href="apple-touch-icon.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
-    
     <style>
         body {
             font-family: 'Nunito', -apple-system, sans-serif;
@@ -24,27 +17,31 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding: 10px;
+            padding: 20px;
             box-sizing: border-box;
         }
 
         #app {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            padding: 20px;
+            padding: 30px;
             border-radius: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2), 0 0 0 10px rgba(255,255,255,0.2);
             text-align: center;
-            width: 100%;
-            max-width: 400px;
+            width: 440px;
+            max-width: 100%;
             box-sizing: border-box;
+            position: relative;
         }
 
         .hidden { display: none !important; }
 
+        /* Home Screen Styling */
+        
+        /* New Floating Title Image */
         .title-image {
-            width: 120px;
-            height: 120px;
+            width: 140px;
+            height: 140px;
             margin: 0 auto 10px auto;
             display: block;
             filter: drop-shadow(0 10px 10px rgba(0,0,0,0.2));
@@ -53,74 +50,271 @@
 
         @keyframes float {
             0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-12px); }
             100% { transform: translateY(0px); }
         }
 
-        h1 { color: #1e3a8a; font-size: 28px; font-weight: 900; margin-bottom: 5px; text-transform: uppercase; }
-        .subtitle { color: #64748b; margin-bottom: 20px; font-size: 14px; font-weight: 700; }
+        #home-screen h1 {
+            color: #1e3a8a;
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0px #bae6fd;
+        }
+        
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 25px;
+            font-size: 16px;
+            font-weight: 700;
+        }
 
         .menu-box {
             background: #f8fafc;
             padding: 15px;
             border-radius: 20px;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             border: 2px solid #e2e8f0;
+            transition: transform 0.2s;
         }
-
-        .menu-box h3 { margin: 0 0 5px 0; color: #334155; font-size: 16px; }
-        .menu-box p { font-size: 12px; color: #64748b; margin: 0 0 10px 0; }
-
-        .nav-bar { display: flex; justify-content: space-between; margin-bottom: 15px; }
-        .nav-btn { background: #e2e8f0; border: none; padding: 8px 12px; border-radius: 10px; font-weight: 800; cursor: pointer; font-size: 12px; }
-
-        .stats { background: #f1f5f9; padding: 8px 15px; border-radius: 12px; margin-bottom: 15px; font-weight: 800; display: flex; justify-content: space-between; }
-
-        #question-text { font-size: 18px; font-weight: 800; margin: 10px 0; }
-        #pokemon-image { width: 180px; height: 180px; margin: 0 auto 10px auto; display: block; }
         
-        .silhouette { filter: brightness(0); }
-        .revealed { filter: brightness(1); transition: filter 0.5s; }
+        .menu-box:hover {
+            transform: scale(1.02);
+            border-color: #cbd5e1;
+        }
 
+        .menu-box h3 { margin: 0 0 5px 0; color: #334155; font-size: 18px; font-weight: 800; }
+        .menu-box p { font-size: 13px; color: #64748b; margin-top: 0; margin-bottom: 12px; font-weight: 700; }
+
+        /* Navigation Top Bar */
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            font-size: 14px;
+            background-color: #e2e8f0;
+            color: #475569;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 800;
+            transition: all 0.2s;
+        }
+        
+        .nav-btn svg { width: 14px; height: 14px; }
+
+        .nav-btn:hover { background-color: #cbd5e1; color: #1e293b; }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 800;
+            color: #334155;
+            background: #f1f5f9;
+            padding: 10px 20px;
+            border-radius: 15px;
+        }
+
+        /* Game Elements */
+        #question-text {
+            font-size: 20px;
+            font-weight: 800;
+            color: #1e293b;
+            margin: 15px 0;
+            min-height: 28px;
+            line-height: 1.3;
+        }
+
+        #pokemon-image {
+            width: 200px;
+            height: 200px;
+            margin: 10px auto;
+            display: block;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
+        }
+
+        .silhouette { 
+            filter: brightness(0) drop-shadow(0 10px 15px rgba(0,0,0,0.2)) !important; 
+        }
+        
+        .revealed { 
+            filter: brightness(1) drop-shadow(0 10px 15px rgba(0,0,0,0.2)); 
+            transition: filter 0.5s ease; 
+        }
+
+        /* 3D Multiple Choice Buttons */
         .option-btn {
-            display: block; width: 100%; padding: 12px; margin: 8px 0; font-family: 'Nunito'; font-weight: 800;
-            border: 2px solid #cbd5e1; border-radius: 12px; background: white; cursor: pointer;
-            box-shadow: 0 4px 0 #cbd5e1; transition: all 0.1s;
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 12px 0;
+            font-size: 16px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            color: #334155;
+            border: 2px solid #cbd5e1;
+            border-radius: 16px;
+            background: white;
+            cursor: pointer;
+            text-transform: capitalize;
+            box-shadow: 0 4px 0 #cbd5e1;
+            transition: all 0.1s ease;
         }
 
-        .option-btn:active { transform: translateY(4px); box-shadow: 0 0 0; }
-        .correct { background: #22c55e !important; border-color: #16a34a !important; color: white !important; }
-        .wrong { background: #ef4444 !important; border-color: #dc2626 !important; color: white !important; }
+        .option-btn:active:not(:disabled) {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #cbd5e1;
+        }
 
+        .option-btn:hover:not(:disabled) {
+            background: #f8fafc;
+            border-color: #94a3b8;
+        }
+
+        .option-btn:disabled { cursor: default; }
+
+        .correct { 
+            background-color: #22c55e !important; 
+            border-color: #16a34a !important; 
+            color: white !important; 
+            box-shadow: 0 4px 0 #16a34a !important;
+            transform: translateY(0);
+        }
+        
+        .wrong { 
+            background-color: #ef4444 !important; 
+            border-color: #dc2626 !important; 
+            color: white !important; 
+            box-shadow: 0 4px 0 #dc2626 !important;
+            transform: translateY(0);
+        }
+
+        /* 3D Action Buttons */
         .primary-btn {
-            width: 100%; padding: 12px; border: none; border-radius: 12px; color: white;
-            font-weight: 800; cursor: pointer; text-transform: uppercase; margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 20px;
+            font-size: 16px;
+            font-family: 'Nunito', sans-serif;
+            color: white;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            font-weight: 800;
+            width: 100%;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.1s ease;
         }
-        .btn-blue { background: #3b82f6; }
-        .btn-green { background: #10b981; }
-        .btn-orange { background: #f59e0b; }
-        .btn-purple { background: #8b5cf6; }
+        
+        .primary-btn svg { width: 18px; height: 18px; }
+
+        .primary-btn:active {
+            transform: translateY(4px);
+        }
+
+        .btn-blue { background-color: #3b82f6; box-shadow: 0 4px 0 #2563eb; }
+        .btn-blue:active { box-shadow: 0 0 0 #2563eb; }
+        
+        .btn-green { background-color: #10b981; box-shadow: 0 4px 0 #059669; }
+        .btn-green:active { box-shadow: 0 0 0 #059669; }
+        
+        .btn-orange { background-color: #f59e0b; box-shadow: 0 4px 0 #d97706; }
+        .btn-orange:active { box-shadow: 0 0 0 #d97706; }
+        
+        .btn-purple { background-color: #8b5cf6; box-shadow: 0 4px 0 #7c3aed; }
+        .btn-purple:active { box-shadow: 0 0 0 #7c3aed; }
+
+        /* Animated Loading Text */
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+        #loading-text {
+            font-size: 18px;
+            font-weight: 800;
+            color: #64748b;
+            animation: pulse 1.5s infinite ease-in-out;
+            margin: 40px 0;
+        }
+        
+        #end-message {
+            font-size: 24px;
+            font-weight: 900;
+            margin: 20px 0;
+            line-height: 1.3;
+        }
     </style>
 </head>
 <body>
     <div id="app">
         <div id="home-screen">
-            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" class="title-image">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" alt="Pikachu" class="title-image">
+            
             <h1>POKÉMON TRIVIA</h1>
             <p class="subtitle">Choose your challenge!</p>
-            <div class="menu-box"><h3>GUESS MODE</h3><button class="primary-btn btn-blue" onclick="startGame('GUESS')">Play Guess</button></div>
-            <div class="menu-box"><h3>TYPES MODE</h3><button class="primary-btn btn-green" onclick="startGame('TYPES')">Play Types</button></div>
-            <div class="menu-box"><h3>EVOLUTIONS</h3><button class="primary-btn btn-orange" onclick="startGame('EVOLUTIONS')">Play Evolutions</button></div>
-            <div class="menu-box"><h3>TRIVIA</h3><button class="primary-btn btn-purple" onclick="startGame('TRIVIA')">Play Trivia</button></div>
+            
+            <div class="menu-box">
+                <h3>GUESS MODE</h3>
+                <p>Identify the Pokémon from its dark silhouette.</p>
+                <button class="primary-btn btn-blue" onclick="startGame('GUESS')">Play Guess Mode</button>
+            </div>
+
+            <div class="menu-box">
+                <h3>TYPES MODE</h3>
+                <p>Test your knowledge on elemental types.</p>
+                <button class="primary-btn btn-green" onclick="startGame('TYPES')">Play Types Mode</button>
+            </div>
+
+            <div class="menu-box">
+                <h3>EVOLUTIONS MODE</h3>
+                <p>Who does this Pokémon evolve into?</p>
+                <button class="primary-btn btn-orange" onclick="startGame('EVOLUTIONS')">Play Evolutions Mode</button>
+            </div>
+
+            <div class="menu-box">
+                <h3>TRIVIA MODE</h3>
+                <p>Questions about regions, types, and weaknesses!</p>
+                <button class="primary-btn btn-purple" onclick="startGame('TRIVIA')">Play Trivia Mode</button>
+            </div>
         </div>
 
         <div id="game-screen" class="hidden">
             <div class="nav-bar">
-                <button class="nav-btn" onclick="goHome()">HOME</button>
-                <button class="nav-btn" onclick="restartGame()">RESET</button>
+                <button class="nav-btn" onclick="goHome()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    Home
+                </button>
+                <button class="nav-btn" onclick="restartGame()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                    Restart
+                </button>
             </div>
-            <div class="stats"><span>Q: <span id="question-count">1</span>/25</span><span>Score: <span id="score">0</span></span></div>
-            <div id="game-content">
+
+            <div class="stats">
+                <span>Question: <span id="question-count">1</span>/25</span>
+                <span>Score: <span id="score">0</span></span>
+            </div>
+
+            <h2 id="loading-text">Finding a wild Pokémon...</h2>
+            <div id="game-content" class="hidden">
                 <div id="question-text"></div>
                 <img id="pokemon-image" src="" alt="Pokemon">
                 <div id="options"></div>
@@ -128,70 +322,264 @@
         </div>
 
         <div id="end-screen" class="hidden">
-            <h1>Game Over!</h1>
-            <p id="end-message"></p>
-            <h2>Final Score: <span id="final-score">0</span>/25</h2>
-            <button class="primary-btn btn-blue" onclick="restartGame()">Play Again</button>
+            <h1 style="font-size: 36px; margin-bottom: 0;">Game Over!</h1>
+            <h2 id="end-message"></h2>
+            <div style="background: #f1f5f9; padding: 15px; border-radius: 15px; margin-bottom: 25px;">
+                <p style="font-size: 18px; font-weight: 800; color: #64748b; margin: 0;">Your Final Score</p>
+                <p style="font-size: 32px; font-weight: 900; color: #1e293b; margin: 5px 0 0 0;"><span id="final-score">0</span>/25</p>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+                <button class="primary-btn btn-blue" onclick="restartGame()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                    Play Again
+                </button>
+                <button class="primary-btn btn-purple" onclick="goHome()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    Home Screen
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
         const TOTAL_QUESTIONS = 25;
-        const MAX_POKEMON_ID = 898;
-        const POKEMON_TYPES = ['normal', 'fire', 'water', 'grass', 'electric', 'ice', 'fighting', 'poison', 'ground', 'flying', 'psychic', 'bug', 'rock', 'ghost', 'dragon', 'dark', 'steel', 'fairy'];
-        const REGIONS = {'generation-i': 'Kanto', 'generation-ii': 'Johto', 'generation-iii': 'Hoenn', 'generation-iv': 'Sinnoh', 'generation-v': 'Unova', 'generation-vi': 'Kalos', 'generation-vii': 'Alola', 'generation-viii': 'Galar', 'generation-ix': 'Paldea'};
+        const MAX_POKEMON_ID = 898; 
+        
+        const POKEMON_TYPES = [
+            'normal', 'fire', 'water', 'grass', 'electric', 'ice', 
+            'fighting', 'poison', 'ground', 'flying', 'psychic', 'bug', 
+            'rock', 'ghost', 'dragon', 'dark', 'steel', 'fairy'
+        ];
 
-        let currentMode = 'GUESS', currentQuestion = 0, score = 0, correctAnswersAttribute = '';
+        const REGIONS = {
+            'generation-i': 'Kanto', 'generation-ii': 'Johto', 'generation-iii': 'Hoenn',
+            'generation-iv': 'Sinnoh', 'generation-v': 'Unova', 'generation-vi': 'Kalos',
+            'generation-vii': 'Alola', 'generation-viii': 'Galar', 'generation-ix': 'Paldea'
+        };
+
+        let currentMode = 'GUESS'; 
+        let currentQuestion = 0;
+        let score = 0;
+        let correctAnswersAttribute = ''; 
+
+        const homeScreen = document.getElementById('home-screen');
+        const gameScreen = document.getElementById('game-screen');
+        const endScreen = document.getElementById('end-screen');
+        const gameContent = document.getElementById('game-content');
+        const questionCountEl = document.getElementById('question-count');
+        const scoreEl = document.getElementById('score');
+        const questionTextEl = document.getElementById('question-text');
+        const imageEl = document.getElementById('pokemon-image');
+        const optionsEl = document.getElementById('options');
+        const loadingText = document.getElementById('loading-text');
+        const finalScoreEl = document.getElementById('final-score');
+        const endMessageEl = document.getElementById('end-message');
 
         function startGame(mode) {
-            currentMode = mode; currentQuestion = 0; score = 0;
-            document.getElementById('score').innerText = score;
-            document.getElementById('home-screen').classList.add('hidden');
-            document.getElementById('end-screen').classList.add('hidden');
-            document.getElementById('game-screen').classList.remove('hidden');
+            currentMode = mode;
+            currentQuestion = 0;
+            score = 0;
+            scoreEl.innerText = score;
+            homeScreen.classList.add('hidden');
+            endScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
             loadNextQuestion();
         }
 
         function restartGame() { startGame(currentMode); }
-        function goHome() { document.getElementById('game-screen').classList.add('hidden'); document.getElementById('home-screen').classList.remove('hidden'); }
+
+        function goHome() {
+            gameScreen.classList.add('hidden');
+            endScreen.classList.add('hidden');
+            homeScreen.classList.remove('hidden');
+        }
+
+        function getEvolutionTarget(chainNode, targetName) {
+            let queue = [chainNode];
+            while (queue.length > 0) {
+                let node = queue.shift();
+                if (node.species.name === targetName) {
+                    if (node.evolves_to && node.evolves_to.length > 0) {
+                        return node.evolves_to[0].species.name; 
+                    }
+                    return null; 
+                }
+                if (node.evolves_to) {
+                    for (let next of node.evolves_to) queue.push(next);
+                }
+            }
+            return null;
+        }
 
         async function loadNextQuestion() {
             if (currentQuestion >= TOTAL_QUESTIONS) return endGame();
+
+            gameContent.classList.add('hidden');
+            optionsEl.innerHTML = '';
+            loadingText.classList.remove('hidden');
+
             const targetId = Math.floor(Math.random() * MAX_POKEMON_ID) + 1;
             const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${targetId}`);
-            const main = await res.json();
-            const img = document.getElementById('pokemon-image');
-            img.src = main.sprites.other['official-artwork'].front_default;
-            
-            // Simplified Logic for demonstration
-            currentQuestion++;
-            document.getElementById('question-count').innerText = currentQuestion;
-            document.getElementById('question-text').innerText = "What is this Pokémon?";
-            
-            const optionsDiv = document.getElementById('options');
-            optionsDiv.innerHTML = '';
-            // Basic choice logic
-            createButton(main.name, main.name, true);
-            createButton("Wrong Answer", "wrong", false);
-            // (Add more choices here as needed)
+            const mainPokemon = await res.json();
+            const cleanName = mainPokemon.name.replace('-', ' ');
+            imageEl.src = mainPokemon.sprites.other['official-artwork'].front_default;
+
+            let speciesData = null, chainData = null;
+            if (currentMode === 'EVOLUTIONS' || currentMode === 'TRIVIA') {
+                const speciesRes = await fetch(mainPokemon.species.url);
+                speciesData = await speciesRes.json();
+                const chainRes = await fetch(speciesData.evolution_chain.url);
+                chainData = await chainRes.json();
+            }
+
+            let choices = [];
+
+            if (currentMode === 'GUESS') {
+                currentQuestion++;
+                questionTextEl.innerText = "Who's That Pokémon?";
+                imageEl.className = 'silhouette'; 
+                correctAnswersAttribute = mainPokemon.name;
+
+                const ids = new Set([targetId]);
+                while(ids.size < 4) ids.add(Math.floor(Math.random() * MAX_POKEMON_ID) + 1);
+                const idArray = Array.from(ids).filter(id => id !== targetId).slice(0, 3);
+                
+                const fillerRes = await Promise.all(idArray.map(id => fetch(`https://pokeapi.co/api/v2/pokemon/${id}`).then(r => r.json())));
+                const allChoices = [mainPokemon, ...fillerRes];
+                allChoices.sort(() => Math.random() - 0.5);
+
+                allChoices.forEach(poke => createButton(poke.name.replace('-', ' '), poke.name, poke.name === correctAnswersAttribute));
+            } 
+            else if (currentMode === 'TYPES') {
+                currentQuestion++;
+                questionTextEl.innerHTML = `What type of Pokémon is <strong style="text-transform: capitalize; color: #2563eb;">${cleanName}</strong>?`;
+                imageEl.className = 'revealed'; 
+                
+                correctAnswersAttribute = mainPokemon.types[0].type.name;
+                const wrongTypes = POKEMON_TYPES.filter(t => t !== correctAnswersAttribute).sort(() => Math.random() - 0.5);
+                
+                choices = [correctAnswersAttribute, ...wrongTypes.slice(0, 3)].sort(() => Math.random() - 0.5);
+                choices.forEach(t => createButton(t, t, t === correctAnswersAttribute));
+            } 
+            else if (currentMode === 'EVOLUTIONS') {
+                let evolveTo = getEvolutionTarget(chainData.chain, mainPokemon.name);
+                
+                if (!evolveTo) return loadNextQuestion(); 
+
+                currentQuestion++;
+                questionTextEl.innerHTML = `Who does <strong style="text-transform: capitalize; color: #f59e0b;">${cleanName}</strong> evolve into?`;
+                imageEl.className = 'revealed';
+                correctAnswersAttribute = evolveTo;
+
+                const ids = new Set();
+                while(ids.size < 3) ids.add(Math.floor(Math.random() * MAX_POKEMON_ID) + 1);
+                const fillerRes = await Promise.all(Array.from(ids).map(id => fetch(`https://pokeapi.co/api/v2/pokemon/${id}`).then(r => r.json())));
+                
+                let wrongNames = fillerRes.map(p => p.name);
+                choices = [correctAnswersAttribute, ...wrongNames].sort(() => Math.random() - 0.5);
+                choices.forEach(n => createButton(n.replace('-', ' '), n, n === correctAnswersAttribute));
+            } 
+            else if (currentMode === 'TRIVIA') {
+                currentQuestion++;
+                imageEl.className = 'revealed';
+                const questionType = Math.floor(Math.random() * 4);
+
+                if (questionType === 0) {
+                    questionTextEl.innerHTML = `Does <strong style="text-transform: capitalize; color: #8b5cf6;">${cleanName}</strong> evolve into another Pokémon?`;
+                    let evolveTo = getEvolutionTarget(chainData.chain, mainPokemon.name);
+                    correctAnswersAttribute = evolveTo ? "Yes" : "No";
+                    choices = ["Yes", "No"];
+                } else if (questionType === 1) {
+                    questionTextEl.innerHTML = `Which region was <strong style="text-transform: capitalize; color: #8b5cf6;">${cleanName}</strong> first discovered in?`;
+                    let genName = speciesData.generation.name;
+                    correctAnswersAttribute = REGIONS[genName] || "Unknown";
+                    
+                    let wrongRegions = Object.values(REGIONS).filter(r => r !== correctAnswersAttribute).sort(() => Math.random() - 0.5);
+                    choices = [correctAnswersAttribute, ...wrongRegions.slice(0, 3)].sort(() => Math.random() - 0.5);
+                } else if (questionType === 2) {
+                    questionTextEl.innerHTML = `Is <strong style="text-transform: capitalize; color: #8b5cf6;">${cleanName}</strong> a single type or a dual type Pokémon?`;
+                    let isDual = mainPokemon.types.length > 1;
+                    correctAnswersAttribute = isDual ? "Dual Type" : "Single Type";
+                    choices = ["Single Type", "Dual Type"];
+                } else if (questionType === 3) {
+                    questionTextEl.innerHTML = `What is one of <strong style="text-transform: capitalize; color: #8b5cf6;">${cleanName}</strong>'s weaknesses?`;
+                    let primaryType = mainPokemon.types[0].type.name;
+                    let typeRes = await fetch(`https://pokeapi.co/api/v2/type/${primaryType}`);
+                    let typeData = await typeRes.json();
+                    
+                    let weaknesses = typeData.damage_relations.double_damage_from.map(t => t.name);
+                    if (weaknesses.length === 0) weaknesses = ['normal']; 
+                    
+                    correctAnswersAttribute = weaknesses[0];
+                    let wrongTypes = POKEMON_TYPES.filter(t => !weaknesses.includes(t)).sort(() => Math.random() - 0.5);
+                    choices = [correctAnswersAttribute, ...wrongTypes.slice(0, 3)].sort(() => Math.random() - 0.5);
+                }
+
+                choices.forEach(choice => createButton(choice, choice, choice === correctAnswersAttribute));
+            }
+
+            questionCountEl.innerText = currentQuestion;
+            loadingText.classList.add('hidden');
+            gameContent.classList.remove('hidden');
         }
 
-        function createButton(text, val, isCorrect) {
+        function createButton(displayText, dataValue, isCorrect) {
             const btn = document.createElement('button');
+            btn.innerText = displayText;
             btn.className = 'option-btn';
-            btn.innerText = text;
-            btn.onclick = () => {
-                if (isCorrect) { btn.classList.add('correct'); score++; document.getElementById('score').innerText = score; }
-                else { btn.classList.add('wrong'); }
-                setTimeout(loadNextQuestion, 1000);
-            };
-            document.getElementById('options').appendChild(btn);
+            btn.dataset.value = dataValue;
+            btn.onclick = () => handleGuess(btn, isCorrect);
+            optionsEl.appendChild(btn);
+        }
+
+        function handleGuess(clickedBtn, isCorrect) {
+            if (currentMode === 'GUESS') imageEl.className = 'revealed'; 
+
+            const allBtns = document.querySelectorAll('.option-btn');
+            allBtns.forEach(btn => btn.disabled = true);
+
+            clickedBtn.style.transform = "translateY(4px)";
+            clickedBtn.style.boxShadow = "0 0 0 transparent";
+
+            if (isCorrect) {
+                clickedBtn.classList.add('correct');
+                score++;
+                scoreEl.innerText = score;
+            } else {
+                clickedBtn.classList.add('wrong');
+                allBtns.forEach(btn => {
+                    if (btn.dataset.value === correctAnswersAttribute) {
+                        btn.classList.add('correct');
+                        btn.style.transform = "translateY(4px)";
+                        btn.style.boxShadow = "0 0 0 transparent";
+                    }
+                });
+            }
+
+            setTimeout(() => { loadNextQuestion(); }, 2500);
         }
 
         function endGame() {
-            document.getElementById('game-screen').classList.add('hidden');
-            document.getElementById('end-screen').classList.remove('hidden');
-            document.getElementById('final-score').innerText = score;
+            gameScreen.classList.add('hidden');
+            endScreen.classList.remove('hidden');
+            finalScoreEl.innerText = score;
+
+            if (score === TOTAL_QUESTIONS) {
+                endMessageEl.innerText = "Perfect Score! You are a true Pokémon Master! 🏆";
+                endMessageEl.style.color = "#10b981"; 
+            } else if (score >= 20) {
+                endMessageEl.innerText = "Amazing Job! You really know your Pokémon! 🌟";
+                endMessageEl.style.color = "#3b82f6"; 
+            } else if (score >= 15) {
+                endMessageEl.innerText = "Great work! Keep it up! 👍";
+                endMessageEl.style.color = "#8b5cf6"; 
+            } else if (score >= 10) {
+                endMessageEl.innerText = "Good effort! You're getting there! 🙂";
+                endMessageEl.style.color = "#f59e0b"; 
+            } else {
+                endMessageEl.innerText = "Nice try! Keep practicing to catch 'em all! 🔴";
+                endMessageEl.style.color = "#ef4444"; 
+            }
         }
     </script>
 </body>
