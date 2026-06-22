@@ -10,336 +10,125 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Nunito', -apple-system, sans-serif;
-            background: linear-gradient(135deg, #74ebd5 0%, #9face6 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        #app {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2), 0 0 0 10px rgba(255,255,255,0.2);
-            text-align: center;
-            width: 440px;
-            max-width: 100%;
-            box-sizing: border-box;
-            position: relative;
-        }
-
+        body { font-family: 'Nunito', -apple-system, sans-serif; background: linear-gradient(135deg, #74ebd5 0%, #9face6 100%); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+        #app { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 30px; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.2), 0 0 0 10px rgba(255,255,255,0.2); text-align: center; width: 440px; max-width: 100%; box-sizing: border-box; position: relative; }
         .hidden { display: none !important; }
 
-        /* Home Screen Styling */
-        .title-image {
-            width: 140px;
-            height: 140px;
-            margin: 0 auto 10px auto;
-            display: block;
-            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.2));
-            animation: float 3s ease-in-out infinite;
-        }
+        /* Smooth Fade Transition */
+        #game-content { transition: opacity 0.4s ease-in-out; opacity: 1; min-height: 400px; }
 
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-12px); }
-            100% { transform: translateY(0px); }
-        }
-
-        #home-screen h1 {
-            color: #1e3a8a;
-            font-size: 32px;
-            font-weight: 900;
-            margin-bottom: 5px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            text-shadow: 2px 2px 0px #bae6fd;
-        }
+        .title-image { width: 140px; height: 140px; margin: 0 auto 10px auto; display: block; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.2)); animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-12px); } 100% { transform: translateY(0px); } }
+        #home-screen h1, #login-screen h1 { color: #1e3a8a; font-size: 32px; font-weight: 900; margin-bottom: 5px; text-transform: uppercase; text-shadow: 2px 2px 0px #bae6fd; }
+        .subtitle { color: #64748b; margin-bottom: 25px; font-size: 16px; font-weight: 700; }
         
-        .subtitle {
-            color: #64748b;
-            margin-bottom: 25px;
-            font-size: 16px;
-            font-weight: 700;
-        }
+        /* XP Bar Styles */
+        .xp-container { width: 100%; height: 14px; background: #e2e8f0; border-radius: 7px; margin-bottom: 20px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
+        #xp-progress-bar { height: 100%; background: linear-gradient(90deg, #3b82f6, #8b5cf6); width: 0%; transition: width 0.5s ease-out; }
 
-        .menu-box {
-            background: #f8fafc;
-            padding: 15px;
-            border-radius: 20px;
-            margin-bottom: 15px;
-            border: 2px solid #e2e8f0;
-            transition: transform 0.2s;
-        }
-        
-        .menu-box:hover {
-            transform: scale(1.02);
-            border-color: #cbd5e1;
-        }
-
+        .menu-box { background: #f8fafc; padding: 15px; border-radius: 20px; margin-bottom: 15px; border: 2px solid #e2e8f0; transition: transform 0.2s; }
+        .menu-box:hover { transform: scale(1.02); border-color: #cbd5e1; }
         .menu-box h3 { margin: 0 0 5px 0; color: #334155; font-size: 18px; font-weight: 800; }
         .menu-box p { font-size: 13px; color: #64748b; margin-top: 0; margin-bottom: 12px; font-weight: 700; }
-
-        /* Navigation Top Bar */
-        .nav-bar {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #f1f5f9;
-        }
-
-        .nav-btn {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 16px;
-            font-size: 14px;
-            background-color: #e2e8f0;
-            color: #475569;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 800;
-            transition: all 0.2s;
-        }
-        
-        .nav-btn svg { width: 14px; height: 14px; }
-
+        .nav-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #f1f5f9; }
+        .nav-btn { display: flex; align-items: center; gap: 6px; padding: 8px 16px; font-size: 14px; background-color: #e2e8f0; color: #475569; border: none; border-radius: 12px; cursor: pointer; font-weight: 800; transition: all 0.2s; }
         .nav-btn:hover { background-color: #cbd5e1; color: #1e293b; }
-
-        .stats {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            font-size: 18px;
-            font-weight: 800;
-            color: #334155;
-            background: #f1f5f9;
-            padding: 10px 20px;
-            border-radius: 15px;
-        }
-
-        /* Game Elements */
-        #question-text {
-            font-size: 20px;
-            font-weight: 800;
-            color: #1e293b;
-            margin: 15px 0;
-            min-height: 28px;
-            line-height: 1.3;
-        }
-
-        #pokemon-image {
-            width: 200px;
-            height: 200px;
-            margin: 10px auto;
-            display: block;
-            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
-        }
-
-        .silhouette { 
-            filter: brightness(0) drop-shadow(0 10px 15px rgba(0,0,0,0.2)) !important; 
-        }
+        .stats { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 18px; font-weight: 800; color: #334155; background: #f1f5f9; padding: 10px 20px; border-radius: 15px; }
         
-        .revealed { 
-            filter: brightness(1) drop-shadow(0 10px 15px rgba(0,0,0,0.2)); 
-            transition: filter 0.5s ease; 
-        }
+        #username-input { width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; }
+        #username-input:focus { outline: none; border-color: #3b82f6; }
+        
+        /* User History Styles */
+        .history-btn { padding: 8px 14px; background: #f1f5f9; color: #475569; border: 2px solid #e2e8f0; border-radius: 12px; font-weight: 800; font-family: 'Nunito', sans-serif; cursor: pointer; transition: all 0.2s; font-size: 14px; }
+        .history-btn:hover { background: #e2e8f0; color: #1e293b; border-color: #cbd5e1; }
 
-        .option-btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            margin: 12px 0;
-            font-size: 16px;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 800;
-            color: #334155;
-            border: 2px solid #cbd5e1;
-            border-radius: 16px;
-            background: white;
-            cursor: pointer;
-            text-transform: capitalize;
-            box-shadow: 0 4px 0 #cbd5e1;
-            transition: all 0.1s ease;
-        }
+        #question-text { font-size: 20px; font-weight: 800; color: #1e293b; margin: 15px 0; min-height: 28px; line-height: 1.3; }
+        #pokemon-image { width: 200px; height: 200px; margin: 10px auto; display: block; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2)); }
+        .silhouette { filter: brightness(0) drop-shadow(0 10px 15px rgba(0,0,0,0.2)) !important; }
+        .revealed { filter: brightness(1) drop-shadow(0 10px 15px rgba(0,0,0,0.2)); transition: filter 0.5s ease; }
 
-        .option-btn:active:not(:disabled) {
-            transform: translateY(4px);
-            box-shadow: 0 0 0 #cbd5e1;
-        }
-
-        .option-btn:hover:not(:disabled) {
-            background: #f8fafc;
-            border-color: #94a3b8;
-        }
-
+        .option-btn { display: block; width: 100%; padding: 15px; margin: 12px 0; font-size: 16px; font-family: 'Nunito', sans-serif; font-weight: 800; color: #334155; border: 2px solid #cbd5e1; border-radius: 16px; background: white; cursor: pointer; text-transform: capitalize; box-shadow: 0 4px 0 #cbd5e1; transition: all 0.1s ease; }
+        .option-btn:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 0 0 #cbd5e1; }
         .option-btn:disabled { cursor: default; }
+        .correct { background-color: #22c55e !important; border-color: #16a34a !important; color: white !important; box-shadow: 0 4px 0 #16a34a !important; transform: translateY(0); }
+        .wrong { background-color: #ef4444 !important; border-color: #dc2626 !important; color: white !important; box-shadow: 0 4px 0 #dc2626 !important; transform: translateY(0); }
 
-        .correct { 
-            background-color: #22c55e !important; 
-            border-color: #16a34a !important; 
-            color: white !important; 
-            box-shadow: 0 4px 0 #16a34a !important;
-            transform: translateY(0);
-        }
-        
-        .wrong { 
-            background-color: #ef4444 !important; 
-            border-color: #dc2626 !important; 
-            color: white !important; 
-            box-shadow: 0 4px 0 #dc2626 !important;
-            transform: translateY(0);
-        }
-
-        .primary-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 14px 20px;
-            font-size: 16px;
-            font-family: 'Nunito', sans-serif;
-            color: white;
-            border: none;
-            border-radius: 16px;
-            cursor: pointer;
-            font-weight: 800;
-            width: 100%;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.1s ease;
-        }
-        
-        .primary-btn svg { width: 18px; height: 18px; }
-
+        .primary-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 20px; font-size: 16px; font-family: 'Nunito', sans-serif; color: white; border: none; border-radius: 16px; cursor: pointer; font-weight: 800; width: 100%; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; transition: all 0.1s ease; }
         .primary-btn:active { transform: translateY(4px); }
+        .btn-blue { background-color: #3b82f6; box-shadow: 0 4px 0 #2563eb; } .btn-green { background-color: #10b981; box-shadow: 0 4px 0 #059669; } .btn-orange { background-color: #f59e0b; box-shadow: 0 4px 0 #d97706; } .btn-purple { background-color: #8b5cf6; box-shadow: 0 4px 0 #7c3aed; }
 
-        .btn-blue { background-color: #3b82f6; box-shadow: 0 4px 0 #2563eb; }
-        .btn-blue:active { box-shadow: 0 0 0 #2563eb; }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+        #loading-text { font-size: 18px; font-weight: 800; color: #64748b; animation: pulse 1.5s infinite ease-in-out; margin: 40px 0; }
         
-        .btn-green { background-color: #10b981; box-shadow: 0 4px 0 #059669; }
-        .btn-green:active { box-shadow: 0 0 0 #059669; }
-        
-        .btn-orange { background-color: #f59e0b; box-shadow: 0 4px 0 #d97706; }
-        .btn-orange:active { box-shadow: 0 0 0 #d97706; }
-        
-        .btn-purple { background-color: #8b5cf6; box-shadow: 0 4px 0 #7c3aed; }
-        .btn-purple:active { box-shadow: 0 0 0 #7c3aed; }
-
-        @keyframes pulse {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; }
-            100% { opacity: 0.5; }
-        }
-        #loading-text {
-            font-size: 18px;
-            font-weight: 800;
-            color: #64748b;
-            animation: pulse 1.5s infinite ease-in-out;
-            margin: 40px 0;
-        }
-        
-        /* Mobile Scaling */
         @media (max-width: 480px) {
-            body {
-                padding: 0;
-                align-items: stretch;
-            }
-
-            #app {
-                width: 100%;
-                min-height: 100vh;
-                border-radius: 0;
-                padding: 25px 20px;
-                box-shadow: none;
-            }
-
-            #pokemon-image {
-                width: 160px;
-                height: 160px;
-            }
-
-            .title-image {
-                width: 110px;
-                height: 110px;
-            }
-
-            #home-screen h1 {
-                font-size: 26px;
-            }
-
-            .option-btn {
-                padding: 13px;
-                font-size: 15px;
-            }
-
-            .primary-btn {
-                padding: 13px 16px;
-                font-size: 15px;
-            }
+            body { padding: 0; align-items: stretch; }
+            #app { width: 100%; min-height: 100vh; border-radius: 0; padding: 25px 20px; box-shadow: none; }
+            #pokemon-image { width: 160px; height: 160px; }
+            .title-image { width: 110px; height: 110px; }
+            #home-screen h1, #login-screen h1 { font-size: 26px; }
+            .option-btn { padding: 13px; font-size: 15px; }
+            .primary-btn { padding: 13px 16px; font-size: 15px; }
         }
     </style>
 </head>
 <body>
     <div id="app">
-        <div id="home-screen">
+        <div id="login-screen" class="hidden">
             <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" alt="Pikachu" class="title-image">
+            <h1>Trainer Login</h1>
+            <p class="subtitle">Enter your name to track your XP!</p>
+            <input type="text" id="username-input" placeholder="Your Name">
+            <button class="primary-btn btn-blue" onclick="loginUser()">Start Adventure</button>
             
-            <h1>POKÉMON TRIVIA</h1>
-            <p class="subtitle">Choose your challenge!</p>
+            <div id="user-history-container" class="hidden" style="margin-top: 25px; border-top: 2px solid #f1f5f9; padding-top: 15px;">
+                <p style="font-size: 14px; font-weight: 800; color: #94a3b8; margin-bottom: 10px; text-transform: uppercase;">Previous Trainers</p>
+                <div id="user-history-list" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;"></div>
+            </div>
+        </div>
+
+        <div id="home-screen" class="hidden">
+            <div class="nav-bar" style="border:none; padding-bottom:0; margin-bottom:10px;">
+                <div style="font-weight: 900; color: #1e3a8a; font-size: 18px;">Trainer: <span id="display-name" style="color: #3b82f6;"></span></div>
+                <button class="nav-btn" onclick="logoutUser()">Logout</button>
+            </div>
+            
+            <div class="stats">
+                <span>Level <span id="display-level" style="color:#8b5cf6;">1</span></span>
+                <span><span id="display-xp">0</span>/100 XP</span>
+            </div>
+            <div class="xp-container">
+                <div id="xp-progress-bar"></div>
+            </div>
+
+            <p class="subtitle" style="margin-top: 20px;">Choose your challenge!</p>
             
             <div class="menu-box">
                 <h3>GUESS MODE</h3>
-                <p>Identify the Pokémon from its dark silhouette.</p>
                 <button class="primary-btn btn-blue" onclick="startGame('GUESS')">Play Guess Mode</button>
             </div>
-
             <div class="menu-box">
                 <h3>TYPES MODE</h3>
-                <p>Test your knowledge on elemental types.</p>
                 <button class="primary-btn btn-green" onclick="startGame('TYPES')">Play Types Mode</button>
             </div>
-
             <div class="menu-box">
                 <h3>EVOLUTIONS MODE</h3>
-                <p>Who does this Pokémon evolve into?</p>
                 <button class="primary-btn btn-orange" onclick="startGame('EVOLUTIONS')">Play Evolutions Mode</button>
             </div>
-
             <div class="menu-box">
                 <h3>TRIVIA MODE</h3>
-                <p>Questions about regions, types, and weaknesses!</p>
                 <button class="primary-btn btn-purple" onclick="startGame('TRIVIA')">Play Trivia Mode</button>
             </div>
         </div>
 
         <div id="game-screen" class="hidden">
             <div class="nav-bar">
-                <button class="nav-btn" onclick="goHome()">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                    Home
-                </button>
-                <button class="nav-btn" onclick="restartGame()">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
-                    Restart
-                </button>
+                <button class="nav-btn" onclick="goHome()">Home</button>
+                <button class="nav-btn" onclick="restartGame()">Restart</button>
             </div>
-
             <div class="stats">
-                <span>Question: <span id="question-count">1</span>/25</span>
+                <span>Q: <span id="question-count">1</span>/25</span>
                 <span>Score: <span id="score">0</span></span>
             </div>
-
             <h2 id="loading-text">Finding a wild Pokémon...</h2>
             <div id="game-content" class="hidden">
                 <div id="question-text"></div>
@@ -355,57 +144,104 @@
                 <p style="font-size: 18px; font-weight: 800; color: #64748b; margin: 0;">Your Final Score</p>
                 <p style="font-size: 32px; font-weight: 900; color: #1e293b; margin: 5px 0 0 0;"><span id="final-score">0</span>/25</p>
             </div>
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
-                <button class="primary-btn btn-blue" onclick="restartGame()">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
-                    Play Again
-                </button>
-                <button class="primary-btn btn-purple" onclick="goHome()">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                    Home Screen
-                </button>
-            </div>
+            <button class="primary-btn btn-blue" onclick="restartGame()">Play Again</button>
+            <button class="primary-btn btn-purple" onclick="goHome()">Home Screen</button>
         </div>
     </div>
 
     <script>
         const TOTAL_QUESTIONS = 25;
         const MAX_POKEMON_ID = 898; 
-        
-        const POKEMON_TYPES = [
-            'normal', 'fire', 'water', 'grass', 'electric', 'ice', 
-            'fighting', 'poison', 'ground', 'flying', 'psychic', 'bug', 
-            'rock', 'ghost', 'dragon', 'dark', 'steel', 'fairy'
-        ];
+        const POKEMON_TYPES = ['normal', 'fire', 'water', 'grass', 'electric', 'ice', 'fighting', 'poison', 'ground', 'flying', 'psychic', 'bug', 'rock', 'ghost', 'dragon', 'dark', 'steel', 'fairy'];
+        const REGIONS = {'generation-i': 'Kanto', 'generation-ii': 'Johto', 'generation-iii': 'Hoenn', 'generation-iv': 'Sinnoh', 'generation-v': 'Unova', 'generation-vi': 'Kalos', 'generation-vii': 'Alola', 'generation-viii': 'Galar', 'generation-ix': 'Paldea'};
 
-        const REGIONS = {
-            'generation-i': 'Kanto', 'generation-ii': 'Johto', 'generation-iii': 'Hoenn',
-            'generation-iv': 'Sinnoh', 'generation-v': 'Unova', 'generation-vi': 'Kalos',
-            'generation-vii': 'Alola', 'generation-viii': 'Galar', 'generation-ix': 'Paldea'
+        let currentMode = 'GUESS', currentQuestion = 0, score = 0, correctAnswersAttribute = ''; 
+        let currentUser = null;
+        let currentXP = 0;
+        let knownUsers = JSON.parse(localStorage.getItem('knownPokeUsers')) || [];
+
+        const loginScreen = document.getElementById('login-screen'), homeScreen = document.getElementById('home-screen'), gameScreen = document.getElementById('game-screen'), endScreen = document.getElementById('end-screen'), gameContent = document.getElementById('game-content'), questionCountEl = document.getElementById('question-count'), scoreEl = document.getElementById('score'), questionTextEl = document.getElementById('question-text'), imageEl = document.getElementById('pokemon-image'), optionsEl = document.getElementById('options'), loadingText = document.getElementById('loading-text'), finalScoreEl = document.getElementById('final-score'), endMessageEl = document.getElementById('end-message');
+
+        // --- LOGIN & XP SYSTEM ---
+        window.onload = () => {
+            const savedUser = localStorage.getItem('pokeUser');
+            if (savedUser) {
+                currentUser = savedUser;
+                loadUserData(currentUser);
+                homeScreen.classList.remove('hidden');
+            } else {
+                renderUserHistory();
+                loginScreen.classList.remove('hidden');
+            }
         };
 
-        let currentMode = 'GUESS'; 
-        let currentQuestion = 0;
-        let score = 0;
-        let correctAnswersAttribute = ''; 
+        function renderUserHistory() {
+            const container = document.getElementById('user-history-container');
+            const list = document.getElementById('user-history-list');
+            list.innerHTML = '';
+            
+            if (knownUsers.length > 0) {
+                container.classList.remove('hidden');
+                knownUsers.forEach(user => {
+                    const btn = document.createElement('button');
+                    btn.className = 'history-btn';
+                    btn.innerText = user;
+                    btn.onclick = () => {
+                        document.getElementById('username-input').value = user;
+                        loginUser(); // Auto-login when clicked
+                    };
+                    list.appendChild(btn);
+                });
+            } else {
+                container.classList.add('hidden');
+            }
+        }
 
-        const homeScreen = document.getElementById('home-screen');
-        const gameScreen = document.getElementById('game-screen');
-        const endScreen = document.getElementById('end-screen');
-        const gameContent = document.getElementById('game-content');
-        const questionCountEl = document.getElementById('question-count');
-        const scoreEl = document.getElementById('score');
-        const questionTextEl = document.getElementById('question-text');
-        const imageEl = document.getElementById('pokemon-image');
-        const optionsEl = document.getElementById('options');
-        const loadingText = document.getElementById('loading-text');
-        const finalScoreEl = document.getElementById('final-score');
-        const endMessageEl = document.getElementById('end-message');
+        function loginUser() {
+            const nameInput = document.getElementById('username-input').value.trim();
+            if (nameInput) {
+                currentUser = nameInput;
+                localStorage.setItem('pokeUser', currentUser);
+                
+                // Add to history if not already there
+                if (!knownUsers.includes(currentUser)) {
+                    knownUsers.push(currentUser);
+                    localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
+                }
 
+                loadUserData(currentUser);
+                loginScreen.classList.add('hidden');
+                homeScreen.classList.remove('hidden');
+            }
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('pokeUser');
+            currentUser = null;
+            document.getElementById('username-input').value = '';
+            homeScreen.classList.add('hidden');
+            renderUserHistory();
+            loginScreen.classList.remove('hidden');
+        }
+
+        function loadUserData(username) {
+            document.getElementById('display-name').innerText = username;
+            currentXP = parseInt(localStorage.getItem(`xp_${username}`)) || 0;
+            updateXPUI();
+        }
+
+        function updateXPUI() {
+            const level = Math.floor(currentXP / 100) + 1;
+            const progressXP = currentXP % 100;
+            
+            document.getElementById('display-level').innerText = level;
+            document.getElementById('display-xp').innerText = progressXP;
+            document.getElementById('xp-progress-bar').style.width = `${progressXP}%`;
+        }
+
+        // --- GAME SYSTEM ---
         function startGame(mode) {
-            currentMode = mode;
-            currentQuestion = 0;
-            score = 0;
+            currentMode = mode; currentQuestion = 0; score = 0;
             scoreEl.innerText = score;
             homeScreen.classList.add('hidden');
             endScreen.classList.add('hidden');
@@ -414,26 +250,17 @@
         }
 
         function restartGame() { startGame(currentMode); }
-
-        function goHome() {
-            gameScreen.classList.add('hidden');
-            endScreen.classList.add('hidden');
-            homeScreen.classList.remove('hidden');
-        }
+        function goHome() { gameScreen.classList.add('hidden'); endScreen.classList.add('hidden'); homeScreen.classList.remove('hidden'); }
 
         function getEvolutionTarget(chainNode, targetName) {
             let queue = [chainNode];
             while (queue.length > 0) {
                 let node = queue.shift();
                 if (node.species.name === targetName) {
-                    if (node.evolves_to && node.evolves_to.length > 0) {
-                        return node.evolves_to[0].species.name; 
-                    }
+                    if (node.evolves_to && node.evolves_to.length > 0) return node.evolves_to[0].species.name; 
                     return null; 
                 }
-                if (node.evolves_to) {
-                    for (let next of node.evolves_to) queue.push(next);
-                }
+                if (node.evolves_to) for (let next of node.evolves_to) queue.push(next);
             }
             return null;
         }
@@ -441,9 +268,12 @@
         async function loadNextQuestion() {
             if (currentQuestion >= TOTAL_QUESTIONS) return endGame();
 
-            gameContent.classList.add('hidden');
+            gameContent.style.opacity = 0;
+            await new Promise(r => setTimeout(r, 400)); // Smooth Fade out
+            
             optionsEl.innerHTML = '';
             loadingText.classList.remove('hidden');
+            gameContent.classList.add('hidden');
 
             const targetId = Math.floor(Math.random() * MAX_POKEMON_ID) + 1;
             const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${targetId}`);
@@ -481,16 +311,13 @@
                 currentQuestion++;
                 questionTextEl.innerHTML = `What type of Pokémon is <strong style="text-transform: capitalize; color: #2563eb;">${cleanName}</strong>?`;
                 imageEl.className = 'revealed'; 
-                
                 correctAnswersAttribute = mainPokemon.types[0].type.name;
                 const wrongTypes = POKEMON_TYPES.filter(t => t !== correctAnswersAttribute).sort(() => Math.random() - 0.5);
-                
                 choices = [correctAnswersAttribute, ...wrongTypes.slice(0, 3)].sort(() => Math.random() - 0.5);
                 choices.forEach(t => createButton(t, t, t === correctAnswersAttribute));
             } 
             else if (currentMode === 'EVOLUTIONS') {
                 let evolveTo = getEvolutionTarget(chainData.chain, mainPokemon.name);
-                
                 if (!evolveTo) return loadNextQuestion(); 
 
                 currentQuestion++;
@@ -520,7 +347,6 @@
                     questionTextEl.innerHTML = `Which region was <strong style="text-transform: capitalize; color: #8b5cf6;">${cleanName}</strong> first discovered in?`;
                     let genName = speciesData.generation.name;
                     correctAnswersAttribute = REGIONS[genName] || "Unknown";
-                    
                     let wrongRegions = Object.values(REGIONS).filter(r => r !== correctAnswersAttribute).sort(() => Math.random() - 0.5);
                     choices = [correctAnswersAttribute, ...wrongRegions.slice(0, 3)].sort(() => Math.random() - 0.5);
                 } else if (questionType === 2) {
@@ -531,23 +357,23 @@
                 } else if (questionType === 3) {
                     questionTextEl.innerHTML = `What is one of <strong style="text-transform: capitalize; color: #8b5cf6;">${cleanName}</strong>'s weaknesses?`;
                     let primaryType = mainPokemon.types[0].type.name;
-                    let typeRes = await fetch(`https://pokeapi.co/api/v2/pokemon/${primaryType}`);
+                    let typeRes = await fetch(`https://pokeapi.co/api/v2/type/${primaryType}`);
                     let typeData = await typeRes.json();
-                    
                     let weaknesses = typeData.damage_relations.double_damage_from.map(t => t.name);
                     if (weaknesses.length === 0) weaknesses = ['normal']; 
-                    
                     correctAnswersAttribute = weaknesses[0];
                     let wrongTypes = POKEMON_TYPES.filter(t => !weaknesses.includes(t)).sort(() => Math.random() - 0.5);
                     choices = [correctAnswersAttribute, ...wrongTypes.slice(0, 3)].sort(() => Math.random() - 0.5);
                 }
-
                 choices.forEach(choice => createButton(choice, choice, choice === correctAnswersAttribute));
             }
 
             questionCountEl.innerText = currentQuestion;
             loadingText.classList.add('hidden');
             gameContent.classList.remove('hidden');
+            
+            // Smooth Fade In
+            setTimeout(() => { gameContent.style.opacity = 1; }, 50);
         }
 
         function createButton(displayText, dataValue, isCorrect) {
@@ -568,10 +394,18 @@
             clickedBtn.style.transform = "translateY(4px)";
             clickedBtn.style.boxShadow = "0 0 0 transparent";
 
+            const delay = isCorrect ? 1000 : 3000;
+
             if (isCorrect) {
                 clickedBtn.classList.add('correct');
                 score++;
                 scoreEl.innerText = score;
+                
+                // ADD XP FOR CORRECT ANSWER
+                currentXP += 5;
+                localStorage.setItem(`xp_${currentUser}`, currentXP);
+                updateXPUI();
+
             } else {
                 clickedBtn.classList.add('wrong');
                 allBtns.forEach(btn => {
@@ -583,7 +417,7 @@
                 });
             }
 
-            setTimeout(() => { loadNextQuestion(); }, 2500);
+            setTimeout(() => { loadNextQuestion(); }, delay);
         }
 
         function endGame() {
@@ -591,22 +425,11 @@
             endScreen.classList.remove('hidden');
             finalScoreEl.innerText = score;
 
-            if (score === TOTAL_QUESTIONS) {
-                endMessageEl.innerText = "Perfect Score! You are a true Pokémon Master! 🏆";
-                endMessageEl.style.color = "#10b981"; 
-            } else if (score >= 20) {
-                endMessageEl.innerText = "Amazing Job! You really know your Pokémon! 🌟";
-                endMessageEl.style.color = "#3b82f6"; 
-            } else if (score >= 15) {
-                endMessageEl.innerText = "Great work! Keep it up! 👍";
-                endMessageEl.style.color = "#8b5cf6"; 
-            } else if (score >= 10) {
-                endMessageEl.innerText = "Good effort! You're getting there! 🙂";
-                endMessageEl.style.color = "#f59e0b"; 
-            } else {
-                endMessageEl.innerText = "Nice try! Keep practicing to catch 'em all! 🔴";
-                endMessageEl.style.color = "#ef4444"; 
-            }
+            if (score === TOTAL_QUESTIONS) { endMessageEl.innerText = "Perfect Score! You are a true Pokémon Master! 🏆"; endMessageEl.style.color = "#10b981"; } 
+            else if (score >= 20) { endMessageEl.innerText = "Amazing Job! You really know your Pokémon! 🌟"; endMessageEl.style.color = "#3b82f6"; } 
+            else if (score >= 15) { endMessageEl.innerText = "Great work! Keep it up! 👍"; endMessageEl.style.color = "#8b5cf6"; } 
+            else if (score >= 10) { endMessageEl.innerText = "Good effort! You're getting there! 🙂"; endMessageEl.style.color = "#f59e0b"; } 
+            else { endMessageEl.innerText = "Nice try! Keep practicing to catch 'em all! 🔴"; endMessageEl.style.color = "#ef4444"; }
         }
     </script>
 </body>
