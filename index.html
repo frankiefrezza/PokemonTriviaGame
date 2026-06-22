@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokémon Trivia Game</title>
-<link rel="icon" href="app-icon.png?v=2" type="image/png">
-<link rel="apple-touch-icon" href="app-icon.png?v=2">
+    <link rel="icon" href="app-icon.png?v=2" type="image/png">
+    <link rel="apple-touch-icon" href="app-icon.png?v=2">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
@@ -37,8 +38,6 @@
         .hidden { display: none !important; }
 
         /* Home Screen Styling */
-        
-        /* New Floating Title Image */
         .title-image {
             width: 140px;
             height: 140px;
@@ -155,7 +154,6 @@
             transition: filter 0.5s ease; 
         }
 
-        /* 3D Multiple Choice Buttons */
         .option-btn {
             display: block;
             width: 100%;
@@ -202,7 +200,6 @@
             transform: translateY(0);
         }
 
-        /* 3D Action Buttons */
         .primary-btn {
             display: flex;
             align-items: center;
@@ -225,9 +222,7 @@
         
         .primary-btn svg { width: 18px; height: 18px; }
 
-        .primary-btn:active {
-            transform: translateY(4px);
-        }
+        .primary-btn:active { transform: translateY(4px); }
 
         .btn-blue { background-color: #3b82f6; box-shadow: 0 4px 0 #2563eb; }
         .btn-blue:active { box-shadow: 0 0 0 #2563eb; }
@@ -241,7 +236,6 @@
         .btn-purple { background-color: #8b5cf6; box-shadow: 0 4px 0 #7c3aed; }
         .btn-purple:active { box-shadow: 0 0 0 #7c3aed; }
 
-        /* Animated Loading Text */
         @keyframes pulse {
             0% { opacity: 0.5; }
             50% { opacity: 1; }
@@ -255,11 +249,44 @@
             margin: 40px 0;
         }
         
-        #end-message {
-            font-size: 24px;
-            font-weight: 900;
-            margin: 20px 0;
-            line-height: 1.3;
+        /* Mobile Scaling */
+        @media (max-width: 480px) {
+            body {
+                padding: 0;
+                align-items: stretch;
+            }
+
+            #app {
+                width: 100%;
+                min-height: 100vh;
+                border-radius: 0;
+                padding: 25px 20px;
+                box-shadow: none;
+            }
+
+            #pokemon-image {
+                width: 160px;
+                height: 160px;
+            }
+
+            .title-image {
+                width: 110px;
+                height: 110px;
+            }
+
+            #home-screen h1 {
+                font-size: 26px;
+            }
+
+            .option-btn {
+                padding: 13px;
+                font-size: 15px;
+            }
+
+            .primary-btn {
+                padding: 13px 16px;
+                font-size: 15px;
+            }
         }
     </style>
 </head>
@@ -504,7 +531,7 @@
                 } else if (questionType === 3) {
                     questionTextEl.innerHTML = `What is one of <strong style="text-transform: capitalize; color: #8b5cf6;">${cleanName}</strong>'s weaknesses?`;
                     let primaryType = mainPokemon.types[0].type.name;
-                    let typeRes = await fetch(`https://pokeapi.co/api/v2/type/${primaryType}`);
+                    let typeRes = await fetch(`https://pokeapi.co/api/v2/pokemon/${primaryType}`);
                     let typeData = await typeRes.json();
                     
                     let weaknesses = typeData.damage_relations.double_damage_from.map(t => t.name);
