@@ -14,19 +14,14 @@
         #app { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 30px; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.2), 0 0 0 10px rgba(255,255,255,0.2); text-align: center; width: 440px; max-width: 100%; box-sizing: border-box; position: relative; }
         .hidden { display: none !important; }
 
-        /* Smooth Fade Transition */
         #game-content { transition: opacity 0.4s ease-in-out; opacity: 1; min-height: 400px; }
 
-        .title-image { width: 140px; height: 140px; margin: 0 auto 10px auto; display: block; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.2)); animation: float 3s ease-in-out infinite; }
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-12px); } 100% { transform: translateY(0px); } }
         #home-screen h1, #login-screen h1 { color: #1e3a8a; font-size: 32px; font-weight: 900; margin-bottom: 5px; text-transform: uppercase; text-shadow: 2px 2px 0px #bae6fd; }
         .subtitle { color: #64748b; margin-bottom: 25px; font-size: 16px; font-weight: 700; }
         
-        /* Main Logo Styles */
         .main-logo { width: 100%; max-width: 280px; height: auto; margin: 0 auto 20px auto; display: block; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15)); }
 
-        /* Trainer Card Styles */
-        .trainer-card { background: #f0f9ff; padding: 20px; border-radius: 16px; margin-bottom: 20px; border: 2px solid #bae6fd; box-shadow: inset 0 2px 4px rgba(5,5,5,0.5), 0 4px 6px rgba(0,0,0,0.02); text-align: left; }
+        .trainer-card { background: #f0f9ff; padding: 20px; border-radius: 16px; margin-bottom: 20px; border: 2px solid #bae6fd; box-shadow: inset 0 2px 4px rgba(255,255,255,0.5), 0 4px 6px rgba(0,0,0,0.02); text-align: left; }
         .trainer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .trainer-stats { display: flex; justify-content: space-between; font-size: 15px; font-weight: 800; color: #334155; margin-bottom: 8px; }
         
@@ -34,7 +29,6 @@
         .icon-btn:hover { background-color: #fecaca; transform: translateY(-2px); box-shadow: 0 4px 0 #fca5a5; }
         .icon-btn:active { transform: translateY(2px); box-shadow: 0 0 0 transparent; }
 
-        /* XP Bar Styles */
         .xp-container { width: 100%; height: 14px; background: #e2e8f0; border-radius: 7px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
         #xp-progress-bar { height: 100%; background: linear-gradient(90deg, #3b82f6, #8b5cf6); width: 0%; transition: width 0.5s ease-out; }
 
@@ -50,7 +44,6 @@
         #username-input { width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; }
         #username-input:focus { outline: none; border-color: #3b82f6; }
         
-        /* User History Styles */
         .history-chip { display: inline-flex; align-items: stretch; background: #f1f5f9; border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; margin: 4px; transition: all 0.2s; }
         .history-chip:hover { border-color: #cbd5e1; }
         .history-btn { padding: 8px 14px; background: transparent; color: #475569; border: none; font-weight: 800; font-family: 'Nunito', sans-serif; cursor: pointer; font-size: 14px; }
@@ -71,16 +64,15 @@
 
         .primary-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 20px; font-size: 16px; font-family: 'Nunito', sans-serif; color: white; border: none; border-radius: 16px; cursor: pointer; font-weight: 800; width: 100%; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; transition: all 0.1s ease; }
         .primary-btn:active { transform: translateY(4px); }
-        .btn-blue { background-color: #3b82f6; box-shadow: 0 4px 0 #63eb; } .btn-green { background-color: #10b981; box-shadow: 0 4px 0 #059669; } .btn-orange { background-color: #f59e0b; box-shadow: 0 4px 0 #d97706; } .btn-purple { background-color: #8b5cf6; box-shadow: 0 4px 0 #7c3aed; }
+        .btn-blue { background-color: #3b82f6; box-shadow: 0 4px 0 #2563eb; } .btn-green { background-color: #10b981; box-shadow: 0 4px 0 #059669; } .btn-orange { background-color: #f59e0b; box-shadow: 0 4px 0 #d97706; } .btn-purple { background-color: #8b5cf6; box-shadow: 0 4px 0 #7c3aed; }
 
         @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
         #loading-text { font-size: 18px; font-weight: 800; color: #64748b; animation: pulse 1.5s infinite ease-in-out; margin: 40px 0; }
         
         @media (max-width: 480px) {
             body { padding: 0; align-items: stretch; }
-            #app { width: 100%; min-height: 100vh; border-radius: 0; padding: px 20px; box-shadow: none; }
+            #app { width: 100%; min-height: 100vh; border-radius: 0; padding: 25px 20px; box-shadow: none; }
             #pokemon-image { width: 160px; height: 160px; }
-            .title-image { width: 110px; height: 110px; }
             #home-screen h1, #login-screen h1 { font-size: 26px; }
             .option-btn { padding: 13px; font-size: 15px; }
             .primary-btn { padding: 13px 16px; font-size: 15px; }
@@ -89,10 +81,10 @@
 </head>
 <body>
     <div id="app">
-       <div id="login-screen" class="hidden">
-    <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="main-logo">
-    <h1>Trainer Login</h1>
-    <p class="subtitle">Enter your name to track your XP!</p>
+        <div id="login-screen" class="hidden">
+            <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="main-logo">
+            <h1>Trainer Login</h1>
+            <p class="subtitle">Enter your name to track your XP!</p>
             <input type="text" id="username-input" placeholder="Your Name">
             <button class="primary-btn btn-blue" onclick="loginUser()">Start Adventure</button>
             
@@ -120,12 +112,18 @@
                     </button>
                 </div>
                 
-                <div class="trainer-stats">
-                    <span>Level <span id="display-level" style="color:#8b5cf6;">1</span></span>
-                    <span><span id="display-xp">0</span>/100 XP</span>
-                </div>
-                <div class="xp-container">
-                    <div id="xp-progress-bar"></div>
+                <div style="display: flex; align-items: center; gap: 12px; margin-top: 15px;">
+                    <img id="current-badge" src="LV1-10.png" style="width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">
+                    <div style="flex-grow: 1;">
+                        <div class="trainer-stats">
+                            <span>Level <span id="display-level" style="color:#8b5cf6;">1</span></span>
+                            <span><span id="display-xp">0</span>/100 XP</span>
+                        </div>
+                        <div class="xp-container">
+                            <div id="xp-progress-bar"></div>
+                        </div>
+                    </div>
+                    <img id="next-badge" src="LV10-20.png" style="width: 45px; height: 45px; object-fit: contain; filter: grayscale(1) opacity(0.6);">
                 </div>
             </div>
 
@@ -159,7 +157,7 @@
                 <button class="nav-btn" onclick="restartGame()">Restart</button>
             </div>
             <div class="stats">
-                <span>Q: <span id="question-count">1</span>/25</span>
+                <span>Q: <span id="question-count">1</span>/20</span>
                 <span>Score: <span id="score">0</span></span>
             </div>
             <h2 id="loading-text">Finding a wild Pokémon...</h2>
@@ -175,7 +173,7 @@
             <h2 id="end-message"></h2>
             <div style="background: #f1f5f9; padding: 15px; border-radius: 15px; margin-bottom: 25px;">
                 <p style="font-size: 18px; font-weight: 800; color: #64748b; margin: 0;">Your Final Score</p>
-                <p style="font-size: 32px; font-weight: 900; color: #1e293b; margin: 5px 0 0 0;"><span id="final-score">0</span>/25</p>
+                <p style="font-size: 32px; font-weight: 900; color: #1e293b; margin: 5px 0 0 0;"><span id="final-score">0</span>/20</p>
             </div>
             <button class="primary-btn btn-blue" onclick="restartGame()">Play Again</button>
             <button class="primary-btn btn-purple" onclick="goHome()">Home Screen</button>
@@ -183,7 +181,7 @@
     </div>
 
     <script>
-        const TOTAL_QUESTIONS = 25;
+        const TOTAL_QUESTIONS = 20;
         const MAX_POKEMON_ID = 1025; 
         const POKEMON_TYPES = ['normal', 'fire', 'water', 'grass', 'electric', 'ice', 'fighting', 'poison', 'ground', 'flying', 'psychic', 'bug', 'rock', 'ghost', 'dragon', 'dark', 'steel', 'fairy'];
         const REGIONS = {'generation-i': 'Kanto', 'generation-ii': 'Johto', 'generation-iii': 'Hoenn', 'generation-iv': 'Sinnoh', 'generation-v': 'Unova', 'generation-vi': 'Kalos', 'generation-vii': 'Alola', 'generation-viii': 'Galar', 'generation-ix': 'Paldea'};
@@ -195,7 +193,6 @@
 
         const loginScreen = document.getElementById('login-screen'), homeScreen = document.getElementById('home-screen'), gameScreen = document.getElementById('game-screen'), endScreen = document.getElementById('end-screen'), gameContent = document.getElementById('game-content'), questionCountEl = document.getElementById('question-count'), scoreEl = document.getElementById('score'), questionTextEl = document.getElementById('question-text'), imageEl = document.getElementById('pokemon-image'), optionsEl = document.getElementById('options'), loadingText = document.getElementById('loading-text'), finalScoreEl = document.getElementById('final-score'), endMessageEl = document.getElementById('end-message');
 
-        // --- LOGIN & XP SYSTEM ---
         window.onload = () => {
             const savedUser = localStorage.getItem('pokeUser');
             if (savedUser) {
@@ -219,7 +216,6 @@
                     const chip = document.createElement('div');
                     chip.className = 'history-chip';
 
-                    // Name Button
                     const nameBtn = document.createElement('button');
                     nameBtn.className = 'history-btn';
                     nameBtn.innerText = user;
@@ -228,10 +224,9 @@
                         loginUser(); 
                     };
 
-                    // Delete Button
                     const delBtn = document.createElement('button');
                     delBtn.className = 'delete-btn';
-                    delBtn.innerHTML = '&times;'; // The "x" symbol
+                    delBtn.innerHTML = '&times;'; 
                     delBtn.title = "Delete Player";
                     delBtn.onclick = () => deleteUser(user);
 
@@ -250,7 +245,6 @@
                 currentUser = nameInput;
                 localStorage.setItem('pokeUser', currentUser);
                 
-                // Add to history if not already there
                 if (!knownUsers.includes(currentUser)) {
                     knownUsers.push(currentUser);
                     localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
@@ -271,19 +265,12 @@
             loginScreen.classList.remove('hidden');
         }
 
-        // --- NEW: Delete User Function ---
         function deleteUser(userToDelete) {
             const confirmDelete = confirm(`Are you sure you want to delete ${userToDelete}? This will permanently erase their XP and Level.`);
-            
             if (confirmDelete) {
-                // Remove from the array
                 knownUsers = knownUsers.filter(u => u !== userToDelete);
                 localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
-                
-                // Wipe their XP data completely
                 localStorage.removeItem(`xp_${userToDelete}`);
-                
-                // Refresh the list on the screen
                 renderUserHistory();
             }
         }
@@ -301,9 +288,33 @@
             document.getElementById('display-level').innerText = level;
             document.getElementById('display-xp').innerText = progressXP;
             document.getElementById('xp-progress-bar').style.width = `${progressXP}%`;
+
+            updateBadgeDisplay(level);
         }
 
-        // --- GAME SYSTEM ---
+        function updateBadgeDisplay(level) {
+            const currentBadge = document.getElementById('current-badge');
+            const nextBadge = document.getElementById('next-badge');
+            
+            const badgeIndex = Math.min(Math.floor((level - 1) / 10), 9);
+            const badgeFiles = [
+                "LV1-10.png", "LV10-20.png", "LV20-30.png", "LV30-40.png", "LV40-50.png", 
+                "LV50-60.png", "LV60-70.png", "LV70-80.png", "LV80-90.png", "LV90-100.png"
+            ];
+
+            currentBadge.src = badgeFiles[badgeIndex];
+            
+            if (badgeIndex < 9) {
+                nextBadge.src = badgeFiles[badgeIndex + 1];
+                nextBadge.style.opacity = "0.6";
+                nextBadge.style.filter = "grayscale(1)";
+            } else {
+                nextBadge.src = badgeFiles[9];
+                nextBadge.style.opacity = "1";
+                nextBadge.style.filter = "none";
+            }
+        }
+
         function startGame(mode) {
             currentMode = mode; currentQuestion = 0; score = 0;
             scoreEl.innerText = score;
@@ -333,7 +344,7 @@
             if (currentQuestion >= TOTAL_QUESTIONS) return endGame();
 
             gameContent.style.opacity = 0;
-            await new Promise(r => setTimeout(r, 400)); // Smooth Fade out
+            await new Promise(r => setTimeout(r, 400)); 
             
             optionsEl.innerHTML = '';
             loadingText.classList.remove('hidden');
@@ -436,7 +447,6 @@
             loadingText.classList.add('hidden');
             gameContent.classList.remove('hidden');
             
-            // Smooth Fade In
             setTimeout(() => { gameContent.style.opacity = 1; }, 50);
         }
 
@@ -465,8 +475,21 @@
                 score++;
                 scoreEl.innerText = score;
                 
-                // ADD XP FOR CORRECT ANSWER
-                currentXP += 5;
+                // DYNAMIC XP SCALING LOGIC
+                const currentLevel = Math.floor(currentXP / 100) + 1;
+                let xpGain = 5;
+                
+                if (currentLevel < 20) {
+                    xpGain = 15;
+                } else if (currentLevel < 40) {
+                    xpGain = 10;
+                } else if (currentLevel < 80) {
+                    xpGain = 7;
+                } else {
+                    xpGain = 5;
+                }
+                
+                currentXP += xpGain;
                 localStorage.setItem(`xp_${currentUser}`, currentXP);
                 updateXPUI();
 
