@@ -26,7 +26,7 @@
         .main-logo { width: 100%; max-width: 280px; height: auto; margin: 0 auto 20px auto; display: block; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15)); }
 
         /* Trainer Card Styles */
-        .trainer-card { background: #f0f9ff; padding: 20px; border-radius: 16px; margin-bottom: 20px; border: 2px solid #bae6fd; box-shadow: inset 0 2px 4px rgba(255,255,255,0.5), 0 4px 6px rgba(0,0,0,0.02); text-align: left; }
+        .trainer-card { background: #f0f9ff; padding: 20px; border-radius: 16px; margin-bottom: 20px; border: 2px solid #bae6fd; box-shadow: inset 0 2px 4px rgba(5,5,5,0.5), 0 4px 6px rgba(0,0,0,0.02); text-align: left; }
         .trainer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .trainer-stats { display: flex; justify-content: space-between; font-size: 15px; font-weight: 800; color: #334155; margin-bottom: 8px; }
         
@@ -71,14 +71,14 @@
 
         .primary-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 20px; font-size: 16px; font-family: 'Nunito', sans-serif; color: white; border: none; border-radius: 16px; cursor: pointer; font-weight: 800; width: 100%; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; transition: all 0.1s ease; }
         .primary-btn:active { transform: translateY(4px); }
-        .btn-blue { background-color: #3b82f6; box-shadow: 0 4px 0 #2563eb; } .btn-green { background-color: #10b981; box-shadow: 0 4px 0 #059669; } .btn-orange { background-color: #f59e0b; box-shadow: 0 4px 0 #d97706; } .btn-purple { background-color: #8b5cf6; box-shadow: 0 4px 0 #7c3aed; }
+        .btn-blue { background-color: #3b82f6; box-shadow: 0 4px 0 #63eb; } .btn-green { background-color: #10b981; box-shadow: 0 4px 0 #059669; } .btn-orange { background-color: #f59e0b; box-shadow: 0 4px 0 #d97706; } .btn-purple { background-color: #8b5cf6; box-shadow: 0 4px 0 #7c3aed; }
 
         @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
         #loading-text { font-size: 18px; font-weight: 800; color: #64748b; animation: pulse 1.5s infinite ease-in-out; margin: 40px 0; }
         
         @media (max-width: 480px) {
             body { padding: 0; align-items: stretch; }
-            #app { width: 100%; min-height: 100vh; border-radius: 0; padding: 25px 20px; box-shadow: none; }
+            #app { width: 100%; min-height: 100vh; border-radius: 0; padding: px 20px; box-shadow: none; }
             #pokemon-image { width: 160px; height: 160px; }
             .title-image { width: 110px; height: 110px; }
             #home-screen h1, #login-screen h1 { font-size: 26px; }
@@ -90,7 +90,7 @@
 <body>
     <div id="app">
         <div id="login-screen" class="hidden">
-            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" alt="Pikachu" class="title-image">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/.png" alt="Pikachu" class="title-image">
             <h1>Trainer Login</h1>
             <p class="subtitle">Enter your name to track your XP!</p>
             <input type="text" id="username-input" placeholder="Your Name">
@@ -183,7 +183,7 @@
     </div>
 
     <script>
-        const TOTAL_QUESTIONS = 25;
+        const TOTAL_QUESTIONS = 20;
         const MAX_POKEMON_ID = 1025; 
         const POKEMON_TYPES = ['normal', 'fire', 'water', 'grass', 'electric', 'ice', 'fighting', 'poison', 'ground', 'flying', 'psychic', 'bug', 'rock', 'ghost', 'dragon', 'dark', 'steel', 'fairy'];
         const REGIONS = {'generation-i': 'Kanto', 'generation-ii': 'Johto', 'generation-iii': 'Hoenn', 'generation-iv': 'Sinnoh', 'generation-v': 'Unova', 'generation-vi': 'Kalos', 'generation-vii': 'Alola', 'generation-viii': 'Galar', 'generation-ix': 'Paldea'};
