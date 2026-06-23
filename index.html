@@ -21,16 +21,79 @@
         
         .main-logo { width: 100%; max-width: 280px; height: auto; margin: 0 auto 20px auto; display: block; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15)); }
 
-        .trainer-card { background: #f0f9ff; padding: 20px; border-radius: 16px; margin-bottom: 20px; border: 2px solid #bae6fd; box-shadow: inset 0 2px 4px rgba(255,255,255,0.5), 0 4px 6px rgba(0,0,0,0.02); text-align: left; }
-        .trainer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .trainer-stats { display: flex; justify-content: space-between; font-size: 15px; font-weight: 800; color: #334155; margin-bottom: 8px; }
+        /* --- PREMIUM TRAINER CARD REDESIGN --- */
+        .trainer-card { 
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%); 
+            padding: 24px; 
+            border-radius: 24px; 
+            margin-bottom: 25px; 
+            border: 1px solid #e2e8f0; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05), inset 0 2px 0 rgba(255,255,255,1); 
+            text-align: left; 
+            position: relative;
+            overflow: hidden;
+        }
+
+        .trainer-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 6px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        }
+
+        .trainer-header { 
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; 
+        }
+
+        .trainer-identity { display: flex; align-items: center; gap: 12px; }
+
+        .trainer-avatar-bg {
+            width: 48px; height: 48px;
+            background: #eff6ff; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            border: 2px solid #bfdbfe; color: #3b82f6;
+            overflow: hidden; padding: 2px;
+        }
+
+        .trainer-name-block { display: flex; flex-direction: column; }
+
+        .trainer-title-label {
+            font-size: 11px; text-transform: uppercase; font-weight: 800;
+            color: #64748b; letter-spacing: 0.5px; line-height: 1; margin-bottom: 4px;
+        }
+
+        .trainer-name-display { font-weight: 900; color: #1e293b; font-size: 20px; line-height: 1; }
+
+        .logout-btn-pro { 
+            display: flex; align-items: center; justify-content: center; 
+            width: 36px; height: 36px; background-color: #f1f5f9; color: #64748b; 
+            border: none; border-radius: 10px; cursor: pointer; transition: all 0.2s ease;
+        }
+        .logout-btn-pro:hover { background-color: #fee2e2; color: #ef4444; transform: scale(1.05); }
+        .logout-btn-pro:active { transform: scale(0.95); }
+
+        .progression-track {
+            background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px;
+            padding: 16px; display: flex; align-items: center; gap: 15px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .badge-wrapper { display: flex; align-items: center; justify-content: center; }
+
+        #current-badge { width: 55px; height: 55px; object-fit: contain; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15)); transition: transform 0.3s ease; }
+        #next-badge { width: 40px; height: 40px; object-fit: contain; filter: grayscale(1) opacity(0.4); }
+
+        .xp-core { flex-grow: 1; display: flex; flex-direction: column; gap: 8px; }
+        .xp-stats-row { display: flex; justify-content: space-between; align-items: flex-end; }
+        .level-pill { background: #ede9fe; color: #7c3aed; padding: 4px 10px; border-radius: 8px; font-size: 13px; font-weight: 900; border: 1px solid #ddd6fe; }
+        .xp-numbers { font-size: 13px; font-weight: 800; color: #64748b; }
         
-        .icon-btn { display: flex; align-items: center; justify-content: center; padding: 8px; background-color: #fee2e2; color: #ef4444; border: none; border-radius: 12px; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 0 #fca5a5; }
-        .icon-btn:hover { background-color: #fecaca; transform: translateY(-2px); box-shadow: 0 4px 0 #fca5a5; }
-        .icon-btn:active { transform: translateY(2px); box-shadow: 0 0 0 transparent; }
+        .xp-bar-track { width: 100%; height: 16px; background: #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.08); }
+        #xp-progress-bar { height: 100%; background: linear-gradient(90deg, #3b82f6, #8b5cf6, #d946ef); width: 0%; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 8px; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1); }
+        /* --- END PREMIUM TRAINER CARD REDESIGN --- */
 
         .xp-container { width: 100%; height: 14px; background: #e2e8f0; border-radius: 7px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
-        #xp-progress-bar { height: 100%; background: linear-gradient(90deg, #3b82f6, #8b5cf6); width: 0%; transition: width 0.5s ease-out; }
+        #mini-xp-progress-bar { height: 100%; background: linear-gradient(90deg, #3b82f6, #8b5cf6); width: 0%; transition: width 0.5s ease-out; }
 
         .menu-box { background: #f8fafc; padding: 15px; border-radius: 20px; margin-bottom: 15px; border: 2px solid #e2e8f0; transition: transform 0.2s; }
         .menu-box:hover { transform: scale(1.02); border-color: #cbd5e1; }
@@ -43,6 +106,11 @@
         
         #username-input { width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; }
         #username-input:focus { outline: none; border-color: #3b82f6; }
+        
+        /* AVATAR SELECTION STYLES */
+        .avatar-option { width: 55px; height: 55px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 14px; cursor: pointer; transition: all 0.2s; object-fit: contain; padding: 4px; box-sizing: border-box; }
+        .avatar-option:hover { border-color: #94a3b8; transform: translateY(-2px); }
+        .avatar-option.selected { border-color: #3b82f6; background: #eff6ff; box-shadow: 0 4px 10px rgba(59,130,246,0.3); transform: scale(1.1); }
         
         .history-chip { display: inline-flex; align-items: stretch; background: #f1f5f9; border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; margin: 4px; transition: all 0.2s; }
         .history-chip:hover { border-color: #cbd5e1; }
@@ -84,8 +152,19 @@
         <div id="login-screen" class="hidden">
             <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="main-logo">
             <h1>Trainer Login</h1>
-            <p class="subtitle">Enter your name to track your XP!</p>
-            <input type="text" id="username-input" placeholder="Your Name">
+            
+            <input type="text" id="username-input" placeholder="Your Trainer Name">
+
+            <div style="margin: 20px 0; background: #f8fafc; padding: 15px; border-radius: 16px; border: 2px solid #e2e8f0;">
+                <p style="font-size: 14px; font-weight: 800; color: #64748b; margin: 0 0 10px 0; text-transform: uppercase;">Choose Your Avatar</p>
+                <div id="avatar-grid" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 15px;">
+                    </div>
+                <button class="nav-btn" style="margin: 0 auto; padding: 6px 12px; font-size: 13px;" onclick="generateAvatars()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 1 0-9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"></path></svg>
+                    Shuffle Pokémon
+                </button>
+            </div>
+
             <button class="primary-btn btn-blue" onclick="loginUser()">Start Adventure</button>
             
             <div id="user-history-container" class="hidden" style="margin-top: 25px; border-top: 2px solid #f1f5f9; padding-top: 15px;">
@@ -99,11 +178,16 @@
             
             <div class="trainer-card">
                 <div class="trainer-header">
-                    <div style="font-weight: 900; color: #1e3a8a; font-size: 18px; display: flex; align-items: center; gap: 8px;">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                        Trainer: <span id="display-name" style="color: #3b82f6;"></span>
+                    <div class="trainer-identity">
+                        <div class="trainer-avatar-bg">
+                            <img id="trainer-display-avatar" src="" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">
+                        </div>
+                        <div class="trainer-name-block">
+                            <span class="trainer-title-label">Verified Trainer</span>
+                            <span id="display-name" class="trainer-name-display"></span>
+                        </div>
                     </div>
-                    <button class="icon-btn" onclick="logoutUser()" title="Logout">
+                    <button class="logout-btn-pro" onclick="logoutUser()" title="Logout">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                             <polyline points="16 17 21 12 16 7"></polyline>
@@ -112,18 +196,24 @@
                     </button>
                 </div>
                 
-                <div style="display: flex; align-items: center; gap: 12px; margin-top: 15px;">
-                    <img id="current-badge" src="LV1-10.png" style="width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">
-                    <div style="flex-grow: 1;">
-                        <div class="trainer-stats">
-                            <span>Level <span id="display-level" style="color:#8b5cf6;">1</span></span>
-                            <span><span id="display-xp">0</span>/100 XP</span>
+                <div class="progression-track">
+                    <div class="badge-wrapper">
+                        <img id="current-badge" src="LV1-10.png" alt="Current Badge">
+                    </div>
+                    
+                    <div class="xp-core">
+                        <div class="xp-stats-row">
+                            <div class="level-pill">LVL <span id="display-level">1</span></div>
+                            <div class="xp-numbers"><span id="display-xp">0/100 XP</span></div>
                         </div>
-                        <div class="xp-container">
+                        <div class="xp-bar-track">
                             <div id="xp-progress-bar"></div>
                         </div>
                     </div>
-                    <img id="next-badge" src="LV10-20.png" style="width: 45px; height: 45px; object-fit: contain; filter: grayscale(1) opacity(0.6);">
+                    
+                    <div class="badge-wrapper">
+                        <img id="next-badge" src="LV10-20.png" alt="Next Badge">
+                    </div>
                 </div>
             </div>
 
@@ -156,6 +246,17 @@
                 <button class="nav-btn" onclick="goHome()">Home</button>
                 <button class="nav-btn" onclick="restartGame()">Restart</button>
             </div>
+
+            <div style="margin-bottom: 15px; background: #f0f9ff; padding: 10px; border-radius: 12px; border: 2px solid #bae6fd; text-align: left;">
+                <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 800; color: #334155; margin-bottom: 5px;">
+                    <span>Level <span id="mini-display-level" style="color:#8b5cf6;">1</span></span>
+                    <span><span id="mini-display-xp">0/100 XP</span></span>
+                </div>
+                <div class="xp-container" style="height: 10px;">
+                    <div id="mini-xp-progress-bar"></div>
+                </div>
+            </div>
+
             <div class="stats">
                 <span>Q: <span id="question-count">1</span>/20</span>
                 <span>Score: <span id="score">0</span></span>
@@ -189,6 +290,7 @@
         let currentMode = 'GUESS', currentQuestion = 0, score = 0, correctAnswersAttribute = ''; 
         let currentUser = null;
         let currentXP = 0;
+        let selectedAvatarUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png'; // Default Pikachu
         let knownUsers = JSON.parse(localStorage.getItem('knownPokeUsers')) || [];
 
         const loginScreen = document.getElementById('login-screen'), homeScreen = document.getElementById('home-screen'), gameScreen = document.getElementById('game-screen'), endScreen = document.getElementById('end-screen'), gameContent = document.getElementById('game-content'), questionCountEl = document.getElementById('question-count'), scoreEl = document.getElementById('score'), questionTextEl = document.getElementById('question-text'), imageEl = document.getElementById('pokemon-image'), optionsEl = document.getElementById('options'), loadingText = document.getElementById('loading-text'), finalScoreEl = document.getElementById('final-score'), endMessageEl = document.getElementById('end-message');
@@ -200,10 +302,32 @@
                 loadUserData(currentUser);
                 homeScreen.classList.remove('hidden');
             } else {
+                generateAvatars(); // Load avatars on login screen
                 renderUserHistory();
                 loginScreen.classList.remove('hidden');
             }
         };
+
+        // --- AVATAR LOGIC ---
+        function generateAvatars() {
+            const grid = document.getElementById('avatar-grid');
+            grid.innerHTML = '<span style="font-size: 13px; color: #94a3b8;">Finding wild Pokémon...</span>';
+            
+            let html = '';
+            for(let i=0; i<4; i++) {
+                const id = Math.floor(Math.random() * 898) + 1; // Limit to Gen 8 for artwork consistency
+                const url = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+                html += `<img src="${url}" class="avatar-option" onclick="selectAvatar(this, '${url}')">`;
+            }
+            grid.innerHTML = html;
+            grid.firstChild.click(); // Auto-select the first one
+        }
+
+        function selectAvatar(imgElement, url) {
+            document.querySelectorAll('.avatar-option').forEach(el => el.classList.remove('selected'));
+            imgElement.classList.add('selected');
+            selectedAvatarUrl = url;
+        }
 
         function renderUserHistory() {
             const container = document.getElementById('user-history-container');
@@ -221,6 +345,8 @@
                     nameBtn.innerText = user;
                     nameBtn.onclick = () => {
                         document.getElementById('username-input').value = user;
+                        // Retrieve their saved avatar before logging in
+                        selectedAvatarUrl = localStorage.getItem('avatar_' + user) || selectedAvatarUrl;
                         loginUser(); 
                     };
 
@@ -245,6 +371,9 @@
                 currentUser = nameInput;
                 localStorage.setItem('pokeUser', currentUser);
                 
+                // Save the selected avatar to local storage for this specific user
+                localStorage.setItem('avatar_' + currentUser, selectedAvatarUrl);
+
                 if (!knownUsers.includes(currentUser)) {
                     knownUsers.push(currentUser);
                     localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
@@ -260,6 +389,7 @@
             localStorage.removeItem('pokeUser');
             currentUser = null;
             document.getElementById('username-input').value = '';
+            generateAvatars(); // Give new avatars for the next login
             homeScreen.classList.add('hidden');
             renderUserHistory();
             loginScreen.classList.remove('hidden');
@@ -271,6 +401,7 @@
                 knownUsers = knownUsers.filter(u => u !== userToDelete);
                 localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
                 localStorage.removeItem(`xp_${userToDelete}`);
+                localStorage.removeItem(`avatar_${userToDelete}`);
                 renderUserHistory();
             }
         }
@@ -278,6 +409,11 @@
         function loadUserData(username) {
             document.getElementById('display-name').innerText = username;
             currentXP = parseInt(localStorage.getItem(`xp_${username}`)) || 0;
+            
+            // Load their specific avatar, fallback to Pikachu if missing
+            const savedAvatar = localStorage.getItem('avatar_' + username);
+            document.getElementById('trainer-display-avatar').src = savedAvatar || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
+            
             updateXPUI();
         }
 
@@ -285,9 +421,15 @@
             const level = Math.floor(currentXP / 100) + 1;
             const progressXP = currentXP % 100;
             
+            // Update Main Screen Premium Card
             document.getElementById('display-level').innerText = level;
-            document.getElementById('display-xp').innerText = progressXP;
+            document.getElementById('display-xp').innerText = progressXP + "/100 XP";
             document.getElementById('xp-progress-bar').style.width = `${progressXP}%`;
+
+            // Update Mini Game Screen XP Bar
+            document.getElementById('mini-display-level').innerText = level;
+            document.getElementById('mini-display-xp').innerText = progressXP + "/100 XP";
+            document.getElementById('mini-xp-progress-bar').style.width = `${progressXP}%`;
 
             updateBadgeDisplay(level);
         }
@@ -471,11 +613,14 @@
             const delay = isCorrect ? 1000 : 3000;
 
             if (isCorrect) {
+                // AUDIO TRIGGER: CORRECT
+                const correctAudio = new Audio('correct.mp3');
+                correctAudio.play().catch(e => console.log("Audio playback prevented by browser:", e));
+
                 clickedBtn.classList.add('correct');
                 score++;
                 scoreEl.innerText = score;
                 
-                // DYNAMIC XP SCALING LOGIC
                 const currentLevel = Math.floor(currentXP / 100) + 1;
                 let xpGain = 5;
                 
@@ -494,6 +639,10 @@
                 updateXPUI();
 
             } else {
+                // AUDIO TRIGGER: WRONG
+                const wrongAudio = new Audio('wrong.mp3');
+                wrongAudio.play().catch(e => console.log("Audio playback prevented by browser:", e));
+
                 clickedBtn.classList.add('wrong');
                 allBtns.forEach(btn => {
                     if (btn.dataset.value === correctAnswersAttribute) {
