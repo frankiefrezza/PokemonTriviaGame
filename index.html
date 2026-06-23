@@ -14,6 +14,7 @@
         #app { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 30px; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.2), 0 0 0 10px rgba(255,255,255,0.2); text-align: center; width: 440px; max-width: 100%; box-sizing: border-box; position: relative; }
         .hidden { display: none !important; }
 
+        #game-screen { position: relative; }
         #game-content { transition: opacity 0.4s ease-in-out; opacity: 1; min-height: 400px; }
 
         #home-screen h1, #login-screen h1 { color: #1e3a8a; font-size: 32px; font-weight: 900; margin-bottom: 5px; text-transform: uppercase; text-shadow: 2px 2px 0px #bae6fd; }
@@ -22,64 +23,22 @@
         .main-logo { width: 100%; max-width: 280px; height: auto; margin: 0 auto 20px auto; display: block; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15)); }
 
         /* --- PREMIUM TRAINER CARD REDESIGN --- */
-        .trainer-card { 
-            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%); 
-            padding: 24px; 
-            border-radius: 24px; 
-            margin-bottom: 25px; 
-            border: 1px solid #e2e8f0; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05), inset 0 2px 0 rgba(255,255,255,1); 
-            text-align: left; 
-            position: relative;
-            overflow: hidden;
-        }
-
-        .trainer-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 6px;
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-        }
-
-        .trainer-header { 
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; 
-        }
-
+        .trainer-card { background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%); padding: 24px; border-radius: 24px; margin-bottom: 25px; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px rgba(0,0,0,0.05), inset 0 2px 0 rgba(255,255,255,1); text-align: left; position: relative; overflow: hidden; }
+        .trainer-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
+        .trainer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .trainer-identity { display: flex; align-items: center; gap: 12px; }
-
-        .trainer-avatar-bg {
-            width: 48px; height: 48px;
-            background: #eff6ff; border-radius: 14px;
-            display: flex; align-items: center; justify-content: center;
-            border: 2px solid #bfdbfe; color: #3b82f6;
-            overflow: hidden; padding: 2px;
-        }
-
+        .trainer-avatar-bg { width: 48px; height: 48px; background: #eff6ff; border-radius: 14px; display: flex; align-items: center; justify-content: center; border: 2px solid #bfdbfe; color: #3b82f6; overflow: hidden; padding: 2px; }
         .trainer-name-block { display: flex; flex-direction: column; }
-
-        .trainer-title-label {
-            font-size: 11px; text-transform: uppercase; font-weight: 800;
-            color: #64748b; letter-spacing: 0.5px; line-height: 1; margin-bottom: 4px;
-        }
-
+        .trainer-title-label { font-size: 11px; text-transform: uppercase; font-weight: 800; color: #64748b; letter-spacing: 0.5px; line-height: 1; margin-bottom: 4px; }
         .trainer-name-display { font-weight: 900; color: #1e293b; font-size: 20px; line-height: 1; }
-
-        .progression-track {
-            background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px;
-            padding: 16px; display: flex; align-items: center; gap: 15px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
-        }
-
+        .progression-track { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 15px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
         .badge-wrapper { display: flex; align-items: center; justify-content: center; }
-
         #current-badge { width: 55px; height: 55px; object-fit: contain; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15)); transition: transform 0.3s ease; }
         #next-badge { width: 40px; height: 40px; object-fit: contain; filter: grayscale(1) opacity(0.4); }
-
         .xp-core { flex-grow: 1; display: flex; flex-direction: column; gap: 8px; }
         .xp-stats-row { display: flex; justify-content: space-between; align-items: flex-end; }
         .level-pill { background: #ede9fe; color: #7c3aed; padding: 4px 10px; border-radius: 8px; font-size: 13px; font-weight: 900; border: 1px solid #ddd6fe; }
         .xp-numbers { font-size: 13px; font-weight: 800; color: #64748b; }
-        
         .xp-bar-track { width: 100%; height: 16px; background: #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.08); }
         #xp-progress-bar { height: 100%; background: linear-gradient(90deg, #3b82f6, #8b5cf6, #d946ef); width: 0%; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 8px; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1); }
 
@@ -131,19 +90,39 @@
         .settings-trigger { position: fixed; bottom: 20px; right: 20px; background: #ffffff; color: #64748b; border: 2px solid #e2e8f0; border-radius: 50%; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: all 0.2s ease; z-index: 100; }
         .settings-trigger:hover { background: #f8fafc; color: #3b82f6; transform: scale(1.05) rotate(15deg); }
         .settings-trigger:active { transform: scale(0.95); }
-        
         #settings-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 1000; }
         .modal-content { background: white; padding: 30px; border-radius: 24px; width: 320px; max-width: 90%; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); text-align: left; }
-        
         .toggle-container { display: flex; justify-content: space-between; align-items: center; margin: 25px 0; font-weight: 800; color: #475569; font-size: 16px; }
-        
-        /* Toggle Switch CSS */
         .switch { position: relative; display: inline-block; width: 50px; height: 28px; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 28px; }
         .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
         input:checked + .slider { background-color: #10b981; }
         input:checked + .slider:before { transform: translateX(22px); }
+
+        /* --- NEW: ANIMATED FEEDBACK JUICE --- */
+        #feedback-overlay { position: absolute; top: 50px; left: 0; width: 100%; display: flex; justify-content: center; align-items: center; pointer-events: none; z-index: 50; }
+        .feedback-pop { width: 80px; height: 80px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; box-shadow: 0 15px 35px rgba(0,0,0,0.25); }
+        .pop-correct { background: linear-gradient(135deg, #34d399, #059669); border: 6px solid #a7f3d0; animation: popJuice 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .pop-wrong { background: linear-gradient(135deg, #f87171, #dc2626); border: 6px solid #fecaca; animation: popJuiceShake 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+
+        @keyframes popJuice {
+            0% { opacity: 0; transform: scale(0.3) rotate(-20deg); }
+            30% { opacity: 1; transform: scale(1.1) rotate(10deg); }
+            50% { transform: scale(1) rotate(0deg); }
+            80% { opacity: 1; transform: scale(1) translateY(0); }
+            100% { opacity: 0; transform: scale(0.8) translateY(-30px); }
+        }
+
+        @keyframes popJuiceShake {
+            0% { opacity: 0; transform: scale(0.3); }
+            20% { opacity: 1; transform: scale(1.1) translateX(-10px); }
+            30% { transform: scale(1.1) translateX(10px); }
+            40% { transform: scale(1.1) translateX(-10px); }
+            50% { transform: scale(1) translateX(0); }
+            80% { opacity: 1; transform: scale(1) translateY(0); }
+            100% { opacity: 0; transform: scale(0.8) translateY(-30px); }
+        }
 
         @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
         #loading-text { font-size: 18px; font-weight: 800; color: #64748b; animation: pulse 1.5s infinite ease-in-out; margin: 40px 0; }
@@ -160,7 +139,6 @@
 </head>
 <body>
     
-    <!-- FLOATING SETTINGS BUTTON -->
     <button id="settings-btn" class="settings-trigger hidden" onclick="toggleSettings()" title="Settings">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="3"></circle>
@@ -168,11 +146,9 @@
         </svg>
     </button>
 
-    <!-- SETTINGS MODAL -->
     <div id="settings-modal" class="hidden">
         <div class="modal-content">
             <h3 style="margin-top: 0; color: #1e293b; font-size: 24px; font-weight: 900;">Settings</h3>
-            
             <div class="toggle-container">
                 <span>Sound Effects</span>
                 <label class="switch">
@@ -180,25 +156,20 @@
                     <span class="slider round"></span>
                 </label>
             </div>
-            
             <button class="primary-btn btn-orange" onclick="logoutUser(); toggleSettings();">Logout Trainer</button>
             <button class="primary-btn btn-blue" style="margin-bottom: 0;" onclick="toggleSettings()">Close Settings</button>
         </div>
     </div>
 
     <div id="app">
-        <!-- LOGIN SCREEN -->
         <div id="login-screen" class="hidden">
             <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="main-logo">
             <h1>Trainer Login</h1>
-            
             <input type="text" id="username-input" placeholder="Your Trainer Name">
 
             <div style="margin: 20px 0; background: #f8fafc; padding: 15px; border-radius: 16px; border: 2px solid #e2e8f0;">
                 <p style="font-size: 14px; font-weight: 800; color: #64748b; margin: 0 0 10px 0; text-transform: uppercase;">Choose Your Avatar</p>
-                <div id="avatar-grid" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 15px;">
-                    <!-- Avatars will be injected here -->
-                </div>
+                <div id="avatar-grid" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 15px;"></div>
                 <button class="nav-btn" style="margin: 0 auto; padding: 6px 12px; font-size: 13px;" onclick="generateAvatars()">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 1 0-9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"></path></svg>
                     Shuffle Pokémon
@@ -206,18 +177,14 @@
             </div>
 
             <button class="primary-btn btn-blue" onclick="loginUser()">Start Adventure</button>
-            
             <div id="user-history-container" class="hidden" style="margin-top: 25px; border-top: 2px solid #f1f5f9; padding-top: 15px;">
                 <p style="font-size: 14px; font-weight: 800; color: #94a3b8; margin-bottom: 10px; text-transform: uppercase;">Previous Trainers</p>
                 <div id="user-history-list" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;"></div>
             </div>
         </div>
 
-        <!-- HOME SCREEN -->
         <div id="home-screen" class="hidden">
             <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="main-logo">
-            
-            <!-- PREMIUM TRAINER CARD -->
             <div class="trainer-card">
                 <div class="trainer-header">
                     <div class="trainer-identity">
@@ -232,58 +199,47 @@
                 </div>
                 
                 <div class="progression-track">
-                    <div class="badge-wrapper">
-                        <img id="current-badge" src="LV1-10.png" alt="Current Badge">
-                    </div>
-                    
+                    <div class="badge-wrapper"><img id="current-badge" src="LV1-10.png" alt="Current Badge"></div>
                     <div class="xp-core">
                         <div class="xp-stats-row">
                             <div class="level-pill">LVL <span id="display-level">1</span></div>
                             <div class="xp-numbers"><span id="display-xp">0/100 XP</span></div>
                         </div>
-                        <div class="xp-bar-track">
-                            <div id="xp-progress-bar"></div>
-                        </div>
+                        <div class="xp-bar-track"><div id="xp-progress-bar"></div></div>
                     </div>
-                    
-                    <div class="badge-wrapper">
-                        <img id="next-badge" src="LV10-20.png" alt="Next Badge">
-                    </div>
+                    <div class="badge-wrapper"><img id="next-badge" src="LV10-20.png" alt="Next Badge"></div>
                 </div>
             </div>
 
             <p class="subtitle" style="margin-top: 10px;">Choose your challenge!</p>
-            
             <div class="menu-box">
-                <h3>GUESS MODE</h3>
-                <p>Identify the Pokémon from its dark silhouette.</p>
+                <h3>GUESS MODE</h3><p>Identify the Pokémon from its dark silhouette.</p>
                 <button class="primary-btn btn-blue" onclick="startGame('GUESS')">Play Guess Mode</button>
             </div>
             <div class="menu-box">
-                <h3>TYPES MODE</h3>
-                <p>Test your knowledge on elemental types.</p>
+                <h3>TYPES MODE</h3><p>Test your knowledge on elemental types.</p>
                 <button class="primary-btn btn-green" onclick="startGame('TYPES')">Play Types Mode</button>
             </div>
             <div class="menu-box">
-                <h3>EVOLUTIONS MODE</h3>
-                <p>Who does this Pokémon evolve into?</p>
+                <h3>EVOLUTIONS MODE</h3><p>Who does this Pokémon evolve into?</p>
                 <button class="primary-btn btn-orange" onclick="startGame('EVOLUTIONS')">Play Evolutions Mode</button>
             </div>
             <div class="menu-box">
-                <h3>TRIVIA MODE</h3>
-                <p>Questions about regions, types, and weaknesses!</p>
+                <h3>TRIVIA MODE</h3><p>Questions about regions, types, and weaknesses!</p>
                 <button class="primary-btn btn-purple" onclick="startGame('TRIVIA')">Play Trivia Mode</button>
             </div>
         </div>
 
-        <!-- GAME SCREEN -->
         <div id="game-screen" class="hidden">
             <div class="nav-bar">
                 <button class="nav-btn" onclick="goHome()">Home</button>
                 <button class="nav-btn" onclick="restartGame()">Restart</button>
             </div>
 
-            <!-- MINI XP PROGRESS BAR -->
+            <div id="feedback-overlay" class="hidden">
+                <div id="feedback-icon"></div>
+            </div>
+
             <div style="margin-bottom: 15px; background: #f0f9ff; padding: 10px; border-radius: 12px; border: 2px solid #bae6fd; text-align: left;">
                 <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 800; color: #334155; margin-bottom: 5px;">
                     <span>Level <span id="mini-display-level" style="color:#8b5cf6;">1</span></span>
@@ -306,7 +262,6 @@
             </div>
         </div>
 
-        <!-- END SCREEN -->
         <div id="end-screen" class="hidden">
             <h1 style="font-size: 36px; margin-bottom: 0;">Game Over!</h1>
             <h2 id="end-message"></h2>
@@ -326,8 +281,7 @@
         const REGIONS = {'generation-i': 'Kanto', 'generation-ii': 'Johto', 'generation-iii': 'Hoenn', 'generation-iv': 'Sinnoh', 'generation-v': 'Unova', 'generation-vi': 'Kalos', 'generation-vii': 'Alola', 'generation-viii': 'Galar', 'generation-ix': 'Paldea'};
 
         let currentMode = 'GUESS', currentQuestion = 0, score = 0, correctAnswersAttribute = ''; 
-        let currentUser = null;
-        let currentXP = 0;
+        let currentUser = null, currentXP = 0;
         let isSoundEnabled = true;
         let selectedAvatarUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png'; // Default Pikachu
         let knownUsers = JSON.parse(localStorage.getItem('knownPokeUsers')) || [];
@@ -357,6 +311,28 @@
             isSoundEnabled = document.getElementById('sound-toggle').checked;
         }
 
+        // --- ANIMATED FEEDBACK LOGIC ---
+        function triggerFeedbackAnimation(isCorrect) {
+            const overlay = document.getElementById('feedback-overlay');
+            const icon = document.getElementById('feedback-icon');
+            
+            overlay.classList.remove('hidden');
+            
+            if (isCorrect) {
+                icon.innerHTML = '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                icon.className = 'feedback-pop pop-correct';
+            } else {
+                icon.innerHTML = '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+                icon.className = 'feedback-pop pop-wrong';
+            }
+
+            // Hide the animation after it finishes (1 second) so it's ready for next time
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                icon.className = '';
+            }, 1000);
+        }
+
         // --- AVATAR LOGIC ---
         function generateAvatars() {
             const grid = document.getElementById('avatar-grid');
@@ -364,12 +340,12 @@
             
             let html = '';
             for(let i=0; i<4; i++) {
-                const id = Math.floor(Math.random() * 898) + 1; // Limit to Gen 8 for artwork consistency
+                const id = Math.floor(Math.random() * 898) + 1; 
                 const url = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
                 html += `<img src="${url}" class="avatar-option" onclick="selectAvatar(this, '${url}')">`;
             }
             grid.innerHTML = html;
-            grid.firstChild.click(); // Auto-select the first one
+            grid.firstChild.click(); 
         }
 
         function selectAvatar(imgElement, url) {
@@ -378,6 +354,7 @@
             selectedAvatarUrl = url;
         }
 
+        // --- USER SYSTEM LOGIC ---
         function renderUserHistory() {
             const container = document.getElementById('user-history-container');
             const list = document.getElementById('user-history-list');
@@ -418,8 +395,6 @@
             if (nameInput) {
                 currentUser = nameInput;
                 localStorage.setItem('pokeUser', currentUser);
-                
-                // Save the selected avatar to local storage for this specific user
                 localStorage.setItem('avatar_' + currentUser, selectedAvatarUrl);
 
                 if (!knownUsers.includes(currentUser)) {
@@ -430,8 +405,6 @@
                 loadUserData(currentUser);
                 loginScreen.classList.add('hidden');
                 homeScreen.classList.remove('hidden');
-                
-                // Show the settings gear once logged in
                 document.getElementById('settings-btn').classList.remove('hidden');
             }
         }
@@ -440,10 +413,10 @@
             localStorage.removeItem('pokeUser');
             currentUser = null;
             document.getElementById('username-input').value = '';
-            generateAvatars(); // Give new avatars for the next login
+            generateAvatars(); 
             
             homeScreen.classList.add('hidden');
-            document.getElementById('settings-btn').classList.add('hidden'); // Hide settings gear
+            document.getElementById('settings-btn').classList.add('hidden'); 
             
             renderUserHistory();
             loginScreen.classList.remove('hidden');
@@ -463,11 +436,8 @@
         function loadUserData(username) {
             document.getElementById('display-name').innerText = username;
             currentXP = parseInt(localStorage.getItem(`xp_${username}`)) || 0;
-            
-            // Load their specific avatar, fallback to Pikachu if missing
             const savedAvatar = localStorage.getItem('avatar_' + username);
             document.getElementById('trainer-display-avatar').src = savedAvatar || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
-            
             updateXPUI();
         }
 
@@ -475,12 +445,10 @@
             const level = Math.floor(currentXP / 100) + 1;
             const progressXP = currentXP % 100;
             
-            // Update Main Screen Premium Card
             document.getElementById('display-level').innerText = level;
             document.getElementById('display-xp').innerText = progressXP + "/100 XP";
             document.getElementById('xp-progress-bar').style.width = `${progressXP}%`;
 
-            // Update Mini Game Screen XP Bar
             document.getElementById('mini-display-level').innerText = level;
             document.getElementById('mini-display-xp').innerText = progressXP + "/100 XP";
             document.getElementById('mini-xp-progress-bar').style.width = `${progressXP}%`;
@@ -491,7 +459,6 @@
         function updateBadgeDisplay(level) {
             const currentBadge = document.getElementById('current-badge');
             const nextBadge = document.getElementById('next-badge');
-            
             const badgeIndex = Math.min(Math.floor((level - 1) / 10), 9);
             const badgeFiles = [
                 "LV1-10.png", "LV10-20.png", "LV20-30.png", "LV30-40.png", "LV40-50.png", 
@@ -511,6 +478,7 @@
             }
         }
 
+        // --- GAME PLAY LOGIC ---
         function startGame(mode) {
             currentMode = mode; currentQuestion = 0; score = 0;
             scoreEl.innerText = score;
@@ -666,8 +634,10 @@
 
             const delay = isCorrect ? 1000 : 3000;
 
+            // TRIGGER VISUAL ANIMATION
+            triggerFeedbackAnimation(isCorrect);
+
             if (isCorrect) {
-                // AUDIO TRIGGER: CORRECT
                 if (isSoundEnabled) {
                     const correctAudio = new Audio('correct.mp3');
                     correctAudio.play().catch(e => console.log("Audio playback prevented by browser:", e));
@@ -679,23 +649,15 @@
                 
                 const currentLevel = Math.floor(currentXP / 100) + 1;
                 let xpGain = 5;
-                
-                if (currentLevel < 20) {
-                    xpGain = 15;
-                } else if (currentLevel < 40) {
-                    xpGain = 10;
-                } else if (currentLevel < 80) {
-                    xpGain = 7;
-                } else {
-                    xpGain = 5;
-                }
+                if (currentLevel < 20) xpGain = 15;
+                else if (currentLevel < 40) xpGain = 10;
+                else if (currentLevel < 80) xpGain = 7;
                 
                 currentXP += xpGain;
                 localStorage.setItem(`xp_${currentUser}`, currentXP);
                 updateXPUI();
 
             } else {
-                // AUDIO TRIGGER: WRONG
                 if (isSoundEnabled) {
                     const wrongAudio = new Audio('wrong.mp3');
                     wrongAudio.play().catch(e => console.log("Audio playback prevented by browser:", e));
