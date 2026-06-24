@@ -28,7 +28,14 @@
         .trainer-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
         .trainer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .trainer-identity { display: flex; align-items: center; gap: 12px; }
-        .trainer-avatar-bg { width: 48px; height: 48px; background: #eff6ff; border-radius: 14px; display: flex; align-items: center; justify-content: center; border: 2px solid #bfdbfe; color: #3b82f6; overflow: hidden; padding: 2px; }
+        
+        /* NEW: Clickable Avatar Background */
+        .trainer-avatar-bg { width: 48px; height: 48px; background: #eff6ff; border-radius: 14px; display: flex; align-items: center; justify-content: center; border: 2px solid #bfdbfe; color: #3b82f6; overflow: hidden; padding: 2px; cursor: pointer; transition: all 0.2s; position: relative; }
+        .trainer-avatar-bg:hover { transform: scale(1.05); border-color: #3b82f6; box-shadow: 0 4px 8px rgba(59,130,246,0.2); }
+        /* Edit icon overlay on hover */
+        .trainer-avatar-bg::after { content: '✎'; position: absolute; bottom: -2px; right: -2px; background: #3b82f6; color: white; font-size: 10px; width: 16px; height: 16px; border-radius: 50%; display: flex; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.2s; }
+        .trainer-avatar-bg:hover::after { opacity: 1; }
+        
         .trainer-name-block { display: flex; flex-direction: column; }
         .trainer-title-label { font-size: 11px; text-transform: uppercase; font-weight: 800; color: #64748b; letter-spacing: 0.5px; line-height: 1; margin-bottom: 4px; }
         .trainer-name-display { font-weight: 900; color: #1e293b; font-size: 20px; line-height: 1; }
@@ -56,6 +63,18 @@
         .nav-btn:hover { background-color: #cbd5e1; color: #1e293b; }
         
         .stats { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 18px; font-weight: 800; color: #334155; background: #f1f5f9; padding: 10px 20px; border-radius: 15px; position: relative; }
+        
+        /* --- NEW & IMPROVED TIMER UI STYLES --- */
+        #timer-wrapper { margin-bottom: 15px; text-align: left; }
+        .timer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .timer-label { font-size: 12px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+        #timer-text { font-size: 13px; font-weight: 900; color: #1e293b; }
+        
+        #timer-container { width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; position: relative; }
+        /* Depletes from Left to Right by anchoring the bar to the right edge */
+        #timer-bar { height: 100%; width: 100%; background: #10b981; position: absolute; right: 0; transition: width 1s linear, background-color 0.3s ease; border-radius: 4px; }
+        .timer-warning { background: #f59e0b !important; }
+        .timer-danger { background: #ef4444 !important; }
         
         #username-input { width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; }
         #username-input:focus { outline: none; border-color: #3b82f6; }
@@ -218,9 +237,11 @@
             <div class="trainer-card">
                 <div class="trainer-header">
                     <div class="trainer-identity">
-                        <div class="trainer-avatar-bg">
+                        
+                        <div class="trainer-avatar-bg" onclick="openAvatarModal()" title="Change Avatar">
                             <img id="trainer-display-avatar" src="" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">
                         </div>
+                        
                         <div class="trainer-name-block">
                             <span class="trainer-title-label">Verified Trainer</span>
                             <span id="display-name" class="trainer-name-display"></span>
@@ -280,12 +301,18 @@
 
             <div class="stats">
                 <span>Q: <span id="question-count">1</span>/20</span>
-                
-                <div id="feedback-overlay" class="hidden">
-                    <div id="feedback-icon"></div>
-                </div>
-
+                <div id="feedback-overlay" class="hidden"><div id="feedback-icon"></div></div>
                 <span>Score: <span id="score">0</span></span>
+            </div>
+            
+            <div id="timer-wrapper" class="hidden">
+                <div class="timer-header">
+                    <span class="timer-label">Time Remaining</span>
+                    <span id="timer-text">10s</span>
+                </div>
+                <div id="timer-container">
+                    <div id="timer-bar"></div>
+                </div>
             </div>
             
             <h2 id="loading-text">Finding a wild Pokémon...</h2>
@@ -310,18 +337,26 @@
     </div>
 
     <script>
+        // --- GAME CONSTANTS ---
+        const TIME_LIMIT = 10; 
         const TOTAL_QUESTIONS = 20;
         const MAX_POKEMON_ID = 1025; 
         const POKEMON_TYPES = ['normal', 'fire', 'water', 'grass', 'electric', 'ice', 'fighting', 'poison', 'ground', 'flying', 'psychic', 'bug', 'rock', 'ghost', 'dragon', 'dark', 'steel', 'fairy'];
         const REGIONS = {'generation-i': 'Kanto', 'generation-ii': 'Johto', 'generation-iii': 'Hoenn', 'generation-iv': 'Sinnoh', 'generation-v': 'Unova', 'generation-vi': 'Kalos', 'generation-vii': 'Alola', 'generation-viii': 'Galar', 'generation-ix': 'Paldea'};
 
+        // --- GAME VARIABLES ---
         let currentMode = 'GUESS', currentQuestion = 0, score = 0, correctAnswersAttribute = ''; 
         let currentUser = null, currentXP = 0;
         let isSoundEnabled = true;
-        let selectedAvatarUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png'; // Default Pikachu
+        let selectedAvatarUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
         let knownUsers = JSON.parse(localStorage.getItem('knownPokeUsers')) || [];
+        
+        let timerInterval;
+        let timeLeft = TIME_LIMIT;
 
+        // --- DOM ELEMENTS ---
         const loginScreen = document.getElementById('login-screen'), homeScreen = document.getElementById('home-screen'), gameScreen = document.getElementById('game-screen'), endScreen = document.getElementById('end-screen'), gameContent = document.getElementById('game-content'), questionCountEl = document.getElementById('question-count'), scoreEl = document.getElementById('score'), questionTextEl = document.getElementById('question-text'), imageEl = document.getElementById('pokemon-image'), optionsEl = document.getElementById('options'), loadingText = document.getElementById('loading-text'), finalScoreEl = document.getElementById('final-score'), endMessageEl = document.getElementById('end-message');
+        const timerWrapper = document.getElementById('timer-wrapper'), timerBar = document.getElementById('timer-bar'), timerText = document.getElementById('timer-text');
 
         window.onload = () => {
             const savedUser = localStorage.getItem('pokeUser');
@@ -343,6 +378,65 @@
 
         function toggleSound() {
             isSoundEnabled = document.getElementById('sound-toggle').checked;
+        }
+
+        // --- TIMER LOGIC ---
+        function startTimer() {
+            clearInterval(timerInterval);
+            timeLeft = TIME_LIMIT;
+            
+            timerWrapper.classList.remove('hidden');
+            timerText.innerText = timeLeft + 's';
+            timerBar.style.width = '100%';
+            timerBar.className = ''; 
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerText.innerText = timeLeft + 's';
+                const percentage = (timeLeft / TIME_LIMIT) * 100;
+                timerBar.style.width = percentage + '%';
+
+                if (timeLeft <= 5 && timeLeft > 3) {
+                    timerBar.className = 'timer-warning';
+                } else if (timeLeft <= 3) {
+                    timerBar.className = 'timer-danger';
+                }
+
+                if (timeLeft <= 0) {
+                    handleTimeOut();
+                }
+            }, 1000);
+        }
+
+        function handleTimeOut() {
+            clearInterval(timerInterval);
+            timerBar.style.width = '0%';
+            timerText.innerText = '0s';
+            
+            if (currentMode === 'GUESS') imageEl.className = 'revealed'; 
+
+            const allBtns = document.querySelectorAll('.option-btn');
+            allBtns.forEach(btn => btn.disabled = true);
+
+            // Trigger the "X" visual feedback overlay
+            triggerFeedbackAnimation(false);
+
+            // Explicitly play the wrong answer sound on timeout
+            if (isSoundEnabled) {
+                const wrongAudio = new Audio('wrong.mp3');
+                wrongAudio.play().catch(e => console.log("Audio playback prevented by browser:", e));
+            }
+
+            // Highlight the correct answer for the player so they can learn it
+            allBtns.forEach(btn => {
+                if (btn.dataset.value === correctAnswersAttribute) {
+                    btn.classList.add('correct');
+                    btn.style.transform = "translateY(4px)";
+                    btn.style.boxShadow = "0 0 0 transparent";
+                }
+            });
+
+            setTimeout(() => { loadNextQuestion(); }, 3000);
         }
 
         // --- ANIMATED FEEDBACK LOGIC ---
@@ -388,10 +482,9 @@
             if (!query) return;
 
             errorText.style.display = 'none';
-            document.getElementById('modal-avatar-img').style.opacity = '0.5'; // Loading effect
+            document.getElementById('modal-avatar-img').style.opacity = '0.5';
 
             try {
-                // Allows searching by name or ID
                 const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${query}`);
                 if (!res.ok) throw new Error('Not found');
                 const data = await res.json();
@@ -409,6 +502,13 @@
         function confirmAvatar() {
             selectedAvatarUrl = tempAvatarUrl;
             document.getElementById('login-avatar-preview').src = selectedAvatarUrl;
+            
+            // If the user is already logged in and changing it from the home screen:
+            if (currentUser) {
+                localStorage.setItem('avatar_' + currentUser, selectedAvatarUrl);
+                document.getElementById('trainer-display-avatar').src = selectedAvatarUrl;
+            }
+            
             closeAvatarModal();
         }
 
@@ -540,6 +640,7 @@
 
         // --- GAME PLAY LOGIC ---
         function startGame(mode) {
+            clearInterval(timerInterval);
             currentMode = mode; currentQuestion = 0; score = 0;
             scoreEl.innerText = score;
             homeScreen.classList.add('hidden');
@@ -549,7 +650,12 @@
         }
 
         function restartGame() { startGame(currentMode); }
-        function goHome() { gameScreen.classList.add('hidden'); endScreen.classList.add('hidden'); homeScreen.classList.remove('hidden'); }
+        function goHome() { 
+            clearInterval(timerInterval);
+            gameScreen.classList.add('hidden'); 
+            endScreen.classList.add('hidden'); 
+            homeScreen.classList.remove('hidden'); 
+        }
 
         function getEvolutionTarget(chainNode, targetName) {
             let queue = [chainNode];
@@ -567,6 +673,9 @@
         async function loadNextQuestion() {
             if (currentQuestion >= TOTAL_QUESTIONS) return endGame();
 
+            clearInterval(timerInterval);
+            timerWrapper.classList.add('hidden');
+            
             gameContent.style.opacity = 0;
             await new Promise(r => setTimeout(r, 400)); 
             
@@ -671,7 +780,11 @@
             loadingText.classList.add('hidden');
             gameContent.classList.remove('hidden');
             
-            setTimeout(() => { gameContent.style.opacity = 1; }, 50);
+            // Start the timer ONLY after everything has loaded
+            setTimeout(() => { 
+                gameContent.style.opacity = 1; 
+                startTimer();
+            }, 50);
         }
 
         function createButton(displayText, dataValue, isCorrect) {
@@ -684,6 +797,8 @@
         }
 
         function handleGuess(clickedBtn, isCorrect) {
+            clearInterval(timerInterval); // Stop the timer when they click an answer
+
             if (currentMode === 'GUESS') imageEl.className = 'revealed'; 
 
             const allBtns = document.querySelectorAll('.option-btn');
@@ -694,7 +809,6 @@
 
             const delay = isCorrect ? 1000 : 3000;
 
-            // TRIGGER VISUAL ANIMATION
             triggerFeedbackAnimation(isCorrect);
 
             if (isCorrect) {
@@ -737,6 +851,7 @@
         }
 
         function endGame() {
+            clearInterval(timerInterval);
             gameScreen.classList.add('hidden');
             endScreen.classList.remove('hidden');
             finalScoreEl.innerText = score;
