@@ -21,6 +21,7 @@
         .subtitle { color: #64748b; margin-bottom: 25px; font-size: 16px; font-weight: 700; }
         
         .main-logo { width: 100%; max-width: 280px; height: auto; margin: 0 auto 20px auto; display: block; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15)); }
+        .mini-game-logo { width: 140px; margin: -10px auto 15px auto; display: block; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
 
         /* --- PREMIUM TRAINER CARD REDESIGN --- */
         .trainer-card { background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%); padding: 24px; border-radius: 24px; margin-bottom: 25px; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px rgba(0,0,0,0.05), inset 0 2px 0 rgba(255,255,255,1); text-align: left; position: relative; overflow: hidden; }
@@ -54,15 +55,17 @@
         .nav-btn { display: flex; align-items: center; gap: 6px; padding: 8px 16px; font-size: 14px; background-color: #e2e8f0; color: #475569; border: none; border-radius: 12px; cursor: pointer; font-weight: 800; transition: all 0.2s; }
         .nav-btn:hover { background-color: #cbd5e1; color: #1e293b; }
         
-        .stats { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 18px; font-weight: 800; color: #334155; background: #f1f5f9; padding: 10px 20px; border-radius: 15px; }
+        .stats { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 18px; font-weight: 800; color: #334155; background: #f1f5f9; padding: 10px 20px; border-radius: 15px; position: relative; }
         
         #username-input { width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; }
         #username-input:focus { outline: none; border-color: #3b82f6; }
         
         /* AVATAR SELECTION STYLES */
-        .avatar-option { width: 55px; height: 55px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 14px; cursor: pointer; transition: all 0.2s; object-fit: contain; padding: 4px; box-sizing: border-box; }
-        .avatar-option:hover { border-color: #94a3b8; transform: translateY(-2px); }
-        .avatar-option.selected { border-color: #3b82f6; background: #eff6ff; box-shadow: 0 4px 10px rgba(59,130,246,0.3); transform: scale(1.1); }
+        .avatar-preview-box { width: 100px; height: 100px; background: #ffffff; border: 2px solid #cbd5e1; border-radius: 20px; display: flex; justify-content: center; align-items: center; margin: 0 auto 15px auto; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
+        .avatar-preview-box img { width: 100%; height: 100%; object-fit: contain; padding: 5px; }
+        .search-container { display: flex; gap: 8px; margin-bottom: 15px; }
+        .search-container input { flex-grow: 1; padding: 10px; border-radius: 12px; border: 2px solid #cbd5e1; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 14px; }
+        .search-container input:focus { outline: none; border-color: #3b82f6; }
         
         .history-chip { display: inline-flex; align-items: stretch; background: #f1f5f9; border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; margin: 4px; transition: all 0.2s; }
         .history-chip:hover { border-color: #cbd5e1; }
@@ -86,12 +89,14 @@
         .primary-btn:active { transform: translateY(4px); }
         .btn-blue { background-color: #3b82f6; box-shadow: 0 4px 0 #2563eb; } .btn-green { background-color: #10b981; box-shadow: 0 4px 0 #059669; } .btn-orange { background-color: #f59e0b; box-shadow: 0 4px 0 #d97706; } .btn-purple { background-color: #8b5cf6; box-shadow: 0 4px 0 #7c3aed; }
 
-        /* --- SETTINGS MODAL & BUTTON STYLES --- */
+        /* --- SETTINGS & MODAL STYLES --- */
         .settings-trigger { position: fixed; bottom: 20px; right: 20px; background: #ffffff; color: #64748b; border: 2px solid #e2e8f0; border-radius: 50%; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: all 0.2s ease; z-index: 100; }
         .settings-trigger:hover { background: #f8fafc; color: #3b82f6; transform: scale(1.05) rotate(15deg); }
         .settings-trigger:active { transform: scale(0.95); }
-        #settings-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+        
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 1000; }
         .modal-content { background: white; padding: 30px; border-radius: 24px; width: 320px; max-width: 90%; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); text-align: left; }
+        
         .toggle-container { display: flex; justify-content: space-between; align-items: center; margin: 25px 0; font-weight: 800; color: #475569; font-size: 16px; }
         .switch { position: relative; display: inline-block; width: 50px; height: 28px; }
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -100,28 +105,28 @@
         input:checked + .slider { background-color: #10b981; }
         input:checked + .slider:before { transform: translateX(22px); }
 
-        /* --- NEW: ANIMATED FEEDBACK JUICE --- */
-        #feedback-overlay { position: absolute; top: 50px; left: 0; width: 100%; display: flex; justify-content: center; align-items: center; pointer-events: none; z-index: 50; }
-        .feedback-pop { width: 80px; height: 80px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; box-shadow: 0 15px 35px rgba(0,0,0,0.25); }
-        .pop-correct { background: linear-gradient(135deg, #34d399, #059669); border: 6px solid #a7f3d0; animation: popJuice 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-        .pop-wrong { background: linear-gradient(135deg, #f87171, #dc2626); border: 6px solid #fecaca; animation: popJuiceShake 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        /* --- CENTERED ANIMATED FEEDBACK JUICE --- */
+        #feedback-overlay { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; justify-content: center; align-items: center; pointer-events: none; z-index: 50; }
+        .feedback-pop { width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .pop-correct { background: linear-gradient(135deg, #34d399, #059669); border: 4px solid #a7f3d0; animation: popJuice 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .pop-wrong { background: linear-gradient(135deg, #f87171, #dc2626); border: 4px solid #fecaca; animation: popJuiceShake 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
 
         @keyframes popJuice {
             0% { opacity: 0; transform: scale(0.3) rotate(-20deg); }
-            30% { opacity: 1; transform: scale(1.1) rotate(10deg); }
+            30% { opacity: 1; transform: scale(1.2) rotate(10deg); }
             50% { transform: scale(1) rotate(0deg); }
             80% { opacity: 1; transform: scale(1) translateY(0); }
-            100% { opacity: 0; transform: scale(0.8) translateY(-30px); }
+            100% { opacity: 0; transform: scale(0.8) translateY(-20px); }
         }
 
         @keyframes popJuiceShake {
             0% { opacity: 0; transform: scale(0.3); }
-            20% { opacity: 1; transform: scale(1.1) translateX(-10px); }
-            30% { transform: scale(1.1) translateX(10px); }
-            40% { transform: scale(1.1) translateX(-10px); }
+            20% { opacity: 1; transform: scale(1.2) translateX(-8px); }
+            30% { transform: scale(1.2) translateX(8px); }
+            40% { transform: scale(1.2) translateX(-8px); }
             50% { transform: scale(1) translateX(0); }
             80% { opacity: 1; transform: scale(1) translateY(0); }
-            100% { opacity: 0; transform: scale(0.8) translateY(-30px); }
+            100% { opacity: 0; transform: scale(0.8) translateY(-20px); }
         }
 
         @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
@@ -146,7 +151,7 @@
         </svg>
     </button>
 
-    <div id="settings-modal" class="hidden">
+    <div id="settings-modal" class="modal-overlay hidden">
         <div class="modal-content">
             <h3 style="margin-top: 0; color: #1e293b; font-size: 24px; font-weight: 900;">Settings</h3>
             <div class="toggle-container">
@@ -161,18 +166,43 @@
         </div>
     </div>
 
+    <div id="avatar-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 style="margin-top: 0; color: #1e293b; font-size: 20px; font-weight: 900;">Choose Avatar</h3>
+            <p style="font-size: 13px; color: #64748b; margin-bottom: 15px; font-weight: 700;">Search any Pokémon by name or ID.</p>
+            
+            <div class="search-container">
+                <input type="text" id="pokemon-search" placeholder="e.g. charizard or 6" onkeypress="if(event.key === 'Enter') searchAvatar()">
+                <button class="nav-btn" onclick="searchAvatar()" style="background: #3b82f6; color: white;">Search</button>
+            </div>
+            
+            <p id="search-error" style="color: #ef4444; font-size: 13px; font-weight: 800; margin-top: -10px; margin-bottom: 10px; display: none;">Pokémon not found!</p>
+
+            <div class="avatar-preview-box" style="width: 120px; height: 120px;">
+                <img id="modal-avatar-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png">
+            </div>
+
+            <button class="primary-btn btn-green" onclick="confirmAvatar()">Select Avatar</button>
+            <button class="primary-btn btn-orange" style="margin-bottom: 0;" onclick="closeAvatarModal()">Cancel</button>
+        </div>
+    </div>
+
     <div id="app">
         <div id="login-screen" class="hidden">
             <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="main-logo">
             <h1>Trainer Login</h1>
             <input type="text" id="username-input" placeholder="Your Trainer Name">
 
-            <div style="margin: 20px 0; background: #f8fafc; padding: 15px; border-radius: 16px; border: 2px solid #e2e8f0;">
-                <p style="font-size: 14px; font-weight: 800; color: #64748b; margin: 0 0 10px 0; text-transform: uppercase;">Choose Your Avatar</p>
-                <div id="avatar-grid" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 15px;"></div>
-                <button class="nav-btn" style="margin: 0 auto; padding: 6px 12px; font-size: 13px;" onclick="generateAvatars()">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 1 0-9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"></path></svg>
-                    Shuffle Pokémon
+            <div style="margin: 20px 0; background: #f8fafc; padding: 20px; border-radius: 16px; border: 2px solid #e2e8f0;">
+                <p style="font-size: 14px; font-weight: 800; color: #64748b; margin: 0 0 15px 0; text-transform: uppercase;">Your Avatar</p>
+                
+                <div class="avatar-preview-box">
+                    <img id="login-avatar-preview" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png">
+                </div>
+                
+                <button class="nav-btn" style="margin: 0 auto; padding: 8px 16px; font-size: 14px; background-color: #3b82f6; color: white;" onclick="openAvatarModal()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 5px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    Find Your Pokémon
                 </button>
             </div>
 
@@ -236,9 +266,7 @@
                 <button class="nav-btn" onclick="restartGame()">Restart</button>
             </div>
 
-            <div id="feedback-overlay" class="hidden">
-                <div id="feedback-icon"></div>
-            </div>
+            <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="mini-game-logo">
 
             <div style="margin-bottom: 15px; background: #f0f9ff; padding: 10px; border-radius: 12px; border: 2px solid #bae6fd; text-align: left;">
                 <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 800; color: #334155; margin-bottom: 5px;">
@@ -252,8 +280,14 @@
 
             <div class="stats">
                 <span>Q: <span id="question-count">1</span>/20</span>
+                
+                <div id="feedback-overlay" class="hidden">
+                    <div id="feedback-icon"></div>
+                </div>
+
                 <span>Score: <span id="score">0</span></span>
             </div>
+            
             <h2 id="loading-text">Finding a wild Pokémon...</h2>
             <div id="game-content" class="hidden">
                 <div id="question-text"></div>
@@ -263,6 +297,7 @@
         </div>
 
         <div id="end-screen" class="hidden">
+            <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="mini-game-logo" style="margin-bottom: 20px;">
             <h1 style="font-size: 36px; margin-bottom: 0;">Game Over!</h1>
             <h2 id="end-message"></h2>
             <div style="background: #f1f5f9; padding: 15px; border-radius: 15px; margin-bottom: 25px;">
@@ -296,7 +331,6 @@
                 homeScreen.classList.remove('hidden');
                 document.getElementById('settings-btn').classList.remove('hidden');
             } else {
-                generateAvatars(); 
                 renderUserHistory();
                 loginScreen.classList.remove('hidden');
             }
@@ -319,39 +353,63 @@
             overlay.classList.remove('hidden');
             
             if (isCorrect) {
-                icon.innerHTML = '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                icon.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
                 icon.className = 'feedback-pop pop-correct';
             } else {
-                icon.innerHTML = '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+                icon.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
                 icon.className = 'feedback-pop pop-wrong';
             }
 
-            // Hide the animation after it finishes (1 second) so it's ready for next time
             setTimeout(() => {
                 overlay.classList.add('hidden');
                 icon.className = '';
             }, 1000);
         }
 
-        // --- AVATAR LOGIC ---
-        function generateAvatars() {
-            const grid = document.getElementById('avatar-grid');
-            grid.innerHTML = '<span style="font-size: 13px; color: #94a3b8;">Finding wild Pokémon...</span>';
-            
-            let html = '';
-            for(let i=0; i<4; i++) {
-                const id = Math.floor(Math.random() * 898) + 1; 
-                const url = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
-                html += `<img src="${url}" class="avatar-option" onclick="selectAvatar(this, '${url}')">`;
-            }
-            grid.innerHTML = html;
-            grid.firstChild.click(); 
+        // --- AVATAR SEARCH MODAL LOGIC ---
+        let tempAvatarUrl = '';
+
+        function openAvatarModal() {
+            document.getElementById('avatar-modal').classList.remove('hidden');
+            document.getElementById('pokemon-search').value = '';
+            document.getElementById('search-error').style.display = 'none';
+            tempAvatarUrl = selectedAvatarUrl;
+            document.getElementById('modal-avatar-img').src = tempAvatarUrl;
         }
 
-        function selectAvatar(imgElement, url) {
-            document.querySelectorAll('.avatar-option').forEach(el => el.classList.remove('selected'));
-            imgElement.classList.add('selected');
-            selectedAvatarUrl = url;
+        function closeAvatarModal() {
+            document.getElementById('avatar-modal').classList.add('hidden');
+        }
+
+        async function searchAvatar() {
+            const query = document.getElementById('pokemon-search').value.trim().toLowerCase();
+            const errorText = document.getElementById('search-error');
+            
+            if (!query) return;
+
+            errorText.style.display = 'none';
+            document.getElementById('modal-avatar-img').style.opacity = '0.5'; // Loading effect
+
+            try {
+                // Allows searching by name or ID
+                const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${query}`);
+                if (!res.ok) throw new Error('Not found');
+                const data = await res.json();
+                
+                tempAvatarUrl = data.sprites.other['official-artwork'].front_default || data.sprites.front_default;
+                document.getElementById('modal-avatar-img').src = tempAvatarUrl;
+                document.getElementById('modal-avatar-img').style.opacity = '1';
+                
+            } catch (err) {
+                errorText.style.display = 'block';
+                document.getElementById('modal-avatar-img').style.opacity = '1';
+            }
+        }
+
+        function confirmAvatar() {
+            selectedAvatarUrl = tempAvatarUrl;
+            document.getElementById('login-avatar-preview').src = selectedAvatarUrl;
+            closeAvatarModal();
         }
 
         // --- USER SYSTEM LOGIC ---
@@ -371,7 +429,8 @@
                     nameBtn.innerText = user;
                     nameBtn.onclick = () => {
                         document.getElementById('username-input').value = user;
-                        selectedAvatarUrl = localStorage.getItem('avatar_' + user) || selectedAvatarUrl;
+                        selectedAvatarUrl = localStorage.getItem('avatar_' + user) || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
+                        document.getElementById('login-avatar-preview').src = selectedAvatarUrl;
                         loginUser(); 
                     };
 
@@ -413,7 +472,8 @@
             localStorage.removeItem('pokeUser');
             currentUser = null;
             document.getElementById('username-input').value = '';
-            generateAvatars(); 
+            selectedAvatarUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
+            document.getElementById('login-avatar-preview').src = selectedAvatarUrl;
             
             homeScreen.classList.add('hidden');
             document.getElementById('settings-btn').classList.add('hidden'); 
