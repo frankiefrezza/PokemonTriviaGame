@@ -8,14 +8,14 @@
     <link rel="apple-touch-icon" href="app-icon.png?v=2">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Nunito', -apple-system, sans-serif; background: linear-gradient(135deg, #74ebd5 0%, #9face6 100%); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
         #app { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 30px; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.2), 0 0 0 10px rgba(255,255,255,0.2); text-align: center; width: 440px; max-width: 100%; box-sizing: border-box; position: relative; }
         .hidden { display: none !important; }
 
         #game-screen { position: relative; }
-        #game-content { transition: opacity 0.4s ease-in-out; opacity: 1; min-height: 400px; }
+        #game-content { transition: opacity 0.4s ease-in-out; opacity: 1; min-height: 350px; }
 
         #home-screen h1, #login-screen h1 { color: #1e3a8a; font-size: 32px; font-weight: 900; margin-bottom: 5px; text-transform: uppercase; text-shadow: 2px 2px 0px #bae6fd; }
         .subtitle { color: #64748b; margin-bottom: 25px; font-size: 16px; font-weight: 700; }
@@ -26,37 +26,60 @@
         /* --- PREMIUM TRAINER CARD REDESIGN --- */
         .trainer-card { background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%); padding: 24px; border-radius: 24px; margin-bottom: 25px; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px rgba(0,0,0,0.05), inset 0 2px 0 rgba(255,255,255,1); text-align: left; position: relative; overflow: hidden; }
         .trainer-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
-        .trainer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .trainer-identity { display: flex; align-items: center; gap: 12px; }
+        .trainer-header { display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
+        .trainer-identity { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; }
         
-        .trainer-avatar-bg { width: 48px; height: 48px; background: #eff6ff; border-radius: 14px; display: flex; align-items: center; justify-content: center; border: 2px solid #bfdbfe; color: #3b82f6; overflow: hidden; padding: 2px; cursor: pointer; transition: all 0.2s; position: relative; }
-        .trainer-avatar-bg:hover { transform: scale(1.05); border-color: #3b82f6; box-shadow: 0 4px 8px rgba(59,130,246,0.2); }
-        .trainer-avatar-bg::after { content: '✎'; position: absolute; bottom: -2px; right: -2px; background: #3b82f6; color: white; font-size: 10px; width: 16px; height: 16px; border-radius: 50%; display: flex; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.2s; }
+        /* Rounded square for avatar */
+        .trainer-avatar-bg { width: 110px; height: 110px; background: #eff6ff; border-radius: 24px; display: flex; align-items: center; justify-content: center; border: 4px solid #bfdbfe; color: #3b82f6; overflow: hidden; padding: 2px; cursor: pointer; transition: all 0.2s; position: relative; }
+        .trainer-avatar-bg:hover { transform: scale(1.05); border-color: #3b82f6; box-shadow: 0 6px 12px rgba(59,130,246,0.25); }
+        .trainer-avatar-bg::after { content: '✎'; position: absolute; bottom: 4px; right: 4px; background: #3b82f6; color: white; font-size: 12px; width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.2s; }
         .trainer-avatar-bg:hover::after { opacity: 1; }
         
-        .trainer-name-block { display: flex; flex-direction: column; }
-        .trainer-title-label { font-size: 11px; text-transform: uppercase; font-weight: 800; color: #64748b; letter-spacing: 0.5px; line-height: 1; margin-bottom: 4px; }
-        .trainer-name-display { font-weight: 900; color: #1e293b; font-size: 20px; line-height: 1; }
+        .trainer-name-block { display: flex; flex-direction: column; align-items: center; width: 100%; text-align: center; }
+        /* Cool distinct font for Trainer Name */
+        .trainer-name-display { font-family: 'Fredoka', sans-serif; font-weight: 600; color: #1e293b; font-size: 34px; line-height: 1; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+        .trainer-title-label { font-size: 13px; text-transform: uppercase; font-weight: 900; color: #3b82f6; letter-spacing: 0.5px; line-height: 1; }
+        
         .progression-track { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 15px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
-        .badge-wrapper { display: flex; align-items: center; justify-content: center; }
-        #current-badge { width: 55px; height: 55px; object-fit: contain; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15)); transition: transform 0.3s ease; }
-        #next-badge { width: 40px; height: 40px; object-fit: contain; filter: grayscale(1) opacity(0.4); }
+        
+        /* Badges in identical sized containers */
+        .badge-wrapper { width: 55px; height: 55px; flex-shrink: 0; background: #ffffff; padding: 6px; box-sizing: border-box; border-radius: 12px; border: 2px solid #e2e8f0; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        #current-badge, #next-badge { width: 100%; height: 100%; max-width: 40px; max-height: 40px; object-fit: contain; }
+        #current-badge { filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); transition: transform 0.3s ease; }
+        #next-badge { filter: grayscale(1) opacity(0.4); }
+        
         .xp-core { flex-grow: 1; display: flex; flex-direction: column; gap: 8px; }
         .xp-stats-row { display: flex; justify-content: space-between; align-items: flex-end; }
-        .level-pill { background: #ede9fe; color: #7c3aed; padding: 4px 10px; border-radius: 8px; font-size: 13px; font-weight: 900; border: 1px solid #ddd6fe; }
-        .xp-numbers { font-size: 13px; font-weight: 800; color: #64748b; }
-        .xp-bar-track { width: 100%; height: 16px; background: #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.08); }
-        #xp-progress-bar { height: 100%; background: linear-gradient(90deg, #3b82f6, #8b5cf6, #d946ef); width: 0%; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 8px; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1); }
+        
+        /* Match XP Pill to LVL Pill style */
+        .level-pill { background: #ede9fe; color: #7c3aed; padding: 4px 10px; border-radius: 8px; font-size: 13px; font-weight: 900; border: 1px solid #ddd6fe; display: inline-block; }
+        .xp-pill { background: #e0f2fe; color: #0369a1; padding: 4px 10px; border-radius: 8px; font-size: 13px; font-weight: 900; border: 1px solid #bae6fd; display: inline-block; }
+        
+        /* Thinner XP Bar */
+        .xp-bar-track { width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.08); }
+        #xp-progress-bar { height: 100%; background: linear-gradient(90deg, #3b82f6, #8b5cf6, #d946ef); width: 0%; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 4px; box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1); }
 
-        .xp-container { width: 100%; height: 14px; background: #e2e8f0; border-radius: 7px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
+        .xp-container { width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
         #mini-xp-progress-bar { height: 100%; background: linear-gradient(90deg, #3b82f6, #8b5cf6); width: 0%; transition: width 0.5s ease-out; }
 
-        .menu-box { background: #f8fafc; padding: 15px; border-radius: 20px; margin-bottom: 15px; border: 2px solid #e2e8f0; transition: transform 0.2s; }
-        .menu-box:hover { transform: scale(1.02); border-color: #cbd5e1; }
-        .menu-box h3 { margin: 0 0 5px 0; color: #334155; font-size: 18px; font-weight: 800; }
-        .menu-box p { font-size: 13px; color: #64748b; margin-top: 0; margin-bottom: 12px; font-weight: 700; }
+        .menu-box { padding: 15px; border-radius: 20px; margin-bottom: 15px; border: 2px solid #e2e8f0; transition: transform 0.2s, border-color 0.2s; }
+        .menu-box:hover { transform: scale(1.02); }
+        .menu-box h3 { margin: 0 0 5px 0; color: #1e293b; font-size: 18px; font-weight: 900; }
+        .menu-box p { font-size: 13px; color: #475569; margin-top: 0; margin-bottom: 12px; font-weight: 700; }
         
-        .nav-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #f1f5f9; }
+        /* Menu Box Gradients */
+        .mode-guess { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-color: #bfdbfe; }
+        .mode-guess:hover { border-color: #93c5fd; box-shadow: 0 4px 12px rgba(59,130,246,0.15); }
+        
+        .mode-types { background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-color: #bbf7d0; }
+        .mode-types:hover { border-color: #86efac; box-shadow: 0 4px 12px rgba(16,185,129,0.15); }
+        
+        .mode-evolutions { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); border-color: #fde68a; }
+        .mode-evolutions:hover { border-color: #fcd34d; box-shadow: 0 4px 12px rgba(245,158,11,0.15); }
+        
+        .mode-trivia { background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border-color: #e9d5ff; }
+        .mode-trivia:hover { border-color: #d8b4fe; box-shadow: 0 4px 12px rgba(139,92,246,0.15); }
+
         .nav-btn { display: flex; align-items: center; gap: 6px; padding: 8px 16px; font-size: 14px; background-color: #e2e8f0; color: #475569; border: none; border-radius: 12px; cursor: pointer; font-weight: 800; transition: all 0.2s; }
         .nav-btn:hover { background-color: #cbd5e1; color: #1e293b; }
         
@@ -72,7 +95,7 @@
         .timer-warning { background: #f59e0b !important; }
         .timer-danger { background: #ef4444 !important; }
         
-        #username-input { width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; }
+        #username-input { width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; text-transform: uppercase; }
         #username-input:focus { outline: none; border-color: #3b82f6; }
         
         /* AVATAR SELECTION STYLES */
@@ -84,7 +107,7 @@
         
         .history-chip { display: inline-flex; align-items: stretch; background: #f1f5f9; border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; margin: 4px; transition: all 0.2s; }
         .history-chip:hover { border-color: #cbd5e1; }
-        .history-btn { padding: 8px 14px; background: transparent; color: #475569; border: none; font-weight: 800; font-family: 'Nunito', sans-serif; cursor: pointer; font-size: 14px; }
+        .history-btn { padding: 8px 14px; background: transparent; color: #475569; border: none; font-weight: 800; font-family: 'Nunito', sans-serif; cursor: pointer; font-size: 14px; text-transform: uppercase; }
         .history-btn:hover { background: #e2e8f0; color: #1e293b; }
         .delete-btn { padding: 8px 12px; background: #fee2e2; color: #ef4444; border: none; border-left: 2px solid #e2e8f0; cursor: pointer; font-weight: 900; font-size: 16px; display: flex; align-items: center; }
         .delete-btn:hover { background: #fca5a5; color: #b91c1c; }
@@ -108,8 +131,7 @@
         .bottom-dock { display: flex; justify-content: space-between; gap: 10px; margin-top: 25px; border-top: 2px solid #e2e8f0; padding-top: 20px; }
         .dock-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 16px; padding: 12px 5px; cursor: pointer; color: #475569; font-weight: 800; font-size: 13px; transition: all 0.2s; font-family: 'Nunito', sans-serif; }
         .dock-btn:hover { background: #eff6ff; border-color: #3b82f6; color: #3b82f6; transform: translateY(-3px); box-shadow: 0 4px 10px rgba(59,130,246,0.15); }
-        .dock-icon { font-size: 20px; }
-
+        
         /* --- MODAL STYLES --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 1000; }
         .modal-content { background: white; padding: 30px; border-radius: 24px; width: 360px; max-width: 90%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); text-align: left; }
@@ -117,12 +139,6 @@
         .modal-content::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
         
         .toggle-container { display: flex; justify-content: space-between; align-items: center; margin: 25px 0; font-weight: 800; color: #475569; font-size: 16px; }
-        .switch { position: relative; display: inline-block; width: 50px; height: 28px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 28px; }
-        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: #10b981; }
-        input:checked + .slider:before { transform: translateX(22px); }
 
         /* --- LEADERBOARD STYLES --- */
         .lb-row { display: flex; align-items: center; padding: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; margin-bottom: 10px; }
@@ -130,7 +146,7 @@
         .lb-rank.gold { color: #f59e0b; font-size: 22px; }
         .lb-avatar { width: 40px; height: 40px; border-radius: 10px; background: white; border: 2px solid #e2e8f0; object-fit: contain; margin: 0 12px; }
         .lb-details { flex-grow: 1; display: flex; flex-direction: column; }
-        .lb-name { font-weight: 800; color: #1e293b; font-size: 16px; }
+        .lb-name { font-weight: 800; color: #1e293b; font-size: 16px; text-transform: uppercase; }
         .lb-xp { font-weight: 700; color: #64748b; font-size: 12px; }
         .lb-level { background: #ede9fe; color: #7c3aed; padding: 4px 10px; border-radius: 8px; font-size: 13px; font-weight: 900; }
 
@@ -177,23 +193,24 @@
 
     <div id="settings-modal" class="modal-overlay hidden">
         <div class="modal-content">
-            <h3 style="margin-top: 0; color: #1e293b; font-size: 24px; font-weight: 900;">Settings</h3>
-            <div class="toggle-container">
-                <span>Sound Effects</span>
-                <label class="switch">
-                    <input type="checkbox" id="sound-toggle" checked onchange="toggleSound()">
-                    <span class="slider round"></span>
-                </label>
+            <h3 style="margin-top: 0; color: #1e293b; font-size: 24px; font-weight: 900; margin-bottom: 20px;">Settings</h3>
+            
+            <button id="sound-btn" class="primary-btn btn-green" onclick="toggleSound()" style="margin-bottom: 25px;">Sound Effects: ON 🔊</button>
+            
+            <div id="in-game-settings-btns" class="hidden" style="margin-bottom: 15px; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px;">
+                <button class="primary-btn btn-blue" onclick="restartGame(); toggleSettings();">Restart Game</button>
+                <button class="primary-btn btn-purple" style="margin-bottom: 0;" onclick="goHome(); toggleSettings();">Return Home</button>
             </div>
+
             <button class="primary-btn btn-orange" onclick="logoutUser(); toggleSettings();">Logout Trainer</button>
-            <button class="primary-btn btn-blue" style="margin-bottom: 0;" onclick="toggleSettings()">Close Settings</button>
+            <button class="primary-btn" style="background: #e2e8f0; color: #475569; margin-bottom: 0; box-shadow: 0 4px 0 #cbd5e1;" onclick="toggleSettings()">Close</button>
         </div>
     </div>
 
     <div id="leaderboard-modal" class="modal-overlay hidden">
         <div class="modal-content">
             <h3 style="margin-top: 0; color: #1e293b; font-size: 24px; font-weight: 900; display: flex; align-items: center; gap: 10px;">
-                <span>🏆</span> Hall of Fame
+                <img src="rankings.png" alt="Rankings" style="width: 32px; height: 32px;"> Hall of Fame
             </h3>
             <p style="font-size: 13px; color: #64748b; margin-bottom: 20px; font-weight: 700;">Top trainers ranked by highest Level.</p>
             
@@ -206,7 +223,7 @@
     <div id="pokedex-modal" class="modal-overlay hidden">
         <div class="modal-content">
             <h3 style="margin-top: 0; color: #1e293b; font-size: 24px; font-weight: 900; display: flex; align-items: center; gap: 10px;">
-                <span>📖</span> Pokédex
+                <img src="pokedex.png" alt="Pokédex" style="width: 32px; height: 32px;"> Pokédex
             </h3>
             
             <div class="dex-total-header">
@@ -276,8 +293,8 @@
                             <img id="trainer-display-avatar" src="" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">
                         </div>
                         <div class="trainer-name-block">
-                            <span class="trainer-title-label">Verified Trainer</span>
                             <span id="display-name" class="trainer-name-display"></span>
+                            <span class="trainer-title-label" id="trainer-dynamic-title">Rookie Trainer</span>
                         </div>
                     </div>
                 </div>
@@ -287,7 +304,7 @@
                     <div class="xp-core">
                         <div class="xp-stats-row">
                             <div class="level-pill">LVL <span id="display-level">1</span></div>
-                            <div class="xp-numbers"><span id="display-xp">0/100 XP</span></div>
+                            <div class="xp-pill"><span id="display-xp">0/100 XP</span></div>
                         </div>
                         <div class="xp-bar-track"><div id="xp-progress-bar"></div></div>
                     </div>
@@ -296,53 +313,48 @@
             </div>
 
             <p class="subtitle" style="margin-top: 10px;">Choose your challenge!</p>
-            <div class="menu-box">
-                <h3>GUESS MODE</h3><p>Identify the Pokémon from its silhouette.</p>
-                <button class="primary-btn btn-blue" onclick="startGame('GUESS')">Play Guess Mode</button>
+            <div class="menu-box mode-guess">
+                <h3>WHO'S THAT POKÉMON</h3><p>Identify the Pokémon from its silhouette.</p>
+                <button class="primary-btn btn-blue" onclick="startGame('GUESS')">Play Who's That Pokémon</button>
             </div>
-            <div class="menu-box">
+            <div class="menu-box mode-types">
                 <h3>TYPES MODE</h3><p>Test your knowledge on elemental types.</p>
                 <button class="primary-btn btn-green" onclick="startGame('TYPES')">Play Types Mode</button>
             </div>
-            <div class="menu-box">
+            <div class="menu-box mode-evolutions">
                 <h3>EVOLUTIONS MODE</h3><p>Who does this Pokémon evolve into?</p>
                 <button class="primary-btn btn-orange" onclick="startGame('EVOLUTIONS')">Play Evolutions Mode</button>
             </div>
-            <div class="menu-box" style="margin-bottom: 0;">
+            <div class="menu-box mode-trivia" style="margin-bottom: 0;">
                 <h3>TRIVIA MODE</h3><p>Regions, types, and weaknesses!</p>
                 <button class="primary-btn btn-purple" onclick="startGame('TRIVIA')">Play Trivia Mode</button>
             </div>
 
             <div class="bottom-dock">
                 <div class="dock-btn" onclick="openPokedex()">
-                    <span class="dock-icon">📖</span>
+                    <img src="pokedex.png" alt="Pokédex" style="width: 36px; height: 36px;">
                     <span>Pokédex</span>
                 </div>
                 <div class="dock-btn" onclick="openLeaderboard()">
-                    <span class="dock-icon">🏆</span>
+                    <img src="rankings.png" alt="Rankings" style="width: 36px; height: 36px;">
                     <span>Rankings</span>
                 </div>
                 <div class="dock-btn" onclick="toggleSettings()">
-                    <span class="dock-icon">⚙️</span>
+                    <img src="settings.png" alt="Settings" style="width: 36px; height: 36px;">
                     <span>Settings</span>
                 </div>
             </div>
         </div>
 
         <div id="game-screen" class="hidden">
-            <div class="nav-bar">
-                <button class="nav-btn" onclick="goHome()">Home</button>
-                <button class="nav-btn" onclick="restartGame()">Restart</button>
-            </div>
-
-            <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="mini-game-logo">
+            <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="mini-game-logo" style="margin-top: 10px;">
 
             <div style="margin-bottom: 15px; background: #f0f9ff; padding: 10px; border-radius: 12px; border: 2px solid #bae6fd; text-align: left;">
                 <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 800; color: #334155; margin-bottom: 5px;">
                     <span>Level <span id="mini-display-level" style="color:#8b5cf6;">1</span></span>
                     <span><span id="mini-display-xp">0/100 XP</span></span>
                 </div>
-                <div class="xp-container" style="height: 10px;">
+                <div class="xp-container" style="height: 8px;">
                     <div id="mini-xp-progress-bar"></div>
                 </div>
             </div>
@@ -368,6 +380,21 @@
                 <div id="question-text"></div>
                 <img id="pokemon-image" src="" alt="Pokemon">
                 <div id="options"></div>
+            </div>
+
+            <div class="bottom-dock" style="margin-top: 25px; padding-top: 15px;">
+                <div class="dock-btn" onclick="openPokedex()">
+                    <img src="pokedex.png" alt="Pokédex" style="width: 36px; height: 36px;">
+                    <span>Pokédex</span>
+                </div>
+                <div class="dock-btn" onclick="openLeaderboard()">
+                    <img src="rankings.png" alt="Rankings" style="width: 36px; height: 36px;">
+                    <span>Rankings</span>
+                </div>
+                <div class="dock-btn" onclick="toggleSettings()">
+                    <img src="settings.png" alt="Settings" style="width: 36px; height: 36px;">
+                    <span>Settings</span>
+                </div>
             </div>
         </div>
 
@@ -415,6 +442,7 @@
         
         let timerInterval;
         let timeLeft = TIME_LIMIT;
+        let isPaused = false;
 
         // --- DOM ELEMENTS ---
         const loginScreen = document.getElementById('login-screen'), homeScreen = document.getElementById('home-screen'), gameScreen = document.getElementById('game-screen'), endScreen = document.getElementById('end-screen'), gameContent = document.getElementById('game-content'), questionCountEl = document.getElementById('question-count'), scoreEl = document.getElementById('score'), questionTextEl = document.getElementById('question-text'), imageEl = document.getElementById('pokemon-image'), optionsEl = document.getElementById('options'), loadingText = document.getElementById('loading-text'), finalScoreEl = document.getElementById('final-score'), endMessageEl = document.getElementById('end-message');
@@ -433,8 +461,37 @@
         };
 
         // --- SETTINGS LOGIC ---
-        function toggleSettings() { document.getElementById('settings-modal').classList.toggle('hidden'); }
-        function toggleSound() { isSoundEnabled = document.getElementById('sound-toggle').checked; }
+        function toggleSettings() { 
+            const modal = document.getElementById('settings-modal');
+            const inGameBtns = document.getElementById('in-game-settings-btns');
+            
+            // Show Game Navigation buttons only if game screen is active
+            if (!gameScreen.classList.contains('hidden')) {
+                inGameBtns.classList.remove('hidden');
+            } else {
+                inGameBtns.classList.add('hidden');
+            }
+            
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                isPaused = true;
+            } else {
+                modal.classList.add('hidden');
+                isPaused = false;
+            }
+        }
+
+        function toggleSound() { 
+            isSoundEnabled = !isSoundEnabled; 
+            const btn = document.getElementById('sound-btn');
+            if (isSoundEnabled) {
+                btn.className = 'primary-btn btn-green';
+                btn.innerHTML = 'Sound Effects: ON 🔊';
+            } else {
+                btn.className = 'primary-btn btn-orange';
+                btn.innerHTML = 'Sound Effects: OFF 🔇';
+            }
+        }
 
         // --- LEADERBOARD LOGIC ---
         function openLeaderboard() {
@@ -469,8 +526,12 @@
             });
 
             document.getElementById('leaderboard-modal').classList.remove('hidden');
+            isPaused = true;
         }
-        function closeLeaderboard() { document.getElementById('leaderboard-modal').classList.add('hidden'); }
+        function closeLeaderboard() { 
+            document.getElementById('leaderboard-modal').classList.add('hidden');
+            isPaused = false;
+        }
 
         // --- POKEDEX LOGIC ---
         function openPokedex() {
@@ -504,8 +565,12 @@
             });
 
             document.getElementById('pokedex-modal').classList.remove('hidden');
+            isPaused = true;
         }
-        function closePokedex() { document.getElementById('pokedex-modal').classList.add('hidden'); }
+        function closePokedex() { 
+            document.getElementById('pokedex-modal').classList.add('hidden');
+            isPaused = false;
+        }
 
         function toggleRegionGrid(regionIndex) {
             const grid = document.getElementById(`dex-grid-${regionIndex}`);
@@ -535,24 +600,33 @@
         // --- TIMER LOGIC ---
         function startTimer() {
             clearInterval(timerInterval);
+            isPaused = false;
             timeLeft = TIME_LIMIT;
             
             timerWrapper.classList.remove('hidden');
-            timerText.innerText = timeLeft + 's';
-            timerBar.style.width = '100%';
-            timerBar.className = ''; 
+            updateTimerUI();
             
             timerInterval = setInterval(() => {
-                timeLeft--;
-                timerText.innerText = timeLeft + 's';
-                const percentage = (timeLeft / TIME_LIMIT) * 100;
-                timerBar.style.width = percentage + '%';
-
-                if (timeLeft <= 5 && timeLeft > 3) timerBar.className = 'timer-warning';
-                else if (timeLeft <= 3) timerBar.className = 'timer-danger';
-
-                if (timeLeft <= 0) handleTimeOut();
+                if(!isPaused) {
+                    timeLeft--;
+                    updateTimerUI();
+                    if (timeLeft <= 0) handleTimeOut();
+                }
             }, 1000);
+        }
+
+        function updateTimerUI() {
+            timerText.innerText = timeLeft + 's';
+            const percentage = (timeLeft / TIME_LIMIT) * 100;
+            timerBar.style.width = percentage + '%';
+
+            if (timeLeft <= 5 && timeLeft > 3) {
+                timerBar.className = 'timer-warning';
+            } else if (timeLeft <= 3) {
+                timerBar.className = 'timer-danger';
+            } else {
+                timerBar.className = '';
+            }
         }
 
         function handleTimeOut() {
@@ -606,8 +680,12 @@
             document.getElementById('search-error').style.display = 'none';
             tempAvatarUrl = selectedAvatarUrl;
             document.getElementById('modal-avatar-img').src = tempAvatarUrl;
+            isPaused = true;
         }
-        function closeAvatarModal() { document.getElementById('avatar-modal').classList.add('hidden'); }
+        function closeAvatarModal() { 
+            document.getElementById('avatar-modal').classList.add('hidden');
+            isPaused = false;
+        }
 
         async function searchAvatar() {
             const query = document.getElementById('pokemon-search').value.trim().toLowerCase();
@@ -744,6 +822,17 @@
             document.getElementById('mini-display-xp').innerText = progressXP + "/100 XP";
             document.getElementById('mini-xp-progress-bar').style.width = `${progressXP}%`;
 
+            // Calculate Dynamic Title Based on Level
+            let title = "Rookie Trainer";
+            if (level >= 100) title = "Pokémon Master";
+            else if (level >= 80) title = "League Champion";
+            else if (level >= 60) title = "Elite Four";
+            else if (level >= 40) title = "Gym Leader";
+            else if (level >= 20) title = "Ace Trainer";
+            
+            const titleElement = document.getElementById('trainer-dynamic-title');
+            if(titleElement) titleElement.innerText = title;
+
             updateBadgeDisplay(level);
         }
 
@@ -771,6 +860,7 @@
         // --- GAME PLAY LOGIC ---
         function startGame(mode) {
             clearInterval(timerInterval);
+            isPaused = false;
             currentMode = mode; currentQuestion = 0; score = 0;
             scoreEl.innerText = score;
             homeScreen.classList.add('hidden');
@@ -782,6 +872,7 @@
         function restartGame() { startGame(currentMode); }
         function goHome() { 
             clearInterval(timerInterval);
+            isPaused = false;
             gameScreen.classList.add('hidden'); 
             endScreen.classList.add('hidden'); 
             homeScreen.classList.remove('hidden'); 
@@ -804,6 +895,7 @@
             if (currentQuestion >= TOTAL_QUESTIONS) return endGame();
 
             clearInterval(timerInterval);
+            isPaused = false;
             timerWrapper.classList.add('hidden');
             
             gameContent.style.opacity = 0;
@@ -929,6 +1021,7 @@
 
         function handleGuess(clickedBtn, isCorrect) {
             clearInterval(timerInterval);
+            isPaused = false;
 
             if (currentMode === 'GUESS') imageEl.className = 'revealed'; 
 
@@ -989,6 +1082,7 @@
 
         function endGame() {
             clearInterval(timerInterval);
+            isPaused = false;
             gameScreen.classList.add('hidden');
             endScreen.classList.remove('hidden');
             finalScoreEl.innerText = score;
