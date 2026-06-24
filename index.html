@@ -83,6 +83,8 @@
         .nav-btn { display: flex; align-items: center; gap: 6px; padding: 8px 16px; font-size: 14px; background-color: #e2e8f0; color: #475569; border: none; border-radius: 12px; cursor: pointer; font-weight: 800; transition: all 0.2s; }
         .nav-btn:hover { background-color: #cbd5e1; color: #1e293b; }
         
+        /* Used on Game Screen */
+        .mini-xp-box { margin-bottom: 15px; background: #f0f9ff; padding: 10px; border-radius: 12px; border: 2px solid #bae6fd; text-align: left; }
         .stats { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 18px; font-weight: 800; color: #334155; background: #f1f5f9; padding: 10px 20px; border-radius: 15px; position: relative; }
         
         /* TIMER UI STYLES */
@@ -129,6 +131,8 @@
 
         /* --- ACTION DOCK (BOTTOM NAV) --- */
         .bottom-dock { display: flex; justify-content: space-between; gap: 10px; margin-top: 25px; border-top: 2px solid #e2e8f0; padding-top: 20px; }
+        .game-dock { margin-top: 25px; padding-top: 15px; } /* Used strictly on the game playing screen */
+        
         .dock-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 16px; padding: 12px 5px; cursor: pointer; color: #475569; font-weight: 800; font-size: 13px; transition: all 0.2s; font-family: 'Nunito', sans-serif; }
         .dock-btn:hover { background: #eff6ff; border-color: #3b82f6; color: #3b82f6; transform: translateY(-3px); box-shadow: 0 4px 10px rgba(59,130,246,0.15); }
         
@@ -179,13 +183,25 @@
         @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
         #loading-text { font-size: 18px; font-weight: 800; color: #64748b; animation: pulse 1.5s infinite ease-in-out; margin: 40px 0; }
         
+        /* --- MOBILE OPTIMIZATIONS --- */
         @media (max-width: 480px) {
-            body { padding: 0; align-items: stretch; }
-            #app { width: 100%; min-height: 100vh; border-radius: 0; padding: 25px 20px; box-shadow: none; }
-            #pokemon-image { width: 160px; height: 160px; }
+            body { padding: 0; align-items: flex-start; }
+            #app { width: 100%; min-height: 100vh; border-radius: 0; padding: env(safe-area-inset-top, 20px) 15px 15px 15px; box-shadow: none; }
             #home-screen h1, #login-screen h1 { font-size: 26px; }
-            .option-btn { padding: 13px; font-size: 15px; }
-            .primary-btn { padding: 13px 16px; font-size: 15px; }
+            
+            /* Game Screen specific vertical squishing for mobile */
+            #game-screen .mini-game-logo { width: 110px; margin: 0 auto 10px auto; }
+            .mini-xp-box { margin-bottom: 10px !important; padding: 8px !important; }
+            .stats { padding: 8px 15px !important; font-size: 15px !important; margin-bottom: 10px !important; }
+            #timer-wrapper { margin-bottom: 10px !important; }
+            #question-text { font-size: 17px !important; margin: 5px 0 10px 0 !important; min-height: 22px !important; }
+            #pokemon-image { width: 125px !important; height: 125px !important; margin: 0 auto 5px auto !important; }
+            .option-btn { padding: 11px !important; margin: 6px 0 !important; font-size: 15px !important; }
+            .game-dock { margin-top: 15px !important; padding-top: 10px !important; }
+            #game-content { min-height: 280px !important; }
+            .bottom-dock .dock-btn img { width: 28px !important; height: 28px !important; }
+            
+            .primary-btn { padding: 12px 16px; font-size: 14px; }
         }
     </style>
 </head>
@@ -349,12 +365,12 @@
         <div id="game-screen" class="hidden">
             <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="mini-game-logo" style="margin-top: 10px;">
 
-            <div style="margin-bottom: 15px; background: #f0f9ff; padding: 10px; border-radius: 12px; border: 2px solid #bae6fd; text-align: left;">
+            <div class="mini-xp-box">
                 <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 800; color: #334155; margin-bottom: 5px;">
                     <span>Level <span id="mini-display-level" style="color:#8b5cf6;">1</span></span>
                     <span><span id="mini-display-xp">0/100 XP</span></span>
                 </div>
-                <div class="xp-container" style="height: 8px;">
+                <div class="xp-container">
                     <div id="mini-xp-progress-bar"></div>
                 </div>
             </div>
@@ -382,7 +398,7 @@
                 <div id="options"></div>
             </div>
 
-            <div class="bottom-dock" style="margin-top: 25px; padding-top: 15px;">
+            <div class="bottom-dock game-dock">
                 <div class="dock-btn" onclick="openPokedex()">
                     <img src="pokedex.png" alt="Pokédex" style="width: 36px; height: 36px;">
                     <span>Pokédex</span>
