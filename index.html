@@ -130,11 +130,14 @@
         .btn-blue { background-color: #3b82f6; box-shadow: 0 4px 0 #2563eb; } .btn-green { background-color: #10b981; box-shadow: 0 4px 0 #059669; } .btn-orange { background-color: #f59e0b; box-shadow: 0 4px 0 #d97706; } .btn-purple { background-color: #8b5cf6; box-shadow: 0 4px 0 #7c3aed; }
 
         /* --- ACTION DOCK (BOTTOM NAV) --- */
-        .bottom-dock { display: flex; justify-content: space-between; gap: 10px; margin-top: 25px; border-top: 2px solid #e2e8f0; padding-top: 20px; }
+        .bottom-dock { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; margin-top: 25px; border-top: 2px solid #e2e8f0; padding-top: 20px; }
         .game-dock { margin-top: 25px; padding-top: 15px; } /* Used strictly on the game playing screen */
         
-        .dock-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 16px; padding: 12px 5px; cursor: pointer; color: #475569; font-weight: 800; font-size: 13px; transition: all 0.2s; font-family: 'Nunito', sans-serif; }
-        .dock-btn:hover { background: #eff6ff; border-color: #3b82f6; color: #3b82f6; transform: translateY(-3px); box-shadow: 0 4px 10px rgba(59,130,246,0.15); }
+        .dock-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; background: transparent; border: none; padding: 0; cursor: pointer; transition: transform 0.2s, filter 0.2s; outline: none; }
+        .dock-btn:hover { transform: translateY(-4px) scale(1.02); filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15)); }
+        .dock-btn:active { transform: translateY(0) scale(0.95); }
+        .dock-btn img { height: 68px; width: 100%; object-fit: contain; display: block; margin-bottom: 6px; }
+        .dock-btn span { font-size: 11px; font-weight: 800; color: #64748b; font-family: 'Nunito', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; }
         
         /* --- MODAL STYLES --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 1000; }
@@ -199,9 +202,9 @@
             .option-btn { padding: 11px !important; margin: 6px 0 !important; font-size: 15px !important; }
             .game-dock { margin-top: 15px !important; padding-top: 10px !important; }
             #game-content { min-height: 280px !important; }
-            .bottom-dock .dock-btn img { width: 28px !important; height: 28px !important; }
             
             .primary-btn { padding: 12px 16px; font-size: 14px; }
+            .dock-btn img { height: 55px; } /* Slightly smaller for mobile, but increased from before */
         }
     </style>
 </head>
@@ -226,7 +229,7 @@
     <div id="leaderboard-modal" class="modal-overlay hidden">
         <div class="modal-content">
             <h3 style="margin-top: 0; color: #1e293b; font-size: 24px; font-weight: 900; display: flex; align-items: center; gap: 10px;">
-                <img src="rankings.png" alt="Rankings" style="width: 32px; height: 32px;"> Hall of Fame
+                <img src="leaderboard.png" alt="Leaderboard" style="width: 32px; height: 32px;"> Leaderboard
             </h3>
             <p style="font-size: 13px; color: #64748b; margin-bottom: 20px; font-weight: 700;">Top trainers ranked by highest Level.</p>
             
@@ -347,18 +350,18 @@
             </div>
 
             <div class="bottom-dock">
-                <div class="dock-btn" onclick="openPokedex()">
-                    <img src="pokedex.png" alt="Pokédex" style="width: 36px; height: 36px;">
+                <button class="dock-btn" onclick="openPokedex()">
+                    <img src="pokedex.png" alt="Pokédex">
                     <span>Pokédex</span>
-                </div>
-                <div class="dock-btn" onclick="openLeaderboard()">
-                    <img src="rankings.png" alt="Rankings" style="width: 36px; height: 36px;">
-                    <span>Rankings</span>
-                </div>
-                <div class="dock-btn" onclick="toggleSettings()">
-                    <img src="settings.png" alt="Settings" style="width: 36px; height: 36px;">
+                </button>
+                <button class="dock-btn" onclick="openLeaderboard()">
+                    <img src="leaderboard.png" alt="Leaderboard">
+                    <span>Leaderboard</span>
+                </button>
+                <button class="dock-btn" onclick="toggleSettings()">
+                    <img src="settings.png" alt="Settings">
                     <span>Settings</span>
-                </div>
+                </button>
             </div>
         </div>
 
@@ -399,18 +402,18 @@
             </div>
 
             <div class="bottom-dock game-dock">
-                <div class="dock-btn" onclick="openPokedex()">
-                    <img src="pokedex.png" alt="Pokédex" style="width: 36px; height: 36px;">
+                <button class="dock-btn" onclick="openPokedex()">
+                    <img src="pokedex.png" alt="Pokédex">
                     <span>Pokédex</span>
-                </div>
-                <div class="dock-btn" onclick="openLeaderboard()">
-                    <img src="rankings.png" alt="Rankings" style="width: 36px; height: 36px;">
-                    <span>Rankings</span>
-                </div>
-                <div class="dock-btn" onclick="toggleSettings()">
-                    <img src="settings.png" alt="Settings" style="width: 36px; height: 36px;">
+                </button>
+                <button class="dock-btn" onclick="openLeaderboard()">
+                    <img src="leaderboard.png" alt="Leaderboard">
+                    <span>Leaderboard</span>
+                </button>
+                <button class="dock-btn" onclick="toggleSettings()">
+                    <img src="settings.png" alt="Settings">
                     <span>Settings</span>
-                </div>
+                </button>
             </div>
         </div>
 
