@@ -35,6 +35,9 @@
         .trainer-avatar-bg::after { content: '✎'; position: absolute; bottom: 4px; right: 4px; background: #3b82f6; color: white; font-size: 12px; width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.2s; }
         .trainer-avatar-bg:hover::after { opacity: 1; }
         
+        .clickable-name-block { cursor: pointer; transition: transform 0.2s, background 0.2s; padding: 5px 15px; border-radius: 12px; }
+        .clickable-name-block:hover { transform: scale(1.03); background: rgba(59, 130, 246, 0.08); }
+
         .trainer-name-block { display: flex; flex-direction: column; align-items: center; width: 100%; text-align: center; }
         /* Cool distinct font for Trainer Name */
         .trainer-name-display { font-family: 'Fredoka', sans-serif; font-weight: 600; color: #1e293b; font-size: 34px; line-height: 1; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
@@ -204,11 +207,54 @@
             #game-content { min-height: 280px !important; }
             
             .primary-btn { padding: 12px 16px; font-size: 14px; }
-            .dock-btn img { height: 55px; } /* Slightly smaller for mobile, but increased from before */
+            .dock-btn img { height: 55px; } /* Mobile size */
         }
     </style>
 </head>
 <body>
+
+    <div id="trainer-modal" class="modal-overlay hidden">
+        <div class="modal-content" style="padding: 0; overflow: hidden; border: 4px solid #cbd5e1;">
+            <div style="background: linear-gradient(90deg, #3b82f6, #8b5cf6); padding: 20px; text-align: center; color: white;">
+                 <h2 style="margin: 0; text-transform: uppercase; letter-spacing: 2px;">Trainer ID Card</h2>
+            </div>
+            <div style="padding: 25px;">
+                <div style="display: flex; gap: 20px; align-items: center; border-bottom: 2px dashed #e2e8f0; padding-bottom: 20px; margin-bottom: 20px;">
+                    <div class="trainer-avatar-bg" style="width: 90px; height: 90px; cursor: default;">
+                        <img id="tc-avatar" src="" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div>
+                        <div id="tc-name" style="font-family: 'Fredoka', sans-serif; font-size: 28px; color: #1e293b; text-transform: uppercase;">Name</div>
+                        <div id="tc-title" style="font-size: 14px; font-weight: 900; color: #3b82f6; text-transform: uppercase;">Title</div>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
+                            <img id="tc-badge" src="" style="width: 30px; height: 30px;">
+                            <span style="font-size: 14px; font-weight: 800; color: #64748b;">Lv. <span id="tc-level"></span></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div style="background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center;">
+                        <div style="font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase;">Total XP</div>
+                        <div id="tc-xp" style="font-size: 20px; font-weight: 900; color: #8b5cf6;">0</div>
+                    </div>
+                    <div style="background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center;">
+                        <div style="font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase;">Pokémon Seen</div>
+                        <div id="tc-seen" style="font-size: 20px; font-weight: 900; color: #3b82f6;">0</div>
+                    </div>
+                    <div style="background: #f0fdf4; padding: 12px; border-radius: 12px; border: 1px solid #bbf7d0; text-align: center;">
+                        <div style="font-size: 11px; font-weight: 800; color: #16a34a; text-transform: uppercase;">Correct</div>
+                        <div id="tc-right" style="font-size: 20px; font-weight: 900; color: #22c55e;">0</div>
+                    </div>
+                    <div style="background: #fef2f2; padding: 12px; border-radius: 12px; border: 1px solid #fecaca; text-align: center;">
+                        <div style="font-size: 11px; font-weight: 800; color: #dc2626; text-transform: uppercase;">Incorrect</div>
+                        <div id="tc-wrong" style="font-size: 20px; font-weight: 900; color: #ef4444;">0</div>
+                    </div>
+                </div>
+                <button class="primary-btn btn-blue" style="margin-top: 25px; margin-bottom: 0;" onclick="closeTrainerCard()">Close ID Card</button>
+            </div>
+        </div>
+    </div>
 
     <div id="settings-modal" class="modal-overlay hidden">
         <div class="modal-content">
@@ -311,7 +357,7 @@
                         <div class="trainer-avatar-bg" onclick="openAvatarModal()" title="Change Avatar">
                             <img id="trainer-display-avatar" src="" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">
                         </div>
-                        <div class="trainer-name-block">
+                        <div class="trainer-name-block clickable-name-block" onclick="openTrainerCard()" title="View ID Card">
                             <span id="display-name" class="trainer-name-display"></span>
                             <span class="trainer-title-label" id="trainer-dynamic-title">Rookie Trainer</span>
                         </div>
@@ -381,7 +427,7 @@
             <div class="stats">
                 <span>Q: <span id="question-count">1</span>/20</span>
                 <div id="feedback-overlay" class="hidden"><div id="feedback-icon"></div></div>
-                <span>Score: <span id="score">0</span></span>
+                <span>XP: <span id="session-xp-display" style="color: #8b5cf6;">0</span></span>
             </div>
             
             <div id="timer-wrapper" class="hidden">
@@ -421,10 +467,28 @@
             <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="mini-game-logo" style="margin-bottom: 20px;">
             <h1 style="font-size: 36px; margin-bottom: 0;">Game Over!</h1>
             <h2 id="end-message"></h2>
-            <div style="background: #f1f5f9; padding: 15px; border-radius: 15px; margin-bottom: 25px;">
-                <p style="font-size: 18px; font-weight: 800; color: #64748b; margin: 0;">Your Final Score</p>
-                <p style="font-size: 32px; font-weight: 900; color: #1e293b; margin: 5px 0 0 0;"><span id="final-score">0</span>/20</p>
+            
+            <div style="background: #f1f5f9; padding: 20px; border-radius: 20px; margin-bottom: 25px;">
+                <p style="font-size: 16px; font-weight: 800; color: #64748b; margin: 0 0 15px 0; text-transform: uppercase;">Match Results</p>
+                
+                <div style="display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 2px dashed #cbd5e1; padding-bottom: 15px;">
+                    <div style="text-align: center; flex: 1;">
+                        <p style="font-size: 12px; font-weight: 800; color: #16a34a; margin: 0; text-transform: uppercase;">Right</p>
+                        <p id="end-right" style="font-size: 28px; font-weight: 900; color: #22c55e; margin: 5px 0 0 0;">0</p>
+                    </div>
+                    <div style="width: 2px; background: #cbd5e1;"></div>
+                    <div style="text-align: center; flex: 1;">
+                        <p style="font-size: 12px; font-weight: 800; color: #dc2626; margin: 0; text-transform: uppercase;">Missed</p>
+                        <p id="end-wrong" style="font-size: 28px; font-weight: 900; color: #ef4444; margin: 5px 0 0 0;">0</p>
+                    </div>
+                </div>
+
+                <div style="text-align: center;">
+                    <p style="font-size: 14px; font-weight: 800; color: #8b5cf6; margin: 0; text-transform: uppercase;">Session XP Earned</p>
+                    <p style="font-size: 32px; font-weight: 900; color: #7c3aed; margin: 5px 0 0 0;">+<span id="end-session-xp">0</span> XP</p>
+                </div>
             </div>
+            
             <button class="primary-btn btn-blue" onclick="restartGame()">Play Again</button>
             <button class="primary-btn btn-purple" onclick="goHome()">Home Screen</button>
         </div>
@@ -452,9 +516,10 @@
         ];
 
         // --- GAME VARIABLES ---
-        let currentMode = 'GUESS', currentQuestion = 0, score = 0, correctAnswersAttribute = ''; 
-        let currentPokemonId = null; // Used for catching in Pokedex
+        let currentMode = 'GUESS', currentQuestion = 0, correctAnswersAttribute = ''; 
+        let currentPokemonId = null; // Used for catching in Pokedex & counting Seen
         let currentUser = null, currentXP = 0;
+        let sessionRight = 0, sessionWrong = 0, sessionXP = 0; // Game session stats
         let isSoundEnabled = true;
         let selectedAvatarUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
         let knownUsers = JSON.parse(localStorage.getItem('knownPokeUsers')) || [];
@@ -464,8 +529,9 @@
         let isPaused = false;
 
         // --- DOM ELEMENTS ---
-        const loginScreen = document.getElementById('login-screen'), homeScreen = document.getElementById('home-screen'), gameScreen = document.getElementById('game-screen'), endScreen = document.getElementById('end-screen'), gameContent = document.getElementById('game-content'), questionCountEl = document.getElementById('question-count'), scoreEl = document.getElementById('score'), questionTextEl = document.getElementById('question-text'), imageEl = document.getElementById('pokemon-image'), optionsEl = document.getElementById('options'), loadingText = document.getElementById('loading-text'), finalScoreEl = document.getElementById('final-score'), endMessageEl = document.getElementById('end-message');
+        const loginScreen = document.getElementById('login-screen'), homeScreen = document.getElementById('home-screen'), gameScreen = document.getElementById('game-screen'), endScreen = document.getElementById('end-screen'), gameContent = document.getElementById('game-content'), questionCountEl = document.getElementById('question-count'), questionTextEl = document.getElementById('question-text'), imageEl = document.getElementById('pokemon-image'), optionsEl = document.getElementById('options'), loadingText = document.getElementById('loading-text'), endMessageEl = document.getElementById('end-message');
         const timerWrapper = document.getElementById('timer-wrapper'), timerBar = document.getElementById('timer-bar'), timerText = document.getElementById('timer-text');
+        const sessionXPDisplay = document.getElementById('session-xp-display');
 
         window.onload = () => {
             const savedUser = localStorage.getItem('pokeUser');
@@ -479,12 +545,51 @@
             }
         };
 
+        // --- TRAINER ID CARD LOGIC ---
+        function openTrainerCard() {
+            document.getElementById('tc-avatar').src = selectedAvatarUrl;
+            document.getElementById('tc-name').innerText = currentUser;
+            
+            const level = Math.floor(currentXP / 100) + 1;
+            let title = "Rookie Trainer";
+            if (level >= 100) title = "Pokémon Master";
+            else if (level >= 80) title = "League Champion";
+            else if (level >= 60) title = "Elite Four";
+            else if (level >= 40) title = "Gym Leader";
+            else if (level >= 20) title = "Ace Trainer";
+            
+            document.getElementById('tc-title').innerText = title;
+            document.getElementById('tc-level').innerText = level;
+            
+            const badgeIndex = Math.min(Math.floor((level - 1) / 10), 9);
+            const badgeFiles = ["LV1-10.png", "LV10-20.png", "LV20-30.png", "LV30-40.png", "LV40-50.png", "LV50-60.png", "LV60-70.png", "LV70-80.png", "LV80-90.png", "LV90-100.png"];
+            document.getElementById('tc-badge').src = badgeFiles[badgeIndex];
+            
+            document.getElementById('tc-xp').innerText = currentXP;
+            
+            let seenDex = JSON.parse(localStorage.getItem('seen_' + currentUser)) || [];
+            document.getElementById('tc-seen').innerText = seenDex.length;
+            
+            let totalRight = parseInt(localStorage.getItem('stats_right_' + currentUser)) || 0;
+            document.getElementById('tc-right').innerText = totalRight;
+            
+            let totalWrong = parseInt(localStorage.getItem('stats_wrong_' + currentUser)) || 0;
+            document.getElementById('tc-wrong').innerText = totalWrong;
+            
+            document.getElementById('trainer-modal').classList.remove('hidden');
+            isPaused = true;
+        }
+
+        function closeTrainerCard() {
+            document.getElementById('trainer-modal').classList.add('hidden');
+            isPaused = false;
+        }
+
         // --- SETTINGS LOGIC ---
         function toggleSettings() { 
             const modal = document.getElementById('settings-modal');
             const inGameBtns = document.getElementById('in-game-settings-btns');
             
-            // Show Game Navigation buttons only if game screen is active
             if (!gameScreen.classList.contains('hidden')) {
                 inGameBtns.classList.remove('hidden');
             } else {
@@ -524,7 +629,6 @@
                 return { user, xp, level, avatar };
             });
 
-            // Sort by highest XP
             players.sort((a, b) => b.xp - a.xp);
 
             players.forEach((player, index) => {
@@ -673,6 +777,11 @@
                 }
             });
 
+            // Update stats
+            sessionWrong++;
+            let totalWrong = parseInt(localStorage.getItem('stats_wrong_' + currentUser)) || 0;
+            localStorage.setItem('stats_wrong_' + currentUser, totalWrong + 1);
+
             setTimeout(() => { loadNextQuestion(); }, 3000);
         }
 
@@ -786,10 +895,11 @@
                     localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
                 }
 
-                // Initialize Pokedex array if it doesn't exist
-                if (!localStorage.getItem('pokedex_' + currentUser)) {
-                    localStorage.setItem('pokedex_' + currentUser, JSON.stringify([]));
-                }
+                // Initialize tracking arrays if they don't exist
+                if (!localStorage.getItem('pokedex_' + currentUser)) localStorage.setItem('pokedex_' + currentUser, JSON.stringify([]));
+                if (!localStorage.getItem('seen_' + currentUser)) localStorage.setItem('seen_' + currentUser, JSON.stringify([]));
+                if (!localStorage.getItem('stats_right_' + currentUser)) localStorage.setItem('stats_right_' + currentUser, 0);
+                if (!localStorage.getItem('stats_wrong_' + currentUser)) localStorage.setItem('stats_wrong_' + currentUser, 0);
 
                 loadUserData(currentUser);
                 loginScreen.classList.add('hidden');
@@ -816,7 +926,10 @@
                 localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
                 localStorage.removeItem(`xp_${userToDelete}`);
                 localStorage.removeItem(`avatar_${userToDelete}`);
-                localStorage.removeItem(`pokedex_${userToDelete}`); // Delete their Pokedex too
+                localStorage.removeItem(`pokedex_${userToDelete}`);
+                localStorage.removeItem(`seen_${userToDelete}`);
+                localStorage.removeItem(`stats_right_${userToDelete}`);
+                localStorage.removeItem(`stats_wrong_${userToDelete}`);
                 renderUserHistory();
             }
         }
@@ -880,8 +993,12 @@
         function startGame(mode) {
             clearInterval(timerInterval);
             isPaused = false;
-            currentMode = mode; currentQuestion = 0; score = 0;
-            scoreEl.innerText = score;
+            currentMode = mode; 
+            currentQuestion = 0; 
+            sessionRight = 0; 
+            sessionWrong = 0; 
+            sessionXP = 0; 
+            sessionXPDisplay.innerText = sessionXP;
             homeScreen.classList.add('hidden');
             endScreen.classList.add('hidden');
             gameScreen.classList.remove('hidden');
@@ -925,7 +1042,14 @@
             gameContent.classList.add('hidden');
 
             const targetId = Math.floor(Math.random() * MAX_POKEMON_ID) + 1;
-            currentPokemonId = targetId; // Save globally to catch it later!
+            currentPokemonId = targetId; 
+            
+            // Add to "Seen" list
+            let seenDex = JSON.parse(localStorage.getItem('seen_' + currentUser)) || [];
+            if (!seenDex.includes(currentPokemonId)) {
+                seenDex.push(currentPokemonId);
+                localStorage.setItem('seen_' + currentUser, JSON.stringify(seenDex));
+            }
             
             const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${targetId}`);
             const mainPokemon = await res.json();
@@ -1067,15 +1191,21 @@
                 }
 
                 clickedBtn.classList.add('correct');
-                score++;
-                scoreEl.innerText = score;
                 
+                // Track correct answers for stats and session
+                sessionRight++;
+                let totalRight = parseInt(localStorage.getItem('stats_right_' + currentUser)) || 0;
+                localStorage.setItem('stats_right_' + currentUser, totalRight + 1);
+
                 const currentLevel = Math.floor(currentXP / 100) + 1;
                 let xpGain = 5;
                 if (currentLevel < 20) xpGain = 15;
                 else if (currentLevel < 40) xpGain = 10;
                 else if (currentLevel < 80) xpGain = 7;
                 
+                sessionXP += xpGain;
+                sessionXPDisplay.innerText = sessionXP;
+
                 currentXP += xpGain;
                 localStorage.setItem(`xp_${currentUser}`, currentXP);
                 updateXPUI();
@@ -1094,6 +1224,11 @@
                         btn.style.boxShadow = "0 0 0 transparent";
                     }
                 });
+
+                // Track incorrect answers for stats and session
+                sessionWrong++;
+                let totalWrong = parseInt(localStorage.getItem('stats_wrong_' + currentUser)) || 0;
+                localStorage.setItem('stats_wrong_' + currentUser, totalWrong + 1);
             }
 
             setTimeout(() => { loadNextQuestion(); }, delay);
@@ -1104,12 +1239,15 @@
             isPaused = false;
             gameScreen.classList.add('hidden');
             endScreen.classList.remove('hidden');
-            finalScoreEl.innerText = score;
+            
+            document.getElementById('end-right').innerText = sessionRight;
+            document.getElementById('end-wrong').innerText = sessionWrong;
+            document.getElementById('end-session-xp').innerText = sessionXP;
 
-            if (score === TOTAL_QUESTIONS) { endMessageEl.innerText = "Perfect Score! You are a true Pokémon Master! 🏆"; endMessageEl.style.color = "#10b981"; } 
-            else if (score >= 20) { endMessageEl.innerText = "Amazing Job! You really know your Pokémon! 🌟"; endMessageEl.style.color = "#3b82f6"; } 
-            else if (score >= 15) { endMessageEl.innerText = "Great work! Keep it up! 👍"; endMessageEl.style.color = "#8b5cf6"; } 
-            else if (score >= 10) { endMessageEl.innerText = "Good effort! You're getting there! 🙂"; endMessageEl.style.color = "#f59e0b"; } 
+            if (sessionRight === TOTAL_QUESTIONS) { endMessageEl.innerText = "Perfect Score! You are a true Pokémon Master! 🏆"; endMessageEl.style.color = "#10b981"; } 
+            else if (sessionRight >= 15) { endMessageEl.innerText = "Amazing Job! You really know your Pokémon! 🌟"; endMessageEl.style.color = "#3b82f6"; } 
+            else if (sessionRight >= 10) { endMessageEl.innerText = "Great work! Keep it up! 👍"; endMessageEl.style.color = "#8b5cf6"; } 
+            else if (sessionRight >= 5) { endMessageEl.innerText = "Good effort! You're getting there! 🙂"; endMessageEl.style.color = "#f59e0b"; } 
             else { endMessageEl.innerText = "Nice try! Keep practicing to catch 'em all! 🔴"; endMessageEl.style.color = "#ef4444"; }
         }
     </script>
