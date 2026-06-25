@@ -886,28 +886,70 @@
             }
         }
 
-        function loginUser() {
-            const nameInput = document.getElementById('username-input').value.trim();
-            if (nameInput) {
-                currentUser = nameInput;
-                localStorage.setItem('pokeUser', currentUser);
-                localStorage.setItem('avatar_' + currentUser, selectedAvatarUrl);
+      async function loginUser() {
+    const nameInput = document.getElementById('username-input').value.trim();
+    if (!nameInput) return;
 
-                if (!knownUsers.includes(currentUser)) {
-                    knownUsers.push(currentUser);
-                    localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
-                }
+    // Temporarily change button text so players know it's loading
+    const loginBtn = document.querySelector('#login-screen .btn-blue');
+    const originalText = loginBtn.innerText;
+    loginBtn.innerText = "Syncing with Server...";
+    loginBtn.disabled = true;
 
-                if (!localStorage.getItem('pokedex_' + currentUser)) localStorage.setItem('pokedex_' + currentUser, JSON.stringify([]));
-                if (!localStorage.getItem('seen_' + currentUser)) localStorage.setItem('seen_' + currentUser, JSON.stringify([]));
-                if (!localStorage.getItem('stats_right_' + currentUser)) localStorage.setItem('stats_right_' + currentUser, 0);
-                if (!localStorage.getItem('stats_wrong_' + currentUser)) localStorage.setItem('stats_wrong_' + currentUser, 0);
+    currentUser = nameInput;
 
-                loadUserData(currentUser);
-                loginScreen.classList.add('hidden');
-                homeScreen.classList.remove('hidden');
-            }
+    try {
+        // 1. Check the cloud FIRST
+        const docRef = db.collection("trainers").doc(currentUser);
+        const docSnap = await docRef.get();
+
+        if (docSnap.exists) {
+            // 2a. Returning Player: Pull their cloud data DOWN to the local device
+            const cloudData = docSnap.data();
+            
+            currentXP = cloudData.xp || 0;
+            selectedAvatarUrl = cloudData.avatar || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
+            
+            localStorage.setItem(`xp_${currentUser}`, currentXP);
+            localStorage.setItem(`avatar_${currentUser}`, selectedAvatarUrl);
+            
+            console.log("Profile successfully downloaded from the cloud!");
+        } else {
+            // 2b. New Player: Start fresh at 0
+            currentXP = 0;
+            localStorage.setItem(`xp_${currentUser}`, 0);
+            localStorage.setItem(`avatar_${currentUser}`, selectedAvatarUrl);
+            
+            console.log("New profile created!");
         }
+
+        // Initialize local arrays if they don't exist yet on this specific device
+        if (!localStorage.getItem(`pokedex_${currentUser}`)) localStorage.setItem(`pokedex_${currentUser}`, JSON.stringify([]));
+        if (!localStorage.getItem(`seen_${currentUser}`)) localStorage.setItem(`seen_${currentUser}`, JSON.stringify([]));
+        if (!localStorage.getItem(`stats_right_${currentUser}`)) localStorage.setItem(`stats_right_${currentUser}`, 0);
+        if (!localStorage.getItem(`stats_wrong_${currentUser}`)) localStorage.setItem(`stats_wrong_${currentUser}`, 0);
+
+        // 3. Finalize Local Setup
+        localStorage.setItem('pokeUser', currentUser);
+        if (!knownUsers.includes(currentUser)) {
+            knownUsers.push(currentUser);
+            localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
+        }
+
+        // 4. Update the UI and enter the game
+        loadUserData(currentUser); 
+        loginScreen.classList.add('hidden');
+        homeScreen.classList.remove('hidden');
+
+    } catch (error) {
+        console.error("Error logging in:", error);
+        alert("Failed to connect to the server. Please check your connection.");
+    } finally {
+        // Restore the login button
+        loginBtn.innerText = originalText;
+        loginBtn.disabled = false;
+    }
+}
 
         function logoutUser() {
             localStorage.removeItem('pokeUser');
