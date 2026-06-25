@@ -27,7 +27,6 @@
         .main-logo { width: 100%; max-width: 280px; height: auto; margin: 0 auto 20px auto; display: block; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15)); }
         .mini-game-logo { width: 140px; margin: -10px auto 15px auto; display: block; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
 
-        /* --- PREMIUM TRAINER CARD REDESIGN --- */
         .trainer-card { background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%); padding: 24px; border-radius: 24px; margin-bottom: 25px; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px rgba(0,0,0,0.05), inset 0 2px 0 rgba(255,255,255,1); text-align: left; position: relative; overflow: hidden; }
         .trainer-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
         .trainer-header { display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
@@ -841,7 +840,6 @@
                 localStorage.setItem('avatar_' + currentUser, selectedAvatarUrl);
                 document.getElementById('trainer-display-avatar').src = selectedAvatarUrl;
                 
-                // Sync updated avatar to Firebase
                 db.collection("trainers").doc(currentUser).set({
                     avatar: selectedAvatarUrl
                 }, { merge: true });
@@ -886,70 +884,72 @@
             }
         }
 
-      async function loginUser() {
-    const nameInput = document.getElementById('username-input').value.trim();
-    if (!nameInput) return;
+        // UPDATED: Syncs with cloud BEFORE creating profile and forces uppercase
+        async function loginUser() {
+            const rawName = document.getElementById('username-input').value.trim();
+            if (!rawName) return;
 
-    // Temporarily change button text so players know it's loading
-    const loginBtn = document.querySelector('#login-screen .btn-blue');
-    const originalText = loginBtn.innerText;
-    loginBtn.innerText = "Syncing with Server...";
-    loginBtn.disabled = true;
+            // FIX: Force uppercase to prevent duplicates caused by case-sensitivity
+            currentUser = rawName.toUpperCase();
 
-    currentUser = nameInput;
+            // Temporarily change button text so players know it's loading
+            const loginBtn = document.querySelector('#login-screen .btn-blue');
+            const originalText = loginBtn.innerText;
+            loginBtn.innerText = "Syncing with Server...";
+            loginBtn.disabled = true;
 
-    try {
-        // 1. Check the cloud FIRST
-        const docRef = db.collection("trainers").doc(currentUser);
-        const docSnap = await docRef.get();
+            try {
+                // Check the cloud FIRST
+                const docRef = db.collection("trainers").doc(currentUser);
+                const docSnap = await docRef.get();
 
-        if (docSnap.exists) {
-            // 2a. Returning Player: Pull their cloud data DOWN to the local device
-            const cloudData = docSnap.data();
-            
-            currentXP = cloudData.xp || 0;
-            selectedAvatarUrl = cloudData.avatar || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
-            
-            localStorage.setItem(`xp_${currentUser}`, currentXP);
-            localStorage.setItem(`avatar_${currentUser}`, selectedAvatarUrl);
-            
-            console.log("Profile successfully downloaded from the cloud!");
-        } else {
-            // 2b. New Player: Start fresh at 0
-            currentXP = 0;
-            localStorage.setItem(`xp_${currentUser}`, 0);
-            localStorage.setItem(`avatar_${currentUser}`, selectedAvatarUrl);
-            
-            console.log("New profile created!");
+                if (docSnap.exists) {
+                    // Returning Player: Pull their cloud data DOWN to the local device
+                    const cloudData = docSnap.data();
+                    
+                    currentXP = cloudData.xp || 0;
+                    selectedAvatarUrl = cloudData.avatar || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
+                    
+                    localStorage.setItem(`xp_${currentUser}`, currentXP);
+                    localStorage.setItem(`avatar_${currentUser}`, selectedAvatarUrl);
+                    
+                    console.log("Profile successfully downloaded from the cloud!");
+                } else {
+                    // New Player: Start fresh at 0
+                    currentXP = 0;
+                    localStorage.setItem(`xp_${currentUser}`, 0);
+                    localStorage.setItem(`avatar_${currentUser}`, selectedAvatarUrl);
+                    
+                    console.log("New profile created!");
+                }
+
+                // Initialize local arrays if they don't exist yet on this specific device
+                if (!localStorage.getItem(`pokedex_${currentUser}`)) localStorage.setItem(`pokedex_${currentUser}`, JSON.stringify([]));
+                if (!localStorage.getItem(`seen_${currentUser}`)) localStorage.setItem(`seen_${currentUser}`, JSON.stringify([]));
+                if (!localStorage.getItem(`stats_right_${currentUser}`)) localStorage.setItem(`stats_right_${currentUser}`, 0);
+                if (!localStorage.getItem(`stats_wrong_${currentUser}`)) localStorage.setItem(`stats_wrong_${currentUser}`, 0);
+
+                // Finalize Local Setup
+                localStorage.setItem('pokeUser', currentUser);
+                if (!knownUsers.includes(currentUser)) {
+                    knownUsers.push(currentUser);
+                    localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
+                }
+
+                // Update the UI and enter the game
+                loadUserData(currentUser); 
+                loginScreen.classList.add('hidden');
+                homeScreen.classList.remove('hidden');
+
+            } catch (error) {
+                console.error("Error logging in:", error);
+                alert("Failed to connect to the server. Please check your connection.");
+            } finally {
+                // Restore the login button
+                loginBtn.innerText = originalText;
+                loginBtn.disabled = false;
+            }
         }
-
-        // Initialize local arrays if they don't exist yet on this specific device
-        if (!localStorage.getItem(`pokedex_${currentUser}`)) localStorage.setItem(`pokedex_${currentUser}`, JSON.stringify([]));
-        if (!localStorage.getItem(`seen_${currentUser}`)) localStorage.setItem(`seen_${currentUser}`, JSON.stringify([]));
-        if (!localStorage.getItem(`stats_right_${currentUser}`)) localStorage.setItem(`stats_right_${currentUser}`, 0);
-        if (!localStorage.getItem(`stats_wrong_${currentUser}`)) localStorage.setItem(`stats_wrong_${currentUser}`, 0);
-
-        // 3. Finalize Local Setup
-        localStorage.setItem('pokeUser', currentUser);
-        if (!knownUsers.includes(currentUser)) {
-            knownUsers.push(currentUser);
-            localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
-        }
-
-        // 4. Update the UI and enter the game
-        loadUserData(currentUser); 
-        loginScreen.classList.add('hidden');
-        homeScreen.classList.remove('hidden');
-
-    } catch (error) {
-        console.error("Error logging in:", error);
-        alert("Failed to connect to the server. Please check your connection.");
-    } finally {
-        // Restore the login button
-        loginBtn.innerText = originalText;
-        loginBtn.disabled = false;
-    }
-}
 
         function logoutUser() {
             localStorage.removeItem('pokeUser');
@@ -963,31 +963,32 @@
             loginScreen.classList.remove('hidden');
         }
 
-       function deleteUser(userToDelete) {
-    const confirmDelete = confirm(`Are you sure you want to delete ${userToDelete}? This will permanently erase their XP, Level, and Pokédex locally AND from the global leaderboard.`);
-    
-    if (confirmDelete) {
-        // 1. Remove from local phone memory
-        knownUsers = knownUsers.filter(u => u !== userToDelete);
-        localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
-        localStorage.removeItem(`xp_${userToDelete}`);
-        localStorage.removeItem(`avatar_${userToDelete}`);
-        localStorage.removeItem(`pokedex_${userToDelete}`);
-        localStorage.removeItem(`seen_${userToDelete}`);
-        localStorage.removeItem(`stats_right_${userToDelete}`);
-        localStorage.removeItem(`stats_wrong_${userToDelete}`);
-        
-        // 2. Remove from the global Firebase database
-        db.collection("trainers").doc(userToDelete).delete().then(() => {
-            console.log("Trainer successfully scrubbed from the cloud!");
-        }).catch((error) => {
-            console.error("Error removing trainer from cloud: ", error);
-        });
+        // UPDATED: Now deletes the player from Firebase as well
+        function deleteUser(userToDelete) {
+            const confirmDelete = confirm(`Are you sure you want to delete ${userToDelete}? This will permanently erase their XP, Level, and Pokédex locally AND from the global leaderboard.`);
+            
+            if (confirmDelete) {
+                // Remove from local phone memory
+                knownUsers = knownUsers.filter(u => u !== userToDelete);
+                localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
+                localStorage.removeItem(`xp_${userToDelete}`);
+                localStorage.removeItem(`avatar_${userToDelete}`);
+                localStorage.removeItem(`pokedex_${userToDelete}`);
+                localStorage.removeItem(`seen_${userToDelete}`);
+                localStorage.removeItem(`stats_right_${userToDelete}`);
+                localStorage.removeItem(`stats_wrong_${userToDelete}`);
+                
+                // Remove from the global Firebase database
+                db.collection("trainers").doc(userToDelete).delete().then(() => {
+                    console.log("Trainer successfully scrubbed from the cloud!");
+                }).catch((error) => {
+                    console.error("Error removing trainer from cloud: ", error);
+                });
 
-        // 3. Refresh the login screen UI
-        renderUserHistory();
-    }
-}
+                // Refresh the login screen UI
+                renderUserHistory();
+            }
+        }
 
         function loadUserData(username) {
             document.getElementById('display-name').innerText = username;
