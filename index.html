@@ -95,8 +95,11 @@
         .timer-warning { background: #f59e0b !important; }
         .timer-danger { background: #ef4444 !important; }
         
-        #username-input { width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; text-transform: uppercase; }
+        .input-group { display: flex; gap: 10px; margin-bottom: 20px; }
+        #username-input { flex: 2; padding: 15px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; text-transform: uppercase; }
         #username-input:focus { outline: none; border-color: #3b82f6; }
+        #pin-input { flex: 1; padding: 15px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; letter-spacing: 4px; }
+        #pin-input:focus { outline: none; border-color: #8b5cf6; }
         
         .avatar-preview-box { width: 100px; height: 100px; background: #ffffff; border: 2px solid #cbd5e1; border-radius: 20px; display: flex; justify-content: center; align-items: center; margin: 0 auto 15px auto; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
         .avatar-preview-box img { width: 100%; height: 100%; object-fit: contain; padding: 5px; }
@@ -181,6 +184,8 @@
             body { padding: 0; align-items: flex-start; }
             #app { width: 100%; min-height: 100vh; border-radius: 0; padding: env(safe-area-inset-top, 20px) 15px 15px 15px; box-shadow: none; }
             #home-screen h1, #login-screen h1 { font-size: 26px; }
+            .input-group { flex-direction: column; gap: 10px; margin-bottom: 15px; }
+            #username-input, #pin-input { width: 100%; margin-bottom: 0; }
             #game-screen .mini-game-logo { width: 110px; margin: 0 auto 10px auto; }
             .mini-xp-box { margin-bottom: 10px !important; padding: 8px !important; }
             .stats { padding: 8px 15px !important; font-size: 15px !important; margin-bottom: 10px !important; }
@@ -311,7 +316,11 @@
         <div id="login-screen" class="hidden">
             <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="main-logo">
             <h1>Trainer Login</h1>
-            <input type="text" id="username-input" placeholder="Your Trainer Name">
+            
+            <div class="input-group">
+                <input type="text" id="username-input" placeholder="Trainer Name">
+                <input type="password" id="pin-input" placeholder="PIN" maxlength="4" pattern="\d{4}">
+            </div>
 
             <div style="margin: 20px 0; background: #f8fafc; padding: 20px; border-radius: 16px; border: 2px solid #e2e8f0;">
                 <p style="font-size: 14px; font-weight: 800; color: #64748b; margin: 0 0 15px 0; text-transform: uppercase;">Your Avatar</p>
@@ -864,9 +873,9 @@
                     nameBtn.innerText = user;
                     nameBtn.onclick = () => {
                         document.getElementById('username-input').value = user;
+                        document.getElementById('pin-input').focus(); // Prompt for PIN
                         selectedAvatarUrl = localStorage.getItem('avatar_' + user) || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
                         document.getElementById('login-avatar-preview').src = selectedAvatarUrl;
-                        loginUser(); 
                     };
 
                     const delBtn = document.createElement('button');
@@ -884,12 +893,17 @@
             }
         }
 
-        // UPDATED: Syncs with cloud BEFORE creating profile and forces uppercase
+        // UPDATED: Now requires a PIN verification
         async function loginUser() {
             const rawName = document.getElementById('username-input').value.trim();
+            const pinCode = document.getElementById('pin-input').value.trim();
+            
             if (!rawName) return;
+            if (!pinCode || pinCode.length < 4) {
+                alert("Please enter a 4-digit PIN code.");
+                return;
+            }
 
-            // FIX: Force uppercase to prevent duplicates caused by case-sensitivity
             currentUser = rawName.toUpperCase();
 
             // Temporarily change button text so players know it's loading
@@ -904,9 +918,17 @@
                 const docSnap = await docRef.get();
 
                 if (docSnap.exists) {
-                    // Returning Player: Pull their cloud data DOWN to the local device
                     const cloudData = docSnap.data();
                     
+                    // PIN VERIFICATION
+                    if (cloudData.pin && cloudData.pin !== pinCode) {
+                        alert("Incorrect PIN! Please try again.");
+                        loginBtn.innerText = originalText;
+                        loginBtn.disabled = false;
+                        return; // Stop the login process
+                    }
+                    
+                    // Returning Player: Pull their cloud data DOWN to the local device
                     currentXP = cloudData.xp || 0;
                     selectedAvatarUrl = cloudData.avatar || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
                     
@@ -915,12 +937,20 @@
                     
                     console.log("Profile successfully downloaded from the cloud!");
                 } else {
-                    // New Player: Start fresh at 0
+                    // New Player: Start fresh at 0 and LOCK IN THEIR PIN
                     currentXP = 0;
                     localStorage.setItem(`xp_${currentUser}`, 0);
                     localStorage.setItem(`avatar_${currentUser}`, selectedAvatarUrl);
                     
-                    console.log("New profile created!");
+                    await db.collection("trainers").doc(currentUser).set({
+                        user: currentUser,
+                        xp: 0,
+                        level: 1,
+                        avatar: selectedAvatarUrl,
+                        pin: pinCode // Save their secret code!
+                    });
+                    
+                    console.log("New profile created and secured!");
                 }
 
                 // Initialize local arrays if they don't exist yet on this specific device
@@ -940,6 +970,7 @@
                 loadUserData(currentUser); 
                 loginScreen.classList.add('hidden');
                 homeScreen.classList.remove('hidden');
+                document.getElementById('pin-input').value = ''; // Clear PIN field
 
             } catch (error) {
                 console.error("Error logging in:", error);
@@ -955,6 +986,7 @@
             localStorage.removeItem('pokeUser');
             currentUser = null;
             document.getElementById('username-input').value = '';
+            document.getElementById('pin-input').value = '';
             selectedAvatarUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
             document.getElementById('login-avatar-preview').src = selectedAvatarUrl;
             
@@ -963,7 +995,6 @@
             loginScreen.classList.remove('hidden');
         }
 
-        // UPDATED: Now deletes the player from Firebase as well
         function deleteUser(userToDelete) {
             const confirmDelete = confirm(`Are you sure you want to delete ${userToDelete}? This will permanently erase their XP, Level, and Pokédex locally AND from the global leaderboard.`);
             
@@ -997,14 +1028,6 @@
             selectedAvatarUrl = savedAvatar; 
             document.getElementById('trainer-display-avatar').src = selectedAvatarUrl;
             updateXPUI();
-            
-            // Sync local state up to Firebase upon load to ensure their spot on the global board is accurate
-            db.collection("trainers").doc(username).set({
-                user: username,
-                xp: currentXP,
-                level: Math.floor(currentXP / 100) + 1,
-                avatar: selectedAvatarUrl
-            }, { merge: true }).catch(e => console.log("Firebase sync error: ", e));
         }
 
         function updateXPUI() {
@@ -1271,7 +1294,7 @@
                 localStorage.setItem(`xp_${currentUser}`, currentXP);
                 updateXPUI();
                 
-                // LIVE SYNC TO FIREBASE
+                // LIVE SYNC TO FIREBASE (Merge prevents overwriting the PIN!)
                 db.collection("trainers").doc(currentUser).set({
                     user: currentUser,
                     xp: currentXP,
