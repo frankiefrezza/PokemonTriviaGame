@@ -937,8 +937,9 @@
         function loadUserData(username) {
             document.getElementById('display-name').innerText = username;
             currentXP = parseInt(localStorage.getItem(`xp_${username}`)) || 0;
-            const savedAvatar = localStorage.getItem('avatar_' + username);
-            document.getElementById('trainer-display-avatar').src = savedAvatar || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
+            const savedAvatar = localStorage.getItem('avatar_' + username) || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
+            selectedAvatarUrl = savedAvatar; // Keep global selection updated!
+            document.getElementById('trainer-display-avatar').src = selectedAvatarUrl;
             updateXPUI();
         }
 
