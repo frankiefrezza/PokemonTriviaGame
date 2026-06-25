@@ -921,20 +921,31 @@
             loginScreen.classList.remove('hidden');
         }
 
-        function deleteUser(userToDelete) {
-            const confirmDelete = confirm(`Are you sure you want to delete ${userToDelete}? This will permanently erase their XP, Level, and Pokédex locally.`);
-            if (confirmDelete) {
-                knownUsers = knownUsers.filter(u => u !== userToDelete);
-                localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
-                localStorage.removeItem(`xp_${userToDelete}`);
-                localStorage.removeItem(`avatar_${userToDelete}`);
-                localStorage.removeItem(`pokedex_${userToDelete}`);
-                localStorage.removeItem(`seen_${userToDelete}`);
-                localStorage.removeItem(`stats_right_${userToDelete}`);
-                localStorage.removeItem(`stats_wrong_${userToDelete}`);
-                renderUserHistory();
-            }
-        }
+       function deleteUser(userToDelete) {
+    const confirmDelete = confirm(`Are you sure you want to delete ${userToDelete}? This will permanently erase their XP, Level, and Pokédex locally AND from the global leaderboard.`);
+    
+    if (confirmDelete) {
+        // 1. Remove from local phone memory
+        knownUsers = knownUsers.filter(u => u !== userToDelete);
+        localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
+        localStorage.removeItem(`xp_${userToDelete}`);
+        localStorage.removeItem(`avatar_${userToDelete}`);
+        localStorage.removeItem(`pokedex_${userToDelete}`);
+        localStorage.removeItem(`seen_${userToDelete}`);
+        localStorage.removeItem(`stats_right_${userToDelete}`);
+        localStorage.removeItem(`stats_wrong_${userToDelete}`);
+        
+        // 2. Remove from the global Firebase database
+        db.collection("trainers").doc(userToDelete).delete().then(() => {
+            console.log("Trainer successfully scrubbed from the cloud!");
+        }).catch((error) => {
+            console.error("Error removing trainer from cloud: ", error);
+        });
+
+        // 3. Refresh the login screen UI
+        renderUserHistory();
+    }
+}
 
         function loadUserData(username) {
             document.getElementById('display-name').innerText = username;
