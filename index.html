@@ -22,12 +22,11 @@
         #game-content { transition: opacity 0.4s ease-in-out; opacity: 1; min-height: 350px; }
 
         #home-screen h1, #login-screen h1 { color: #1e3a8a; font-size: 32px; font-weight: 900; margin-bottom: 5px; text-transform: uppercase; text-shadow: 2px 2px 0px #bae6fd; }
-        .subtitle { color: #64748b; margin-bottom: 25px; font-size: 16px; font-weight: 700; }
         
         .main-logo { width: 100%; max-width: 280px; height: auto; margin: 0 auto 20px auto; display: block; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15)); }
         .mini-game-logo { width: 140px; margin: -10px auto 15px auto; display: block; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
 
-        .trainer-card { background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%); padding: 24px; border-radius: 24px; margin-bottom: 25px; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px rgba(0,0,0,0.05), inset 0 2px 0 rgba(255,255,255,1); text-align: left; position: relative; overflow: hidden; }
+        .trainer-card { background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%); padding: 24px; border-radius: 24px; margin-bottom: 20px; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px rgba(0,0,0,0.05), inset 0 2px 0 rgba(255,255,255,1); text-align: left; position: relative; overflow: hidden; }
         .trainer-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
         .trainer-header { display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
         .trainer-identity { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; }
@@ -63,6 +62,23 @@
         .xp-container { width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
         #mini-xp-progress-bar { height: 100%; background: linear-gradient(90deg, #3b82f6, #8b5cf6); width: 0%; transition: width 0.5s ease-out; }
 
+        /* --- RAID BOSS & DAILY TASK UI --- */
+        .raid-box { background: linear-gradient(135deg, #2e1065 0%, #4c1d95 100%); padding: 15px; border-radius: 20px; margin-bottom: 15px; border: 2px solid #8b5cf6; color: white; text-align: left; position: relative; overflow: hidden; box-shadow: 0 8px 15px rgba(76, 29, 149, 0.3); }
+        .raid-box h3 { margin: 0 0 5px 0; font-size: 16px; font-weight: 900; text-transform: uppercase; color: #ddd6fe; display: flex; justify-content: space-between; align-items: center; }
+        .raid-boss-name { font-size: 22px; font-family: 'Fredoka', sans-serif; font-weight: 600; color: #fff; margin-bottom: 10px; }
+        .raid-hp-track { width: 100%; height: 12px; background: rgba(0,0,0,0.3); border-radius: 6px; overflow: hidden; margin-bottom: 5px; border: 1px solid #7c3aed; }
+        #raid-bar { height: 100%; background: linear-gradient(90deg, #ef4444, #f59e0b); width: 100%; transition: width 0.5s ease-out; }
+        #raid-hp { font-size: 12px; font-weight: 800; color: #c4b5fd; text-align: right; display: block; }
+        .raid-btn { background: #f59e0b; color: #78350f; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 12px; box-shadow: 0 2px 0 #d97706; transition: transform 0.1s; }
+        .raid-btn:active { transform: translateY(2px); box-shadow: 0 0 0 transparent; }
+
+        .daily-challenges-container { background: #fffbeb; padding: 15px; border-radius: 20px; margin-bottom: 20px; border: 2px solid #fde68a; text-align: left; }
+        .dc-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.5); padding: 10px; border-radius: 12px; margin-bottom: 8px; border: 1px solid #fef3c7; }
+        .dc-item:last-child { margin-bottom: 0; }
+        .dc-desc { font-size: 13px; font-weight: 800; color: #92400e; flex: 1; margin-right: 10px; }
+        .dc-status { font-size: 14px; font-weight: 900; color: #f59e0b; background: #fef3c7; padding: 4px 10px; border-radius: 10px; border: 1px solid #fde68a; text-align: center; min-width: 45px; }
+        .dc-btn { background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 12px; box-shadow: 0 3px 0 #059669; }
+
         .menu-box { padding: 15px; border-radius: 20px; margin-bottom: 15px; border: 2px solid #e2e8f0; transition: transform 0.2s, border-color 0.2s; }
         .menu-box:hover { transform: scale(1.02); }
         .menu-box h3 { margin: 0 0 5px 0; color: #1e293b; font-size: 18px; font-weight: 900; }
@@ -70,13 +86,10 @@
         
         .mode-guess { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-color: #bfdbfe; }
         .mode-guess:hover { border-color: #93c5fd; box-shadow: 0 4px 12px rgba(59,130,246,0.15); }
-        
         .mode-types { background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-color: #bbf7d0; }
         .mode-types:hover { border-color: #86efac; box-shadow: 0 4px 12px rgba(16,185,129,0.15); }
-        
         .mode-evolutions { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); border-color: #fde68a; }
         .mode-evolutions:hover { border-color: #fcd34d; box-shadow: 0 4px 12px rgba(245,158,11,0.15); }
-        
         .mode-trivia { background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border-color: #e9d5ff; }
         .mode-trivia:hover { border-color: #d8b4fe; box-shadow: 0 4px 12px rgba(139,92,246,0.15); }
 
@@ -86,6 +99,8 @@
         .mini-xp-box { margin-bottom: 15px; background: #f0f9ff; padding: 10px; border-radius: 12px; border: 2px solid #bae6fd; text-align: left; }
         .stats { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 18px; font-weight: 800; color: #334155; background: #f1f5f9; padding: 10px 20px; border-radius: 15px; position: relative; }
         
+        .streak-fire { color: #ef4444; font-weight: 900; background: #fee2e2; padding: 2px 8px; border-radius: 8px; font-size: 14px; border: 1px solid #fca5a5; display: inline-flex; align-items: center; gap: 4px; animation: pulse 1s infinite alternate; }
+
         #timer-wrapper { margin-bottom: 15px; text-align: left; }
         .timer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
         .timer-label { font-size: 12px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -95,9 +110,11 @@
         .timer-warning { background: #f59e0b !important; }
         .timer-danger { background: #ef4444 !important; }
         
-       .input-group { display: flex; gap: 10px; margin-bottom: 20px; width: 100%; }
-#username-input { flex: 2; width: 100%; min-width: 0; padding: 15px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; text-transform: uppercase; }
-#pin-input { flex: 1; width: 100%; min-width: 0; padding: 15px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; letter-spacing: 4px; }
+        .input-group { display: flex; gap: 10px; margin-bottom: 20px; width: 100%; }
+        #username-input { flex: 2; width: 100%; min-width: 0; padding: 15px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; text-transform: uppercase; }
+        #username-input:focus { outline: none; border-color: #3b82f6; }
+        #pin-input { flex: 1; width: 100%; min-width: 0; padding: 15px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; letter-spacing: 4px; }
+        #pin-input:focus { outline: none; border-color: #8b5cf6; }
         
         .avatar-preview-box { width: 100px; height: 100px; background: #ffffff; border: 2px solid #cbd5e1; border-radius: 20px; display: flex; justify-content: center; align-items: center; margin: 0 auto 15px auto; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
         .avatar-preview-box img { width: 100%; height: 100%; object-fit: contain; padding: 5px; }
@@ -113,9 +130,10 @@
         .delete-btn:hover { background: #fca5a5; color: #b91c1c; }
 
         #question-text { font-size: 20px; font-weight: 800; color: #1e293b; margin: 15px 0; min-height: 28px; line-height: 1.3; }
-        #pokemon-image { width: 200px; height: 200px; margin: 10px auto; display: block; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2)); }
+        #pokemon-image { width: 200px; height: 200px; margin: 10px auto; display: block; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2)); transition: filter 0.3s; }
         .silhouette { filter: brightness(0) drop-shadow(0 10px 15px rgba(0,0,0,0.2)) !important; }
         .revealed { filter: brightness(1) drop-shadow(0 10px 15px rgba(0,0,0,0.2)); transition: filter 0.5s ease; }
+        .shiny-glow { filter: brightness(1) drop-shadow(0 0 25px rgba(250, 204, 21, 0.8)) !important; }
 
         .option-btn { display: block; width: 100%; padding: 15px; margin: 12px 0; font-size: 16px; font-family: 'Nunito', sans-serif; font-weight: 800; color: #334155; border: 2px solid #cbd5e1; border-radius: 16px; background: white; cursor: pointer; text-transform: capitalize; box-shadow: 0 4px 0 #cbd5e1; transition: all 0.1s ease; }
         .option-btn:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 0 0 #cbd5e1; }
@@ -188,7 +206,7 @@
             .mini-xp-box { margin-bottom: 10px !important; padding: 8px !important; }
             .stats { padding: 8px 15px !important; font-size: 15px !important; margin-bottom: 10px !important; }
             #timer-wrapper { margin-bottom: 10px !important; }
-            #question-text { font-size: 17px !important; margin: 5px 0 10px 0 !important; min-height: 22px !important; }
+            #question-text { font-size: 17px !important; margin: 15px 0 10px 0 !important; min-height: 22px !important; }
             #pokemon-image { width: 125px !important; height: 125px !important; margin: 0 auto 5px auto !important; }
             .option-btn { padding: 11px !important; margin: 6px 0 !important; font-size: 15px !important; }
             .game-dock { margin-top: 15px !important; padding-top: 10px !important; }
@@ -368,7 +386,22 @@
                 </div>
             </div>
 
-            <p class="subtitle" style="margin-top: 10px;">Choose your challenge!</p>
+            <div id="raid-container" class="raid-box hidden">
+                <h3>🌍 Weekend Raid Boss <span style="font-size:12px; background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 6px;">CO-OP</span></h3>
+                <div class="raid-boss-name" id="raid-name">Mewtwo</div>
+                <div class="raid-hp-track"><div id="raid-bar"></div></div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
+                    <span style="font-size: 11px; font-weight: 700; color: #a78bfa;">Correct answers deal damage!</span>
+                    <span id="raid-hp">5000 / 5000</span>
+                </div>
+                <button id="raid-claim-btn" class="raid-btn hidden" style="width: 100%; margin-top: 10px;" onclick="claimRaidReward()">Claim Victory +200 XP!</button>
+            </div>
+
+            <div id="daily-challenges-container" class="daily-challenges-container hidden">
+                <h3 style="margin: 0 0 10px 0; font-size: 16px; font-weight: 900; color: #d97706; text-transform: uppercase;">📋 Daily Challenges</h3>
+                <div id="dc-list"></div>
+            </div>
+
             <div class="menu-box mode-guess">
                 <h3>WHO'S THAT POKÉMON</h3><p>Identify the Pokémon from its silhouette.</p>
                 <button class="primary-btn btn-blue" onclick="startGame('GUESS')">Play Who's That Pokémon</button>
@@ -416,7 +449,7 @@
             </div>
 
             <div class="stats">
-                <span>Q: <span id="question-count">1</span>/20</span>
+                <span style="display:flex; align-items:center; gap: 8px;">Q: <span id="question-count">1</span>/20 <span id="streak-display" class="streak-fire hidden">🔥 <span id="streak-count">3</span></span></span>
                 <div id="feedback-overlay" class="hidden"><div id="feedback-icon"></div></div>
                 <span>XP: <span id="session-xp-display" style="color: #8b5cf6;">0</span></span>
             </div>
@@ -432,7 +465,7 @@
             </div>
             
             <h2 id="loading-text">Finding a wild Pokémon...</h2>
-            <div id="game-content" class="hidden">
+            <div id="game-content" class="hidden" style="position: relative;">
                 <div id="question-text"></div>
                 <img id="pokemon-image" src="" alt="Pokemon">
                 <div id="options"></div>
@@ -531,6 +564,10 @@
         let timerInterval;
         let timeLeft = TIME_LIMIT;
         let isPaused = false;
+        
+        let isShiny = false;
+        let currentStreak = 0;
+        let isWeekend = [0, 6].includes(new Date().getDay()); 
 
         // --- DOM ELEMENTS ---
         const loginScreen = document.getElementById('login-screen'), homeScreen = document.getElementById('home-screen'), gameScreen = document.getElementById('game-screen'), endScreen = document.getElementById('end-screen'), gameContent = document.getElementById('game-content'), questionCountEl = document.getElementById('question-count'), questionTextEl = document.getElementById('question-text'), imageEl = document.getElementById('pokemon-image'), optionsEl = document.getElementById('options'), loadingText = document.getElementById('loading-text'), endMessageEl = document.getElementById('end-message');
@@ -548,6 +585,161 @@
                 loginScreen.classList.remove('hidden');
             }
         };
+
+        // --- RAID BOSS LOGIC ---
+        let currentRaidWeek = null;
+        async function loadRaidBoss() {
+            if (!isWeekend) return;
+            try {
+                const raidRef = db.collection('global').doc('raid');
+                const doc = await raidRef.get();
+                
+                const d = new Date();
+                const weekNum = Math.ceil((((d - new Date(d.getFullYear(),0,1)) / 86400000) + new Date(d.getFullYear(),0,1).getDay()+1)/7);
+                
+                if (!doc.exists || doc.data().hp <= 0 && doc.data().week !== weekNum) {
+                    await raidRef.set({
+                        name: 'Mewtwo',
+                        maxHp: 5000,
+                        hp: 5000,
+                        week: weekNum
+                    });
+                }
+
+                raidRef.onSnapshot(snap => {
+                    if (snap.exists) {
+                        const data = snap.data();
+                        currentRaidWeek = data.week;
+                        document.getElementById('raid-container').classList.remove('hidden');
+                        document.getElementById('raid-name').innerText = data.name;
+                        
+                        let displayHp = Math.max(0, data.hp);
+                        document.getElementById('raid-hp').innerText = displayHp + " / " + data.maxHp;
+                        const pct = (displayHp / data.maxHp) * 100;
+                        document.getElementById('raid-bar').style.width = pct + '%';
+
+                        if (displayHp <= 0) {
+                            document.getElementById('raid-hp').innerText = "DEFEATED!";
+                            checkRaidReward(data.week);
+                        }
+                    }
+                });
+            } catch (e) {
+                console.log("Raid Boss offline:", e);
+            }
+        }
+
+        async function damageRaidBoss() {
+            try {
+                const raidRef = db.collection('global').doc('raid');
+                await raidRef.update({ hp: firebase.firestore.FieldValue.increment(-10) });
+            } catch(e) {} 
+        }
+
+        function checkRaidReward(week) {
+            let claimedRaids = JSON.parse(localStorage.getItem('claimedRaids_' + currentUser)) || [];
+            if (!claimedRaids.includes(week)) {
+                document.getElementById('raid-claim-btn').classList.remove('hidden');
+            } else {
+                document.getElementById('raid-claim-btn').classList.add('hidden');
+                document.getElementById('raid-hp').innerText = "CLAIMED!";
+            }
+        }
+
+        function claimRaidReward() {
+            let claimedRaids = JSON.parse(localStorage.getItem('claimedRaids_' + currentUser)) || [];
+            claimedRaids.push(currentRaidWeek);
+            localStorage.setItem('claimedRaids_' + currentUser, JSON.stringify(claimedRaids));
+            
+            currentXP += 200;
+            localStorage.setItem(`xp_${currentUser}`, currentXP);
+            updateXPUI();
+            db.collection("trainers").doc(currentUser).set({ xp: currentXP }, { merge: true });
+            
+            document.getElementById('raid-claim-btn').classList.add('hidden');
+            document.getElementById('raid-hp').innerText = "CLAIMED!";
+            alert("Raid Boss Defeated! You earned 200 Bonus XP!");
+        }
+
+        // --- DAILY TASK LOGIC ---
+        function initDailyTask() {
+            const today = new Date().toDateString();
+            let tasks = JSON.parse(localStorage.getItem('dailyTasks_' + currentUser));
+            
+            if (!tasks || tasks.date !== today) {
+                tasks = {
+                    date: today,
+                    list: [
+                        { id: 'correct', desc: 'Answer 10 questions correctly', target: 10, progress: 0, claimed: false },
+                        { id: 'streak', desc: 'Get a 3-question streak', target: 1, progress: 0, claimed: false },
+                        { id: 'games', desc: 'Finish 2 matches', target: 2, progress: 0, claimed: false }
+                    ]
+                };
+                localStorage.setItem('dailyTasks_' + currentUser, JSON.stringify(tasks));
+            }
+            renderDailyTask();
+        }
+
+        function renderDailyTask() {
+            let tasks = JSON.parse(localStorage.getItem('dailyTasks_' + currentUser));
+            if (!tasks) return;
+            
+            document.getElementById('daily-challenges-container').classList.remove('hidden');
+            const listEl = document.getElementById('dc-list');
+            listEl.innerHTML = '';
+            
+            tasks.list.forEach((task, index) => {
+                let statusHtml = '';
+                if (task.claimed) {
+                    statusHtml = `<span class="dc-status" style="color:#10b981; border-color:#34d399; background:#ecfdf5;">DONE</span>`;
+                } else if (task.progress >= task.target) {
+                    statusHtml = `<button class="dc-btn" onclick="claimDailyTask(${index})">CLAIM</button>`;
+                } else {
+                    statusHtml = `<span class="dc-status">${task.progress}/${task.target}</span>`;
+                }
+                
+                listEl.innerHTML += `
+                    <div class="dc-item">
+                        <div class="dc-desc">${task.desc}</div>
+                        <div>${statusHtml}</div>
+                    </div>
+                `;
+            });
+        }
+
+        function updateDailyTaskProgress(actionId) {
+            let tasks = JSON.parse(localStorage.getItem('dailyTasks_' + currentUser));
+            if (!tasks) return;
+            let updated = false;
+            
+            tasks.list.forEach(task => {
+                if (task.id === actionId && !task.claimed && task.progress < task.target) {
+                    task.progress++;
+                    updated = true;
+                }
+            });
+            
+            if (updated) {
+                localStorage.setItem('dailyTasks_' + currentUser, JSON.stringify(tasks));
+                renderDailyTask();
+            }
+        }
+
+        function claimDailyTask(index) {
+            let tasks = JSON.parse(localStorage.getItem('dailyTasks_' + currentUser));
+            if (tasks && tasks.list[index] && tasks.list[index].progress >= tasks.list[index].target && !tasks.list[index].claimed) {
+                tasks.list[index].claimed = true;
+                localStorage.setItem('dailyTasks_' + currentUser, JSON.stringify(tasks));
+                
+                currentXP += 100;
+                localStorage.setItem(`xp_${currentUser}`, currentXP);
+                updateXPUI();
+                db.collection("trainers").doc(currentUser).set({ xp: currentXP }, { merge: true });
+                
+                renderDailyTask();
+                alert("Challenge Complete! +100 XP");
+            }
+        }
 
         // --- TRAINER ID CARD LOGIC ---
         function openTrainerCard() {
@@ -669,6 +861,22 @@
             let userDex = JSON.parse(localStorage.getItem('pokedex_' + currentUser)) || [];
             document.getElementById('dex-total-count').innerText = `${userDex.length} / 1025`;
 
+            // ADD SHINY DEX SECTION AT THE TOP
+            let shinyDex = JSON.parse(localStorage.getItem('shiny_dex_' + currentUser)) || [];
+            let shinyCount = shinyDex.length;
+
+            let shinyHtml = `
+                <div class="dex-region-card" onclick="toggleShinyGrid()" style="border-color: #fde047; background: #fefce8;">
+                    <div class="dex-region-header">
+                        <span class="dex-region-name" style="color: #b45309;">✨ Shiny Dex</span>
+                        <span class="dex-region-count">${shinyCount} <span class="dex-trophy ${shinyCount > 0 ? 'earned' : ''}">🏆</span></span>
+                    </div>
+                    <div id="dex-grid-shiny" class="dex-grid hidden"></div>
+                </div>
+            `;
+            dexContainer.innerHTML += shinyHtml;
+
+            // RENDER REGIONS
             POKEDEX_REGIONS.forEach((region, index) => {
                 let regionTotal = (region.end - region.start) + 1;
                 let caughtInRegion = userDex.filter(id => id >= region.start && id <= region.end);
@@ -698,6 +906,29 @@
         function closePokedex() { 
             document.getElementById('pokedex-modal').classList.add('hidden');
             isPaused = false;
+        }
+
+        function toggleShinyGrid() {
+            const grid = document.getElementById(`dex-grid-shiny`);
+            if (!grid.classList.contains('hidden')) {
+                grid.classList.add('hidden');
+                return;
+            }
+            
+            let shinyDex = JSON.parse(localStorage.getItem('shiny_dex_' + currentUser)) || [];
+            
+            if(shinyDex.length === 0) {
+                grid.innerHTML = `<span style="grid-column: span 4; text-align: center; font-size: 12px; color: #94a3b8; font-weight: 700;">No Shinies caught yet!</span>`;
+            } else {
+                shinyDex.sort((a,b) => a - b);
+                grid.innerHTML = shinyDex.map(id => `
+                    <div class="dex-sprite-box" style="border-color: #fde047; background: #fffbeb;">
+                        <img class="dex-sprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${id}.png">
+                        <span class="dex-id">#${id}</span>
+                    </div>
+                `).join('');
+            }
+            grid.classList.remove('hidden');
         }
 
         function toggleRegionGrid(regionIndex) {
@@ -762,7 +993,7 @@
             timerBar.style.width = '0%';
             timerText.innerText = '0s';
             
-            if (currentMode === 'GUESS') imageEl.className = 'revealed'; 
+            if (currentMode === 'GUESS') imageEl.className = isShiny ? 'shiny-glow' : 'revealed'; 
 
             const allBtns = document.querySelectorAll('.option-btn');
             allBtns.forEach(btn => btn.disabled = true);
@@ -783,6 +1014,9 @@
             });
 
             sessionWrong++;
+            currentStreak = 0;
+            document.getElementById('streak-display').classList.add('hidden');
+            
             let totalWrong = parseInt(localStorage.getItem('stats_wrong_' + currentUser)) || 0;
             localStorage.setItem('stats_wrong_' + currentUser, totalWrong + 1);
 
@@ -871,7 +1105,7 @@
                     nameBtn.innerText = user;
                     nameBtn.onclick = () => {
                         document.getElementById('username-input').value = user;
-                        document.getElementById('pin-input').focus(); // Prompt for PIN
+                        document.getElementById('pin-input').focus(); 
                         selectedAvatarUrl = localStorage.getItem('avatar_' + user) || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
                         document.getElementById('login-avatar-preview').src = selectedAvatarUrl;
                     };
@@ -891,7 +1125,6 @@
             }
         }
 
-        // UPDATED: Now requires a PIN verification
         async function loginUser() {
             const rawName = document.getElementById('username-input').value.trim();
             const pinCode = document.getElementById('pin-input').value.trim();
@@ -904,38 +1137,32 @@
 
             currentUser = rawName.toUpperCase();
 
-            // Temporarily change button text so players know it's loading
             const loginBtn = document.querySelector('#login-screen .btn-blue');
             const originalText = loginBtn.innerText;
             loginBtn.innerText = "Syncing with Server...";
             loginBtn.disabled = true;
 
             try {
-                // Check the cloud FIRST
                 const docRef = db.collection("trainers").doc(currentUser);
                 const docSnap = await docRef.get();
 
                 if (docSnap.exists) {
                     const cloudData = docSnap.data();
                     
-                    // PIN VERIFICATION
                     if (cloudData.pin && cloudData.pin !== pinCode) {
                         alert("Incorrect PIN! Please try again.");
                         loginBtn.innerText = originalText;
                         loginBtn.disabled = false;
-                        return; // Stop the login process
+                        return; 
                     }
                     
-                    // Returning Player: Pull their cloud data DOWN to the local device
                     currentXP = cloudData.xp || 0;
                     selectedAvatarUrl = cloudData.avatar || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
                     
                     localStorage.setItem(`xp_${currentUser}`, currentXP);
                     localStorage.setItem(`avatar_${currentUser}`, selectedAvatarUrl);
                     
-                    console.log("Profile successfully downloaded from the cloud!");
                 } else {
-                    // New Player: Start fresh at 0 and LOCK IN THEIR PIN
                     currentXP = 0;
                     localStorage.setItem(`xp_${currentUser}`, 0);
                     localStorage.setItem(`avatar_${currentUser}`, selectedAvatarUrl);
@@ -945,36 +1172,34 @@
                         xp: 0,
                         level: 1,
                         avatar: selectedAvatarUrl,
-                        pin: pinCode // Save their secret code!
+                        pin: pinCode 
                     });
-                    
-                    console.log("New profile created and secured!");
                 }
 
-                // Initialize local arrays if they don't exist yet on this specific device
                 if (!localStorage.getItem(`pokedex_${currentUser}`)) localStorage.setItem(`pokedex_${currentUser}`, JSON.stringify([]));
                 if (!localStorage.getItem(`seen_${currentUser}`)) localStorage.setItem(`seen_${currentUser}`, JSON.stringify([]));
+                if (!localStorage.getItem(`shiny_dex_${currentUser}`)) localStorage.setItem(`shiny_dex_${currentUser}`, JSON.stringify([]));
                 if (!localStorage.getItem(`stats_right_${currentUser}`)) localStorage.setItem(`stats_right_${currentUser}`, 0);
                 if (!localStorage.getItem(`stats_wrong_${currentUser}`)) localStorage.setItem(`stats_wrong_${currentUser}`, 0);
 
-                // Finalize Local Setup
                 localStorage.setItem('pokeUser', currentUser);
                 if (!knownUsers.includes(currentUser)) {
                     knownUsers.push(currentUser);
                     localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
                 }
 
-                // Update the UI and enter the game
                 loadUserData(currentUser); 
+                initDailyTask();
+                loadRaidBoss();
+                
                 loginScreen.classList.add('hidden');
                 homeScreen.classList.remove('hidden');
-                document.getElementById('pin-input').value = ''; // Clear PIN field
+                document.getElementById('pin-input').value = ''; 
 
             } catch (error) {
                 console.error("Error logging in:", error);
                 alert("Failed to connect to the server. Please check your connection.");
             } finally {
-                // Restore the login button
                 loginBtn.innerText = originalText;
                 loginBtn.disabled = false;
             }
@@ -997,24 +1222,20 @@
             const confirmDelete = confirm(`Are you sure you want to delete ${userToDelete}? This will permanently erase their XP, Level, and Pokédex locally AND from the global leaderboard.`);
             
             if (confirmDelete) {
-                // Remove from local phone memory
                 knownUsers = knownUsers.filter(u => u !== userToDelete);
                 localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
                 localStorage.removeItem(`xp_${userToDelete}`);
                 localStorage.removeItem(`avatar_${userToDelete}`);
                 localStorage.removeItem(`pokedex_${userToDelete}`);
                 localStorage.removeItem(`seen_${userToDelete}`);
+                localStorage.removeItem(`shiny_dex_${userToDelete}`);
                 localStorage.removeItem(`stats_right_${userToDelete}`);
                 localStorage.removeItem(`stats_wrong_${userToDelete}`);
                 
-                // Remove from the global Firebase database
-                db.collection("trainers").doc(userToDelete).delete().then(() => {
-                    console.log("Trainer successfully scrubbed from the cloud!");
-                }).catch((error) => {
+                db.collection("trainers").doc(userToDelete).delete().catch((error) => {
                     console.error("Error removing trainer from cloud: ", error);
                 });
 
-                // Refresh the login screen UI
                 renderUserHistory();
             }
         }
@@ -1083,6 +1304,9 @@
             sessionRight = 0; 
             sessionWrong = 0; 
             sessionXP = 0; 
+            currentStreak = 0;
+            document.getElementById('streak-display').classList.add('hidden');
+            
             sessionXPDisplay.innerText = sessionXP;
             homeScreen.classList.add('hidden');
             endScreen.classList.add('hidden');
@@ -1097,6 +1321,7 @@
             gameScreen.classList.add('hidden'); 
             endScreen.classList.add('hidden'); 
             homeScreen.classList.remove('hidden'); 
+            renderDailyTask();
         }
 
         function getEvolutionTarget(chainNode, targetName) {
@@ -1138,8 +1363,14 @@
             const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${targetId}`);
             const mainPokemon = await res.json();
             const cleanName = mainPokemon.name.replace('-', ' ');
-            imageEl.src = mainPokemon.sprites.other['official-artwork'].front_default;
-
+            
+            isShiny = Math.random() < 0.05; 
+            let spriteUrl = mainPokemon.sprites.other['official-artwork'].front_default;
+            if (isShiny && (mainPokemon.sprites.other['official-artwork'].front_shiny || mainPokemon.sprites.front_shiny)) {
+                spriteUrl = mainPokemon.sprites.other['official-artwork'].front_shiny || mainPokemon.sprites.front_shiny;
+            }
+            imageEl.src = spriteUrl;
+            
             let speciesData = null, chainData = null;
             if (currentMode === 'EVOLUTIONS' || currentMode === 'TRIVIA') {
                 const speciesRes = await fetch(mainPokemon.species.url);
@@ -1169,7 +1400,7 @@
             else if (currentMode === 'TYPES') {
                 currentQuestion++;
                 questionTextEl.innerHTML = `What type of Pokémon is <strong style="text-transform: capitalize; color: #2563eb;">${cleanName}</strong>?`;
-                imageEl.className = 'revealed'; 
+                imageEl.className = isShiny ? 'shiny-glow' : 'revealed'; 
                 correctAnswersAttribute = mainPokemon.types[0].type.name;
                 const wrongTypes = POKEMON_TYPES.filter(t => t !== correctAnswersAttribute).sort(() => Math.random() - 0.5);
                 choices = [correctAnswersAttribute, ...wrongTypes.slice(0, 3)].sort(() => Math.random() - 0.5);
@@ -1181,7 +1412,7 @@
 
                 currentQuestion++;
                 questionTextEl.innerHTML = `Who does <strong style="text-transform: capitalize; color: #f59e0b;">${cleanName}</strong> evolve into?`;
-                imageEl.className = 'revealed';
+                imageEl.className = isShiny ? 'shiny-glow' : 'revealed';
                 correctAnswersAttribute = evolveTo;
 
                 const ids = new Set();
@@ -1194,7 +1425,7 @@
             } 
             else if (currentMode === 'TRIVIA') {
                 currentQuestion++;
-                imageEl.className = 'revealed';
+                imageEl.className = isShiny ? 'shiny-glow' : 'revealed';
                 const questionType = Math.floor(Math.random() * 4);
 
                 if (questionType === 0) {
@@ -1250,7 +1481,7 @@
             clearInterval(timerInterval);
             isPaused = false;
 
-            if (currentMode === 'GUESS') imageEl.className = 'revealed'; 
+            if (currentMode === 'GUESS') imageEl.className = isShiny ? 'shiny-glow' : 'revealed'; 
 
             const allBtns = document.querySelectorAll('.option-btn');
             allBtns.forEach(btn => btn.disabled = true);
@@ -1272,10 +1503,18 @@
                     userDex.push(currentPokemonId);
                     localStorage.setItem('pokedex_' + currentUser, JSON.stringify(userDex));
                 }
+                
+                let shinyDex = JSON.parse(localStorage.getItem('shiny_dex_' + currentUser)) || [];
+                if (isShiny && !shinyDex.includes(currentPokemonId)) {
+                    shinyDex.push(currentPokemonId);
+                    localStorage.setItem('shiny_dex_' + currentUser, JSON.stringify(shinyDex));
+                }
 
                 clickedBtn.classList.add('correct');
                 
                 sessionRight++;
+                currentStreak++;
+                
                 let totalRight = parseInt(localStorage.getItem('stats_right_' + currentUser)) || 0;
                 localStorage.setItem('stats_right_' + currentUser, totalRight + 1);
 
@@ -1285,6 +1524,18 @@
                 else if (currentLevel < 40) xpGain = 10;
                 else if (currentLevel < 80) xpGain = 7;
                 
+                if (isShiny) xpGain *= 2;
+                if (currentStreak >= 3) {
+                    xpGain += 2;
+                    updateDailyTaskProgress('streak');
+                    const streakEl = document.getElementById('streak-display');
+                    streakEl.classList.remove('hidden');
+                    document.getElementById('streak-count').innerText = currentStreak;
+                }
+                
+                updateDailyTaskProgress('correct');
+                if (isWeekend) damageRaidBoss();
+                
                 sessionXP += xpGain;
                 sessionXPDisplay.innerText = sessionXP;
 
@@ -1292,7 +1543,6 @@
                 localStorage.setItem(`xp_${currentUser}`, currentXP);
                 updateXPUI();
                 
-                // LIVE SYNC TO FIREBASE (Merge prevents overwriting the PIN!)
                 db.collection("trainers").doc(currentUser).set({
                     user: currentUser,
                     xp: currentXP,
@@ -1316,6 +1566,9 @@
                 });
 
                 sessionWrong++;
+                currentStreak = 0;
+                document.getElementById('streak-display').classList.add('hidden');
+                
                 let totalWrong = parseInt(localStorage.getItem('stats_wrong_' + currentUser)) || 0;
                 localStorage.setItem('stats_wrong_' + currentUser, totalWrong + 1);
             }
@@ -1332,6 +1585,8 @@
             document.getElementById('end-right').innerText = sessionRight;
             document.getElementById('end-wrong').innerText = sessionWrong;
             document.getElementById('end-session-xp').innerText = sessionXP;
+            
+            updateDailyTaskProgress('games');
 
             if (sessionRight === TOTAL_QUESTIONS) { endMessageEl.innerText = "Perfect Score! You are a true Pokémon Master! 🏆"; endMessageEl.style.color = "#10b981"; } 
             else if (sessionRight >= 15) { endMessageEl.innerText = "Amazing Job! You really know your Pokémon! 🌟"; endMessageEl.style.color = "#3b82f6"; } 
