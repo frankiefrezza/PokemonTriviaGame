@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>PKMN Trivia</title>
     
     <!-- PWA & iOS Native App Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="PKMN Trivia">
     <meta name="theme-color" content="#74ebd5">
     
@@ -20,7 +21,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
     <style>
-        body { font-family: 'Nunito', -apple-system, sans-serif; background: linear-gradient(135deg, #74ebd5 0%, #9face6 100%); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; overscroll-behavior: none; }
+        body { font-family: 'Nunito', -apple-system, sans-serif; background: linear-gradient(135deg, #74ebd5 0%, #9face6 100%); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: env(safe-area-inset-top, 20px) 20px env(safe-area-inset-bottom, 20px) 20px; box-sizing: border-box; overscroll-behavior: none; }
         #app { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 30px; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.2), 0 0 0 10px rgba(255,255,255,0.2); text-align: center; width: 440px; max-width: 100%; box-sizing: border-box; position: relative; }
         .hidden { display: none !important; }
 
