@@ -2,8 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokémon Trivia Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PKMN Trivia</title>
+    
+    <!-- PWA & iOS Native App Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="PKMN Trivia">
+    <meta name="theme-color" content="#74ebd5">
+    
     <link rel="icon" href="app-icon.png?v=2" type="image/png">
     <link rel="apple-touch-icon" href="app-icon.png?v=2">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,7 +21,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
     <style>
-        body { font-family: 'Nunito', -apple-system, sans-serif; background: linear-gradient(135deg, #74ebd5 0%, #9face6 100%); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+        body { font-family: 'Nunito', -apple-system, sans-serif; background: linear-gradient(135deg, #74ebd5 0%, #9face6 100%); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; overscroll-behavior: none; }
         #app { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 30px; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.2), 0 0 0 10px rgba(255,255,255,0.2); text-align: center; width: 440px; max-width: 100%; box-sizing: border-box; position: relative; }
         .hidden { display: none !important; }
 
@@ -284,7 +291,10 @@
         <div class="modal-content">
             <h3 style="margin-top: 0; color: #1e293b; font-size: 24px; font-weight: 900; margin-bottom: 20px;">Settings</h3>
             
-            <button id="sound-btn" class="primary-btn btn-orange" onclick="toggleSound()" style="margin-bottom: 25px;">Sound Effects: OFF 🔇</button>
+            <div style="display: flex; gap: 10px; margin-bottom: 25px;">
+                <button id="sound-btn" class="primary-btn btn-orange" onclick="toggleSound()" style="margin-bottom: 0; flex: 1; font-size: 13px;">Sound: OFF</button>
+                <button id="haptic-btn" class="primary-btn btn-orange" onclick="toggleHaptic()" style="margin-bottom: 0; flex: 1; font-size: 13px;">Haptics: OFF</button>
+            </div>
             
             <div id="in-game-settings-btns" class="hidden" style="margin-bottom: 15px; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px;">
                 <button class="primary-btn btn-blue" onclick="restartGame(); toggleSettings();" style="margin-bottom: 10px;">Restart Game</button>
@@ -564,7 +574,7 @@
             screenEl.classList.add('active');
         }
 
-        // --- CACHING SYSTEM ---
+        // --- CACHING & API SYSTEM ---
         const apiMemoryCache = new Map();
         async function fetchWithCache(url) {
             if (apiMemoryCache.has(url)) return apiMemoryCache.get(url);
@@ -576,15 +586,14 @@
                 return parsed;
             }
 
-            const res = await fetch(url);
+            const fetchPromise = fetch(url);
+            const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('API Timeout')), 5000));
+
+            const res = await Promise.race([fetchPromise, timeoutPromise]);
             if (!res.ok) throw new Error("Network response was not ok");
             const data = await res.json();
             
-            try {
-                sessionStorage.setItem(url, JSON.stringify(data));
-            } catch (e) {
-                // Quota exceeded, ignore and just use memory cache
-            }
+            try { sessionStorage.setItem(url, JSON.stringify(data)); } catch (e) { /* Quota Exceeded fallback */ }
             
             apiMemoryCache.set(url, data);
             return data;
@@ -614,10 +623,13 @@
         let currentPokemonId = null; 
         let currentUser = null, currentXP = 0;
         let sessionRight = 0, sessionWrong = 0, sessionXP = 0; 
-        let isSoundEnabled = false;
         let selectedAvatarUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
         let knownUsers = JSON.parse(localStorage.getItem('knownPokeUsers')) || [];
         
+        // Settings State
+        let isSoundEnabled = localStorage.getItem('setting_sound') === 'true';
+        let isHapticEnabled = localStorage.getItem('setting_haptic') === 'true';
+
         let timerInterval;
         let timeLeft = TIME_LIMIT;
         let isPaused = false;
@@ -632,6 +644,7 @@
         const sessionXPDisplay = document.getElementById('session-xp-display');
 
         window.onload = () => {
+            initSettingsUI();
             const savedUser = localStorage.getItem('pokeUser');
             if (savedUser) {
                 currentUser = savedUser;
@@ -655,12 +668,7 @@
                 const weekNum = Math.ceil((((d - new Date(d.getFullYear(),0,1)) / 86400000) + new Date(d.getFullYear(),0,1).getDay()+1)/7);
                 
                 if (!doc.exists || doc.data().hp <= 0 && doc.data().week !== weekNum) {
-                    await raidRef.set({
-                        name: 'Mewtwo',
-                        maxHp: 5000,
-                        hp: 5000,
-                        week: weekNum
-                    });
+                    await raidRef.set({ name: 'Mewtwo', maxHp: 5000, hp: 5000, week: weekNum });
                 }
 
                 raidRef.onSnapshot(snap => {
@@ -687,10 +695,7 @@
         }
 
         async function damageRaidBoss() {
-            try {
-                const raidRef = db.collection('global').doc('raid');
-                await raidRef.update({ hp: firebase.firestore.FieldValue.increment(-10) });
-            } catch(e) {} 
+            try { await db.collection('global').doc('raid').update({ hp: firebase.firestore.FieldValue.increment(-10) }); } catch(e) {} 
         }
 
         function checkRaidReward(week) {
@@ -850,6 +855,19 @@
         }
 
         // --- SETTINGS LOGIC ---
+        function initSettingsUI() {
+            const soundBtn = document.getElementById('sound-btn');
+            if (isSoundEnabled) {
+                soundBtn.className = 'primary-btn btn-green';
+                soundBtn.innerHTML = 'Sound: ON';
+            }
+            const hapticBtn = document.getElementById('haptic-btn');
+            if (isHapticEnabled) {
+                hapticBtn.className = 'primary-btn btn-green';
+                hapticBtn.innerHTML = 'Haptics: ON';
+            }
+        }
+
         function toggleSettings() { 
             const modal = document.getElementById('settings-modal');
             const inGameBtns = document.getElementById('in-game-settings-btns');
@@ -871,13 +889,28 @@
 
         function toggleSound() { 
             isSoundEnabled = !isSoundEnabled; 
+            localStorage.setItem('setting_sound', isSoundEnabled);
             const btn = document.getElementById('sound-btn');
             if (isSoundEnabled) {
                 btn.className = 'primary-btn btn-green';
-                btn.innerHTML = 'Sound Effects: ON 🔊';
+                btn.innerHTML = 'Sound: ON';
             } else {
                 btn.className = 'primary-btn btn-orange';
-                btn.innerHTML = 'Sound Effects: OFF 🔇';
+                btn.innerHTML = 'Sound: OFF';
+            }
+        }
+
+        function toggleHaptic() {
+            isHapticEnabled = !isHapticEnabled;
+            localStorage.setItem('setting_haptic', isHapticEnabled);
+            const btn = document.getElementById('haptic-btn');
+            if (isHapticEnabled) {
+                btn.className = 'primary-btn btn-green';
+                btn.innerHTML = 'Haptics: ON';
+                if(navigator.vibrate) navigator.vibrate(50);
+            } else {
+                btn.className = 'primary-btn btn-orange';
+                btn.innerHTML = 'Haptics: OFF';
             }
         }
 
@@ -929,7 +962,6 @@
             let userDex = JSON.parse(localStorage.getItem('pokedex_' + currentUser)) || [];
             document.getElementById('dex-total-count').innerText = `${userDex.length} / 1025`;
 
-            // ADD SHINY DEX SECTION AT THE TOP
             let shinyDex = JSON.parse(localStorage.getItem('shiny_dex_' + currentUser)) || [];
             let shinyCount = shinyDex.length;
 
@@ -944,7 +976,6 @@
             `;
             dexContainer.innerHTML += shinyHtml;
 
-            // RENDER REGIONS
             POKEDEX_REGIONS.forEach((region, index) => {
                 let regionTotal = (region.end - region.start) + 1;
                 let caughtInRegion = userDex.filter(id => id >= region.start && id <= region.end);
@@ -1072,6 +1103,8 @@
                 const wrongAudio = new Audio('wrong.mp3');
                 wrongAudio.play().catch(e => console.log("Audio playback prevented by browser:", e));
             }
+            
+            if (isHapticEnabled && navigator.vibrate) navigator.vibrate([50, 50, 50]);
 
             allBtns.forEach(btn => {
                 if (btn.dataset.value === correctAnswersAttribute) {
@@ -1408,135 +1441,143 @@
             await new Promise(r => setTimeout(r, 400)); 
             
             optionsEl.innerHTML = '';
+            loadingText.innerText = "Finding a wild Pokémon...";
             loadingText.classList.remove('hidden');
             gameContent.classList.add('hidden');
 
-            const targetId = Math.floor(Math.random() * MAX_POKEMON_ID) + 1;
-            currentPokemonId = targetId; 
-            
-            let seenDex = JSON.parse(localStorage.getItem('seen_' + currentUser)) || [];
-            if (!seenDex.includes(currentPokemonId)) {
-                seenDex.push(currentPokemonId);
-                localStorage.setItem('seen_' + currentUser, JSON.stringify(seenDex));
-            }
-            
-            const mainPokemon = await fetchWithCache(`https://pokeapi.co/api/v2/pokemon/${targetId}`);
-            const cleanName = mainPokemon.name.replace('-', ' ');
-            
-            isShiny = Math.random() < 0.03; 
-            let spriteUrl = mainPokemon.sprites.other['official-artwork'].front_default;
-            if (isShiny && (mainPokemon.sprites.other['official-artwork'].front_shiny || mainPokemon.sprites.front_shiny)) {
-                spriteUrl = mainPokemon.sprites.other['official-artwork'].front_shiny || mainPokemon.sprites.front_shiny;
-            }
-            imageEl.src = spriteUrl;
-            
-            let speciesData = null, chainData = null;
-            if (currentMode === 'EVOLUTIONS' || currentMode === 'TRIVIA') {
-                speciesData = await fetchWithCache(mainPokemon.species.url);
-                chainData = await fetchWithCache(speciesData.evolution_chain.url);
-            }
-
-            let choices = [];
-
-            if (currentMode === 'GUESS') {
-                currentQuestion++;
-                questionTextEl.innerText = "Who's That Pokémon?";
-                imageEl.className = 'silhouette'; 
-                correctAnswersAttribute = mainPokemon.name;
-
-                const ids = new Set([targetId]);
-                while(ids.size < 4) ids.add(Math.floor(Math.random() * MAX_POKEMON_ID) + 1);
-                const idArray = Array.from(ids).filter(id => id !== targetId).slice(0, 3);
+            try {
+                const targetId = Math.floor(Math.random() * MAX_POKEMON_ID) + 1;
+                currentPokemonId = targetId; 
                 
-                const fillerRes = await Promise.all(idArray.map(id => fetchWithCache(`https://pokeapi.co/api/v2/pokemon/${id}`)));
-                const allChoices = [mainPokemon, ...fillerRes];
-                allChoices.sort(() => Math.random() - 0.5);
-
-                allChoices.forEach(poke => createButton(poke.name.replace('-', ' '), poke.name, poke.name === correctAnswersAttribute));
-            } 
-            else if (currentMode === 'TYPES') {
-                currentQuestion++;
-                questionTextEl.innerHTML = `What type of Pokémon is <strong style="text-transform: capitalize; color: #2563eb;">${cleanName}</strong>?`;
-                imageEl.className = isShiny ? 'shiny-glow' : 'revealed'; 
-                correctAnswersAttribute = mainPokemon.types[0].type.name;
-                const wrongTypes = POKEMON_TYPES.filter(t => t !== correctAnswersAttribute).sort(() => Math.random() - 0.5);
-                choices = [correctAnswersAttribute, ...wrongTypes.slice(0, 3)].sort(() => Math.random() - 0.5);
-                choices.forEach(t => createButton(t, t, t === correctAnswersAttribute));
-            } 
-            else if (currentMode === 'EVOLUTIONS') {
-                let evolveTo = getEvolutionTarget(chainData.chain, mainPokemon.name);
-                if (!evolveTo) return loadNextQuestion(); 
-
-                currentQuestion++;
-                questionTextEl.innerHTML = `Who does <strong style="text-transform: capitalize; color: #f59e0b;">${cleanName}</strong> evolve into?`;
-                imageEl.className = isShiny ? 'shiny-glow' : 'revealed';
-                correctAnswersAttribute = evolveTo;
-
-                const ids = new Set();
-                while(ids.size < 3) ids.add(Math.floor(Math.random() * MAX_POKEMON_ID) + 1);
-                const fillerRes = await Promise.all(Array.from(ids).map(id => fetchWithCache(`https://pokeapi.co/api/v2/pokemon/${id}`)));
-                
-                let wrongNames = fillerRes.map(p => p.name);
-                choices = [correctAnswersAttribute, ...wrongNames].sort(() => Math.random() - 0.5);
-                choices.forEach(n => createButton(n.replace('-', ' '), n, n === correctAnswersAttribute));
-            } 
-            else if (currentMode === 'TRIVIA') {
-                currentQuestion++;
-                imageEl.className = isShiny ? 'shiny-glow' : 'revealed';
-                const questionType = Math.floor(Math.random() * 5);
-
-                if (questionType === 0) {
-                    questionTextEl.innerHTML = `Does <strong style="text-transform: capitalize; color: #8b5cf6;">${cleanName}</strong> evolve into another Pokémon?`;
-                    let evolveTo = getEvolutionTarget(chainData.chain, mainPokemon.name);
-                    correctAnswersAttribute = evolveTo ? "Yes" : "No";
-                    choices = ["Yes", "No"];
-                } else if (questionType === 1) {
-                    questionTextEl.innerHTML = `Which region was <strong style="text-transform: capitalize; color: #8b5cf6;">${cleanName}</strong> first discovered in?`;
-                    let genName = speciesData.generation.name;
-                    correctAnswersAttribute = REGIONS[genName] || "Unknown";
-                    let wrongRegions = Object.values(REGIONS).filter(r => r !== correctAnswersAttribute).sort(() => Math.random() - 0.5);
-                    choices = [correctAnswersAttribute, ...wrongRegions.slice(0, 3)].sort(() => Math.random() - 0.5);
-                } else if (questionType === 2) {
-                    questionTextEl.innerHTML = `Is <strong style="text-transform: capitalize; color: #8b5cf6;">${cleanName}</strong> a single type or a dual type Pokémon?`;
-                    let isDual = mainPokemon.types.length > 1;
-                    correctAnswersAttribute = isDual ? "Dual Type" : "Single Type";
-                    choices = ["Single Type", "Dual Type"];
-                } else if (questionType === 3) {
-                    questionTextEl.innerHTML = `What is one of <strong style="text-transform: capitalize; color: #8b5cf6;">${cleanName}</strong>'s weaknesses?`;
-                    let primaryType = mainPokemon.types[0].type.name;
-                    let typeData = await fetchWithCache(`https://pokeapi.co/api/v2/type/${primaryType}`);
-                    let weaknesses = typeData.damage_relations.double_damage_from.map(t => t.name);
-                    if (weaknesses.length === 0) weaknesses = ['normal']; 
-                    correctAnswersAttribute = weaknesses[0];
-                    let wrongTypes = POKEMON_TYPES.filter(t => !weaknesses.includes(t)).sort(() => Math.random() - 0.5);
-                    choices = [correctAnswersAttribute, ...wrongTypes.slice(0, 3)].sort(() => Math.random() - 0.5);
-                } else if (questionType === 4) {
-                    questionTextEl.innerHTML = `What type is <strong style="text-transform: capitalize; color: #8b5cf6;">${cleanName}</strong> super effective against?`;
-                    let primaryType = mainPokemon.types[0].type.name;
-                    let typeData = await fetchWithCache(`https://pokeapi.co/api/v2/type/${primaryType}`);
-                    let strengths = typeData.damage_relations.double_damage_to.map(t => t.name);
-                    
-                    if (strengths.length === 0) {
-                        correctAnswersAttribute = "None";
-                        let wrongTypes = POKEMON_TYPES.filter(t => t !== primaryType).sort(() => Math.random() - 0.5);
-                        choices = [correctAnswersAttribute, ...wrongTypes.slice(0, 3)].sort(() => Math.random() - 0.5);
-                    } else {
-                        correctAnswersAttribute = strengths[0];
-                        let wrongTypes = POKEMON_TYPES.filter(t => !strengths.includes(t)).sort(() => Math.random() - 0.5);
-                        choices = [correctAnswersAttribute, ...wrongTypes.slice(0, 3)].sort(() => Math.random() - 0.5);
-                    }
+                let seenDex = JSON.parse(localStorage.getItem('seen_' + currentUser)) || [];
+                if (!seenDex.includes(currentPokemonId)) {
+                    seenDex.push(currentPokemonId);
+                    localStorage.setItem('seen_' + currentUser, JSON.stringify(seenDex));
                 }
-                choices.forEach(choice => createButton(choice, choice, choice === correctAnswersAttribute));
-            }
+                
+                const mainPokemon = await fetchWithCache(`https://pokeapi.co/api/v2/pokemon/${targetId}`);
+                const cleanName = mainPokemon.name.replace('-', ' ');
+                
+                isShiny = Math.random() < 0.03; 
+                let spriteUrl = mainPokemon.sprites.other['official-artwork'].front_default;
+                if (isShiny && (mainPokemon.sprites.other['official-artwork'].front_shiny || mainPokemon.sprites.front_shiny)) {
+                    spriteUrl = mainPokemon.sprites.other['official-artwork'].front_shiny || mainPokemon.sprites.front_shiny;
+                }
+                imageEl.src = spriteUrl;
+                
+                let speciesData = null, chainData = null;
+                if (currentMode === 'EVOLUTIONS' || currentMode === 'TRIVIA') {
+                    speciesData = await fetchWithCache(mainPokemon.species.url);
+                    chainData = await fetchWithCache(speciesData.evolution_chain.url);
+                }
 
-            questionCountEl.innerText = currentQuestion;
-            loadingText.classList.add('hidden');
-            gameContent.classList.remove('hidden');
-            
-            setTimeout(() => { 
-                gameContent.style.opacity = 1; 
-                startTimer();
-            }, 50);
+                let choices = [];
+
+                if (currentMode === 'GUESS') {
+                    currentQuestion++;
+                    questionTextEl.innerText = "Who's That Pokémon?";
+                    imageEl.className = 'silhouette'; 
+                    correctAnswersAttribute = mainPokemon.name;
+
+                    const ids = new Set([targetId]);
+                    while(ids.size < 4) ids.add(Math.floor(Math.random() * MAX_POKEMON_ID) + 1);
+                    const idArray = Array.from(ids).filter(id => id !== targetId).slice(0, 3);
+                    
+                    const fillerRes = await Promise.all(idArray.map(id => fetchWithCache(`https://pokeapi.co/api/v2/pokemon/${id}`)));
+                    const allChoices = [mainPokemon, ...fillerRes];
+                    allChoices.sort(() => Math.random() - 0.5);
+
+                    allChoices.forEach(poke => createButton(poke.name.replace('-', ' '), poke.name, poke.name === correctAnswersAttribute));
+                } 
+                else if (currentMode === 'TYPES') {
+                    currentQuestion++;
+                    questionTextEl.innerHTML = `What type of Pokémon is <strong style="text-transform: capitalize; color: #2563eb;">${cleanName}</strong>?`;
+                    imageEl.className = isShiny ? 'shiny-glow' : 'revealed'; 
+                    correctAnswersAttribute = mainPokemon.types[0].type.name;
+                    const wrongTypes = POKEMON_TYPES.filter(t => t !== correctAnswersAttribute).sort(() => Math.random() - 0.5);
+                    choices = [correctAnswersAttribute, ...wrongTypes.slice(0, 3)].sort(() => Math.random() - 0.5);
+                    choices.forEach(t => createButton(t, t, t === correctAnswersAttribute));
+                } 
+                else if (currentMode === 'EVOLUTIONS') {
+                    let evolveTo = getEvolutionTarget(chainData.chain, mainPokemon.name);
+                    if (!evolveTo) return loadNextQuestion(); 
+
+                    currentQuestion++;
+                    questionTextEl.innerHTML = `Who does <strong style="text-transform: capitalize; color: #f59e0b;">${cleanName}</strong> evolve into?`;
+                    imageEl.className = isShiny ? 'shiny-glow' : 'revealed';
+                    correctAnswersAttribute = evolveTo;
+
+                    const ids = new Set();
+                    while(ids.size < 3) ids.add(Math.floor(Math.random() * MAX_POKEMON_ID) + 1);
+                    const fillerRes = await Promise.all(Array.from(ids).map(id => fetchWithCache(`https://pokeapi.co/api/v2/pokemon/${id}`)));
+                    
+                    let wrongNames = fillerRes.map(p => p.name);
+                    choices = [correctAnswersAttribute, ...wrongNames].sort(() => Math.random() - 0.5);
+                    choices.forEach(n => createButton(n.replace('-', ' '), n, n === correctAnswersAttribute));
+                } 
+                else if (currentMode === 'TRIVIA') {
+                    currentQuestion++;
+                    imageEl.className = isShiny ? 'shiny-glow' : 'revealed';
+                    const questionType = Math.floor(Math.random() * 5);
+
+                    if (questionType === 0) {
+                        questionTextEl.innerHTML = `Does <strong style="text-transform: capitalize; color: #8b5cf6;">${cleanName}</strong> evolve into another Pokémon?`;
+                        let evolveTo = getEvolutionTarget(chainData.chain, mainPokemon.name);
+                        correctAnswersAttribute = evolveTo ? "Yes" : "No";
+                        choices = ["Yes", "No"];
+                    } else if (questionType === 1) {
+                        questionTextEl.innerHTML = `Which region was <strong style="text-transform: capitalize; color: #8b5cf6;">${cleanName}</strong> first discovered in?`;
+                        let genName = speciesData.generation.name;
+                        correctAnswersAttribute = REGIONS[genName] || "Unknown";
+                        let wrongRegions = Object.values(REGIONS).filter(r => r !== correctAnswersAttribute).sort(() => Math.random() - 0.5);
+                        choices = [correctAnswersAttribute, ...wrongRegions.slice(0, 3)].sort(() => Math.random() - 0.5);
+                    } else if (questionType === 2) {
+                        questionTextEl.innerHTML = `Is <strong style="text-transform: capitalize; color: #8b5cf6;">${cleanName}</strong> a single type or a dual type Pokémon?`;
+                        let isDual = mainPokemon.types.length > 1;
+                        correctAnswersAttribute = isDual ? "Dual Type" : "Single Type";
+                        choices = ["Single Type", "Dual Type"];
+                    } else if (questionType === 3) {
+                        questionTextEl.innerHTML = `What is one of <strong style="text-transform: capitalize; color: #8b5cf6;">${cleanName}</strong>'s weaknesses?`;
+                        let primaryType = mainPokemon.types[0].type.name;
+                        let typeData = await fetchWithCache(`https://pokeapi.co/api/v2/type/${primaryType}`);
+                        let weaknesses = typeData.damage_relations.double_damage_from.map(t => t.name);
+                        if (weaknesses.length === 0) weaknesses = ['normal']; 
+                        correctAnswersAttribute = weaknesses[0];
+                        let wrongTypes = POKEMON_TYPES.filter(t => !weaknesses.includes(t)).sort(() => Math.random() - 0.5);
+                        choices = [correctAnswersAttribute, ...wrongTypes.slice(0, 3)].sort(() => Math.random() - 0.5);
+                    } else if (questionType === 4) {
+                        questionTextEl.innerHTML = `What type is <strong style="text-transform: capitalize; color: #8b5cf6;">${cleanName}</strong> super effective against?`;
+                        let primaryType = mainPokemon.types[0].type.name;
+                        let typeData = await fetchWithCache(`https://pokeapi.co/api/v2/type/${primaryType}`);
+                        let strengths = typeData.damage_relations.double_damage_to.map(t => t.name);
+                        
+                        if (strengths.length === 0) {
+                            correctAnswersAttribute = "None";
+                            let wrongTypes = POKEMON_TYPES.filter(t => t !== primaryType).sort(() => Math.random() - 0.5);
+                            choices = [correctAnswersAttribute, ...wrongTypes.slice(0, 3)].sort(() => Math.random() - 0.5);
+                        } else {
+                            correctAnswersAttribute = strengths[0];
+                            let wrongTypes = POKEMON_TYPES.filter(t => !strengths.includes(t)).sort(() => Math.random() - 0.5);
+                            choices = [correctAnswersAttribute, ...wrongTypes.slice(0, 3)].sort(() => Math.random() - 0.5);
+                        }
+                    }
+                    choices.forEach(choice => createButton(choice, choice, choice === correctAnswersAttribute));
+                }
+
+                questionCountEl.innerText = currentQuestion;
+                loadingText.classList.add('hidden');
+                gameContent.classList.remove('hidden');
+                
+                setTimeout(() => { 
+                    gameContent.style.opacity = 1; 
+                    startTimer();
+                }, 50);
+
+            } catch (error) {
+                console.error("API Error or Timeout:", error);
+                loadingText.innerText = "Network slow! Finding another Pokémon...";
+                setTimeout(() => loadNextQuestion(), 1500); 
+            }
         }
 
         function createButton(displayText, dataValue, isCorrect) {
@@ -1568,6 +1609,8 @@
                     const correctAudio = new Audio('correct.mp3');
                     correctAudio.play().catch(e => console.log("Audio playback prevented by browser:", e));
                 }
+                
+                if (isHapticEnabled && navigator.vibrate) navigator.vibrate(50);
 
                 let userDex = JSON.parse(localStorage.getItem('pokedex_' + currentUser)) || [];
                 if (!userDex.includes(currentPokemonId)) {
@@ -1626,6 +1669,8 @@
                     const wrongAudio = new Audio('wrong.mp3');
                     wrongAudio.play().catch(e => console.log("Audio playback prevented by browser:", e));
                 }
+                
+                if (isHapticEnabled && navigator.vibrate) navigator.vibrate([50, 50, 50]);
 
                 clickedBtn.classList.add('wrong');
                 allBtns.forEach(btn => {
