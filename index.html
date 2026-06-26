@@ -18,6 +18,14 @@
         #app { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 30px; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.2), 0 0 0 10px rgba(255,255,255,0.2); text-align: center; width: 440px; max-width: 100%; box-sizing: border-box; position: relative; }
         .hidden { display: none !important; }
 
+        /* --- SCREEN TRANSITIONS --- */
+        .screen { display: none; }
+        .screen.active { display: block; animation: screenTransition 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes screenTransition {
+            0% { opacity: 0; transform: translateY(15px) scale(0.98); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
         #game-screen { position: relative; }
         #game-content { transition: opacity 0.4s ease-in-out; opacity: 1; min-height: 350px; }
 
@@ -200,7 +208,6 @@
         @media (max-width: 480px) {
             body { padding: 0; align-items: flex-start; }
             #app { width: 100%; min-height: 100vh; border-radius: 0; padding: env(safe-area-inset-top, 20px) 15px 15px 15px; box-shadow: none; }
-            #home-screen h1, #login-screen h1 { font-size: 26px; }
             .input-group { flex-direction: column; gap: 10px; margin-bottom: 15px; }
             #username-input, #pin-input { width: 100%; margin-bottom: 0; }
             #game-screen .mini-game-logo { width: 110px; margin: 0 auto 10px auto; }
@@ -341,11 +348,11 @@
     </div>
 
     <div id="app">
-        <div id="login-screen" class="hidden">
+        <div id="login-screen" class="screen">
             <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="main-logo">
             
             <div class="bento-box" style="margin-bottom: 15px; text-align: center;">
-                <h1 style="font-size: 24px; margin-top: 0; margin-bottom: 20px; color: #1e3a8a;">Trainer Login</h1>
+                <h1 style="font-size: 24px; margin-top: 0; margin-bottom: 20px; color: #334155;">Trainer Login</h1>
                 <div class="input-group">
                     <input type="text" id="username-input" placeholder="Trainer Name">
                     <input type="password" id="pin-input" placeholder="PIN" maxlength="4" pattern="\d{4}">
@@ -356,13 +363,13 @@
                     <div class="avatar-preview-box" style="background: rgba(255,255,255,0.8);">
                         <img id="login-avatar-preview" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png">
                     </div>
-                    <button class="nav-btn" style="margin: 0 auto; background-color: #3b82f6; color: white;" onclick="openAvatarModal()">
+                    <button class="nav-btn" style="margin: 0 auto; background-color: #64748b; color: white;" onclick="openAvatarModal()">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 5px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                         Change Pokémon
                     </button>
                 </div>
 
-                <button class="primary-btn btn-blue" style="margin-bottom: 0;" onclick="loginUser()">Start Adventure</button>
+                <button class="primary-btn btn-green" style="margin-bottom: 0;" onclick="loginUser()">Start Adventure</button>
             </div>
 
             <div id="user-history-container" class="bento-box hidden" style="padding: 15px;">
@@ -371,7 +378,7 @@
             </div>
         </div>
 
-        <div id="home-screen" class="hidden">
+        <div id="home-screen" class="screen">
             <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="main-logo">
             
             <div class="bento-box trainer-card">
@@ -453,7 +460,7 @@
             </div>
         </div>
 
-        <div id="game-screen" class="hidden">
+        <div id="game-screen" class="screen">
             <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="mini-game-logo" style="margin-top: 10px;">
 
             <div class="mini-xp-box">
@@ -505,7 +512,7 @@
             </div>
         </div>
 
-        <div id="end-screen" class="hidden">
+        <div id="end-screen" class="screen">
             <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="mini-game-logo" style="margin-bottom: 20px;">
             <h1 style="font-size: 36px; margin-bottom: 0;">Game Over!</h1>
             <h2 id="end-message"></h2>
@@ -550,6 +557,12 @@
         
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+
+        // --- SCREEN MANAGER ---
+        function showScreen(screenEl) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            screenEl.classList.add('active');
+        }
 
         // --- CACHING SYSTEM ---
         const apiMemoryCache = new Map();
@@ -623,10 +636,10 @@
             if (savedUser) {
                 currentUser = savedUser;
                 loadUserData(currentUser);
-                homeScreen.classList.remove('hidden');
+                showScreen(homeScreen);
             } else {
                 renderUserHistory();
-                loginScreen.classList.remove('hidden');
+                showScreen(loginScreen);
             }
         };
 
@@ -841,7 +854,7 @@
             const modal = document.getElementById('settings-modal');
             const inGameBtns = document.getElementById('in-game-settings-btns');
             
-            if (!gameScreen.classList.contains('hidden')) {
+            if (gameScreen.classList.contains('active')) {
                 inGameBtns.classList.remove('hidden');
             } else {
                 inGameBtns.classList.add('hidden');
@@ -1190,9 +1203,9 @@
 
             currentUser = rawName.toUpperCase();
 
-            const loginBtn = document.querySelector('#login-screen .btn-blue');
+            const loginBtn = document.querySelector('#login-screen .btn-green');
             const originalText = loginBtn.innerText;
-            loginBtn.innerText = "Syncing with Server...";
+            loginBtn.innerText = "Syncing...";
             loginBtn.disabled = true;
 
             try {
@@ -1245,9 +1258,8 @@
                 initDailyTask();
                 loadRaidBoss();
                 
-                loginScreen.classList.add('hidden');
-                homeScreen.classList.remove('hidden');
                 document.getElementById('pin-input').value = ''; 
+                showScreen(homeScreen);
 
             } catch (error) {
                 console.error("Error logging in:", error);
@@ -1266,9 +1278,8 @@
             selectedAvatarUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
             document.getElementById('login-avatar-preview').src = selectedAvatarUrl;
             
-            homeScreen.classList.add('hidden');
             renderUserHistory();
-            loginScreen.classList.remove('hidden');
+            showScreen(loginScreen);
         }
 
         function deleteUser(userToDelete) {
@@ -1361,9 +1372,7 @@
             document.getElementById('streak-display').classList.add('hidden');
             
             sessionXPDisplay.innerText = sessionXP;
-            homeScreen.classList.add('hidden');
-            endScreen.classList.add('hidden');
-            gameScreen.classList.remove('hidden');
+            showScreen(gameScreen);
             loadNextQuestion();
         }
 
@@ -1371,10 +1380,8 @@
         function goHome() { 
             clearInterval(timerInterval);
             isPaused = false;
-            gameScreen.classList.add('hidden'); 
-            endScreen.classList.add('hidden'); 
-            homeScreen.classList.remove('hidden'); 
             renderDailyTask();
+            showScreen(homeScreen);
         }
 
         function getEvolutionTarget(chainNode, targetName) {
@@ -1643,8 +1650,7 @@
         function endGame() {
             clearInterval(timerInterval);
             isPaused = false;
-            gameScreen.classList.add('hidden');
-            endScreen.classList.remove('hidden');
+            showScreen(endScreen);
             
             document.getElementById('end-right').innerText = sessionRight;
             document.getElementById('end-wrong').innerText = sessionWrong;
