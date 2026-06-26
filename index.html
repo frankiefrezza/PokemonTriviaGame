@@ -26,7 +26,10 @@
         .main-logo { width: 100%; max-width: 280px; height: auto; margin: 0 auto 20px auto; display: block; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15)); }
         .mini-game-logo { width: 140px; margin: -10px auto 15px auto; display: block; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
 
-        .trainer-card { background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%); padding: 24px; border-radius: 24px; margin-bottom: 20px; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px rgba(0,0,0,0.05), inset 0 2px 0 rgba(255,255,255,1); text-align: left; position: relative; overflow: hidden; }
+        /* Bento Box Glassmorphism Base */
+        .bento-box { background: rgba(255,255,255,0.7); backdrop-filter: blur(12px); border-radius: 25px; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 8px 20px rgba(0,0,0,0.08); padding: 20px; margin-bottom: 20px; position: relative; overflow: hidden; }
+
+        .trainer-card { text-align: left; margin-bottom: 20px; padding: 24px; }
         .trainer-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
         .trainer-header { display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
         .trainer-identity { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; }
@@ -53,7 +56,7 @@
         .xp-core { flex-grow: 1; display: flex; flex-direction: column; gap: 8px; }
         .xp-stats-row { display: flex; justify-content: space-between; align-items: flex-end; }
         
-        .level-pill { background: #ede9fe; color: #7c3aed; padding: 4px 10px; border-radius: 8px; font-size: 13px; font-weight: 900; border: 1px solid #ddd6fe; display: inline-block; }
+        .level-pill { background: #ede9fe; color: #7c3aed; padding: 4px 10px; border-radius: 8px; font-size: 13px; font-weight: 900; border: 1px solid #ddd6fe; display: inline-block; position: relative; }
         .xp-pill { background: #e0f2fe; color: #0369a1; padding: 4px 10px; border-radius: 8px; font-size: 13px; font-weight: 900; border: 1px solid #bae6fd; display: inline-block; }
         
         .xp-bar-track { width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.08); }
@@ -62,35 +65,34 @@
         .xp-container { width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
         #mini-xp-progress-bar { height: 100%; background: linear-gradient(90deg, #3b82f6, #8b5cf6); width: 0%; transition: width 0.5s ease-out; }
 
-        /* --- RAID BOSS & DAILY TASK UI --- */
-        .raid-box { background: linear-gradient(135deg, #2e1065 0%, #4c1d95 100%); padding: 15px; border-radius: 20px; margin-bottom: 15px; border: 2px solid #8b5cf6; color: white; text-align: left; position: relative; overflow: hidden; box-shadow: 0 8px 15px rgba(76, 29, 149, 0.3); }
-        .raid-box h3 { margin: 0 0 5px 0; font-size: 16px; font-weight: 900; text-transform: uppercase; color: #ddd6fe; display: flex; justify-content: space-between; align-items: center; }
-        .raid-boss-name { font-size: 22px; font-family: 'Fredoka', sans-serif; font-weight: 600; color: #fff; margin-bottom: 10px; }
-        .raid-hp-track { width: 100%; height: 12px; background: rgba(0,0,0,0.3); border-radius: 6px; overflow: hidden; margin-bottom: 5px; border: 1px solid #7c3aed; }
-        #raid-bar { height: 100%; background: linear-gradient(90deg, #ef4444, #f59e0b); width: 100%; transition: width 0.5s ease-out; }
-        #raid-hp { font-size: 12px; font-weight: 800; color: #c4b5fd; text-align: right; display: block; }
-        .raid-btn { background: #f59e0b; color: #78350f; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 12px; box-shadow: 0 2px 0 #d97706; transition: transform 0.1s; }
-        .raid-btn:active { transform: translateY(2px); box-shadow: 0 0 0 transparent; }
+        /* Floating XP Animation above Level Pill */
+        .xp-popup { position: absolute; color: #10b981; font-weight: 900; font-size: 18px; animation: floatUp 1.2s ease-out forwards; pointer-events: none; text-shadow: 0px 2px 0px #fff, 0px -2px 0px #fff, 2px 0px 0px #fff, -2px 0px 0px #fff; z-index: 50; font-family: 'Fredoka', sans-serif; left: 50%; bottom: 100%; margin-bottom: 5px; transform: translateX(-50%); white-space: nowrap; }
+        @keyframes floatUp { 0% { opacity: 0; transform: translate(-50%, 10px) scale(0.8); } 20% { opacity: 1; transform: translate(-50%, 0) scale(1.2); } 100% { opacity: 0; transform: translate(-50%, -30px) scale(1); } }
 
-        .daily-challenges-container { background: #fffbeb; padding: 15px; border-radius: 20px; margin-bottom: 20px; border: 2px solid #fde68a; text-align: left; }
-        .dc-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.5); padding: 10px; border-radius: 12px; margin-bottom: 8px; border: 1px solid #fef3c7; }
+        /* --- DAILY TASK UI --- */
+        .daily-challenges-container { text-align: left; background: rgba(255, 251, 235, 0.7); } /* Keeps yellow tint with bento blur */
+        .dc-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.6); padding: 10px; border-radius: 12px; margin-bottom: 8px; border: 1px solid rgba(253, 230, 138, 0.8); }
         .dc-item:last-child { margin-bottom: 0; }
         .dc-desc { font-size: 13px; font-weight: 800; color: #92400e; flex: 1; margin-right: 10px; }
         .dc-status { font-size: 14px; font-weight: 900; color: #f59e0b; background: #fef3c7; padding: 4px 10px; border-radius: 10px; border: 1px solid #fde68a; text-align: center; min-width: 45px; }
         .dc-btn { background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 12px; box-shadow: 0 3px 0 #059669; }
 
-        .menu-box { padding: 15px; border-radius: 20px; margin-bottom: 15px; border: 2px solid #e2e8f0; transition: transform 0.2s, border-color 0.2s; }
+        /* --- GAME MODES GRID --- */
+        .modes-master-bento { padding: 20px; }
+        .modes-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .menu-box { padding: 15px; border-radius: 20px; border: 2px solid #e2e8f0; transition: transform 0.2s, border-color 0.2s; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; }
         .menu-box:hover { transform: scale(1.02); }
-        .menu-box h3 { margin: 0 0 5px 0; color: #1e293b; font-size: 18px; font-weight: 900; }
-        .menu-box p { font-size: 13px; color: #475569; margin-top: 0; margin-bottom: 12px; font-weight: 700; }
+        .menu-box h3 { margin: 0 0 5px 0; color: #1e293b; font-size: 14px; font-weight: 900; }
+        .menu-box p { font-size: 11px; color: #475569; margin-top: 0; margin-bottom: 12px; font-weight: 700; flex-grow: 1; }
+        .menu-box .primary-btn { font-size: 12px; padding: 10px; margin-bottom: 0; }
         
-        .mode-guess { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-color: #bfdbfe; }
+        .mode-guess { background: linear-gradient(135deg, rgba(239,246,255,0.8) 0%, rgba(219,234,254,0.8) 100%); border-color: #bfdbfe; }
         .mode-guess:hover { border-color: #93c5fd; box-shadow: 0 4px 12px rgba(59,130,246,0.15); }
-        .mode-types { background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-color: #bbf7d0; }
+        .mode-types { background: linear-gradient(135deg, rgba(240,253,244,0.8) 0%, rgba(220,252,231,0.8) 100%); border-color: #bbf7d0; }
         .mode-types:hover { border-color: #86efac; box-shadow: 0 4px 12px rgba(16,185,129,0.15); }
-        .mode-evolutions { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); border-color: #fde68a; }
+        .mode-evolutions { background: linear-gradient(135deg, rgba(255,251,235,0.8) 0%, rgba(254,243,199,0.8) 100%); border-color: #fde68a; }
         .mode-evolutions:hover { border-color: #fcd34d; box-shadow: 0 4px 12px rgba(245,158,11,0.15); }
-        .mode-trivia { background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border-color: #e9d5ff; }
+        .mode-trivia { background: linear-gradient(135deg, rgba(250,245,255,0.8) 0%, rgba(243,232,255,0.8) 100%); border-color: #e9d5ff; }
         .mode-trivia:hover { border-color: #d8b4fe; box-shadow: 0 4px 12px rgba(139,92,246,0.15); }
 
         .nav-btn { display: flex; align-items: center; gap: 6px; padding: 8px 16px; font-size: 14px; background-color: #e2e8f0; color: #475569; border: none; border-radius: 12px; cursor: pointer; font-weight: 800; transition: all 0.2s; }
@@ -141,12 +143,13 @@
         .correct { background-color: #22c55e !important; border-color: #16a34a !important; color: white !important; box-shadow: 0 4px 0 #16a34a !important; transform: translateY(0); }
         .wrong { background-color: #ef4444 !important; border-color: #dc2626 !important; color: white !important; box-shadow: 0 4px 0 #dc2626 !important; transform: translateY(0); }
 
-        .primary-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 20px; font-size: 16px; font-family: 'Nunito', sans-serif; color: white; border: none; border-radius: 16px; cursor: pointer; font-weight: 800; width: 100%; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; transition: all 0.1s ease; }
+        .primary-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 20px; font-size: 16px; font-family: 'Nunito', sans-serif; color: white; border: none; border-radius: 16px; cursor: pointer; font-weight: 800; width: 100%; text-transform: uppercase; letter-spacing: 1px; transition: all 0.1s ease; }
         .primary-btn:active { transform: translateY(4px); }
         .btn-blue { background-color: #3b82f6; box-shadow: 0 4px 0 #2563eb; } .btn-green { background-color: #10b981; box-shadow: 0 4px 0 #059669; } .btn-orange { background-color: #f59e0b; box-shadow: 0 4px 0 #d97706; } .btn-purple { background-color: #8b5cf6; box-shadow: 0 4px 0 #7c3aed; }
 
-        .bottom-dock { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; margin-top: 25px; border-top: 2px solid #e2e8f0; padding-top: 20px; }
-        .game-dock { margin-top: 25px; padding-top: 15px; } 
+        /* Bento Box Dock Styles */
+        .bottom-dock { display: flex; justify-content: space-around; align-items: center; gap: 10px; margin-top: 5px; margin-bottom: 0; }
+        .game-dock { margin-top: 15px; } 
         
         .dock-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; background: transparent; border: none; padding: 0; cursor: pointer; transition: transform 0.2s, filter 0.2s; outline: none; }
         .dock-btn:hover { transform: translateY(-4px) scale(1.02); filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15)); }
@@ -203,6 +206,11 @@
             .input-group { flex-direction: column; gap: 10px; margin-bottom: 15px; }
             #username-input, #pin-input { width: 100%; margin-bottom: 0; }
             #game-screen .mini-game-logo { width: 110px; margin: 0 auto 10px auto; }
+            
+            /* Responsive Bento adjustments */
+            .modes-grid { grid-template-columns: 1fr; }
+            .bento-box { padding: 15px; margin-bottom: 15px; }
+
             .mini-xp-box { margin-bottom: 10px !important; padding: 8px !important; }
             .stats { padding: 8px 15px !important; font-size: 15px !important; margin-bottom: 10px !important; }
             #timer-wrapper { margin-bottom: 10px !important; }
@@ -268,11 +276,11 @@
             <button id="sound-btn" class="primary-btn btn-green" onclick="toggleSound()" style="margin-bottom: 25px;">Sound Effects: ON 🔊</button>
             
             <div id="in-game-settings-btns" class="hidden" style="margin-bottom: 15px; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px;">
-                <button class="primary-btn btn-blue" onclick="restartGame(); toggleSettings();">Restart Game</button>
+                <button class="primary-btn btn-blue" onclick="restartGame(); toggleSettings();" style="margin-bottom: 10px;">Restart Game</button>
                 <button class="primary-btn btn-purple" style="margin-bottom: 0;" onclick="goHome(); toggleSettings();">Return Home</button>
             </div>
 
-            <button class="primary-btn btn-orange" onclick="logoutUser(); toggleSettings();">Logout Trainer</button>
+            <button class="primary-btn btn-orange" onclick="logoutUser(); toggleSettings();" style="margin-bottom: 10px;">Logout Trainer</button>
             <button class="primary-btn" style="background: #e2e8f0; color: #475569; margin-bottom: 0; box-shadow: 0 4px 0 #cbd5e1;" onclick="toggleSettings()">Close</button>
         </div>
     </div>
@@ -323,7 +331,7 @@
                 <img id="modal-avatar-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png">
             </div>
 
-            <button class="primary-btn btn-green" onclick="confirmAvatar()">Select Avatar</button>
+            <button class="primary-btn btn-green" onclick="confirmAvatar()" style="margin-bottom: 10px;">Select Avatar</button>
             <button class="primary-btn btn-orange" style="margin-bottom: 0;" onclick="closeAvatarModal()">Cancel</button>
         </div>
     </div>
@@ -360,7 +368,8 @@
 
         <div id="home-screen" class="hidden">
             <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="main-logo">
-            <div class="trainer-card">
+            
+            <div class="bento-box trainer-card">
                 <div class="trainer-header">
                     <div class="trainer-identity">
                         <div class="trainer-avatar-bg" onclick="openAvatarModal()" title="Change Avatar">
@@ -377,7 +386,7 @@
                     <div class="badge-wrapper"><img id="current-badge" src="LV1-10.png" alt="Current Badge"></div>
                     <div class="xp-core">
                         <div class="xp-stats-row">
-                            <div class="level-pill">LVL <span id="display-level">1</span></div>
+                            <div class="level-pill" id="level-pill">LVL <span id="display-level">1</span></div>
                             <div class="xp-pill"><span id="display-xp">0/100 XP</span></div>
                         </div>
                         <div class="xp-bar-track"><div id="xp-progress-bar"></div></div>
@@ -386,7 +395,7 @@
                 </div>
             </div>
 
-            <div id="raid-container" class="raid-box hidden">
+            <div id="raid-container" class="bento-box raid-box hidden">
                 <h3>🌍 Weekend Raid Boss <span style="font-size:12px; background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 6px;">CO-OP</span></h3>
                 <div class="raid-boss-name" id="raid-name">Mewtwo</div>
                 <div class="raid-hp-track"><div id="raid-bar"></div></div>
@@ -397,29 +406,33 @@
                 <button id="raid-claim-btn" class="raid-btn hidden" style="width: 100%; margin-top: 10px;" onclick="claimRaidReward()">Claim Victory +200 XP!</button>
             </div>
 
-            <div id="daily-challenges-container" class="daily-challenges-container hidden">
-                <h3 style="margin: 0 0 10px 0; font-size: 16px; font-weight: 900; color: #d97706; text-transform: uppercase;">📋 Daily Challenges</h3>
+            <div id="daily-challenges-container" class="bento-box daily-challenges-container hidden">
+                <h3 style="margin: 0 0 15px 0; font-size: 16px; font-weight: 900; color: #d97706; text-transform: uppercase; text-align: center;">Daily Challenges</h3>
                 <div id="dc-list"></div>
             </div>
 
-            <div class="menu-box mode-guess">
-                <h3>WHO'S THAT POKÉMON</h3><p>Identify the Pokémon from its silhouette.</p>
-                <button class="primary-btn btn-blue" onclick="startGame('GUESS')">Play Who's That Pokémon</button>
-            </div>
-            <div class="menu-box mode-types">
-                <h3>TYPES MODE</h3><p>Test your knowledge on elemental types.</p>
-                <button class="primary-btn btn-green" onclick="startGame('TYPES')">Play Types Mode</button>
-            </div>
-            <div class="menu-box mode-evolutions">
-                <h3>EVOLUTIONS MODE</h3><p>Who does this Pokémon evolve into?</p>
-                <button class="primary-btn btn-orange" onclick="startGame('EVOLUTIONS')">Play Evolutions Mode</button>
-            </div>
-            <div class="menu-box mode-trivia" style="margin-bottom: 0;">
-                <h3>TRIVIA MODE</h3><p>Regions, types, and weaknesses!</p>
-                <button class="primary-btn btn-purple" onclick="startGame('TRIVIA')">Play Trivia Mode</button>
+            <div class="bento-box modes-master-bento">
+                <div class="modes-grid">
+                    <div class="menu-box mode-guess">
+                        <h3>WHO'S THAT POKÉMON</h3><p>Identify the Pokémon from its silhouette.</p>
+                        <button class="primary-btn btn-blue" onclick="startGame('GUESS')">Play</button>
+                    </div>
+                    <div class="menu-box mode-types">
+                        <h3>TYPES MODE</h3><p>Test your knowledge on elemental types.</p>
+                        <button class="primary-btn btn-green" onclick="startGame('TYPES')">Play</button>
+                    </div>
+                    <div class="menu-box mode-evolutions">
+                        <h3>EVOLUTIONS</h3><p>Who does this Pokémon evolve into?</p>
+                        <button class="primary-btn btn-orange" onclick="startGame('EVOLUTIONS')">Play</button>
+                    </div>
+                    <div class="menu-box mode-trivia">
+                        <h3>TRIVIA MODE</h3><p>Regions, types, weaknesses & strengths!</p>
+                        <button class="primary-btn btn-purple" onclick="startGame('TRIVIA')">Play</button>
+                    </div>
+                </div>
             </div>
 
-            <div class="bottom-dock">
+            <div class="bento-box bottom-dock">
                 <button class="dock-btn" onclick="openPokedex()">
                     <img src="pokedex.png" alt="Pokédex">
                     <span>Pokédex</span>
@@ -471,7 +484,7 @@
                 <div id="options"></div>
             </div>
 
-            <div class="bottom-dock game-dock">
+            <div class="bento-box bottom-dock game-dock">
                 <button class="dock-btn" onclick="openPokedex()">
                     <img src="pokedex.png" alt="Pokédex">
                     <span>Pokédex</span>
@@ -513,7 +526,7 @@
                 </div>
             </div>
             
-            <button class="primary-btn btn-blue" onclick="restartGame()">Play Again</button>
+            <button class="primary-btn btn-blue" onclick="restartGame()" style="margin-bottom: 10px;">Play Again</button>
             <button class="primary-btn btn-purple" onclick="goHome()">Home Screen</button>
         </div>
     </div>
@@ -658,7 +671,7 @@
             
             document.getElementById('raid-claim-btn').classList.add('hidden');
             document.getElementById('raid-hp').innerText = "CLAIMED!";
-            alert("Raid Boss Defeated! You earned 200 Bonus XP!");
+            showXPFloatingText("+200 XP");
         }
 
         // --- DAILY TASK LOGIC ---
@@ -691,7 +704,7 @@
             tasks.list.forEach((task, index) => {
                 let statusHtml = '';
                 if (task.claimed) {
-                    statusHtml = `<span class="dc-status" style="color:#10b981; border-color:#34d399; background:#ecfdf5;">DONE</span>`;
+                    statusHtml = `<span class="dc-status" style="color:#10b981; border-color:#34d399; background:#ecfdf5;">✅ CLAIMED</span>`;
                 } else if (task.progress >= task.target) {
                     statusHtml = `<button class="dc-btn" onclick="claimDailyTask(${index})">CLAIM</button>`;
                 } else {
@@ -737,8 +750,19 @@
                 db.collection("trainers").doc(currentUser).set({ xp: currentXP }, { merge: true });
                 
                 renderDailyTask();
-                alert("Challenge Complete! +100 XP");
+                showXPFloatingText("+100 XP");
             }
+        }
+
+        function showXPFloatingText(text) {
+            const levelPill = document.getElementById('level-pill');
+            if(!levelPill) return;
+            
+            const popup = document.createElement('div');
+            popup.className = 'xp-popup';
+            popup.innerText = text;
+            levelPill.appendChild(popup);
+            setTimeout(() => { popup.remove(); }, 1200);
         }
 
         // --- TRAINER ID CARD LOGIC ---
@@ -1364,7 +1388,7 @@
             const mainPokemon = await res.json();
             const cleanName = mainPokemon.name.replace('-', ' ');
             
-            isShiny = Math.random() < 0.05; 
+            isShiny = Math.random() < 0.03; 
             let spriteUrl = mainPokemon.sprites.other['official-artwork'].front_default;
             if (isShiny && (mainPokemon.sprites.other['official-artwork'].front_shiny || mainPokemon.sprites.front_shiny)) {
                 spriteUrl = mainPokemon.sprites.other['official-artwork'].front_shiny || mainPokemon.sprites.front_shiny;
@@ -1426,7 +1450,7 @@
             else if (currentMode === 'TRIVIA') {
                 currentQuestion++;
                 imageEl.className = isShiny ? 'shiny-glow' : 'revealed';
-                const questionType = Math.floor(Math.random() * 4);
+                const questionType = Math.floor(Math.random() * 5);
 
                 if (questionType === 0) {
                     questionTextEl.innerHTML = `Does <strong style="text-transform: capitalize; color: #8b5cf6;">${cleanName}</strong> evolve into another Pokémon?`;
@@ -1454,6 +1478,22 @@
                     correctAnswersAttribute = weaknesses[0];
                     let wrongTypes = POKEMON_TYPES.filter(t => !weaknesses.includes(t)).sort(() => Math.random() - 0.5);
                     choices = [correctAnswersAttribute, ...wrongTypes.slice(0, 3)].sort(() => Math.random() - 0.5);
+                } else if (questionType === 4) {
+                    questionTextEl.innerHTML = `What type is <strong style="text-transform: capitalize; color: #8b5cf6;">${cleanName}</strong> super effective against?`;
+                    let primaryType = mainPokemon.types[0].type.name;
+                    let typeRes = await fetch(`https://pokeapi.co/api/v2/type/${primaryType}`);
+                    let typeData = await typeRes.json();
+                    let strengths = typeData.damage_relations.double_damage_to.map(t => t.name);
+                    
+                    if (strengths.length === 0) {
+                        correctAnswersAttribute = "None";
+                        let wrongTypes = POKEMON_TYPES.filter(t => t !== primaryType).sort(() => Math.random() - 0.5);
+                        choices = [correctAnswersAttribute, ...wrongTypes.slice(0, 3)].sort(() => Math.random() - 0.5);
+                    } else {
+                        correctAnswersAttribute = strengths[0];
+                        let wrongTypes = POKEMON_TYPES.filter(t => !strengths.includes(t)).sort(() => Math.random() - 0.5);
+                        choices = [correctAnswersAttribute, ...wrongTypes.slice(0, 3)].sort(() => Math.random() - 0.5);
+                    }
                 }
                 choices.forEach(choice => createButton(choice, choice, choice === correctAnswersAttribute));
             }
