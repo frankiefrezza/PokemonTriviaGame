@@ -21,8 +21,6 @@
         #game-screen { position: relative; }
         #game-content { transition: opacity 0.4s ease-in-out; opacity: 1; min-height: 350px; }
 
-        #home-screen h1, #login-screen h1 { color: #1e3a8a; font-size: 32px; font-weight: 900; margin-bottom: 5px; text-transform: uppercase; text-shadow: 2px 2px 0px #bae6fd; }
-        
         .main-logo { width: 100%; max-width: 280px; height: auto; margin: 0 auto 20px auto; display: block; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15)); }
         .mini-game-logo { width: 140px; margin: -10px auto 15px auto; display: block; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
 
@@ -34,8 +32,8 @@
         .trainer-header { display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
         .trainer-identity { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; }
         
-        .trainer-avatar-bg { width: 110px; height: 110px; background: #eff6ff; border-radius: 24px; display: flex; align-items: center; justify-content: center; border: 4px solid #bfdbfe; color: #3b82f6; overflow: hidden; padding: 2px; cursor: pointer; transition: all 0.2s; position: relative; }
-        .trainer-avatar-bg:hover { transform: scale(1.05); border-color: #3b82f6; box-shadow: 0 6px 12px rgba(59,130,246,0.25); }
+        .trainer-avatar-bg { width: 110px; height: 110px; background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); border-radius: 25px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.9); box-shadow: 0 8px 20px rgba(0,0,0,0.08); overflow: hidden; padding: 5px; cursor: pointer; transition: all 0.2s; position: relative; }
+        .trainer-avatar-bg:hover { transform: scale(1.05); box-shadow: 0 10px 25px rgba(0,0,0,0.12); }
         .trainer-avatar-bg::after { content: '✎'; position: absolute; bottom: 4px; right: 4px; background: #3b82f6; color: white; font-size: 12px; width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.2s; }
         .trainer-avatar-bg:hover::after { opacity: 1; }
         
@@ -43,8 +41,8 @@
         .clickable-name-block:hover { transform: scale(1.03); background: rgba(59, 130, 246, 0.08); }
 
         .trainer-name-block { display: flex; flex-direction: column; align-items: center; width: 100%; text-align: center; }
-        .trainer-name-display { font-family: 'Fredoka', sans-serif; font-weight: 600; color: #1e293b; font-size: 34px; line-height: 1; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
-        .trainer-title-label { font-size: 13px; text-transform: uppercase; font-weight: 900; color: #3b82f6; letter-spacing: 0.5px; line-height: 1; }
+        .trainer-name-display { font-family: 'Fredoka', sans-serif; font-weight: 600; color: #1e293b; font-size: 34px; line-height: 1; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; }
+        .trainer-title-label { font-size: 11px; text-transform: uppercase; font-weight: 900; color: #3b82f6; letter-spacing: 0.5px; line-height: 1; border: 2px solid #bfdbfe; border-radius: 12px; padding: 6px 12px; background: rgba(239, 246, 255, 0.7); margin-top: 6px; display: inline-block; }
         
         .progression-track { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 15px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
         
@@ -70,7 +68,7 @@
         @keyframes floatUp { 0% { opacity: 0; transform: translate(-50%, 10px) scale(0.8); } 20% { opacity: 1; transform: translate(-50%, 0) scale(1.2); } 100% { opacity: 0; transform: translate(-50%, -30px) scale(1); } }
 
         /* --- DAILY TASK UI --- */
-        .daily-challenges-container { text-align: left; background: rgba(255, 251, 235, 0.7); } /* Keeps yellow tint with bento blur */
+        .daily-challenges-container { text-align: left; background: rgba(255, 251, 235, 0.7); }
         .dc-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.6); padding: 10px; border-radius: 12px; margin-bottom: 8px; border: 1px solid rgba(253, 230, 138, 0.8); }
         .dc-item:last-child { margin-bottom: 0; }
         .dc-desc { font-size: 13px; font-weight: 800; color: #92400e; flex: 1; margin-right: 10px; }
@@ -113,9 +111,9 @@
         .timer-danger { background: #ef4444 !important; }
         
         .input-group { display: flex; gap: 10px; margin-bottom: 20px; width: 100%; }
-        #username-input { flex: 2; width: 100%; min-width: 0; padding: 15px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; text-transform: uppercase; }
+        #username-input { flex: 2; width: 100%; min-width: 0; padding: 15px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; text-transform: uppercase; background: rgba(255,255,255,0.9); }
         #username-input:focus { outline: none; border-color: #3b82f6; }
-        #pin-input { flex: 1; width: 100%; min-width: 0; padding: 15px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; letter-spacing: 4px; }
+        #pin-input { flex: 1; width: 100%; min-width: 0; padding: 15px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; letter-spacing: 4px; background: rgba(255,255,255,0.9); }
         #pin-input:focus { outline: none; border-color: #8b5cf6; }
         
         .avatar-preview-box { width: 100px; height: 100px; background: #ffffff; border: 2px solid #cbd5e1; border-radius: 20px; display: flex; justify-content: center; align-items: center; margin: 0 auto 15px auto; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
@@ -207,9 +205,15 @@
             #username-input, #pin-input { width: 100%; margin-bottom: 0; }
             #game-screen .mini-game-logo { width: 110px; margin: 0 auto 10px auto; }
             
-            /* Responsive Bento adjustments */
-            .modes-grid { grid-template-columns: 1fr; }
-            .bento-box { padding: 15px; margin-bottom: 15px; }
+            /* Responsive Bento adjustments - Keep 2x2 grid */
+            .modes-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .modes-master-bento { padding: 12px; }
+            .menu-box { padding: 10px; }
+            .menu-box h3 { font-size: 12px; }
+            .menu-box p { font-size: 10px; margin-bottom: 8px; }
+            .menu-box .primary-btn { font-size: 11px; padding: 8px; }
+            
+            .bento-box { margin-bottom: 15px; }
 
             .mini-xp-box { margin-bottom: 10px !important; padding: 8px !important; }
             .stats { padding: 8px 15px !important; font-size: 15px !important; margin-bottom: 10px !important; }
@@ -233,7 +237,7 @@
             </div>
             <div style="padding: 25px;">
                 <div style="display: flex; gap: 20px; align-items: center; border-bottom: 2px dashed #e2e8f0; padding-bottom: 20px; margin-bottom: 20px;">
-                    <div class="trainer-avatar-bg" style="width: 90px; height: 90px; cursor: default;">
+                    <div class="trainer-avatar-bg" style="width: 90px; height: 90px; cursor: default; box-shadow: none; background: #eff6ff;">
                         <img id="tc-avatar" src="" style="width: 100%; height: 100%; object-fit: contain;">
                     </div>
                     <div>
@@ -273,7 +277,7 @@
         <div class="modal-content">
             <h3 style="margin-top: 0; color: #1e293b; font-size: 24px; font-weight: 900; margin-bottom: 20px;">Settings</h3>
             
-            <button id="sound-btn" class="primary-btn btn-green" onclick="toggleSound()" style="margin-bottom: 25px;">Sound Effects: ON 🔊</button>
+            <button id="sound-btn" class="primary-btn btn-orange" onclick="toggleSound()" style="margin-bottom: 25px;">Sound Effects: OFF 🔇</button>
             
             <div id="in-game-settings-btns" class="hidden" style="margin-bottom: 15px; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px;">
                 <button class="primary-btn btn-blue" onclick="restartGame(); toggleSettings();" style="margin-bottom: 10px;">Restart Game</button>
@@ -339,29 +343,30 @@
     <div id="app">
         <div id="login-screen" class="hidden">
             <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="main-logo">
-            <h1>Trainer Login</h1>
             
-            <div class="input-group">
-                <input type="text" id="username-input" placeholder="Trainer Name">
-                <input type="password" id="pin-input" placeholder="PIN" maxlength="4" pattern="\d{4}">
-            </div>
-
-            <div style="margin: 20px 0; background: #f8fafc; padding: 20px; border-radius: 16px; border: 2px solid #e2e8f0;">
-                <p style="font-size: 14px; font-weight: 800; color: #64748b; margin: 0 0 15px 0; text-transform: uppercase;">Your Avatar</p>
-                
-                <div class="avatar-preview-box">
-                    <img id="login-avatar-preview" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png">
+            <div class="bento-box" style="margin-bottom: 15px; text-align: center;">
+                <h1 style="font-size: 24px; margin-top: 0; margin-bottom: 20px; color: #1e3a8a;">Trainer Login</h1>
+                <div class="input-group">
+                    <input type="text" id="username-input" placeholder="Trainer Name">
+                    <input type="password" id="pin-input" placeholder="PIN" maxlength="4" pattern="\d{4}">
                 </div>
-                
-                <button class="nav-btn" style="margin: 0 auto; padding: 8px 16px; font-size: 14px; background-color: #3b82f6; color: white;" onclick="openAvatarModal()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 5px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    Find Your Pokémon
-                </button>
+
+                <div style="background: rgba(255, 255, 255, 0.5); padding: 15px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.8); margin-bottom: 15px;">
+                    <p style="font-size: 13px; font-weight: 800; color: #64748b; margin: 0 0 10px 0; text-transform: uppercase;">Your Avatar</p>
+                    <div class="avatar-preview-box" style="background: rgba(255,255,255,0.8);">
+                        <img id="login-avatar-preview" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png">
+                    </div>
+                    <button class="nav-btn" style="margin: 0 auto; background-color: #3b82f6; color: white;" onclick="openAvatarModal()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 5px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        Change Pokémon
+                    </button>
+                </div>
+
+                <button class="primary-btn btn-blue" style="margin-bottom: 0;" onclick="loginUser()">Start Adventure</button>
             </div>
 
-            <button class="primary-btn btn-blue" onclick="loginUser()">Start Adventure</button>
-            <div id="user-history-container" class="hidden" style="margin-top: 25px; border-top: 2px solid #f1f5f9; padding-top: 15px;">
-                <p style="font-size: 14px; font-weight: 800; color: #94a3b8; margin-bottom: 10px; text-transform: uppercase;">Previous Trainers</p>
+            <div id="user-history-container" class="bento-box hidden" style="padding: 15px;">
+                <p style="font-size: 13px; font-weight: 800; color: #64748b; margin: 0 0 10px 0; text-transform: uppercase;">Previous Trainers</p>
                 <div id="user-history-list" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;"></div>
             </div>
         </div>
@@ -546,6 +551,32 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
+        // --- CACHING SYSTEM ---
+        const apiMemoryCache = new Map();
+        async function fetchWithCache(url) {
+            if (apiMemoryCache.has(url)) return apiMemoryCache.get(url);
+            
+            const cached = sessionStorage.getItem(url);
+            if (cached) {
+                const parsed = JSON.parse(cached);
+                apiMemoryCache.set(url, parsed);
+                return parsed;
+            }
+
+            const res = await fetch(url);
+            if (!res.ok) throw new Error("Network response was not ok");
+            const data = await res.json();
+            
+            try {
+                sessionStorage.setItem(url, JSON.stringify(data));
+            } catch (e) {
+                // Quota exceeded, ignore and just use memory cache
+            }
+            
+            apiMemoryCache.set(url, data);
+            return data;
+        }
+
         // --- GAME CONSTANTS ---
         const TIME_LIMIT = 10; 
         const TOTAL_QUESTIONS = 20;
@@ -570,7 +601,7 @@
         let currentPokemonId = null; 
         let currentUser = null, currentXP = 0;
         let sessionRight = 0, sessionWrong = 0, sessionXP = 0; 
-        let isSoundEnabled = true;
+        let isSoundEnabled = false;
         let selectedAvatarUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
         let knownUsers = JSON.parse(localStorage.getItem('knownPokeUsers')) || [];
         
@@ -1086,9 +1117,7 @@
             document.getElementById('modal-avatar-img').style.opacity = '0.5';
 
             try {
-                const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${query}`);
-                if (!res.ok) throw new Error('Not found');
-                const data = await res.json();
+                const data = await fetchWithCache(`https://pokeapi.co/api/v2/pokemon/${query}`);
                 tempAvatarUrl = data.sprites.other['official-artwork'].front_default || data.sprites.front_default;
                 document.getElementById('modal-avatar-img').src = tempAvatarUrl;
                 document.getElementById('modal-avatar-img').style.opacity = '1';
@@ -1384,8 +1413,7 @@
                 localStorage.setItem('seen_' + currentUser, JSON.stringify(seenDex));
             }
             
-            const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${targetId}`);
-            const mainPokemon = await res.json();
+            const mainPokemon = await fetchWithCache(`https://pokeapi.co/api/v2/pokemon/${targetId}`);
             const cleanName = mainPokemon.name.replace('-', ' ');
             
             isShiny = Math.random() < 0.03; 
@@ -1397,10 +1425,8 @@
             
             let speciesData = null, chainData = null;
             if (currentMode === 'EVOLUTIONS' || currentMode === 'TRIVIA') {
-                const speciesRes = await fetch(mainPokemon.species.url);
-                speciesData = await speciesRes.json();
-                const chainRes = await fetch(speciesData.evolution_chain.url);
-                chainData = await chainRes.json();
+                speciesData = await fetchWithCache(mainPokemon.species.url);
+                chainData = await fetchWithCache(speciesData.evolution_chain.url);
             }
 
             let choices = [];
@@ -1415,7 +1441,7 @@
                 while(ids.size < 4) ids.add(Math.floor(Math.random() * MAX_POKEMON_ID) + 1);
                 const idArray = Array.from(ids).filter(id => id !== targetId).slice(0, 3);
                 
-                const fillerRes = await Promise.all(idArray.map(id => fetch(`https://pokeapi.co/api/v2/pokemon/${id}`).then(r => r.json())));
+                const fillerRes = await Promise.all(idArray.map(id => fetchWithCache(`https://pokeapi.co/api/v2/pokemon/${id}`)));
                 const allChoices = [mainPokemon, ...fillerRes];
                 allChoices.sort(() => Math.random() - 0.5);
 
@@ -1441,7 +1467,7 @@
 
                 const ids = new Set();
                 while(ids.size < 3) ids.add(Math.floor(Math.random() * MAX_POKEMON_ID) + 1);
-                const fillerRes = await Promise.all(Array.from(ids).map(id => fetch(`https://pokeapi.co/api/v2/pokemon/${id}`).then(r => r.json())));
+                const fillerRes = await Promise.all(Array.from(ids).map(id => fetchWithCache(`https://pokeapi.co/api/v2/pokemon/${id}`)));
                 
                 let wrongNames = fillerRes.map(p => p.name);
                 choices = [correctAnswersAttribute, ...wrongNames].sort(() => Math.random() - 0.5);
@@ -1471,8 +1497,7 @@
                 } else if (questionType === 3) {
                     questionTextEl.innerHTML = `What is one of <strong style="text-transform: capitalize; color: #8b5cf6;">${cleanName}</strong>'s weaknesses?`;
                     let primaryType = mainPokemon.types[0].type.name;
-                    let typeRes = await fetch(`https://pokeapi.co/api/v2/type/${primaryType}`);
-                    let typeData = await typeRes.json();
+                    let typeData = await fetchWithCache(`https://pokeapi.co/api/v2/type/${primaryType}`);
                     let weaknesses = typeData.damage_relations.double_damage_from.map(t => t.name);
                     if (weaknesses.length === 0) weaknesses = ['normal']; 
                     correctAnswersAttribute = weaknesses[0];
@@ -1481,8 +1506,7 @@
                 } else if (questionType === 4) {
                     questionTextEl.innerHTML = `What type is <strong style="text-transform: capitalize; color: #8b5cf6;">${cleanName}</strong> super effective against?`;
                     let primaryType = mainPokemon.types[0].type.name;
-                    let typeRes = await fetch(`https://pokeapi.co/api/v2/type/${primaryType}`);
-                    let typeData = await typeRes.json();
+                    let typeData = await fetchWithCache(`https://pokeapi.co/api/v2/type/${primaryType}`);
                     let strengths = typeData.damage_relations.double_damage_to.map(t => t.name);
                     
                     if (strengths.length === 0) {
