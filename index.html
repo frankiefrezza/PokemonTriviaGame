@@ -524,8 +524,8 @@
 
         <div id="end-screen" class="screen">
             <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="mini-game-logo" style="margin-bottom: 20px;">
-            <h1 style="font-size: 36px; margin-bottom: 0;">Game Over!</h1>
-            <h2 id="end-message"></h2>
+            <h1 id="end-title" style="font-size: 32px; font-weight: 900; margin-bottom: 5px;"></h1>
+            <p id="end-message" style="font-size: 16px; font-weight: 700; color: #64748b; margin-top: 0; margin-bottom: 25px;"></p>
             
             <div style="background: #f1f5f9; padding: 20px; border-radius: 20px; margin-bottom: 25px;">
                 <p style="font-size: 16px; font-weight: 800; color: #64748b; margin: 0 0 15px 0; text-transform: uppercase;">Match Results</p>
@@ -639,7 +639,8 @@
         let isWeekend = [0, 6].includes(new Date().getDay()); 
 
         // --- DOM ELEMENTS ---
-        const loginScreen = document.getElementById('login-screen'), homeScreen = document.getElementById('home-screen'), gameScreen = document.getElementById('game-screen'), endScreen = document.getElementById('end-screen'), gameContent = document.getElementById('game-content'), questionCountEl = document.getElementById('question-count'), questionTextEl = document.getElementById('question-text'), imageEl = document.getElementById('pokemon-image'), optionsEl = document.getElementById('options'), loadingText = document.getElementById('loading-text'), endMessageEl = document.getElementById('end-message');
+        const loginScreen = document.getElementById('login-screen'), homeScreen = document.getElementById('home-screen'), gameScreen = document.getElementById('game-screen'), endScreen = document.getElementById('end-screen'), gameContent = document.getElementById('game-content'), questionCountEl = document.getElementById('question-count'), questionTextEl = document.getElementById('question-text'), imageEl = document.getElementById('pokemon-image'), optionsEl = document.getElementById('options'), loadingText = document.getElementById('loading-text');
+        const endTitleEl = document.getElementById('end-title'), endMessageEl = document.getElementById('end-message');
         const timerWrapper = document.getElementById('timer-wrapper'), timerBar = document.getElementById('timer-bar'), timerText = document.getElementById('timer-text');
         const sessionXPDisplay = document.getElementById('session-xp-display');
 
@@ -1703,11 +1704,26 @@
             
             updateDailyTaskProgress('games');
 
-            if (sessionRight === TOTAL_QUESTIONS) { endMessageEl.innerText = "Perfect Score! You are a true Pokémon Master! 🏆"; endMessageEl.style.color = "#10b981"; } 
-            else if (sessionRight >= 15) { endMessageEl.innerText = "Amazing Job! You really know your Pokémon! 🌟"; endMessageEl.style.color = "#3b82f6"; } 
-            else if (sessionRight >= 10) { endMessageEl.innerText = "Great work! Keep it up! 👍"; endMessageEl.style.color = "#8b5cf6"; } 
-            else if (sessionRight >= 5) { endMessageEl.innerText = "Good effort! You're getting there! 🙂"; endMessageEl.style.color = "#f59e0b"; } 
-            else { endMessageEl.innerText = "Nice try! Keep practicing to catch 'em all! 🔴"; endMessageEl.style.color = "#ef4444"; }
+            if (sessionRight === TOTAL_QUESTIONS) { 
+                endTitleEl.innerText = "PERFECT SCORE!"; endTitleEl.style.color = "#10b981"; 
+                endMessageEl.innerText = "You are a true Pokémon Master!"; 
+            } 
+            else if (sessionRight >= 15) { 
+                endTitleEl.innerText = "AMAZING JOB!"; endTitleEl.style.color = "#3b82f6"; 
+                endMessageEl.innerText = "You really know your Pokémon!"; 
+            } 
+            else if (sessionRight >= 10) { 
+                endTitleEl.innerText = "GREAT WORK!"; endTitleEl.style.color = "#8b5cf6"; 
+                endMessageEl.innerText = "Keep it up!"; 
+            } 
+            else if (sessionRight >= 5) { 
+                endTitleEl.innerText = "GOOD EFFORT!"; endTitleEl.style.color = "#f59e0b"; 
+                endMessageEl.innerText = "You're getting there!"; 
+            } 
+            else { 
+                endTitleEl.innerText = "NICE TRY!"; endTitleEl.style.color = "#ef4444"; 
+                endMessageEl.innerText = "Keep practicing to catch 'em all!"; 
+            }
         }
     </script>
 </body>
