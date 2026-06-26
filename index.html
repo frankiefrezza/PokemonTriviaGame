@@ -7,7 +7,6 @@
     
     <!-- PWA & iOS Native App Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="PKMN Trivia">
     <meta name="theme-color" content="#74ebd5">
     
@@ -291,10 +290,7 @@
         <div class="modal-content">
             <h3 style="margin-top: 0; color: #1e293b; font-size: 24px; font-weight: 900; margin-bottom: 20px;">Settings</h3>
             
-            <div style="display: flex; gap: 10px; margin-bottom: 25px;">
-                <button id="sound-btn" class="primary-btn btn-orange" onclick="toggleSound()" style="margin-bottom: 0; flex: 1; font-size: 13px;">Sound: OFF</button>
-                <button id="haptic-btn" class="primary-btn btn-orange" onclick="toggleHaptic()" style="margin-bottom: 0; flex: 1; font-size: 13px;">Haptics: OFF</button>
-            </div>
+            <button id="sound-btn" class="primary-btn btn-orange" onclick="toggleSound()" style="margin-bottom: 25px; width: 100%;">Sound: OFF</button>
             
             <div id="in-game-settings-btns" class="hidden" style="margin-bottom: 15px; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px;">
                 <button class="primary-btn btn-blue" onclick="restartGame(); toggleSettings();" style="margin-bottom: 10px;">Restart Game</button>
@@ -628,7 +624,6 @@
         
         // Settings State
         let isSoundEnabled = localStorage.getItem('setting_sound') === 'true';
-        let isHapticEnabled = localStorage.getItem('setting_haptic') === 'true';
 
         let timerInterval;
         let timeLeft = TIME_LIMIT;
@@ -862,11 +857,6 @@
                 soundBtn.className = 'primary-btn btn-green';
                 soundBtn.innerHTML = 'Sound: ON';
             }
-            const hapticBtn = document.getElementById('haptic-btn');
-            if (isHapticEnabled) {
-                hapticBtn.className = 'primary-btn btn-green';
-                hapticBtn.innerHTML = 'Haptics: ON';
-            }
         }
 
         function toggleSettings() { 
@@ -898,20 +888,6 @@
             } else {
                 btn.className = 'primary-btn btn-orange';
                 btn.innerHTML = 'Sound: OFF';
-            }
-        }
-
-        function toggleHaptic() {
-            isHapticEnabled = !isHapticEnabled;
-            localStorage.setItem('setting_haptic', isHapticEnabled);
-            const btn = document.getElementById('haptic-btn');
-            if (isHapticEnabled) {
-                btn.className = 'primary-btn btn-green';
-                btn.innerHTML = 'Haptics: ON';
-                if(navigator.vibrate) navigator.vibrate(50);
-            } else {
-                btn.className = 'primary-btn btn-orange';
-                btn.innerHTML = 'Haptics: OFF';
             }
         }
 
@@ -1104,8 +1080,6 @@
                 const wrongAudio = new Audio('wrong.mp3');
                 wrongAudio.play().catch(e => console.log("Audio playback prevented by browser:", e));
             }
-            
-            if (isHapticEnabled && navigator.vibrate) navigator.vibrate([50, 50, 50]);
 
             allBtns.forEach(btn => {
                 if (btn.dataset.value === correctAnswersAttribute) {
@@ -1611,8 +1585,6 @@
                     correctAudio.play().catch(e => console.log("Audio playback prevented by browser:", e));
                 }
                 
-                if (isHapticEnabled && navigator.vibrate) navigator.vibrate(50);
-
                 let userDex = JSON.parse(localStorage.getItem('pokedex_' + currentUser)) || [];
                 if (!userDex.includes(currentPokemonId)) {
                     userDex.push(currentPokemonId);
@@ -1671,8 +1643,6 @@
                     wrongAudio.play().catch(e => console.log("Audio playback prevented by browser:", e));
                 }
                 
-                if (isHapticEnabled && navigator.vibrate) navigator.vibrate([50, 50, 50]);
-
                 clickedBtn.classList.add('wrong');
                 allBtns.forEach(btn => {
                     if (btn.dataset.value === correctAnswersAttribute) {
