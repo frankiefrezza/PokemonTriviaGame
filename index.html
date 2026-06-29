@@ -36,35 +36,62 @@
 
         .bento-box { background: rgba(255,255,255,0.7); backdrop-filter: blur(12px); border-radius: 25px; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 8px 20px rgba(0,0,0,0.08); padding: 20px; margin-bottom: 20px; position: relative; overflow: hidden; }
 
-        .trainer-card { text-align: left; margin-bottom: 20px; padding: 24px; }
-        .trainer-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
-        .trainer-header { display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
-        .trainer-identity { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; }
+        /* --- UPDATED TRAINER CARD UI --- */
+        .trainer-card { position: relative; border-radius: 25px; padding: 25px; margin-bottom: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); color: #1e293b; transition: all 0.4s ease; text-align: left; border: none; outline: 1px solid rgba(255,255,255,0.5); }
         
-        .trainer-avatar-bg { width: 110px; height: 110px; background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); border-radius: 25px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.9); box-shadow: 0 8px 20px rgba(0,0,0,0.08); overflow: hidden; padding: 5px; cursor: pointer; transition: all 0.2s; position: relative; }
-        .trainer-avatar-bg:hover { transform: scale(1.05); box-shadow: 0 10px 25px rgba(0,0,0,0.12); }
-        .trainer-avatar-bg::after { content: '✎'; position: absolute; bottom: 4px; right: 4px; background: #3b82f6; color: white; font-size: 12px; width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.2s; }
-        .trainer-avatar-bg:hover::after { opacity: 1; }
-        
-        .clickable-name-block { cursor: pointer; transition: transform 0.2s, background 0.2s; padding: 5px 15px; border-radius: 12px; }
-        .clickable-name-block:hover { transform: scale(1.03); background: rgba(59, 130, 246, 0.08); }
+        .card-bg-watermark { position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 25px; overflow: hidden; z-index: 0; pointer-events: none; }
+        .card-bg-watermark::after { content: ''; position: absolute; bottom: -30px; right: -20px; width: 180px; height: 180px; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-1.85.63-3.55 1.69-4.9L10.6 12l-4.9-4.9C7.05 5.63 8.75 5 10.6 5l4.9 4.9L20.4 5c1.06 1.35 1.69 3.05 1.69 4.9 0 4.41-3.59 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/></svg>') no-repeat center center; background-size: contain; opacity: 0.08; transform: rotate(-15deg); }
 
-        .trainer-name-block { display: flex; flex-direction: column; align-items: center; width: 100%; text-align: center; }
-        .trainer-name-display { font-family: 'Fredoka', sans-serif; font-weight: 600; color: #1e293b; font-size: 34px; line-height: 1; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; }
-        .trainer-title-label { font-size: 11px; text-transform: uppercase; font-weight: 900; color: #3b82f6; letter-spacing: 0.5px; line-height: 1; border: 2px solid #bfdbfe; border-radius: 12px; padding: 6px 12px; background: rgba(239, 246, 255, 0.7); margin-top: 6px; display: inline-block; }
+        .rank-rookie { background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%); border: 1px solid #cbd5e1; }
+        .rank-ace { background: linear-gradient(135deg, #eff6ff 0%, #bfdbfe 100%); color: #1e3a8a; border: 1px solid #93c5fd; }
+        .rank-gym { background: linear-gradient(135deg, #fefce8 0%, #fde047 100%); color: #713f12; border: 1px solid #facc15; }
+        .rank-elite { background: linear-gradient(135deg, #3b0764 0%, #6b21a8 100%); color: #f3e8ff; border: 1px solid #9333ea; }
+        .rank-master { background: linear-gradient(135deg, #0f172a 0%, #334155 100%); color: #f8fafc; border: 1px solid #475569; }
+
+        .trainer-header { display: flex; align-items: center; gap: 20px; margin-bottom: 25px; position: relative; z-index: 1; cursor: pointer; transition: transform 0.2s; border-radius: 16px; padding: 5px; }
+        .trainer-header:hover { transform: scale(1.02); background: rgba(255,255,255,0.1); }
         
-        .progression-track { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 15px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
-        .badge-wrapper { width: 55px; height: 55px; flex-shrink: 0; background: #ffffff; padding: 6px; box-sizing: border-box; border-radius: 12px; border: 2px solid #e2e8f0; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        #current-badge, #next-badge { width: 100%; height: 100%; max-width: 40px; max-height: 40px; object-fit: contain; }
-        #current-badge { filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); transition: transform 0.3s ease; }
-        #next-badge { filter: grayscale(1) opacity(0.4); }
+        .trainer-avatar-container { position: relative; width: 90px; height: 90px; flex-shrink: 0; }
+        .trainer-avatar-circle { width: 100%; height: 100%; border-radius: 50%; background: rgba(255, 255, 255, 0.95); display: flex; justify-content: center; align-items: flex-end; position: relative; z-index: 2; }
         
-        .xp-core { flex-grow: 1; display: flex; flex-direction: column; gap: 8px; }
-        .xp-stats-row { display: flex; justify-content: space-between; align-items: flex-end; }
-        .level-pill { background: #ede9fe; color: #7c3aed; padding: 4px 10px; border-radius: 8px; font-size: 13px; font-weight: 900; border: 1px solid #ddd6fe; display: inline-block; position: relative; }
-        .xp-pill { background: #e0f2fe; color: #0369a1; padding: 4px 10px; border-radius: 8px; font-size: 13px; font-weight: 900; border: 1px solid #bae6fd; display: inline-block; }
-        .xp-bar-track { width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.08); }
-        #xp-progress-bar { height: 100%; background: linear-gradient(90deg, #3b82f6, #8b5cf6, #d946ef); width: 0%; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 4px; box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1); }
+        .rank-rookie .trainer-avatar-circle { box-shadow: 0 0 15px rgba(100, 116, 139, 0.2); border: 3px solid #cbd5e1; }
+        .rank-ace .trainer-avatar-circle { box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); border: 3px solid #60a5fa; }
+        .rank-gym .trainer-avatar-circle { box-shadow: 0 0 15px rgba(234, 179, 8, 0.4); border: 3px solid #facc15; }
+        .rank-elite .trainer-avatar-circle { box-shadow: 0 0 20px rgba(168, 85, 247, 0.6); border: 3px solid #d8b4fe; }
+        .rank-master .trainer-avatar-circle { box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); border: 3px solid #94a3b8; }
+
+        .trainer-avatar-circle img { width: 125%; height: 125%; object-fit: contain; position: absolute; bottom: 5px; filter: drop-shadow(0 6px 8px rgba(0,0,0,0.25)); transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .trainer-avatar-container:hover .trainer-avatar-circle img { transform: scale(1.15) translateY(-5px); }
+
+        .trainer-avatar-circle::after { content: '✎'; position: absolute; bottom: -5px; right: -5px; background: #3b82f6; color: white; font-size: 14px; width: 26px; height: 26px; border-radius: 50%; display: flex; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.2s; z-index: 10; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .trainer-avatar-container:hover .trainer-avatar-circle::after { opacity: 1; }
+
+        .trainer-info { display: flex; flex-direction: column; align-items: flex-start; z-index: 1; flex-grow: 1; overflow: hidden; }
+        .trainer-name-display { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 32px; line-height: 1.1; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+        
+        .trainer-title-label { font-size: 11px; text-transform: uppercase; font-weight: 900; letter-spacing: 0.5px; line-height: 1; border-radius: 8px; padding: 6px 10px; margin-top: 2px; }
+        .rank-rookie .trainer-title-label { background: rgba(226, 232, 240, 0.8); color: #475569; }
+        .rank-ace .trainer-title-label { background: rgba(255, 255, 255, 0.7); color: #1e3a8a; }
+        .rank-gym .trainer-title-label { background: rgba(255, 255, 255, 0.7); color: #713f12; }
+        .rank-elite .trainer-title-label { background: rgba(255, 255, 255, 0.15); color: #e9d5ff; border: 1px solid rgba(216, 180, 254, 0.4); }
+        .rank-master .trainer-title-label { background: rgba(255, 255, 255, 0.15); color: #f8fafc; border: 1px solid rgba(255, 255, 255, 0.3); }
+
+        .progression-track { display: flex; align-items: center; gap: 15px; position: relative; z-index: 1; }
+        .progression-track img { width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15)); transition: transform 0.3s ease; }
+        .progression-track img:hover { transform: scale(1.1); }
+        #next-badge { filter: grayscale(1) opacity(0.4) drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
+        
+        .xp-core { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
+        .xp-stats-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px; padding: 0 2px; }
+        
+        .xp-text-label { font-size: 14px; font-weight: 900; font-family: 'Fredoka', sans-serif; letter-spacing: 0.5px; opacity: 0.9; }
+        
+        .xp-bar-track { width: 100%; height: 14px; background: rgba(0, 0, 0, 0.15); border-radius: 7px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); position: relative; }
+        #xp-progress-bar { height: 100%; background: linear-gradient(90deg, #34d399, #10b981); width: 0%; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 7px; box-shadow: inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -2px 4px rgba(0,0,0,0.2); position: relative; overflow: hidden; }
+        #xp-progress-bar::after { content:''; position:absolute; top:0; left:0; right:0; bottom:0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); transform: translateX(-100%); animation: shimmer 2s infinite; }
+        @keyframes shimmer { 100% { transform: translateX(100%); } }
+        /* --------------------------- */
+
         .xp-container { width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
         #mini-xp-progress-bar { height: 100%; background: linear-gradient(90deg, #3b82f6, #8b5cf6); width: 0%; transition: width 0.5s ease-out; }
 
@@ -396,29 +423,30 @@
         <div id="home-screen" class="screen">
             <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="main-logo">
             
-            <div class="bento-box trainer-card">
-                <div class="trainer-header">
-                    <div class="trainer-identity">
-                        <div class="trainer-avatar-bg" onclick="openAvatarModal()" title="Change Avatar">
-                            <img id="trainer-display-avatar" src="" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">
+            <div id="main-trainer-card" class="trainer-card rank-rookie">
+                <div class="card-bg-watermark"></div>
+                <div class="trainer-header" onclick="openTrainerCard()" title="View ID Card">
+                    <div class="trainer-avatar-container" onclick="event.stopPropagation(); openAvatarModal();" title="Change Avatar">
+                        <div class="trainer-avatar-circle">
+                            <img id="trainer-display-avatar" src="">
                         </div>
-                        <div class="trainer-name-block clickable-name-block" onclick="openTrainerCard()" title="View ID Card">
-                            <span id="display-name" class="trainer-name-display"></span>
-                            <span class="trainer-title-label" id="trainer-dynamic-title">Rookie Trainer</span>
-                        </div>
+                    </div>
+                    <div class="trainer-info">
+                        <span id="display-name" class="trainer-name-display"></span>
+                        <span class="trainer-title-label" id="trainer-dynamic-title">Rookie Trainer</span>
                     </div>
                 </div>
                 
                 <div class="progression-track">
-                    <div class="badge-wrapper"><img id="current-badge" src="LV1-10.png" alt="Current Badge"></div>
+                    <img id="current-badge" src="LV1-10.png" alt="Current Badge">
                     <div class="xp-core">
                         <div class="xp-stats-row">
-                            <div class="level-pill" id="level-pill">LVL <span id="display-level">1</span></div>
-                            <div class="xp-pill"><span id="display-xp">0/100 XP</span></div>
+                            <span class="xp-text-label">LVL <span id="display-level">1</span></span>
+                            <span class="xp-text-label" id="display-xp">0/100 XP</span>
                         </div>
                         <div class="xp-bar-track"><div id="xp-progress-bar"></div></div>
                     </div>
-                    <div class="badge-wrapper"><img id="next-badge" src="LV10-20.png" alt="Next Badge"></div>
+                    <img id="next-badge" src="LV10-20.png" alt="Next Badge">
                 </div>
             </div>
 
@@ -639,6 +667,7 @@
         // --- GAME VARIABLES ---
         let currentMode = 'GUESS', currentQuestion = 0, correctAnswersAttribute = ''; 
         let currentQuestionMode = '';
+        let currentQuestionTimeLimit = 10;
         let currentPokemonId = null; 
         let currentUser = null, currentXP = 0;
         let sessionRight = 0, sessionWrong = 0, sessionXP = 0; 
@@ -1418,14 +1447,21 @@
             document.getElementById('mini-xp-progress-bar').style.width = `${progressXP}%`;
 
             let title = "Rookie Trainer";
-            if (level >= 100) title = "Pokémon Master";
-            else if (level >= 80) title = "League Champion";
-            else if (level >= 60) title = "Elite Four";
-            else if (level >= 40) title = "Gym Leader";
-            else if (level >= 20) title = "Ace Trainer";
+            let rankClass = "rank-rookie";
+            
+            if (level >= 100) { title = "Pokémon Master"; rankClass = "rank-master"; }
+            else if (level >= 80) { title = "League Champion"; rankClass = "rank-elite"; }
+            else if (level >= 60) { title = "Elite Four"; rankClass = "rank-elite"; }
+            else if (level >= 40) { title = "Gym Leader"; rankClass = "rank-gym"; }
+            else if (level >= 20) { title = "Ace Trainer"; rankClass = "rank-ace"; }
             
             const titleElement = document.getElementById('trainer-dynamic-title');
             if(titleElement) titleElement.innerText = title;
+
+            const mainCard = document.getElementById('main-trainer-card');
+            if(mainCard) {
+                mainCard.className = `trainer-card ${rankClass}`;
+            }
 
             updateBadgeDisplay(level);
         }
@@ -1556,7 +1592,8 @@
                 choices = rawChoices.map(c => ({ text: c.replace('-', ' '), value: c }));
             }
             else if (evalMode === 'SCRAMBLE') {
-                questionText = `Spell the Pokémon!`;
+                let scrambled = cleanName.toUpperCase().split('').sort(() => 0.5 - Math.random()).join('');
+                questionText = `Unscramble the name:<br><strong style="letter-spacing: 4px; color: #be185d; font-size: 26px; display: inline-block; margin-top: 8px;">${scrambled}</strong>`;
                 correctAnswersAttribute = cleanName;
                 choices = []; 
             } 
