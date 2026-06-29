@@ -285,7 +285,7 @@
                         <div id="tc-wrong" style="font-size: 20px; font-weight: 900; color: #ef4444;">0</div>
                     </div>
                 </div>
-                
+
                 <button class="primary-btn btn-blue" style="margin-bottom: 0;" onclick="closeTrainerCard()">Close ID Card</button>
             </div>
         </div>
@@ -420,17 +420,6 @@
                     </div>
                     <div class="badge-wrapper"><img id="next-badge" src="LV10-20.png" alt="Next Badge"></div>
                 </div>
-            </div>
-
-            <div id="raid-container" class="bento-box raid-box hidden">
-                <h3>🌍 Weekend Raid Boss <span style="font-size:12px; background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 6px;">CO-OP</span></h3>
-                <div class="raid-boss-name" id="raid-name">Mewtwo</div>
-                <div class="raid-hp-track"><div id="raid-bar"></div></div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
-                    <span style="font-size: 11px; font-weight: 700; color: #a78bfa;">Correct answers deal damage!</span>
-                    <span id="raid-hp">5000 / 5000</span>
-                </div>
-                <button id="raid-claim-btn" class="raid-btn hidden" style="width: 100%; margin-top: 10px;" onclick="claimRaidReward()">Claim Victory +200 XP!</button>
             </div>
 
             <div id="daily-challenges-container" class="bento-box daily-challenges-container hidden">
@@ -639,7 +628,6 @@
         // --- GAME VARIABLES ---
         let currentMode = 'GUESS', currentQuestion = 0, correctAnswersAttribute = ''; 
         let currentQuestionMode = '';
-        let currentQuestionTimeLimit = 10;
         let currentPokemonId = null; 
         let currentUser = null, currentXP = 0;
         let sessionRight = 0, sessionWrong = 0, sessionXP = 0; 
@@ -656,7 +644,6 @@
         
         let isShiny = false;
         let currentStreak = 0;
-        let isWeekend = [0, 6].includes(new Date().getDay()); 
 
         // --- DOM ELEMENTS ---
         const loginScreen = document.getElementById('login-screen'), homeScreen = document.getElementById('home-screen'), gameScreen = document.getElementById('game-screen'), endScreen = document.getElementById('end-screen'), gameContent = document.getElementById('game-content'), questionCountEl = document.getElementById('question-count'), questionTextEl = document.getElementById('question-text'), imageEl = document.getElementById('pokemon-image'), optionsEl = document.getElementById('options');
@@ -677,73 +664,6 @@
             }
         };
 
-        // --- RAID BOSS LOGIC ---
-        let currentRaidWeek = null;
-        async function loadRaidBoss() {
-            if (!isWeekend) return;
-            try {
-                const raidRef = db.collection('global').doc('raid');
-                const doc = await raidRef.get();
-                
-                const d = new Date();
-                const weekNum = Math.ceil((((d - new Date(d.getFullYear(),0,1)) / 86400000) + new Date(d.getFullYear(),0,1).getDay()+1)/7);
-                
-                if (!doc.exists || doc.data().hp <= 0 && doc.data().week !== weekNum) {
-                    await raidRef.set({ name: 'Mewtwo', maxHp: 5000, hp: 5000, week: weekNum });
-                }
-
-                raidRef.onSnapshot(snap => {
-                    if (snap.exists) {
-                        const data = snap.data();
-                        currentRaidWeek = data.week;
-                        document.getElementById('raid-container').classList.remove('hidden');
-                        document.getElementById('raid-name').innerText = data.name;
-                        
-                        let displayHp = Math.max(0, data.hp);
-                        document.getElementById('raid-hp').innerText = displayHp + " / " + data.maxHp;
-                        const pct = (displayHp / data.maxHp) * 100;
-                        document.getElementById('raid-bar').style.width = pct + '%';
-
-                        if (displayHp <= 0) {
-                            document.getElementById('raid-hp').innerText = "DEFEATED!";
-                            checkRaidReward(data.week);
-                        }
-                    }
-                });
-            } catch (e) {
-                console.log("Raid Boss offline:", e);
-            }
-        }
-
-        async function damageRaidBoss() {
-            try { await db.collection('global').doc('raid').update({ hp: firebase.firestore.FieldValue.increment(-10) }); } catch(e) {} 
-        }
-
-        function checkRaidReward(week) {
-            let claimedRaids = JSON.parse(localStorage.getItem('claimedRaids_' + currentUser)) || [];
-            if (!claimedRaids.includes(week)) {
-                document.getElementById('raid-claim-btn').classList.remove('hidden');
-            } else {
-                document.getElementById('raid-claim-btn').classList.add('hidden');
-                document.getElementById('raid-hp').innerText = "CLAIMED!";
-            }
-        }
-
-        function claimRaidReward() {
-            let claimedRaids = JSON.parse(localStorage.getItem('claimedRaids_' + currentUser)) || [];
-            claimedRaids.push(currentRaidWeek);
-            localStorage.setItem('claimedRaids_' + currentUser, JSON.stringify(claimedRaids));
-            
-            currentXP += 200;
-            localStorage.setItem(`xp_${currentUser}`, currentXP);
-            updateXPUI();
-            db.collection("trainers").doc(currentUser).set({ xp: currentXP, claimedRaids: claimedRaids }, { merge: true });
-            
-            document.getElementById('raid-claim-btn').classList.add('hidden');
-            document.getElementById('raid-hp').innerText = "CLAIMED!";
-            showXPFloatingText("+200 XP");
-        }
-
         // --- DAILY TASK LOGIC ---
         function initDailyTask() {
             const today = new Date().toDateString();
@@ -753,9 +673,9 @@
                 tasks = {
                     date: today,
                     list: [
-                        { id: 'correct', desc: 'Answer 10 questions correctly', target: 10, progress: 0, claimed: false },
-                        { id: 'streak', desc: 'Get a 3-question streak', target: 1, progress: 0, claimed: false },
-                        { id: 'games', desc: 'Finish 2 matches', target: 2, progress: 0, claimed: false }
+                        { id: 'correct', desc: 'Answer 30 questions correctly', target: 30, progress: 0, claimed: false },
+                        { id: 'streak', desc: 'Get a 5-question streak', target: 5, progress: 0, claimed: false },
+                        { id: 'games', desc: 'Finish 4 matches', target: 4, progress: 0, claimed: false }
                     ]
                 };
                 localStorage.setItem('dailyTasks_' + currentUser, JSON.stringify(tasks));
@@ -1061,7 +981,7 @@
         function startTimer() {
             clearInterval(timerInterval);
             isPaused = false;
-            timeLeft = currentQuestionTimeLimit;
+            timeLeft = 10;
             
             timerWrapper.classList.remove('hidden');
             updateTimerUI();
@@ -1077,7 +997,7 @@
 
         function updateTimerUI() {
             timerText.innerText = timeLeft + 's';
-            const percentage = (timeLeft / currentQuestionTimeLimit) * 100;
+            const percentage = (timeLeft / 10) * 100;
             timerBar.style.width = percentage + '%';
 
             if (timeLeft <= 5 && timeLeft > 3) {
@@ -1103,32 +1023,18 @@
                 wrongAudio.play().catch(e => console.log("Audio playback prevented by browser:", e));
             }
 
-            if (currentQuestionMode === 'SCRAMBLE') {
-                const inputEl = document.getElementById('scramble-input');
-                const submitBtn = document.getElementById('scramble-submit');
-                if (inputEl) {
-                    inputEl.disabled = true;
-                    if (submitBtn) submitBtn.disabled = true;
-                    inputEl.style.backgroundColor = '#ef4444';
-                    inputEl.style.color = 'white';
-                    inputEl.style.borderColor = '#dc2626';
-                    inputEl.value = `Correct: ${correctAnswersAttribute.replace(/\b\w/g, l => l.toUpperCase())}`;
+            const allBtns = document.querySelectorAll('.option-btn');
+            allBtns.forEach(btn => btn.disabled = true);
+            
+            allBtns.forEach(btn => {
+                if (btn.dataset.value === correctAnswersAttribute) {
+                    btn.classList.add('correct');
+                    btn.style.transform = "translateY(4px)";
+                    btn.style.boxShadow = "0 0 0 transparent";
                 }
-            } else {
-                const allBtns = document.querySelectorAll('.option-btn');
-                allBtns.forEach(btn => btn.disabled = true);
-                
-                allBtns.forEach(btn => {
-                    if (btn.dataset.value === correctAnswersAttribute) {
-                        btn.classList.add('correct');
-                        btn.style.transform = "translateY(4px)";
-                        btn.style.boxShadow = "0 0 0 transparent";
-                    }
-                });
-            }
+            });
 
             applyScore(false);
-
             setTimeout(() => { loadNextQuestionFromBatch(); }, 3000);
         }
 
@@ -1552,8 +1458,7 @@
                 choices = rawChoices.map(c => ({ text: c.replace('-', ' '), value: c }));
             }
             else if (evalMode === 'SCRAMBLE') {
-                let scrambled = cleanName.toUpperCase().split('').sort(() => 0.5 - Math.random()).join('');
-                questionText = `Unscramble the name:<br><strong style="letter-spacing: 4px; color: #be185d; font-size: 26px; display: inline-block; margin-top: 8px;">${scrambled}</strong>`;
+                questionText = `Spell the Pokémon!`;
                 correctAnswersAttribute = cleanName;
                 choices = []; 
             } 
@@ -1655,7 +1560,6 @@
 
             clearInterval(timerInterval);
             isPaused = false;
-            timerWrapper.classList.add('hidden');
             
             gameContent.style.opacity = 0;
             optionsEl.innerHTML = '';
@@ -1665,7 +1569,6 @@
             isShiny = qData.isShiny;
             correctAnswersAttribute = qData.correctAnswersAttribute;
             currentQuestionMode = qData.evalMode;
-            currentQuestionTimeLimit = (currentQuestionMode === 'SCRAMBLE') ? 20 : 10;
             
             let seenDex = JSON.parse(localStorage.getItem('seen_' + currentUser)) || [];
             if (!seenDex.includes(currentPokemonId)) {
@@ -1679,25 +1582,119 @@
             questionTextEl.innerHTML = qData.questionText;
 
             if (currentQuestionMode === 'SCRAMBLE') {
+                const correctStr = correctAnswersAttribute.replace(/[\s\.\-']/g, '').toUpperCase();
+                let letters = correctStr.split('');
+                letters.sort(() => 0.5 - Math.random());
+                
+                let bank = letters.map((char, i) => ({ char, id: i, used: false }));
+                let guess = [];
+
                 optionsEl.innerHTML = `
-                    <input type="text" id="scramble-input" placeholder="Type Pokémon name..." autocomplete="off" autocorrect="off" spellcheck="false" style="width: 100%; padding: 15px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 800; text-transform: capitalize; margin: 12px 0; outline: none;">
-                    <button class="primary-btn btn-blue" id="scramble-submit" style="margin-bottom: 12px;">Submit</button>
+                    <div id="scramble-guess-display" style="font-size:24px; font-weight:900; letter-spacing:6px; min-height: 35px; margin-bottom: 15px; color:#1e293b; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px;"></div>
+                    <div id="scramble-bank" style="display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-bottom: 20px;"></div>
+                    <div style="display:flex; gap:10px;">
+                        <button class="primary-btn" style="background:#64748b; flex:1;" id="btn-undo">Undo</button>
+                        <button class="primary-btn btn-blue" style="flex:2;" id="btn-submit">Submit</button>
+                        <button class="primary-btn btn-orange" style="flex:1;" id="btn-skip">Skip</button>
+                    </div>
                 `;
+
+                function renderScramble() {
+                    const guessDisplay = document.getElementById('scramble-guess-display');
+                    const bankDisplay = document.getElementById('scramble-bank');
+                    const submitBtn = document.getElementById('btn-submit');
+                    
+                    let displayText = guess.map(g => g.char).join('') + '_'.repeat(bank.length - guess.length);
+                    if(guessDisplay) guessDisplay.innerText = displayText;
+
+                    if(bankDisplay) {
+                        bankDisplay.innerHTML = '';
+                        bank.forEach(item => {
+                            const btn = document.createElement('button');
+                            btn.innerText = item.char;
+                            btn.style.width = '40px';
+                            btn.style.height = '45px';
+                            btn.style.fontSize = '20px';
+                            btn.style.fontWeight = '900';
+                            btn.style.borderRadius = '8px';
+                            btn.style.border = '2px solid #cbd5e1';
+                            btn.style.background = 'white';
+                            btn.style.color = '#334155';
+                            btn.style.cursor = 'pointer';
+                            if (item.used) btn.style.visibility = 'hidden';
+                            
+                            btn.onclick = () => {
+                                item.used = true;
+                                guess.push(item);
+                                renderScramble();
+                            };
+                            bankDisplay.appendChild(btn);
+                        });
+                    }
+
+                    if(submitBtn) {
+                        submitBtn.disabled = (guess.length !== bank.length);
+                        submitBtn.style.opacity = (guess.length !== bank.length) ? '0.5' : '1';
+                    }
+                }
                 
-                const inputEl = document.getElementById('scramble-input');
-                const submitBtn = document.getElementById('scramble-submit');
-                
-                inputEl.focus();
-                
-                inputEl.addEventListener('keypress', function (e) {
-                    if (e.key === 'Enter') submitBtn.click();
-                });
-                
-                submitBtn.onclick = () => {
-                    const guess = inputEl.value.trim().toLowerCase();
-                    const correct = correctAnswersAttribute.toLowerCase();
-                    const isCorrect = (guess === correct);
-                    handleTextGuess(inputEl, isCorrect, correctAnswersAttribute);
+                renderScramble();
+
+                document.getElementById('btn-undo').onclick = () => {
+                    if (guess.length > 0) {
+                        const last = guess.pop();
+                        last.used = false;
+                        renderScramble();
+                    }
+                };
+
+                document.getElementById('btn-skip').onclick = () => {
+                    const display = document.getElementById('scramble-guess-display');
+                    display.innerText = correctStr;
+                    display.style.color = '#ef4444';
+                    
+                    document.getElementById('btn-undo').disabled = true;
+                    document.getElementById('btn-submit').disabled = true;
+                    document.getElementById('btn-skip').disabled = true;
+                    const bankBtns = document.getElementById('scramble-bank').querySelectorAll('button');
+                    bankBtns.forEach(b => b.disabled = true);
+                    
+                    applyScore(false);
+                    setTimeout(() => { loadNextQuestionFromBatch(); }, 3000);
+                };
+
+                document.getElementById('btn-submit').onclick = () => {
+                    if (guess.length !== bank.length) return; 
+                    const guessStr = guess.map(g => g.char).join('');
+                    
+                    document.getElementById('btn-undo').disabled = true;
+                    document.getElementById('btn-submit').disabled = true;
+                    document.getElementById('btn-skip').disabled = true;
+                    const bankBtns = document.getElementById('scramble-bank').querySelectorAll('button');
+                    bankBtns.forEach(b => b.disabled = true);
+                    
+                    const isCorrect = (guessStr === correctStr);
+                    const display = document.getElementById('scramble-guess-display');
+                    
+                    triggerFeedbackAnimation(isCorrect);
+
+                    if (isCorrect) {
+                        if (isSoundEnabled) {
+                            const correctAudio = new Audio('correct.mp3');
+                            correctAudio.play().catch(e => console.log("Audio playback prevented by browser:", e));
+                        }
+                        display.style.color = '#16a34a';
+                        applyScore(true);
+                    } else {
+                        if (isSoundEnabled) {
+                            const wrongAudio = new Audio('wrong.mp3');
+                            wrongAudio.play().catch(e => console.log("Audio playback prevented by browser:", e));
+                        }
+                        display.style.color = '#ef4444';
+                        display.innerText = correctStr; 
+                        applyScore(false);
+                    }
+                    setTimeout(() => { loadNextQuestionFromBatch(); }, isCorrect ? 1000 : 3000);
                 };
             } else {
                 qData.choices.forEach(choice => {
@@ -1710,7 +1707,12 @@
             
             setTimeout(() => { 
                 gameContent.style.opacity = 1; 
-                startTimer();
+                if (currentQuestionMode !== 'SCRAMBLE') {
+                    document.getElementById('timer-wrapper').classList.remove('hidden');
+                    startTimer();
+                } else {
+                    document.getElementById('timer-wrapper').classList.add('hidden');
+                }
             }, 50);
         }
 
@@ -1746,7 +1748,7 @@
 
                 let xpGain = 5; 
                 if (isShiny) xpGain *= 2;
-                if (currentStreak >= 3) {
+                if (currentStreak >= 5) { // Updated to match new streak requirements
                     xpGain += 2;
                     updateDailyTaskProgress('streak');
                     const streakEl = document.getElementById('streak-display');
@@ -1826,41 +1828,6 @@
             setTimeout(() => { loadNextQuestionFromBatch(); }, delay);
         }
 
-        function handleTextGuess(inputEl, isCorrect, correctAnswer) {
-            clearInterval(timerInterval);
-            isPaused = false;
-
-            const submitBtn = document.getElementById('scramble-submit');
-            if (submitBtn) submitBtn.disabled = true;
-            inputEl.disabled = true;
-
-            const delay = isCorrect ? 1000 : 3000;
-            triggerFeedbackAnimation(isCorrect);
-
-            if (isCorrect) {
-                if (isSoundEnabled) {
-                    const correctAudio = new Audio('correct.mp3');
-                    correctAudio.play().catch(e => console.log("Audio playback prevented by browser:", e));
-                }
-                inputEl.style.backgroundColor = '#22c55e';
-                inputEl.style.color = 'white';
-                inputEl.style.borderColor = '#16a34a';
-                applyScore(true);
-            } else {
-                if (isSoundEnabled) {
-                    const wrongAudio = new Audio('wrong.mp3');
-                    wrongAudio.play().catch(e => console.log("Audio playback prevented by browser:", e));
-                }
-                inputEl.style.backgroundColor = '#ef4444';
-                inputEl.style.color = 'white';
-                inputEl.style.borderColor = '#dc2626';
-                inputEl.value = `Correct: ${correctAnswer.replace(/\b\w/g, l => l.toUpperCase())}`;
-                applyScore(false);
-            }
-
-            setTimeout(() => { loadNextQuestionFromBatch(); }, delay);
-        }
-
         function handleTimeOut() {
             clearInterval(timerInterval);
             timerBar.style.width = '0%';
@@ -1875,29 +1842,16 @@
                 wrongAudio.play().catch(e => console.log("Audio playback prevented by browser:", e));
             }
 
-            if (currentQuestionMode === 'SCRAMBLE') {
-                const inputEl = document.getElementById('scramble-input');
-                const submitBtn = document.getElementById('scramble-submit');
-                if (inputEl) {
-                    inputEl.disabled = true;
-                    if (submitBtn) submitBtn.disabled = true;
-                    inputEl.style.backgroundColor = '#ef4444';
-                    inputEl.style.color = 'white';
-                    inputEl.style.borderColor = '#dc2626';
-                    inputEl.value = `Correct: ${correctAnswersAttribute.replace(/\b\w/g, l => l.toUpperCase())}`;
+            const allBtns = document.querySelectorAll('.option-btn');
+            allBtns.forEach(btn => btn.disabled = true);
+            
+            allBtns.forEach(btn => {
+                if (btn.dataset.value === correctAnswersAttribute) {
+                    btn.classList.add('correct');
+                    btn.style.transform = "translateY(4px)";
+                    btn.style.boxShadow = "0 0 0 transparent";
                 }
-            } else {
-                const allBtns = document.querySelectorAll('.option-btn');
-                allBtns.forEach(btn => btn.disabled = true);
-                
-                allBtns.forEach(btn => {
-                    if (btn.dataset.value === correctAnswersAttribute) {
-                        btn.classList.add('correct');
-                        btn.style.transform = "translateY(4px)";
-                        btn.style.boxShadow = "0 0 0 transparent";
-                    }
-                });
-            }
+            });
 
             applyScore(false);
             setTimeout(() => { loadNextQuestionFromBatch(); }, 3000);
