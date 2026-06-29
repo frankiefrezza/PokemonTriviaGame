@@ -422,6 +422,17 @@
                 </div>
             </div>
 
+            <div id="raid-container" class="bento-box raid-box hidden">
+                <h3>🌍 Weekend Raid Boss <span style="font-size:12px; background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 6px;">CO-OP</span></h3>
+                <div class="raid-boss-name" id="raid-name">Mewtwo</div>
+                <div class="raid-hp-track"><div id="raid-bar"></div></div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
+                    <span style="font-size: 11px; font-weight: 700; color: #a78bfa;">Correct answers deal damage!</span>
+                    <span id="raid-hp">5000 / 5000</span>
+                </div>
+                <button id="raid-claim-btn" class="raid-btn hidden" style="width: 100%; margin-top: 10px;" onclick="claimRaidReward()">Claim Victory +200 XP!</button>
+            </div>
+
             <div id="daily-challenges-container" class="bento-box daily-challenges-container hidden">
                 <h3 style="margin: 0 0 15px 0; font-size: 16px; font-weight: 900; color: #d97706; text-transform: uppercase; text-align: center;">Daily Challenges</h3>
                 <div id="dc-list"></div>
@@ -644,6 +655,7 @@
         
         let isShiny = false;
         let currentStreak = 0;
+        let isWeekend = [0, 6].includes(new Date().getDay()); 
 
         // --- DOM ELEMENTS ---
         const loginScreen = document.getElementById('login-screen'), homeScreen = document.getElementById('home-screen'), gameScreen = document.getElementById('game-screen'), endScreen = document.getElementById('end-screen'), gameContent = document.getElementById('game-content'), questionCountEl = document.getElementById('question-count'), questionTextEl = document.getElementById('question-text'), imageEl = document.getElementById('pokemon-image'), optionsEl = document.getElementById('options');
@@ -663,6 +675,92 @@
                 showScreen(loginScreen);
             }
         };
+
+        // --- FUZZY MATCH LOGIC ---
+        function getLevenshteinDistance(a, b) {
+            if(a.length === 0) return b.length;
+            if(b.length === 0) return a.length;
+            let matrix = [];
+            for(let i = 0; i <= b.length; i++){ matrix[i] = [i]; }
+            for(let j = 0; j <= a.length; j++){ matrix[0][j] = j; }
+            for(let i = 1; i <= b.length; i++){
+                for(let j = 1; j <= a.length; j++){
+                    if(b.charAt(i-1) === a.charAt(j-1)){
+                        matrix[i][j] = matrix[i-1][j-1];
+                    } else {
+                        matrix[i][j] = Math.min(matrix[i-1][j-1] + 1, Math.min(matrix[i][j-1] + 1, matrix[i-1][j] + 1));
+                    }
+                }
+            }
+            return matrix[b.length][a.length];
+        }
+
+        // --- RAID BOSS LOGIC ---
+        let currentRaidWeek = null;
+        async function loadRaidBoss() {
+            if (!isWeekend) return;
+            try {
+                const raidRef = db.collection('global').doc('raid');
+                const doc = await raidRef.get();
+                
+                const d = new Date();
+                const weekNum = Math.ceil((((d - new Date(d.getFullYear(),0,1)) / 86400000) + new Date(d.getFullYear(),0,1).getDay()+1)/7);
+                
+                if (!doc.exists || doc.data().hp <= 0 && doc.data().week !== weekNum) {
+                    await raidRef.set({ name: 'Mewtwo', maxHp: 5000, hp: 5000, week: weekNum });
+                }
+
+                raidRef.onSnapshot(snap => {
+                    if (snap.exists) {
+                        const data = snap.data();
+                        currentRaidWeek = data.week;
+                        document.getElementById('raid-container').classList.remove('hidden');
+                        document.getElementById('raid-name').innerText = data.name;
+                        
+                        let displayHp = Math.max(0, data.hp);
+                        document.getElementById('raid-hp').innerText = displayHp + " / " + data.maxHp;
+                        const pct = (displayHp / data.maxHp) * 100;
+                        document.getElementById('raid-bar').style.width = pct + '%';
+
+                        if (displayHp <= 0) {
+                            document.getElementById('raid-hp').innerText = "DEFEATED!";
+                            checkRaidReward(data.week);
+                        }
+                    }
+                });
+            } catch (e) {
+                console.log("Raid Boss offline:", e);
+            }
+        }
+
+        async function damageRaidBoss() {
+            try { await db.collection('global').doc('raid').update({ hp: firebase.firestore.FieldValue.increment(-10) }); } catch(e) {} 
+        }
+
+        function checkRaidReward(week) {
+            let claimedRaids = JSON.parse(localStorage.getItem('claimedRaids_' + currentUser)) || [];
+            if (!claimedRaids.includes(week)) {
+                document.getElementById('raid-claim-btn').classList.remove('hidden');
+            } else {
+                document.getElementById('raid-claim-btn').classList.add('hidden');
+                document.getElementById('raid-hp').innerText = "CLAIMED!";
+            }
+        }
+
+        function claimRaidReward() {
+            let claimedRaids = JSON.parse(localStorage.getItem('claimedRaids_' + currentUser)) || [];
+            claimedRaids.push(currentRaidWeek);
+            localStorage.setItem('claimedRaids_' + currentUser, JSON.stringify(claimedRaids));
+            
+            currentXP += 200;
+            localStorage.setItem(`xp_${currentUser}`, currentXP);
+            updateXPUI();
+            db.collection("trainers").doc(currentUser).set({ xp: currentXP, claimedRaids: claimedRaids }, { merge: true });
+            
+            document.getElementById('raid-claim-btn').classList.add('hidden');
+            document.getElementById('raid-hp').innerText = "CLAIMED!";
+            showXPFloatingText("+200 XP");
+        }
 
         // --- DAILY TASK LOGIC ---
         function initDailyTask() {
@@ -1035,7 +1133,7 @@
             });
 
             applyScore(false);
-            setTimeout(() => { loadNextQuestionFromBatch(); }, 3000);
+            setTimeout(() => { loadNextQuestionFromBatch(); }, 1500);
         }
 
         function triggerFeedbackAnimation(isCorrect) {
@@ -1660,7 +1758,7 @@
                     bankBtns.forEach(b => b.disabled = true);
                     
                     applyScore(false);
-                    setTimeout(() => { loadNextQuestionFromBatch(); }, 3000);
+                    setTimeout(() => { loadNextQuestionFromBatch(); }, 1500);
                 };
 
                 document.getElementById('btn-submit').onclick = () => {
@@ -1673,9 +1771,11 @@
                     const bankBtns = document.getElementById('scramble-bank').querySelectorAll('button');
                     bankBtns.forEach(b => b.disabled = true);
                     
-                    const isCorrect = (guessStr === correctStr);
-                    const display = document.getElementById('scramble-guess-display');
+                    const distance = getLevenshteinDistance(guessStr, correctStr);
+                    let allowedErrors = correctStr.length > 7 ? 2 : (correctStr.length > 4 ? 1 : 0);
+                    const isCorrect = distance <= allowedErrors;
                     
+                    const display = document.getElementById('scramble-guess-display');
                     triggerFeedbackAnimation(isCorrect);
 
                     if (isCorrect) {
@@ -1683,6 +1783,7 @@
                             const correctAudio = new Audio('correct.mp3');
                             correctAudio.play().catch(e => console.log("Audio playback prevented by browser:", e));
                         }
+                        display.innerText = correctStr; 
                         display.style.color = '#16a34a';
                         applyScore(true);
                     } else {
@@ -1694,7 +1795,7 @@
                         display.innerText = correctStr; 
                         applyScore(false);
                     }
-                    setTimeout(() => { loadNextQuestionFromBatch(); }, isCorrect ? 1000 : 3000);
+                    setTimeout(() => { loadNextQuestionFromBatch(); }, isCorrect ? 1000 : 1500);
                 };
             } else {
                 qData.choices.forEach(choice => {
@@ -1748,7 +1849,7 @@
 
                 let xpGain = 5; 
                 if (isShiny) xpGain *= 2;
-                if (currentStreak >= 5) { // Updated to match new streak requirements
+                if (currentStreak >= 5) {
                     xpGain += 2;
                     updateDailyTaskProgress('streak');
                     const streakEl = document.getElementById('streak-display');
@@ -1799,7 +1900,7 @@
             clickedBtn.style.transform = "translateY(4px)";
             clickedBtn.style.boxShadow = "0 0 0 transparent";
 
-            const delay = isCorrect ? 1000 : 3000;
+            const delay = isCorrect ? 1000 : 1500;
             triggerFeedbackAnimation(isCorrect);
 
             if (isCorrect) {
@@ -1854,7 +1955,7 @@
             });
 
             applyScore(false);
-            setTimeout(() => { loadNextQuestionFromBatch(); }, 3000);
+            setTimeout(() => { loadNextQuestionFromBatch(); }, 1500);
         }
 
         function endGame() {
