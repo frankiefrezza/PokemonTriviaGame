@@ -14,7 +14,7 @@
     <link rel="apple-touch-icon" href="app-icon.png?v=2">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Kanit:wght@800&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
     
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -47,6 +47,11 @@
         .rank-elite { background: linear-gradient(135deg, #3b0764 0%, #6b21a8 100%); color: #f3e8ff; border: 1px solid #9333ea; }
         .rank-master { background: linear-gradient(135deg, #0f172a 0%, #334155 100%); color: #f8fafc; border: 1px solid #475569; }
 
+        /* Updated Badge Socket Styles */
+        .badge-socket { position: absolute; right: 20px; top: 20px; width: 64px; height: 64px; border-radius: 50%; background: rgba(0, 0, 0, 0.05); border: 1px solid rgba(255,255,255,0.6); box-shadow: inset 0 3px 6px rgba(0,0,0,0.15), 0 1px 2px rgba(255,255,255,0.8); display: flex; justify-content: center; align-items: center; z-index: 10; transition: transform 0.3s ease; }
+        .badge-socket img { width: 50px; height: 50px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25)); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .badge-socket:hover img { transform: scale(1.15) rotate(5deg); }
+
         .trainer-header { display: flex; align-items: center; gap: 20px; margin-bottom: 25px; position: relative; z-index: 1; cursor: pointer; transition: transform 0.2s; border-radius: 16px; padding: 5px; }
         .trainer-header:hover { transform: scale(1.02); background: rgba(255,255,255,0.1); }
         
@@ -65,8 +70,10 @@
         .trainer-avatar-circle::after { content: '✎'; position: absolute; bottom: -5px; right: -5px; background: #3b82f6; color: white; font-size: 14px; width: 26px; height: 26px; border-radius: 50%; display: flex; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.2s; z-index: 10; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         .trainer-avatar-container:hover .trainer-avatar-circle::after { opacity: 1; }
 
-        .trainer-info { display: flex; flex-direction: column; align-items: flex-start; z-index: 1; flex-grow: 1; overflow: hidden; }
-        .trainer-name-display { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 32px; line-height: 1.1; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+        .trainer-info { display: flex; flex-direction: column; align-items: flex-start; z-index: 1; flex-grow: 1; overflow: hidden; padding-right: 65px; /* Prevent text from going under badge socket */ }
+        
+        /* Typography Upgrade for Name */
+        .trainer-name-display { font-family: 'Kanit', sans-serif; font-weight: 800; font-size: 30px; line-height: 1.1; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; text-shadow: 0 2px 4px rgba(255,255,255,0.5); }
         
         .trainer-title-label { font-size: 11px; text-transform: uppercase; font-weight: 900; letter-spacing: 0.5px; line-height: 1; border-radius: 8px; padding: 6px 10px; margin-top: 2px; }
         .rank-rookie .trainer-title-label { background: rgba(226, 232, 240, 0.8); color: #475569; }
@@ -75,17 +82,14 @@
         .rank-elite .trainer-title-label { background: rgba(255, 255, 255, 0.15); color: #e9d5ff; border: 1px solid rgba(216, 180, 254, 0.4); }
         .rank-master .trainer-title-label { background: rgba(255, 255, 255, 0.15); color: #f8fafc; border: 1px solid rgba(255, 255, 255, 0.3); }
 
-        .progression-track { display: flex; align-items: center; gap: 15px; position: relative; z-index: 1; }
-        .progression-track img { width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15)); transition: transform 0.3s ease; }
-        .progression-track img:hover { transform: scale(1.1); }
-        #next-badge { filter: grayscale(1) opacity(0.4) drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
+        .progression-track { display: flex; align-items: center; position: relative; z-index: 1; padding: 0 5px; }
         
         .xp-core { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
         .xp-stats-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px; padding: 0 2px; }
         
-        .xp-text-label { font-size: 14px; font-weight: 900; font-family: 'Fredoka', sans-serif; letter-spacing: 0.5px; opacity: 0.9; }
+        .xp-text-label { font-size: 15px; font-weight: 900; font-family: 'Fredoka', sans-serif; letter-spacing: 0.5px; opacity: 0.9; color: #1e293b;}
         
-        .xp-bar-track { width: 100%; height: 14px; background: rgba(0, 0, 0, 0.15); border-radius: 7px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); position: relative; }
+        .xp-bar-track { width: 100%; height: 14px; background: rgba(0, 0, 0, 0.15); border-radius: 7px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3); position: relative; }
         #xp-progress-bar { height: 100%; background: linear-gradient(90deg, #34d399, #10b981); width: 0%; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 7px; box-shadow: inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -2px 4px rgba(0,0,0,0.2); position: relative; overflow: hidden; }
         #xp-progress-bar::after { content:''; position:absolute; top:0; left:0; right:0; bottom:0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); transform: translateX(-100%); animation: shimmer 2s infinite; }
         @keyframes shimmer { 100% { transform: translateX(100%); } }
@@ -160,7 +164,6 @@
         .avatar-item.selected { border-color: #10b981; background: #ecfdf5; }
         .avatar-item img { width: 100%; height: 100%; object-fit: contain; }
 
-        /* Cleaned up History Chip CSS */
         .history-chip { display: inline-flex; align-items: center; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 30px; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); padding: 4px 6px 4px 4px; gap: 2px; }
         .history-chip:hover { border-color: #cbd5e1; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
         .history-avatar { width: 34px; height: 34px; object-fit: contain; background: white; border-radius: 50%; border: 2px solid #e2e8f0; padding: 2px; flex-shrink: 0; box-sizing: border-box; }
@@ -238,7 +241,6 @@
         @keyframes popJuiceShake { 0% { opacity: 0; transform: scale(0.3); } 20% { opacity: 1; transform: scale(1.2) translateX(-8px); } 30% { transform: scale(1.2) translateX(8px); } 40% { transform: scale(1.2) translateX(-8px); } 50% { transform: scale(1) translateX(0); } 80% { opacity: 1; transform: scale(1) translateY(0); } 100% { opacity: 0; transform: scale(0.8) translateY(-20px); } }
         @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
         
-        /* Fixed Animation to apply directly to the circular element */
         @keyframes pulseAvatar { 0% { transform: scale(1); box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); } 100% { transform: scale(1.05); box-shadow: 0 0 25px rgba(59, 130, 246, 0.7); } }
 
         @media (max-width: 480px) {
@@ -286,7 +288,7 @@
                         </div>
                     </div>
                     <div>
-                        <div id="tc-name" style="font-family: 'Fredoka', sans-serif; font-size: 28px; color: #1e293b; text-transform: uppercase;">Name</div>
+                        <div id="tc-name" style="font-family: 'Kanit', sans-serif; font-size: 28px; color: #1e293b; text-transform: uppercase;">Name</div>
                         <div id="tc-title" style="font-size: 14px; font-weight: 900; color: #3b82f6; text-transform: uppercase;">Title</div>
                         <div style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
                             <img id="tc-badge" src="" style="width: 30px; height: 30px;">
@@ -428,7 +430,12 @@
             
             <div id="main-trainer-card" class="trainer-card rank-rookie">
                 <div class="card-bg-watermark"></div>
-                <div class="trainer-header" onclick="openTrainerCard()" title="View ID Card">
+                
+                <div class="badge-socket" title="Current Badge">
+                    <img id="current-badge" src="LV1-10.png" alt="Current Badge">
+                </div>
+
+                <div class="trainer-header" onclick="openTrainerCard()" title="View ID Card" style="margin-bottom: 20px;">
                     <div class="trainer-avatar-container" onclick="event.stopPropagation(); openAvatarModal();" title="Change Avatar">
                         <div class="trainer-avatar-circle">
                             <img id="trainer-display-avatar" src="">
@@ -441,7 +448,6 @@
                 </div>
                 
                 <div class="progression-track">
-                    <img id="current-badge" src="LV1-10.png" alt="Current Badge">
                     <div class="xp-core">
                         <div class="xp-stats-row">
                             <span class="xp-text-label">LVL <span id="display-level">1</span></span>
@@ -449,7 +455,6 @@
                         </div>
                         <div class="xp-bar-track"><div id="xp-progress-bar"></div></div>
                     </div>
-                    <img id="next-badge" src="LV10-20.png" alt="Next Badge">
                 </div>
             </div>
 
@@ -905,7 +910,6 @@
             let totalWrong = parseInt(localStorage.getItem('stats_wrong_' + currentUser)) || 0;
             document.getElementById('tc-wrong').innerText = totalWrong;
             
-            // Dynamically set modal circle styles based on rank to match home screen
             const tcCircle = document.getElementById('tc-avatar-circle');
             let borderColor = '#cbd5e1'; let shadowColor = 'rgba(100, 116, 139, 0.2)';
             if (level >= 100) { borderColor = '#94a3b8'; shadowColor = 'rgba(255, 255, 255, 0.3)'; }
@@ -1474,23 +1478,16 @@
 
         function updateBadgeDisplay(level) {
             const currentBadge = document.getElementById('current-badge');
-            const nextBadge = document.getElementById('next-badge');
             const badgeIndex = Math.min(Math.floor((level - 1) / 10), 9);
             const badgeFiles = [
                 "LV1-10.png", "LV10-20.png", "LV20-30.png", "LV30-40.png", "LV40-50.png", 
                 "LV50-60.png", "LV60-70.png", "LV70-80.png", "LV80-90.png", "LV90-100.png"
             ];
 
-            currentBadge.src = badgeFiles[badgeIndex];
-            if (badgeIndex < 9) {
-                nextBadge.src = badgeFiles[badgeIndex + 1];
-                nextBadge.style.opacity = "0.6";
-                nextBadge.style.filter = "grayscale(1)";
-            } else {
-                nextBadge.src = badgeFiles[9];
-                nextBadge.style.opacity = "1";
-                nextBadge.style.filter = "none";
-            }
+            if (currentBadge) currentBadge.src = badgeFiles[badgeIndex];
+            
+            const tcBadge = document.getElementById('tc-badge');
+            if(tcBadge) tcBadge.src = badgeFiles[badgeIndex];
         }
 
         function startGame(mode) {
