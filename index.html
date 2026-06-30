@@ -33,10 +33,11 @@
             animation: gradientBG 15s ease infinite;
             display: flex; justify-content: center; align-items: center; 
             min-height: 100vh; 
-            min-height: -webkit-fill-available; /* Forces iOS Safari to calculate height perfectly */
+            min-height: -webkit-fill-available; 
             margin: 0; 
             padding: env(safe-area-inset-top, 20px) 20px env(safe-area-inset-bottom, 20px) 20px; 
             box-sizing: border-box; overscroll-behavior: none; 
+            overflow-x: hidden;
         }
 
         body::before {
@@ -74,7 +75,7 @@
             max-width: 100%; 
             box-sizing: border-box; 
             position: relative; 
-            margin-top: 100px; 
+            margin-top: 90px; 
         }
         
         .hidden { display: none !important; }
@@ -89,9 +90,9 @@
         /* --- DYNAMIC LOGO STYLES (MARQUEE) --- */
         .logo-wrapper { 
             position: relative; 
-            margin: -130px auto 25px auto; 
+            margin: -100px auto 25px auto; 
             display: flex; justify-content: center; align-items: center; 
-            width: 100%; max-width: 300px; 
+            width: 100%; max-width: 280px; 
             z-index: 50; 
         }
         .logo-spotlight { 
@@ -105,7 +106,7 @@
             animation: floatMainLogo 4s ease-in-out infinite; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15));
         }
         .mini-game-logo { 
-            width: 160px; margin: -80px auto 20px auto; display: block; position: relative; z-index: 50; 
+            width: 160px; margin: -70px auto 20px auto; display: block; position: relative; z-index: 50; 
             animation: floatMiniLogo 4s ease-in-out infinite; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
         }
 
@@ -383,22 +384,29 @@
         
         @keyframes pulseAvatar { 0% { transform: scale(1); box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); } 100% { transform: scale(1.05); box-shadow: 0 0 25px rgba(59, 130, 246, 0.7); } }
 
+        /* --- MOBILE LAYOUT ADJUSTMENTS --- */
         @media (max-width: 480px) {
-            body { padding: calc(env(safe-area-inset-top, 40px) + 20px) 0 0 0; align-items: flex-start; }
+            body { 
+                padding: 0; 
+                align-items: flex-start; /* Start from top edge */
+            }
             #app { 
                 width: 100%; 
-                min-height: calc(100vh - 100px); 
-                border-radius: 45px 45px 0 0; 
+                /* Subtract padding and safe area so it spans properly */
+                min-height: calc(100vh - (env(safe-area-inset-top, 40px) + 50px)); 
+                border-radius: 40px 40px 0 0; 
                 padding: 20px 15px env(safe-area-inset-bottom, 30px) 15px; 
-                box-shadow: 0 -10px 40px rgba(0,0,0,0.15); 
+                /* Push down exactly 50px below the hardware notch */
+                margin-top: calc(env(safe-area-inset-top, 40px) + 50px); 
                 border: 2px solid rgba(255, 255, 255, 0.4); 
                 border-bottom: none; 
-                margin-top: calc(env(safe-area-inset-top, 45px) + 100px); 
+                box-shadow: 0 -10px 40px rgba(0,0,0,0.15); 
             }
             .input-group { flex-direction: column; gap: 10px; margin-bottom: 15px; }
             #username-input, #pin-input { width: 100%; margin-bottom: 0; }
             
-            .logo-wrapper { margin: -90px auto 20px auto; max-width: 220px; }
+            /* Logo perfectly balanced to poke 25px out of the container */
+            .logo-wrapper { margin: -75px auto 20px auto; max-width: 220px; }
             .mini-game-logo { width: 140px; margin: -50px auto 15px auto; }
             
             .modes-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -2162,14 +2170,14 @@
             if (isCorrect) {
                 if (isSoundEnabled) {
                     const correctAudio = new Audio('correct.mp3');
-                    correctAudio.play().catch(e => console.log("Audio playback browser error."));
+                    correctAudio.play().catch(e => console.log("Audio playback prevented by browser:", e));
                 }
                 clickedBtn.classList.add('correct');
                 applyScore(true);
             } else {
                 if (isSoundEnabled) {
                     const wrongAudio = new Audio('wrong.mp3');
-                    wrongAudio.play().catch(e => console.log("Audio playback browser error."));
+                    wrongAudio.play().catch(e => console.log("Audio playback prevented by browser:", e));
                 }
                 clickedBtn.classList.add('wrong');
                 allBtns.forEach(btn => {
@@ -2196,7 +2204,7 @@
 
             if (isSoundEnabled) {
                 const wrongAudio = new Audio('wrong.mp3');
-                wrongAudio.play().catch(e => console.log("Audio playback browser error."));
+                wrongAudio.play().catch(e => console.log("Audio playback prevented by browser:", e));
             }
 
             const allBtns = document.querySelectorAll('.option-btn');
