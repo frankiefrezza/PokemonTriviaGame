@@ -109,24 +109,49 @@
         .dc-status { font-size: 14px; font-weight: 900; color: #f59e0b; background: #fef3c7; padding: 4px 10px; border-radius: 10px; border: 1px solid #fde68a; text-align: center; min-width: 45px; }
         .dc-btn { background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 12px; box-shadow: 0 3px 0 #059669; }
 
+        /* --- UPDATED MODES GRID UI --- */
         .modes-master-bento { padding: 20px; }
         .modes-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .menu-box { padding: 15px; border-radius: 20px; border: 2px solid #e2e8f0; transition: transform 0.2s, border-color 0.2s; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; }
-        .menu-box:hover { transform: scale(1.02); }
-        .menu-box h3 { margin: 0 0 5px 0; color: #1e293b; font-size: 14px; font-weight: 900; }
-        .menu-box p { font-size: 11px; color: #475569; margin-top: 0; margin-bottom: 12px; font-weight: 700; flex-grow: 1; line-height: 1.3;}
-        .menu-box .primary-btn { font-size: 12px; padding: 10px; margin-bottom: 0; }
+        .menu-box { padding: 18px; border-radius: 20px; border: 2px solid; transition: transform 0.1s, box-shadow 0.1s, filter 0.2s; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; position: relative; overflow: hidden; text-align: left; cursor: pointer; }
         
-        .mode-guess { background: linear-gradient(135deg, rgba(239,246,255,0.8) 0%, rgba(219,234,254,0.8) 100%); border-color: #bfdbfe; }
-        .mode-guess:hover { border-color: #93c5fd; box-shadow: 0 4px 12px rgba(59,130,246,0.15); }
-        .mode-types { background: linear-gradient(135deg, rgba(240,253,244,0.8) 0%, rgba(220,252,231,0.8) 100%); border-color: #bbf7d0; }
-        .mode-types:hover { border-color: #86efac; box-shadow: 0 4px 12px rgba(16,185,129,0.15); }
-        .mode-evolutions { background: linear-gradient(135deg, rgba(255,251,235,0.8) 0%, rgba(254,243,199,0.8) 100%); border-color: #fde68a; }
-        .mode-evolutions:hover { border-color: #fcd34d; box-shadow: 0 4px 12px rgba(245,158,11,0.15); }
-        .mode-scramble { background: linear-gradient(135deg, rgba(253,242,248,0.8) 0%, rgba(252,231,243,0.8) 100%); border-color: #fbcfe8; }
-        .mode-scramble:hover { border-color: #f9a8d4; box-shadow: 0 4px 12px rgba(244,114,182,0.15); }
-        .mode-trivia { background: linear-gradient(135deg, rgba(250,245,255,0.8) 0%, rgba(243,232,255,0.8) 100%); border-color: #e9d5ff; grid-column: span 2; }
-        .mode-trivia:hover { border-color: #d8b4fe; box-shadow: 0 4px 12px rgba(139,92,246,0.15); }
+        .menu-box:hover { filter: brightness(1.05); transform: translateY(-3px); }
+        .menu-box:active { transform: translateY(6px); }
+
+        .menu-box h3 { margin: 0 0 6px 0; color: #1e293b; font-size: 16px; font-weight: 800; font-family: 'Kanit', sans-serif; text-transform: uppercase; line-height: 1.1; letter-spacing: 0.5px; position: relative; z-index: 1; }
+        .menu-box p { font-size: 12px; color: #475569; margin-top: 0; margin-bottom: 16px; font-weight: 700; flex-grow: 1; line-height: 1.3; position: relative; z-index: 1; }
+        
+        .mode-action-pill { display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 6px 14px; border-radius: 12px; font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 13px; text-transform: uppercase; align-self: flex-start; box-shadow: 0 3px 0 rgba(0,0,0,0.1); position: relative; z-index: 1; transition: transform 0.2s; }
+        .menu-box:hover .mode-action-pill svg { transform: translateX(3px); }
+        .mode-action-pill svg { transition: transform 0.2s; }
+
+        .mode-bg-icon { position: absolute; right: -15px; bottom: -15px; width: 90px; height: 90px; opacity: 0.12; transform: rotate(-15deg); pointer-events: none; z-index: 0; }
+        .mode-bg-icon svg { width: 100%; height: 100%; }
+
+        .mode-guess { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-color: #93c5fd; box-shadow: 0 6px 0 #93c5fd; }
+        .mode-guess:active { box-shadow: 0 0 0 #93c5fd; }
+        .mode-guess .mode-action-pill { background: #3b82f6; color: white; }
+        .mode-guess .mode-bg-icon { color: #3b82f6; }
+
+        .mode-types { background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-color: #86efac; box-shadow: 0 6px 0 #86efac; }
+        .mode-types:active { box-shadow: 0 0 0 #86efac; }
+        .mode-types .mode-action-pill { background: #10b981; color: white; }
+        .mode-types .mode-bg-icon { color: #10b981; }
+
+        .mode-evolutions { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); border-color: #fde047; box-shadow: 0 6px 0 #fde047; }
+        .mode-evolutions:active { box-shadow: 0 0 0 #fde047; }
+        .mode-evolutions .mode-action-pill { background: #f59e0b; color: white; }
+        .mode-evolutions .mode-bg-icon { color: #d97706; }
+
+        .mode-scramble { background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%); border-color: #f9a8d4; box-shadow: 0 6px 0 #f9a8d4; }
+        .mode-scramble:active { box-shadow: 0 0 0 #f9a8d4; }
+        .mode-scramble .mode-action-pill { background: #ec4899; color: white; }
+        .mode-scramble .mode-bg-icon { color: #db2777; }
+
+        .mode-trivia { background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border-color: #d8b4fe; box-shadow: 0 6px 0 #d8b4fe; grid-column: span 2; }
+        .mode-trivia:active { box-shadow: 0 0 0 #d8b4fe; }
+        .mode-trivia .mode-action-pill { background: #8b5cf6; color: white; }
+        .mode-trivia .mode-bg-icon { color: #7c3aed; right: 5px; bottom: -25px; width: 110px; height: 110px; transform: rotate(-5deg); }
+        /* --------------------------- */
 
         .nav-btn { display: flex; align-items: center; gap: 6px; padding: 8px 16px; font-size: 14px; background-color: #e2e8f0; color: #475569; border: none; border-radius: 12px; cursor: pointer; font-weight: 800; transition: all 0.2s; }
         .nav-btn:hover { background-color: #cbd5e1; color: #1e293b; }
@@ -254,10 +279,12 @@
             
             .modes-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
             .modes-master-bento { padding: 12px; }
-            .menu-box { padding: 10px; }
-            .menu-box h3 { font-size: 12px; }
-            .menu-box p { font-size: 10px; margin-bottom: 8px; }
-            .menu-box .primary-btn { font-size: 11px; padding: 8px; }
+            .menu-box { padding: 14px; }
+            .menu-box h3 { font-size: 14px; margin-bottom: 4px; }
+            .menu-box p { font-size: 10px; margin-bottom: 10px; }
+            .mode-bg-icon { width: 65px; height: 65px; right: -10px; bottom: -10px; }
+            .mode-trivia .mode-bg-icon { width: 80px; height: 80px; right: -5px; bottom: -15px; }
+            .mode-action-pill { padding: 5px 10px; font-size: 11px; }
             
             .bento-box { margin-bottom: 15px; }
 
@@ -478,25 +505,64 @@
 
             <div class="bento-box modes-master-bento">
                 <div class="modes-grid">
-                    <div class="menu-box mode-guess">
-                        <h3>WHO'S THAT POKÉMON</h3><p>Identify the Pokémon from its silhouette.</p>
-                        <button class="primary-btn btn-blue" onclick="startGame('GUESS')">Play</button>
+                    <div class="menu-box mode-guess" onclick="startGame('GUESS')">
+                        <div class="mode-bg-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 16h-2v-2h2v2zm2.07-7.75l-.9.92c-.5.51-.86 1.09-.86 2.33h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41a2 2 0 00-2-2 2 2 0 00-2 2H8a4 4 0 014-4 4 4 0 014 4c0 .88-.36 1.68-.93 2.25z"/></svg>
+                        </div>
+                        <h3>WHO'S THAT POKÉMON</h3>
+                        <p>Identify the Pokémon from its silhouette.</p>
+                        <div class="mode-action-pill">
+                            PLAY 
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                        </div>
                     </div>
-                    <div class="menu-box mode-types">
-                        <h3>TYPES MODE</h3><p>Test your knowledge on elemental types.</p>
-                        <button class="primary-btn btn-green" onclick="startGame('TYPES')">Play</button>
+                    
+                    <div class="menu-box mode-types" onclick="startGame('TYPES')">
+                        <div class="mode-bg-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.2 2L3 14h7v8l8.2-12h-7L11.2 2z"/></svg>
+                        </div>
+                        <h3>TYPES MODE</h3>
+                        <p>Test your knowledge on elemental types.</p>
+                        <div class="mode-action-pill">
+                            PLAY 
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                        </div>
                     </div>
-                    <div class="menu-box mode-evolutions">
-                        <h3>EVOLUTIONS</h3><p>Who does this Pokémon evolve into?</p>
-                        <button class="primary-btn btn-orange" onclick="startGame('EVOLUTIONS')">Play</button>
+                    
+                    <div class="menu-box mode-evolutions" onclick="startGame('EVOLUTIONS')">
+                        <div class="mode-bg-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 11 12 5 7 11"></polyline><polyline points="17 19 12 13 7 19"></polyline></svg>
+                        </div>
+                        <h3>EVOLUTIONS</h3>
+                        <p>Who does this Pokémon evolve into?</p>
+                        <div class="mode-action-pill">
+                            PLAY 
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                        </div>
                     </div>
-                    <div class="menu-box mode-scramble">
-                        <h3 style="color:#be185d;">NAME SCRAMBLE</h3><p>Unscramble the letters to spell the Pokémon!</p>
-                        <button class="primary-btn" style="background:#ec4899; box-shadow:0 4px 0 #db2777;" onclick="startGame('SCRAMBLE')">Play</button>
+                    
+                    <div class="menu-box mode-scramble" onclick="startGame('SCRAMBLE')">
+                        <div class="mode-bg-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 3v2h-3.59l-2.04 2.04 1.42 1.41 2.62-2.62H17v2l3-3-3-3zM4 5v2h2.59l11.41 11.41H20v-2h-1.59L6.59 5H4zm6.59 9.41L9.17 13 4 18.17V20h2.59l4-4zM20 17v2h-1.59l-2.04-2.04 1.42-1.41 2.62 2.62z"/></svg>
+                        </div>
+                        <h3 style="color:#be185d;">NAME SCRAMBLE</h3>
+                        <p>Unscramble the letters to spell the Pokémon!</p>
+                        <div class="mode-action-pill">
+                            PLAY 
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                        </div>
                     </div>
-                    <div class="menu-box mode-trivia">
-                        <h3>TRIVIA MODE</h3><p>PLAY ALL! 25 questions mixing every mode.</p>
-                        <button class="primary-btn btn-purple" onclick="startGame('TRIVIA')">Play</button>
+                    
+                    <div class="menu-box mode-trivia" onclick="startGame('TRIVIA')">
+                        <div class="mode-bg-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94C8.23 14.36 9.59 15.5 11 15.92V19H7v2h10v-2h-4v-3.08c1.41-.42 2.77-1.56 3.61-2.98C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>
+                        </div>
+                        <h3>TRIVIA MODE</h3>
+                        <p>PLAY ALL! 25 questions mixing every mode.</p>
+                        <div class="mode-action-pill">
+                            PLAY 
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                        </div>
                     </div>
                 </div>
             </div>
