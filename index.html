@@ -294,9 +294,20 @@
         .delete-btn:hover { background: #fee2e2; color: #ef4444; }
 
         #question-text { font-size: 20px; font-weight: 800; color: #1e293b; margin: 15px 0; min-height: 28px; line-height: 1.3; }
+        
+        /* --- DYNAMIC GAME IMAGES (Standard & Evolutions) --- */
         #pokemon-image { width: 240px; height: 240px; margin: 10px auto 20px auto; display: block; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2)); transition: filter 0.3s; }
+        .dual-image-container { display: flex; align-items: center; justify-content: center; gap: 20px; margin: 10px auto 25px auto; }
+        .dual-image-sprite { width: 130px; height: 130px; object-fit: contain; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2)); transition: filter 0.5s ease; }
+        .evolution-arrow { width: 36px; height: 36px; color: #94a3b8; animation: pulseArrow 1.5s infinite ease-in-out; }
+        
+        @keyframes pulseArrow { 
+            0%, 100% { transform: translateX(0); opacity: 0.5; } 
+            50% { transform: translateX(6px); opacity: 1; } 
+        }
+
         .silhouette { filter: brightness(0) drop-shadow(0 10px 15px rgba(0,0,0,0.2)) !important; }
-        .revealed { filter: brightness(1) drop-shadow(0 10px 15px rgba(0,0,0,0.2)); transition: filter 0.5s ease; }
+        .revealed { filter: brightness(1) drop-shadow(0 10px 15px rgba(0,0,0,0.2)) !important; transition: filter 0.5s ease; }
         .shiny-glow { filter: brightness(1) drop-shadow(0 0 25px rgba(250, 204, 21, 0.8)) !important; }
 
         .option-btn { 
@@ -384,28 +395,21 @@
         
         @keyframes pulseAvatar { 0% { transform: scale(1); box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); } 100% { transform: scale(1.05); box-shadow: 0 0 25px rgba(59, 130, 246, 0.7); } }
 
-        /* --- MOBILE LAYOUT ADJUSTMENTS --- */
         @media (max-width: 480px) {
-            body { 
-                padding: 0; 
-                align-items: flex-start; /* Start from top edge */
-            }
+            body { padding: calc(env(safe-area-inset-top, 40px) + 20px) 0 0 0; align-items: flex-start; }
             #app { 
                 width: 100%; 
-                /* Subtract padding and safe area so it spans properly */
-                min-height: calc(100vh - (env(safe-area-inset-top, 40px) + 50px)); 
-                border-radius: 40px 40px 0 0; 
+                min-height: calc(100vh - 100px); 
+                border-radius: 45px 45px 0 0; 
                 padding: 20px 15px env(safe-area-inset-bottom, 30px) 15px; 
-                /* Push down exactly 50px below the hardware notch */
-                margin-top: calc(env(safe-area-inset-top, 40px) + 50px); 
+                box-shadow: 0 -10px 40px rgba(0,0,0,0.15); 
                 border: 2px solid rgba(255, 255, 255, 0.4); 
                 border-bottom: none; 
-                box-shadow: 0 -10px 40px rgba(0,0,0,0.15); 
+                margin-top: calc(env(safe-area-inset-top, 45px) + 50px); 
             }
             .input-group { flex-direction: column; gap: 10px; margin-bottom: 15px; }
             #username-input, #pin-input { width: 100%; margin-bottom: 0; }
             
-            /* Logo perfectly balanced to poke 25px out of the container */
             .logo-wrapper { margin: -75px auto 20px auto; max-width: 220px; }
             .mini-game-logo { width: 140px; margin: -50px auto 15px auto; }
             
@@ -426,6 +430,9 @@
             #question-text { font-size: 17px !important; margin: 15px 0 10px 0 !important; min-height: 22px !important; }
             
             #pokemon-image { width: 180px !important; height: 180px !important; margin: 0 auto 15px auto !important; }
+            .dual-image-container { gap: 15px; margin: 5px auto 15px auto; }
+            .dual-image-sprite { width: 100px; height: 100px; }
+            .evolution-arrow { width: 28px; height: 28px; }
             
             .option-btn { padding: 14px !important; margin: 8px 0 !important; font-size: 16px !important; border-radius: 16px; }
             .game-dock { margin-top: 30px !important; padding-top: 15px !important; }
@@ -773,7 +780,7 @@
 
             <div id="game-content" class="hidden" style="position: relative;">
                 <div id="question-text" style="font-family: 'Fredoka', sans-serif;"></div>
-                <img id="pokemon-image" src="" alt="Pokemon">
+                <div id="image-container"></div>
                 <div id="options"></div>
             </div>
 
@@ -909,7 +916,7 @@
         let currentStreak = 0;
         let isWeekend = [0, 6].includes(new Date().getDay()); 
 
-        const loginScreen = document.getElementById('login-screen'), homeScreen = document.getElementById('home-screen'), gameScreen = document.getElementById('game-screen'), endScreen = document.getElementById('end-screen'), gameContent = document.getElementById('game-content'), questionCountEl = document.getElementById('question-count'), questionTextEl = document.getElementById('question-text'), imageEl = document.getElementById('pokemon-image'), optionsEl = document.getElementById('options');
+        const loginScreen = document.getElementById('login-screen'), homeScreen = document.getElementById('home-screen'), gameScreen = document.getElementById('game-screen'), endScreen = document.getElementById('end-screen'), gameContent = document.getElementById('game-content'), questionCountEl = document.getElementById('question-count'), questionTextEl = document.getElementById('question-text'), optionsEl = document.getElementById('options');
         const endTitleEl = document.getElementById('end-title'), endMessageEl = document.getElementById('end-message');
         const timerWrapper = document.getElementById('timer-wrapper'), timerBar = document.getElementById('timer-bar'), timerText = document.getElementById('timer-text');
         const sessionXPDisplay = document.getElementById('session-xp-display');
@@ -1769,6 +1776,8 @@
             }
             
             let speciesData = null, chainData = null;
+            let evolveToSpriteUrl = null;
+
             if (evalMode === 'EVOLUTIONS' || evalMode === 'TRIVIA_KNOWLEDGE') {
                 speciesData = await fetchWithCache(mainPokemon.species.url);
                 chainData = await fetchWithCache(speciesData.evolution_chain.url);
@@ -1780,7 +1789,7 @@
             let imageClass = isShiny ? 'shiny-glow' : 'revealed';
 
             if (evalMode === 'GUESS') {
-                questionText = ""; // Removed redundant text for Guess Mode
+                questionText = ""; 
                 imageClass = 'silhouette'; 
                 correctAnswersAttribute = mainPokemon.name;
                 const ids = new Set([targetId]);
@@ -1805,6 +1814,12 @@
 
                 questionText = `Who does <strong style="text-transform: capitalize; color: #f59e0b;">${cleanName}</strong> evolve into?`;
                 correctAnswersAttribute = evolveTo;
+
+                let evolveToData = await fetchWithCache(`https://pokeapi.co/api/v2/pokemon/${evolveTo}`);
+                evolveToSpriteUrl = evolveToData.sprites.other['official-artwork'].front_default;
+                if (isShiny && (evolveToData.sprites.other['official-artwork'].front_shiny || evolveToData.sprites.front_shiny)) {
+                    evolveToSpriteUrl = evolveToData.sprites.other['official-artwork'].front_shiny || evolveToData.sprites.front_shiny;
+                }
 
                 const ids = new Set();
                 while(ids.size < 3) ids.add(Math.floor(Math.random() * MAX_POKEMON_ID) + 1);
@@ -1870,7 +1885,7 @@
                 }
             }
 
-            return { targetId, spriteUrl, isShiny, imageClass, questionText, correctAnswersAttribute, choices, evalMode };
+            return { targetId, spriteUrl, isShiny, imageClass, questionText, correctAnswersAttribute, choices, evalMode, evolveToSpriteUrl };
         }
 
         async function prefetchAllQuestions(mode) {
@@ -1935,12 +1950,22 @@
                 db.collection("trainers").doc(currentUser).set({ seen: seenDex }, { merge: true });
             }
 
-            imageEl.src = qData.spriteUrl;
-            imageEl.className = qData.imageClass;
-            
-            // Toggle visibility based on empty string to save space
             questionTextEl.style.display = qData.questionText === "" ? 'none' : 'block';
             questionTextEl.innerHTML = qData.questionText;
+
+            const imageContainer = document.getElementById('image-container');
+            
+            if (currentQuestionMode === 'EVOLUTIONS') {
+                imageContainer.innerHTML = `
+                    <div class="dual-image-container">
+                        <img src="${qData.spriteUrl}" class="dual-image-sprite ${isShiny ? 'shiny-glow' : 'revealed'}">
+                        <svg class="evolution-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        <img id="evolved-pokemon-image" src="${qData.evolveToSpriteUrl}" class="dual-image-sprite silhouette">
+                    </div>
+                `;
+            } else {
+                imageContainer.innerHTML = `<img id="pokemon-image" src="${qData.spriteUrl}" class="${qData.imageClass}" alt="Pokemon">`;
+            }
 
             if (currentQuestionMode === 'SCRAMBLE') {
                 const correctStr = correctAnswersAttribute.replace(/[\s\.\-']/g, '').toUpperCase();
@@ -2155,7 +2180,13 @@
             clearInterval(timerInterval);
             isPaused = false;
 
-            if (currentQuestionMode === 'GUESS') imageEl.className = isShiny ? 'shiny-glow' : 'revealed'; 
+            if (currentQuestionMode === 'GUESS') {
+                let imgEl = document.getElementById('pokemon-image');
+                if(imgEl) imgEl.className = isShiny ? 'shiny-glow' : 'revealed'; 
+            } else if (currentQuestionMode === 'EVOLUTIONS') {
+                let evImgEl = document.getElementById('evolved-pokemon-image');
+                if(evImgEl) evImgEl.className = isShiny ? 'dual-image-sprite shiny-glow' : 'dual-image-sprite revealed';
+            }
 
             const allBtns = document.querySelectorAll('.option-btn');
             allBtns.forEach(btn => btn.disabled = true);
@@ -2198,7 +2229,13 @@
             timerBar.style.width = '0%';
             timerText.innerText = '0s';
             
-            if (currentQuestionMode === 'GUESS') imageEl.className = isShiny ? 'shiny-glow' : 'revealed'; 
+            if (currentQuestionMode === 'GUESS') {
+                let imgEl = document.getElementById('pokemon-image');
+                if(imgEl) imgEl.className = isShiny ? 'shiny-glow' : 'revealed'; 
+            } else if (currentQuestionMode === 'EVOLUTIONS') {
+                let evImgEl = document.getElementById('evolved-pokemon-image');
+                if(evImgEl) evImgEl.className = isShiny ? 'dual-image-sprite shiny-glow' : 'dual-image-sprite revealed';
+            }
 
             triggerFeedbackAnimation(false);
 
