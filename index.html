@@ -36,7 +36,6 @@
 
         .bento-box { background: rgba(255,255,255,0.7); backdrop-filter: blur(12px); border-radius: 25px; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 8px 20px rgba(0,0,0,0.08); padding: 20px; margin-bottom: 20px; position: relative; overflow: hidden; }
 
-        /* --- UPDATED TRAINER CARD UI --- */
         .trainer-card { position: relative; border-radius: 25px; padding: 25px; margin-bottom: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); color: #1e293b; transition: all 0.4s ease; text-align: left; border: none; outline: 1px solid rgba(255,255,255,0.5); }
         
         .card-bg-watermark { position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 25px; overflow: hidden; z-index: 0; pointer-events: none; }
@@ -52,7 +51,7 @@
         .trainer-header:hover { transform: scale(1.02); background: rgba(255,255,255,0.1); }
         
         .trainer-avatar-container { position: relative; width: 90px; height: 90px; flex-shrink: 0; }
-        .trainer-avatar-circle { width: 100%; height: 100%; border-radius: 50%; background: rgba(255, 255, 255, 0.95); display: flex; justify-content: center; align-items: flex-end; position: relative; z-index: 2; }
+        .trainer-avatar-circle { width: 100%; height: 100%; border-radius: 50%; background: rgba(255, 255, 255, 0.95); display: flex; justify-content: center; align-items: flex-end; position: relative; z-index: 2; box-sizing: border-box; }
         
         .rank-rookie .trainer-avatar-circle { box-shadow: 0 0 15px rgba(100, 116, 139, 0.2); border: 3px solid #cbd5e1; }
         .rank-ace .trainer-avatar-circle { box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); border: 3px solid #60a5fa; }
@@ -90,7 +89,6 @@
         #xp-progress-bar { height: 100%; background: linear-gradient(90deg, #34d399, #10b981); width: 0%; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 7px; box-shadow: inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -2px 4px rgba(0,0,0,0.2); position: relative; overflow: hidden; }
         #xp-progress-bar::after { content:''; position:absolute; top:0; left:0; right:0; bottom:0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); transform: translateX(-100%); animation: shimmer 2s infinite; }
         @keyframes shimmer { 100% { transform: translateX(100%); } }
-        /* --------------------------- */
 
         .xp-container { width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
         #mini-xp-progress-bar { height: 100%; background: linear-gradient(90deg, #3b82f6, #8b5cf6); width: 0%; transition: width 0.5s ease-out; }
@@ -161,16 +159,15 @@
         .avatar-item:hover { border-color: #3b82f6; transform: scale(1.05); }
         .avatar-item.selected { border-color: #10b981; background: #ecfdf5; }
         .avatar-item img { width: 100%; height: 100%; object-fit: contain; }
-        .avatar-item.locked { filter: grayscale(1); opacity: 0.4; cursor: not-allowed; border-color: #cbd5e1; }
-        .avatar-item.locked:hover { transform: none; border-color: #cbd5e1; }
-        .lock-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 20px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); z-index: 10; }
 
-        .history-chip { display: inline-flex; align-items: stretch; background: #f1f5f9; border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; margin: 4px; transition: all 0.2s; }
-        .history-chip:hover { border-color: #cbd5e1; }
-        .history-btn { padding: 8px 14px; background: transparent; color: #475569; border: none; font-weight: 800; font-family: 'Nunito', sans-serif; cursor: pointer; font-size: 14px; text-transform: uppercase; }
-        .history-btn:hover { background: #e2e8f0; color: #1e293b; }
-        .delete-btn { padding: 8px 12px; background: #fee2e2; color: #ef4444; border: none; border-left: 2px solid #e2e8f0; cursor: pointer; font-weight: 900; font-size: 16px; display: flex; align-items: center; }
-        .delete-btn:hover { background: #fca5a5; color: #b91c1c; }
+        /* Cleaned up History Chip CSS */
+        .history-chip { display: inline-flex; align-items: center; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 30px; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); padding: 4px 6px 4px 4px; gap: 2px; }
+        .history-chip:hover { border-color: #cbd5e1; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+        .history-avatar { width: 34px; height: 34px; object-fit: contain; background: white; border-radius: 50%; border: 2px solid #e2e8f0; padding: 2px; flex-shrink: 0; box-sizing: border-box; }
+        .history-btn { padding: 4px 8px; background: transparent; color: #334155; border: none; font-weight: 800; font-family: 'Nunito', sans-serif; cursor: pointer; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .history-btn:hover { color: #3b82f6; }
+        .delete-btn { padding: 0; background: transparent; color: #94a3b8; border: none; cursor: pointer; font-weight: 900; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; border-radius: 50%; width: 24px; height: 24px; margin-left: 2px; }
+        .delete-btn:hover { background: #fee2e2; color: #ef4444; }
 
         #question-text { font-size: 20px; font-weight: 800; color: #1e293b; margin: 15px 0; min-height: 28px; line-height: 1.3; }
         #pokemon-image { width: 200px; height: 200px; margin: 10px auto; display: block; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2)); transition: filter 0.3s; }
@@ -202,7 +199,6 @@
         .modal-content::-webkit-scrollbar { width: 6px; }
         .modal-content::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
         
-        /* Modal X Close Button */
         .close-x { position: absolute; top: 15px; right: 15px; background: #fee2e2; color: #ef4444; border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 18px; font-weight: 900; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 100; }
         .close-x:hover { background: #fca5a5; color: #b91c1c; transform: scale(1.1); }
 
@@ -242,6 +238,9 @@
         @keyframes popJuiceShake { 0% { opacity: 0; transform: scale(0.3); } 20% { opacity: 1; transform: scale(1.2) translateX(-8px); } 30% { transform: scale(1.2) translateX(8px); } 40% { transform: scale(1.2) translateX(-8px); } 50% { transform: scale(1) translateX(0); } 80% { opacity: 1; transform: scale(1) translateY(0); } 100% { opacity: 0; transform: scale(0.8) translateY(-20px); } }
         @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
         
+        /* Fixed Animation to apply directly to the circular element */
+        @keyframes pulseAvatar { 0% { transform: scale(1); box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); } 100% { transform: scale(1.05); box-shadow: 0 0 25px rgba(59, 130, 246, 0.7); } }
+
         @media (max-width: 480px) {
             body { padding: 0; align-items: flex-start; }
             #app { width: 100%; min-height: 100vh; border-radius: 0; padding: env(safe-area-inset-top, 20px) 15px 15px 15px; box-shadow: none; }
@@ -281,8 +280,10 @@
             </div>
             <div style="padding: 25px;">
                 <div style="display: flex; gap: 20px; align-items: center; border-bottom: 2px dashed #e2e8f0; padding-bottom: 20px; margin-bottom: 20px;">
-                    <div class="trainer-avatar-bg" style="width: 90px; height: 90px; cursor: default; box-shadow: none; background: #eff6ff;">
-                        <img id="tc-avatar" src="" style="width: 100%; height: 100%; object-fit: contain;">
+                    <div class="trainer-avatar-container" style="cursor: default;">
+                        <div id="tc-avatar-circle" class="trainer-avatar-circle" style="box-shadow: 0 0 15px rgba(100, 116, 139, 0.2); border: 3px solid #cbd5e1; background: #ffffff;">
+                            <img id="tc-avatar" src="" style="width: 125%; height: 125%; object-fit: contain; position: absolute; bottom: 5px; filter: drop-shadow(0 6px 8px rgba(0,0,0,0.25)); transition: transform 0.2s;">
+                        </div>
                     </div>
                     <div>
                         <div id="tc-name" style="font-family: 'Fredoka', sans-serif; font-size: 28px; color: #1e293b; text-transform: uppercase;">Name</div>
@@ -371,7 +372,7 @@
         <div class="modal-content">
             <button class="close-x" onclick="closeAvatarModal()">✕</button>
             <h3 style="margin-top: 0; color: #1e293b; font-size: 20px; font-weight: 900; margin-bottom: 5px;">Choose Avatar</h3>
-            <p style="font-size: 12px; color: #ef4444; margin-bottom: 15px; font-weight: 800;">Legendary & Mythical Pokémon unlock at Level 50!</p>
+            <p style="font-size: 12px; color: #ef4444; margin-bottom: 15px; font-weight: 800;">Unlock new generations by leveling up!</p>
             
             <div id="region-tabs" class="region-tabs-container"></div>
             
@@ -393,30 +394,32 @@
         <div id="login-screen" class="screen">
             <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="main-logo">
             
-            <div class="bento-box" style="margin-bottom: 15px; text-align: center;">
-                <h1 style="font-size: 24px; margin-top: 0; margin-bottom: 20px; color: #334155;">Trainer Login</h1>
-                <div class="input-group">
-                    <input type="text" id="username-input" placeholder="Trainer Name">
-                    <input type="password" id="pin-input" placeholder="PIN" maxlength="4" pattern="[0-9]*" inputmode="numeric">
-                </div>
-
-                <div style="background: rgba(255, 255, 255, 0.5); padding: 15px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.8); margin-bottom: 15px;">
-                    <p style="font-size: 13px; font-weight: 800; color: #64748b; margin: 0 0 10px 0; text-transform: uppercase;">Your Avatar</p>
-                    <div class="avatar-preview-box" style="background: rgba(255,255,255,0.8);">
-                        <img id="login-avatar-preview" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png">
+            <div id="login-card" class="trainer-card rank-rookie" style="text-align: center; max-width: 100%; margin: 0 auto 15px auto; overflow: visible;">
+                <div class="card-bg-watermark"></div>
+                <h2 style="font-family: 'Fredoka', sans-serif; font-size: 26px; text-transform: uppercase; margin-top: 0; margin-bottom: 20px; color: #1e293b; position: relative; z-index: 1; letter-spacing: 1px;">TRAINER LOG IN</h2>
+                
+                <div style="position: relative; z-index: 1; margin-bottom: 25px;">
+                    <div class="trainer-avatar-container" style="margin: 0 auto 8px auto; cursor: pointer; width: 100px; height: 100px;" onclick="openAvatarModal()" title="Tap to choose starter">
+                        <div class="trainer-avatar-circle" style="border: 3px solid #93c5fd; animation: pulseAvatar 2s infinite alternate;">
+                            <img id="login-avatar-preview" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" style="background: transparent !important;">
+                        </div>
                     </div>
-                    <button class="nav-btn" style="margin: 0 auto; background-color: #64748b; color: white;" onclick="openAvatarModal()">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 5px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                        Change Pokémon
-                    </button>
+                    <div style="font-size: 11px; font-weight: 900; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.8;">Tap to choose starter</div>
+                </div>
+                
+                <div class="input-group" style="position: relative; z-index: 1; flex-direction: column;">
+                    <input type="text" id="username-input" placeholder="TRAINER NAME" style="width: 100%; text-align: center; background: rgba(255,255,255,0.95);">
+                    <input type="password" id="pin-input" placeholder="PIN (4 DIGITS)" maxlength="4" pattern="[0-9]*" inputmode="numeric" style="width: 100%; text-align: center; background: rgba(255,255,255,0.95);">
                 </div>
 
-                <button class="primary-btn btn-green" style="margin-bottom: 0;" onclick="loginUser()">Start Adventure</button>
+                <button class="primary-btn btn-green" style="position: relative; z-index: 1; margin-bottom: 0;" onclick="loginUser()">Log In</button>
             </div>
 
-            <div id="user-history-container" class="bento-box hidden" style="padding: 15px;">
-                <p style="font-size: 13px; font-weight: 800; color: #64748b; margin: 0 0 10px 0; text-transform: uppercase;">Previous Trainers</p>
-                <div id="user-history-list" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;"></div>
+            <div id="user-history-container" class="bento-box hidden" style="padding: 20px; text-align: left;">
+                <h3 style="margin: 0 0 15px 0; font-size: 16px; font-weight: 900; color: #334155; text-transform: uppercase;">
+                    Previous Trainers
+                </h3>
+                <div id="user-history-list" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-start;"></div>
             </div>
         </div>
 
@@ -601,7 +604,6 @@
     </div>
 
     <script>
-        // --- FIREBASE CONFIGURATION ---
         const firebaseConfig = {
             apiKey: "AIzaSyCApJuWvOlObz_wf4EKyUmhPFWc5YWdG7Y",
             authDomain: "pkmn-trivia-game.firebaseapp.com",
@@ -615,13 +617,11 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // --- SCREEN MANAGER ---
         function showScreen(screenEl) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             screenEl.classList.add('active');
         }
 
-        // --- CACHING & API SYSTEM ---
         const apiMemoryCache = new Map();
         async function fetchWithCache(url) {
             if (apiMemoryCache.has(url)) return apiMemoryCache.get(url);
@@ -640,13 +640,12 @@
             if (!res.ok) throw new Error("Network response was not ok");
             const data = await res.json();
             
-            try { sessionStorage.setItem(url, JSON.stringify(data)); } catch (e) { /* Quota Exceeded fallback */ }
+            try { sessionStorage.setItem(url, JSON.stringify(data)); } catch (e) { }
             
             apiMemoryCache.set(url, data);
             return data;
         }
 
-        // --- GAME CONSTANTS ---
         let TOTAL_QUESTIONS = 20; 
         const MAX_POKEMON_ID = 1025; 
         const POKEMON_TYPES = ['normal', 'fire', 'water', 'grass', 'electric', 'ice', 'fighting', 'poison', 'ground', 'flying', 'psychic', 'bug', 'rock', 'ghost', 'dragon', 'dark', 'steel', 'fairy'];
@@ -664,7 +663,6 @@
             { name: 'Paldea', start: 906, end: 1025 }
         ];
 
-        // --- GAME VARIABLES ---
         let currentMode = 'GUESS', currentQuestion = 0, correctAnswersAttribute = ''; 
         let currentQuestionMode = '';
         let currentQuestionTimeLimit = 10;
@@ -675,7 +673,6 @@
         let knownUsers = JSON.parse(localStorage.getItem('knownPokeUsers')) || [];
         let preloadedQuestions = [];
         
-        // Settings State
         let isSoundEnabled = localStorage.getItem('setting_sound') === 'true';
 
         let timerInterval;
@@ -686,7 +683,6 @@
         let currentStreak = 0;
         let isWeekend = [0, 6].includes(new Date().getDay()); 
 
-        // --- DOM ELEMENTS ---
         const loginScreen = document.getElementById('login-screen'), homeScreen = document.getElementById('home-screen'), gameScreen = document.getElementById('game-screen'), endScreen = document.getElementById('end-screen'), gameContent = document.getElementById('game-content'), questionCountEl = document.getElementById('question-count'), questionTextEl = document.getElementById('question-text'), imageEl = document.getElementById('pokemon-image'), optionsEl = document.getElementById('options');
         const endTitleEl = document.getElementById('end-title'), endMessageEl = document.getElementById('end-message');
         const timerWrapper = document.getElementById('timer-wrapper'), timerBar = document.getElementById('timer-bar'), timerText = document.getElementById('timer-text');
@@ -705,7 +701,6 @@
             }
         };
 
-        // --- FUZZY MATCH LOGIC ---
         function getLevenshteinDistance(a, b) {
             if(a.length === 0) return b.length;
             if(b.length === 0) return a.length;
@@ -724,7 +719,6 @@
             return matrix[b.length][a.length];
         }
 
-        // --- RAID BOSS LOGIC ---
         let currentRaidWeek = null;
         async function loadRaidBoss() {
             if (!isWeekend) return;
@@ -791,7 +785,6 @@
             showXPFloatingText("+200 XP");
         }
 
-        // --- DAILY TASK LOGIC ---
         function initDailyTask() {
             const today = new Date().toDateString();
             let tasks = JSON.parse(localStorage.getItem('dailyTasks_' + currentUser));
@@ -882,7 +875,6 @@
             setTimeout(() => { popup.remove(); }, 1200);
         }
 
-        // --- TRAINER ID CARD LOGIC ---
         function openTrainerCard() {
             document.getElementById('tc-avatar').src = selectedAvatarUrl;
             document.getElementById('tc-name').innerText = currentUser;
@@ -913,6 +905,17 @@
             let totalWrong = parseInt(localStorage.getItem('stats_wrong_' + currentUser)) || 0;
             document.getElementById('tc-wrong').innerText = totalWrong;
             
+            // Dynamically set modal circle styles based on rank to match home screen
+            const tcCircle = document.getElementById('tc-avatar-circle');
+            let borderColor = '#cbd5e1'; let shadowColor = 'rgba(100, 116, 139, 0.2)';
+            if (level >= 100) { borderColor = '#94a3b8'; shadowColor = 'rgba(255, 255, 255, 0.3)'; }
+            else if (level >= 80 || level >= 60) { borderColor = '#d8b4fe'; shadowColor = 'rgba(168, 85, 247, 0.6)'; }
+            else if (level >= 40) { borderColor = '#facc15'; shadowColor = 'rgba(234, 179, 8, 0.4)'; }
+            else if (level >= 20) { borderColor = '#60a5fa'; shadowColor = 'rgba(59, 130, 246, 0.4)'; }
+            
+            tcCircle.style.border = `3px solid ${borderColor}`;
+            tcCircle.style.boxShadow = `0 0 15px ${shadowColor}`;
+
             document.getElementById('trainer-modal').classList.remove('hidden');
             isPaused = true;
         }
@@ -922,7 +925,6 @@
             isPaused = false;
         }
 
-        // --- SETTINGS LOGIC ---
         function initSettingsUI() {
             const soundBtn = document.getElementById('sound-btn');
             if (isSoundEnabled) {
@@ -963,7 +965,6 @@
             }
         }
 
-        // --- GLOBAL LEADERBOARD LOGIC (FIREBASE) ---
         async function openLeaderboard() {
             const lbList = document.getElementById('leaderboard-list');
             lbList.innerHTML = '<p style="text-align:center; font-weight:bold; color:#64748b;">Loading global leaderboard...</p>';
@@ -993,7 +994,6 @@
                     index++;
                 });
             } catch (e) {
-                console.error("Error fetching leaderboard: ", e);
                 lbList.innerHTML = '<p style="text-align:center; color:#ef4444; font-weight:bold;">Error loading leaderboard. Check database rules.</p>';
             }
         }
@@ -1003,7 +1003,6 @@
             isPaused = false;
         }
 
-        // --- POKEDEX LOGIC ---
         function openPokedex() {
             const dexContainer = document.getElementById('pokedex-regions-container');
             dexContainer.innerHTML = '';
@@ -1104,7 +1103,6 @@
             grid.classList.remove('hidden');
         }
 
-        // --- TIMER LOGIC ---
         function startTimer() {
             clearInterval(timerInterval);
             isPaused = false;
@@ -1136,35 +1134,6 @@
             }
         }
 
-        function handleTimeOut() {
-            clearInterval(timerInterval);
-            timerBar.style.width = '0%';
-            timerText.innerText = '0s';
-            
-            if (currentQuestionMode === 'GUESS') imageEl.className = isShiny ? 'shiny-glow' : 'revealed'; 
-
-            triggerFeedbackAnimation(false);
-
-            if (isSoundEnabled) {
-                const wrongAudio = new Audio('wrong.mp3');
-                wrongAudio.play().catch(e => console.log("Audio playback prevented by browser:", e));
-            }
-
-            const allBtns = document.querySelectorAll('.option-btn');
-            allBtns.forEach(btn => btn.disabled = true);
-            
-            allBtns.forEach(btn => {
-                if (btn.dataset.value === correctAnswersAttribute) {
-                    btn.classList.add('correct');
-                    btn.style.transform = "translateY(4px)";
-                    btn.style.boxShadow = "0 0 0 transparent";
-                }
-            });
-
-            applyScore(false);
-            setTimeout(() => { loadNextQuestionFromBatch(); }, 1500);
-        }
-
         function triggerFeedbackAnimation(isCorrect) {
             const overlay = document.getElementById('feedback-overlay');
             const icon = document.getElementById('feedback-icon');
@@ -1180,36 +1149,70 @@
             setTimeout(() => { overlay.classList.add('hidden'); icon.className = ''; }, 1000);
         }
 
-        // --- AVATAR SEARCH MODAL LOGIC ---
-        let tempAvatarUrl = '';
-        const AVATAR_OPTIONS = [
-            1, 4, 7, 25, 133, 143, 150, 151, // Kanto
-            152, 155, 158, 175, 197, 249, 250, // Johto
-            252, 255, 258, 282, 384, 385, // Hoenn
-            387, 390, 393, 448, 445, 447 // Sinnoh
+        const AVATAR_REGIONS = [
+            { name: 'Kanto', start: 1, end: 151, reqLevel: 1 },
+            { name: 'Johto', start: 152, end: 251, reqLevel: 10 },
+            { name: 'Hoenn', start: 252, end: 386, reqLevel: 20 },
+            { name: 'Sinnoh', start: 387, end: 493, reqLevel: 30 },
+            { name: 'Unova', start: 494, end: 649, reqLevel: 40 },
+            { name: 'Kalos', start: 650, end: 721, reqLevel: 50 },
+            { name: 'Alola', start: 722, end: 809, reqLevel: 60 },
+            { name: 'Galar', start: 810, end: 905, reqLevel: 60 },
+            { name: 'Paldea', start: 906, end: 1025, reqLevel: 60 }
         ];
+
+        let currentAvatarTab = 0;
+        let tempAvatarUrl = '';
 
         function openAvatarModal() {
             document.getElementById('avatar-modal').classList.remove('hidden');
             tempAvatarUrl = selectedAvatarUrl;
             document.getElementById('modal-avatar-img').src = tempAvatarUrl;
             isPaused = true;
+            renderAvatarTabs();
+            renderAvatarRegion(0);
+        }
+
+        function renderAvatarTabs() {
+            const tabsContainer = document.getElementById('region-tabs');
+            let level = currentUser ? (Math.floor(currentXP / 100) + 1) : 1;
             
+            tabsContainer.innerHTML = AVATAR_REGIONS.map((reg, index) => {
+                let isLocked = level < reg.reqLevel;
+                let lockIcon = isLocked ? '🔒 ' : '';
+                let activeClass = index === currentAvatarTab ? 'active' : '';
+                let lockStyle = isLocked ? 'opacity: 0.5; cursor: not-allowed;' : '';
+                
+                return `<button class="region-tab ${activeClass}" style="${lockStyle}" onclick="${isLocked ? '' : `selectAvatarTab(${index})`}">${lockIcon}${reg.name}</button>`;
+            }).join('');
+        }
+
+        function selectAvatarTab(index) {
+            currentAvatarTab = index;
+            renderAvatarTabs();
+            renderAvatarRegion(index);
+        }
+
+        function renderAvatarRegion(index) {
             const grid = document.getElementById('avatar-grid-container');
-            if (grid.innerHTML === '') {
-                grid.innerHTML = AVATAR_OPTIONS.map(id => {
-                    let isLocked = (id === 150 || id === 151 || id === 249 || id === 250 || id === 384 || id === 385) && (Math.floor(currentXP / 100) + 1 < 50);
-                    let lockIcon = isLocked ? '<div class="lock-icon">🔒</div>' : '';
-                    let classStr = isLocked ? 'avatar-item locked' : 'avatar-item';
-                    let url = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
-                    let onClick = isLocked ? '' : `onclick="selectAvatarTemp('${url}')"`;
-                    
-                    return `<div class="${classStr}" ${onClick}>
-                        ${lockIcon}
-                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png">
-                    </div>`;
-                }).join('');
+            const region = AVATAR_REGIONS[index];
+            let level = currentUser ? (Math.floor(currentXP / 100) + 1) : 1;
+            
+            if (level < region.reqLevel) {
+                grid.innerHTML = `<div style="grid-column: 1/-1; padding: 40px; text-align: center; color: #ef4444; font-weight: 900;">Unlocks at Level ${region.reqLevel}!</div>`;
+                return;
             }
+
+            let html = '';
+            for (let id = region.start; id <= region.end; id++) {
+                let url = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+                let gridImg = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+                
+                html += `<div class="avatar-item" onclick="selectAvatarTemp('${url}')">
+                    <img src="${gridImg}" loading="lazy">
+                </div>`;
+            }
+            grid.innerHTML = html;
         }
 
         function selectAvatarTemp(url) {
@@ -1236,7 +1239,6 @@
             closeAvatarModal();
         }
 
-        // --- USER SYSTEM LOGIC ---
         function renderUserHistory() {
             const container = document.getElementById('user-history-container');
             const list = document.getElementById('user-history-list');
@@ -1245,8 +1247,14 @@
             if (knownUsers.length > 0) {
                 container.classList.remove('hidden');
                 knownUsers.forEach(user => {
+                    const avatarUrl = localStorage.getItem('avatar_' + user) || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
+                    
                     const chip = document.createElement('div');
                     chip.className = 'history-chip';
+
+                    const img = document.createElement('img');
+                    img.src = avatarUrl;
+                    img.className = 'history-avatar';
 
                     const nameBtn = document.createElement('button');
                     nameBtn.className = 'history-btn';
@@ -1254,16 +1262,17 @@
                     nameBtn.onclick = () => {
                         document.getElementById('username-input').value = user;
                         document.getElementById('pin-input').focus(); 
-                        selectedAvatarUrl = localStorage.getItem('avatar_' + user) || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
+                        selectedAvatarUrl = avatarUrl;
                         document.getElementById('login-avatar-preview').src = selectedAvatarUrl;
                     };
 
                     const delBtn = document.createElement('button');
                     delBtn.className = 'delete-btn';
-                    delBtn.innerHTML = '&times;'; 
+                    delBtn.innerHTML = '✕'; 
                     delBtn.title = "Delete Player";
                     delBtn.onclick = () => deleteUser(user);
 
+                    chip.appendChild(img);
                     chip.appendChild(nameBtn);
                     chip.appendChild(delBtn);
                     list.appendChild(chip);
@@ -1307,7 +1316,6 @@
                     currentXP = cloudData.xp || 0;
                     selectedAvatarUrl = cloudData.avatar || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
                     
-                    // MIGRATION / SYNC: Prioritize cloud data
                     let localDex = JSON.parse(localStorage.getItem(`pokedex_${currentUser}`)) || [];
                     let finalDex = cloudData.pokedex || localDex;
                     localStorage.setItem(`pokedex_${currentUser}`, JSON.stringify(finalDex));
@@ -1383,7 +1391,6 @@
                 showScreen(homeScreen);
 
             } catch (error) {
-                console.error("Error logging in:", error);
                 alert("Failed to connect to the server. Please check your connection.");
             } finally {
                 loginBtn.innerText = originalText;
@@ -1418,7 +1425,6 @@
                 localStorage.removeItem(`stats_wrong_${userToDelete}`);
                 
                 db.collection("trainers").doc(userToDelete).delete().catch((error) => {
-                    console.error("Error removing trainer from cloud: ", error);
                 });
 
                 renderUserHistory();
@@ -1487,7 +1493,6 @@
             }
         }
 
-        // --- GAME PLAY LOGIC ---
         function startGame(mode) {
             clearInterval(timerInterval);
             isPaused = false;
