@@ -14,13 +14,12 @@
     <link rel="apple-touch-icon" href="app-icon.png?v=2">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Kanit:wght@800&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
     
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
     <style>
-        /* --- DYNAMIC BACKGROUND UI --- */
         body { 
             font-family: 'Nunito', -apple-system, sans-serif; 
             background: linear-gradient(-45deg, #74ebd5, #9face6, #8fd3f4, #84fab0);
@@ -53,9 +52,22 @@
             0% { background-position: 0 0; }
             100% { background-position: 60px 60px; }
         }
-        /* --------------------------- */
 
-        #app { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 30px; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.2), 0 0 0 10px rgba(255,255,255,0.2); text-align: center; width: 440px; max-width: 100%; box-sizing: border-box; position: relative; }
+        #app { 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 249, 255, 0.85) 100%); 
+            backdrop-filter: blur(15px); 
+            -webkit-backdrop-filter: blur(15px);
+            padding: 30px; 
+            border-radius: 35px; 
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.15), inset 0 0 0 2px rgba(255,255,255,0.5); 
+            text-align: center; 
+            width: 440px; 
+            max-width: 100%; 
+            box-sizing: border-box; 
+            position: relative; 
+        }
+        
         .hidden { display: none !important; }
 
         .screen { display: none; }
@@ -121,7 +133,7 @@
         .xp-core { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
         .xp-stats-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px; padding: 0 2px; }
         
-        .xp-text-label { font-size: 15px; font-weight: 900; font-family: 'Fredoka', sans-serif; letter-spacing: 0.5px; opacity: 0.9; transition: color 0.3s; }
+        .xp-text-label { font-size: 15px; font-weight: 700; font-family: 'Fredoka', sans-serif; letter-spacing: 0.5px; opacity: 0.9; transition: color 0.3s; }
         .rank-rookie .xp-text-label, .rank-ace .xp-text-label, .rank-gym .xp-text-label { color: #1e293b; }
         .rank-elite .xp-text-label, .rank-master .xp-text-label { color: #f8fafc; }
         
@@ -133,15 +145,16 @@
         .xp-container { width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
         #mini-xp-progress-bar { height: 100%; background: linear-gradient(90deg, #3b82f6, #8b5cf6); width: 0%; transition: width 0.5s ease-out; }
 
-        .xp-popup { position: absolute; color: #10b981; font-weight: 900; font-size: 18px; animation: floatUp 1.2s ease-out forwards; pointer-events: none; text-shadow: 0px 2px 0px #fff, 0px -2px 0px #fff, 2px 0px 0px #fff, -2px 0px 0px #fff; z-index: 50; font-family: 'Fredoka', sans-serif; left: 50%; bottom: 100%; margin-bottom: 5px; transform: translateX(-50%); white-space: nowrap; }
-        @keyframes floatUp { 0% { opacity: 0; transform: translate(-50%, 10px) scale(0.8); } 20% { opacity: 1; transform: translate(-50%, 0) scale(1.2); } 100% { opacity: 0; transform: translate(-50%, -30px) scale(1); } }
+        .xp-popup { position: absolute; color: #10b981; font-weight: 700; font-size: 28px; animation: floatUpXP 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; pointer-events: none; text-shadow: 0px 3px 0px #fff, 0px -3px 0px #fff, 3px 0px 0px #fff, -3px 0px 0px #fff, 0 8px 12px rgba(0,0,0,0.2); z-index: 100; font-family: 'Fredoka', sans-serif; right: 0; bottom: 100%; white-space: nowrap; }
+        @keyframes floatUpXP { 0% { opacity: 0; transform: translateY(10px) scale(0.5); } 20% { opacity: 1; transform: translateY(0) scale(1.2); } 100% { opacity: 0; transform: translateY(-40px) scale(1); } }
 
         .daily-challenges-container { text-align: left; background: rgba(255, 251, 235, 0.7); }
         .dc-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.6); padding: 10px; border-radius: 12px; margin-bottom: 8px; border: 1px solid rgba(253, 230, 138, 0.8); }
         .dc-item:last-child { margin-bottom: 0; }
         .dc-desc { font-size: 13px; font-weight: 800; color: #92400e; flex: 1; margin-right: 10px; }
         .dc-status { font-size: 14px; font-weight: 900; color: #f59e0b; background: #fef3c7; padding: 4px 10px; border-radius: 10px; border: 1px solid #fde68a; text-align: center; min-width: 45px; }
-        .dc-btn { background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 12px; box-shadow: 0 3px 0 #059669; }
+        .dc-btn { background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 12px; box-shadow: 0 3px 0 #059669; transition: transform 0.1s; }
+        .dc-btn:active { transform: translateY(3px); box-shadow: 0 0 0 #059669; }
 
         .modes-master-bento { padding: 20px; }
         .modes-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
@@ -150,7 +163,7 @@
         .menu-box:hover { filter: brightness(1.05); transform: translateY(-3px); }
         .menu-box:active { transform: translateY(6px); }
 
-        .menu-box h3 { margin: 0 0 6px 0; color: #1e293b; font-size: 16px; font-weight: 800; font-family: 'Kanit', sans-serif; text-transform: uppercase; line-height: 1.1; letter-spacing: 0.5px; position: relative; z-index: 1; }
+        .menu-box h3 { margin: 0 0 6px 0; font-size: 16px; font-weight: 700; font-family: 'Fredoka', sans-serif; text-transform: uppercase; line-height: 1.1; letter-spacing: 1px; position: relative; z-index: 1; }
         .menu-box p { font-size: 12px; color: #475569; margin-top: 0; margin-bottom: 16px; font-weight: 700; flex-grow: 1; line-height: 1.3; position: relative; z-index: 1; }
         
         .mode-action-pill { display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 6px 14px; border-radius: 12px; font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 13px; text-transform: uppercase; align-self: flex-start; box-shadow: 0 3px 0 rgba(0,0,0,0.1); position: relative; z-index: 1; transition: transform 0.2s; }
@@ -162,32 +175,34 @@
 
         .mode-guess { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-color: #93c5fd; box-shadow: 0 6px 0 #93c5fd; }
         .mode-guess:active { box-shadow: 0 0 0 #93c5fd; }
+        .mode-guess h3 { color: #1d4ed8; }
         .mode-guess .mode-action-pill { background: #3b82f6; color: white; }
         .mode-guess .mode-bg-icon { color: #3b82f6; }
 
         .mode-types { background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-color: #86efac; box-shadow: 0 6px 0 #86efac; }
         .mode-types:active { box-shadow: 0 0 0 #86efac; }
+        .mode-types h3 { color: #047857; }
         .mode-types .mode-action-pill { background: #10b981; color: white; }
         .mode-types .mode-bg-icon { color: #10b981; }
 
         .mode-evolutions { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); border-color: #fde047; box-shadow: 0 6px 0 #fde047; }
         .mode-evolutions:active { box-shadow: 0 0 0 #fde047; }
+        .mode-evolutions h3 { color: #b45309; }
         .mode-evolutions .mode-action-pill { background: #f59e0b; color: white; }
         .mode-evolutions .mode-bg-icon { color: #d97706; }
 
         .mode-scramble { background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%); border-color: #f9a8d4; box-shadow: 0 6px 0 #f9a8d4; }
         .mode-scramble:active { box-shadow: 0 0 0 #f9a8d4; }
+        .mode-scramble h3 { color: #be185d; }
         .mode-scramble .mode-action-pill { background: #ec4899; color: white; }
         .mode-scramble .mode-bg-icon { color: #db2777; }
 
         .mode-trivia { background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border-color: #d8b4fe; box-shadow: 0 6px 0 #d8b4fe; grid-column: span 2; }
         .mode-trivia:active { box-shadow: 0 0 0 #d8b4fe; }
+        .mode-trivia h3 { color: #6d28d9; }
         .mode-trivia .mode-action-pill { background: #8b5cf6; color: white; }
         .mode-trivia .mode-bg-icon { color: #7c3aed; right: 5px; bottom: -25px; width: 110px; height: 110px; transform: rotate(-5deg); }
 
-        .nav-btn { display: flex; align-items: center; gap: 6px; padding: 8px 16px; font-size: 14px; background-color: #e2e8f0; color: #475569; border: none; border-radius: 12px; cursor: pointer; font-weight: 800; transition: all 0.2s; }
-        .nav-btn:hover { background-color: #cbd5e1; color: #1e293b; }
-        
         .mini-xp-box { margin-bottom: 15px; background: #f0f9ff; padding: 10px; border-radius: 12px; border: 2px solid #bae6fd; text-align: left; }
         .stats { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 18px; font-weight: 800; color: #334155; background: #f1f5f9; padding: 10px 20px; border-radius: 15px; position: relative; }
         
@@ -237,15 +252,35 @@
         .revealed { filter: brightness(1) drop-shadow(0 10px 15px rgba(0,0,0,0.2)); transition: filter 0.5s ease; }
         .shiny-glow { filter: brightness(1) drop-shadow(0 0 25px rgba(250, 204, 21, 0.8)) !important; }
 
-        .option-btn { display: block; width: 100%; padding: 15px; margin: 12px 0; font-size: 16px; font-family: 'Nunito', sans-serif; font-weight: 800; color: #334155; border: 2px solid #cbd5e1; border-radius: 16px; background: white; cursor: pointer; text-transform: capitalize; box-shadow: 0 4px 0 #cbd5e1; transition: all 0.1s ease; }
-        .option-btn:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 0 0 #cbd5e1; }
+        .option-btn { 
+            display: block; width: 100%; padding: 15px; margin: 12px 0; 
+            font-size: 18px; font-family: 'Fredoka', sans-serif; font-weight: 700; 
+            color: #334155; letter-spacing: 1px; text-transform: uppercase;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); 
+            border: 2px solid #cbd5e1; border-radius: 20px; 
+            cursor: pointer; box-shadow: 0 6px 0 #cbd5e1, 0 8px 15px rgba(0,0,0,0.05); 
+            transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;
+        }
+        .option-btn:hover:not(:disabled) { filter: brightness(1.02); transform: translateY(-2px); box-shadow: 0 8px 0 #cbd5e1, 0 10px 20px rgba(0,0,0,0.08); }
+        .option-btn:active:not(:disabled) { transform: translateY(6px); box-shadow: 0 0 0 #cbd5e1; }
         .option-btn:disabled { cursor: default; }
-        .correct { background-color: #22c55e !important; border-color: #16a34a !important; color: white !important; box-shadow: 0 4px 0 #16a34a !important; transform: translateY(0); }
-        .wrong { background-color: #ef4444 !important; border-color: #dc2626 !important; color: white !important; box-shadow: 0 4px 0 #dc2626 !important; transform: translateY(0); }
+        .correct { background: linear-gradient(180deg, #4ade80 0%, #22c55e 100%) !important; border-color: #16a34a !important; color: white !important; box-shadow: 0 6px 0 #15803d !important; text-shadow: 0 2px 4px rgba(0,0,0,0.2); transform: translateY(0); }
+        .wrong { background: linear-gradient(180deg, #f87171 0%, #ef4444 100%) !important; border-color: #dc2626 !important; color: white !important; box-shadow: 0 6px 0 #b91c1c !important; text-shadow: 0 2px 4px rgba(0,0,0,0.2); transform: translateY(0); }
 
-        .primary-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 20px; font-size: 16px; font-family: 'Nunito', sans-serif; color: white; border: none; border-radius: 16px; cursor: pointer; font-weight: 800; width: 100%; text-transform: uppercase; letter-spacing: 1px; transition: all 0.1s ease; }
-        .primary-btn:active { transform: translateY(4px); }
-        .btn-blue { background-color: #3b82f6; box-shadow: 0 4px 0 #2563eb; } .btn-green { background-color: #10b981; box-shadow: 0 4px 0 #059669; } .btn-orange { background-color: #f59e0b; box-shadow: 0 4px 0 #d97706; } .btn-purple { background-color: #8b5cf6; box-shadow: 0 4px 0 #7c3aed; }
+        .primary-btn { 
+            display: flex; align-items: center; justify-content: center; gap: 8px; padding: 16px 20px; 
+            font-size: 18px; font-family: 'Fredoka', sans-serif; color: white; border: none; border-radius: 20px; 
+            cursor: pointer; font-weight: 700; width: 100%; text-transform: uppercase; letter-spacing: 1.5px; 
+            transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; 
+        }
+        .primary-btn:hover { filter: brightness(1.05); transform: translateY(-2px); }
+        .primary-btn:active { transform: translateY(6px); box-shadow: 0 0 0 transparent !important; }
+        
+        .btn-blue { background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 100%); box-shadow: 0 6px 0 #2563eb, 0 8px 15px rgba(59,130,246,0.2); } 
+        .btn-green { background: linear-gradient(180deg, #34d399 0%, #10b981 100%); box-shadow: 0 6px 0 #059669, 0 8px 15px rgba(16,185,129,0.2); } 
+        .btn-orange { background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%); box-shadow: 0 6px 0 #d97706, 0 8px 15px rgba(245,158,11,0.2); } 
+        .btn-purple { background: linear-gradient(180deg, #a78bfa 0%, #8b5cf6 100%); box-shadow: 0 6px 0 #7c3aed, 0 8px 15px rgba(139,92,246,0.2); }
+        .btn-gray { background: linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%); color: #475569 !important; box-shadow: 0 6px 0 #cbd5e1, 0 8px 15px rgba(0,0,0,0.05); }
 
         .bottom-dock { display: flex; justify-content: space-around; align-items: center; gap: 10px; margin-top: 5px; margin-bottom: 0; }
         .game-dock { margin-top: 15px; } 
@@ -304,7 +339,7 @@
 
         @media (max-width: 480px) {
             body { padding: 0; align-items: flex-start; }
-            #app { width: 100%; min-height: 100vh; border-radius: 0; padding: env(safe-area-inset-top, 20px) 15px 15px 15px; box-shadow: none; }
+            #app { width: 100%; min-height: 100vh; border-radius: 0; padding: env(safe-area-inset-top, 20px) 15px 15px 15px; box-shadow: none; border: none; }
             .input-group { flex-direction: column; gap: 10px; margin-bottom: 15px; }
             #username-input, #pin-input { width: 100%; margin-bottom: 0; }
             #game-screen .mini-game-logo { width: 110px; margin: 0 auto 10px auto; }
@@ -325,10 +360,10 @@
             #timer-wrapper { margin-bottom: 10px !important; }
             #question-text { font-size: 17px !important; margin: 15px 0 10px 0 !important; min-height: 22px !important; }
             #pokemon-image { width: 125px !important; height: 125px !important; margin: 0 auto 5px auto !important; }
-            .option-btn { padding: 11px !important; margin: 6px 0 !important; font-size: 15px !important; }
+            .option-btn { padding: 14px !important; margin: 8px 0 !important; font-size: 16px !important; border-radius: 16px; }
             .game-dock { margin-top: 15px !important; padding-top: 10px !important; }
             #game-content { min-height: 280px !important; }
-            .primary-btn { padding: 12px 16px; font-size: 14px; }
+            .primary-btn { padding: 14px 16px; font-size: 16px; }
             .dock-btn img { height: 55px; } 
         }
     </style>
@@ -339,7 +374,7 @@
         <div class="modal-content" style="padding: 0; overflow: hidden; border: 4px solid #cbd5e1;">
             <button class="close-x" onclick="closeTrainerCard()">✕</button>
             <div style="background: linear-gradient(90deg, #3b82f6, #8b5cf6); padding: 20px; text-align: center; color: white;">
-                 <h2 style="margin: 0; text-transform: uppercase; letter-spacing: 2px;">Trainer ID Card</h2>
+                 <h2 style="margin: 0; font-family: 'Fredoka', sans-serif; text-transform: uppercase; letter-spacing: 2px;">Trainer ID Card</h2>
             </div>
             <div style="padding: 25px;">
                 <div style="display: flex; gap: 20px; align-items: center; border-bottom: 2px dashed #e2e8f0; padding-bottom: 20px; margin-bottom: 20px;">
@@ -349,92 +384,100 @@
                         </div>
                     </div>
                     <div>
-                        <div id="tc-name" style="font-family: 'Kanit', sans-serif; font-size: 28px; color: #1e293b; text-transform: uppercase;">Name</div>
+                        <div id="tc-name" style="font-family: 'Fredoka', sans-serif; font-size: 28px; font-weight: 700; color: #1e293b; text-transform: uppercase;">Name</div>
                         <div id="tc-title" style="font-size: 14px; font-weight: 900; color: #3b82f6; text-transform: uppercase;">Title</div>
                         <div style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
                             <img id="tc-badge" src="" style="width: 30px; height: 30px;">
-                            <span style="font-size: 14px; font-weight: 800; color: #64748b;">Lv. <span id="tc-level"></span></span>
+                            <span style="font-size: 14px; font-family: 'Fredoka', sans-serif; font-weight: 700; color: #64748b;">Lv. <span id="tc-level"></span></span>
                         </div>
                     </div>
                 </div>
                 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px;">
                     <div style="background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center;">
                         <div style="font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase;">Total XP</div>
-                        <div id="tc-xp" style="font-size: 20px; font-weight: 900; color: #8b5cf6;">0</div>
+                        <div id="tc-xp" style="font-family: 'Fredoka', sans-serif; font-size: 20px; font-weight: 700; color: #8b5cf6;">0</div>
                     </div>
                     <div style="background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center;">
                         <div style="font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase;">Pokémon Seen</div>
-                        <div id="tc-seen" style="font-size: 20px; font-weight: 900; color: #3b82f6;">0</div>
+                        <div id="tc-seen" style="font-family: 'Fredoka', sans-serif; font-size: 20px; font-weight: 700; color: #3b82f6;">0</div>
                     </div>
                     <div style="background: #f0fdf4; padding: 12px; border-radius: 12px; border: 1px solid #bbf7d0; text-align: center;">
                         <div style="font-size: 11px; font-weight: 800; color: #16a34a; text-transform: uppercase;">Correct</div>
-                        <div id="tc-right" style="font-size: 20px; font-weight: 900; color: #22c55e;">0</div>
+                        <div id="tc-right" style="font-family: 'Fredoka', sans-serif; font-size: 20px; font-weight: 700; color: #22c55e;">0</div>
                     </div>
                     <div style="background: #fef2f2; padding: 12px; border-radius: 12px; border: 1px solid #fecaca; text-align: center;">
                         <div style="font-size: 11px; font-weight: 800; color: #dc2626; text-transform: uppercase;">Incorrect</div>
-                        <div id="tc-wrong" style="font-size: 20px; font-weight: 900; color: #ef4444;">0</div>
+                        <div id="tc-wrong" style="font-family: 'Fredoka', sans-serif; font-size: 20px; font-weight: 700; color: #ef4444;">0</div>
                     </div>
                 </div>
 
-                <button class="primary-btn btn-blue" style="margin-bottom: 0;" onclick="closeTrainerCard()">Close ID Card</button>
+                <div style="display: flex; justify-content: center;">
+                    <button class="primary-btn btn-blue" style="width: 85%; margin: 0;" onclick="closeTrainerCard()">Close ID Card</button>
+                </div>
             </div>
         </div>
     </div>
 
     <div id="settings-modal" class="modal-overlay hidden">
-        <div class="modal-content">
+        <div class="modal-content" style="text-align: center;">
             <button class="close-x" onclick="toggleSettings()">✕</button>
-            <h3 style="margin-top: 0; color: #1e293b; font-size: 24px; font-weight: 900; margin-bottom: 20px;">Settings</h3>
+            <h3 style="margin-top: 0; color: #1e293b; font-size: 24px; font-weight: 700; margin-bottom: 25px; font-family: 'Fredoka', sans-serif; text-align: left;">Settings</h3>
             
-            <button id="sound-btn" class="primary-btn btn-orange" onclick="toggleSound()" style="margin-bottom: 25px; width: 100%;">Sound: OFF</button>
-            
-            <div id="in-game-settings-btns" class="hidden" style="margin-bottom: 15px; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px;">
-                <button class="primary-btn btn-blue" onclick="restartGame(); toggleSettings();" style="margin-bottom: 10px;">Restart Game</button>
-                <button class="primary-btn btn-purple" style="margin-bottom: 0;" onclick="goHome(); toggleSettings();">Return Home</button>
-            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                <button id="sound-btn" class="primary-btn btn-orange" onclick="toggleSound()" style="width: 85%; margin: 0;">Sound: OFF</button>
+                
+                <div id="in-game-settings-btns" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center; gap: 15px; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px;">
+                    <button class="primary-btn btn-blue" onclick="restartGame(); toggleSettings();" style="width: 85%; margin: 0;">Restart Game</button>
+                    <button class="primary-btn btn-purple" onclick="goHome(); toggleSettings();" style="width: 85%; margin: 0;">Return Home</button>
+                </div>
 
-            <button class="primary-btn btn-orange" onclick="logoutUser(); toggleSettings();" style="margin-bottom: 10px;">Logout Trainer</button>
-            <button class="primary-btn" style="background: #e2e8f0; color: #475569; margin-bottom: 0; box-shadow: 0 4px 0 #cbd5e1;" onclick="toggleSettings()">Close</button>
+                <button class="primary-btn btn-orange" onclick="logoutUser(); toggleSettings();" style="width: 85%; margin: 0;">Logout Trainer</button>
+                <button class="primary-btn btn-gray" onclick="toggleSettings()" style="width: 85%; margin: 0;">Close</button>
+            </div>
         </div>
     </div>
 
     <div id="leaderboard-modal" class="modal-overlay hidden">
         <div class="modal-content">
             <button class="close-x" onclick="closeLeaderboard()">✕</button>
-            <h3 style="margin-top: 0; color: #1e293b; font-size: 24px; font-weight: 900; display: flex; align-items: center; gap: 10px;">
+            <h3 style="margin-top: 0; color: #1e293b; font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 10px; font-family: 'Fredoka', sans-serif;">
                 <img src="leaderboard.png" alt="Leaderboard" style="width: 32px; height: 32px;"> Global Rank
             </h3>
             <p style="font-size: 13px; color: #64748b; margin-bottom: 20px; font-weight: 700;">Top trainers worldwide.</p>
             
             <div id="leaderboard-list"></div>
 
-            <button class="primary-btn btn-blue" style="margin-top: 20px; margin-bottom: 0;" onclick="closeLeaderboard()">Close Leaderboard</button>
+            <div style="display: flex; justify-content: center; margin-top: 25px;">
+                <button class="primary-btn btn-blue" style="width: 85%; margin: 0;" onclick="closeLeaderboard()">Close Leaderboard</button>
+            </div>
         </div>
     </div>
 
     <div id="pokedex-modal" class="modal-overlay hidden">
         <div class="modal-content">
             <button class="close-x" onclick="closePokedex()">✕</button>
-            <h3 style="margin-top: 0; color: #1e293b; font-size: 24px; font-weight: 900; display: flex; align-items: center; gap: 10px;">
+            <h3 style="margin-top: 0; color: #1e293b; font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 10px; font-family: 'Fredoka', sans-serif;">
                 <img src="pokedex.png" alt="Pokédex" style="width: 32px; height: 32px;"> Pokédex
             </h3>
             
             <div class="dex-total-header">
                 <span style="font-size: 14px; font-weight: 800; color: #3b82f6;">Total Caught</span>
-                <span class="dex-total-text" id="dex-total-count">0 / 1025</span>
+                <span class="dex-total-text" id="dex-total-count" style="font-family: 'Fredoka', sans-serif;">0 / 1025</span>
             </div>
 
             <div id="pokedex-regions-container"></div>
 
-            <button class="primary-btn btn-blue" style="margin-top: 15px; margin-bottom: 0;" onclick="closePokedex()">Close Pokédex</button>
+            <div style="display: flex; justify-content: center; margin-top: 25px;">
+                <button class="primary-btn btn-blue" style="width: 85%; margin: 0;" onclick="closePokedex()">Close Pokédex</button>
+            </div>
         </div>
     </div>
 
     <div id="avatar-modal" class="modal-overlay hidden">
         <div class="modal-content">
             <button class="close-x" onclick="closeAvatarModal()">✕</button>
-            <h3 style="margin-top: 0; color: #1e293b; font-size: 20px; font-weight: 900; margin-bottom: 5px;">Choose Avatar</h3>
+            <h3 style="margin-top: 0; color: #1e293b; font-size: 20px; font-weight: 700; margin-bottom: 5px; font-family: 'Fredoka', sans-serif;">Choose Avatar</h3>
             <p style="font-size: 12px; color: #ef4444; margin-bottom: 15px; font-weight: 800;">Unlock new generations by leveling up!</p>
             
             <div id="region-tabs" class="region-tabs-container"></div>
@@ -447,7 +490,7 @@
                 </div>
                 <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 10px;">
                     <button class="primary-btn btn-green" id="confirm-avatar-btn" onclick="confirmAvatar()">Select</button>
-                    <button class="primary-btn btn-orange" onclick="closeAvatarModal()">Cancel</button>
+                    <button class="primary-btn btn-gray" onclick="closeAvatarModal()">Cancel</button>
                 </div>
             </div>
         </div>
@@ -577,7 +620,7 @@
                         <div class="mode-bg-icon">
                             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 3v2h-3.59l-2.04 2.04 1.42 1.41 2.62-2.62H17v2l3-3-3-3zM4 5v2h2.59l11.41 11.41H20v-2h-1.59L6.59 5H4zm6.59 9.41L9.17 13 4 18.17V20h2.59l4-4zM20 17v2h-1.59l-2.04-2.04 1.42-1.41 2.62 2.62z"/></svg>
                         </div>
-                        <h3 style="color:#be185d;">NAME SCRAMBLE</h3>
+                        <h3>NAME SCRAMBLE</h3>
                         <p>Unscramble the letters to spell the Pokémon!</p>
                         <div class="mode-action-pill">
                             PLAY 
@@ -631,13 +674,13 @@
             <div class="stats">
                 <span style="display:flex; align-items:center; gap: 8px;">Q: <span id="question-count">1</span> <span id="streak-display" class="streak-fire hidden">🔥 <span id="streak-count">3</span></span></span>
                 <div id="feedback-overlay" class="hidden"><div id="feedback-icon"></div></div>
-                <span>XP: <span id="session-xp-display" style="color: #8b5cf6;">0</span></span>
+                <span>XP: <span id="session-xp-display" style="color: #8b5cf6; font-family: 'Fredoka', sans-serif;">0</span></span>
             </div>
             
             <div id="timer-wrapper" class="hidden">
                 <div class="timer-header">
                     <span class="timer-label">Time Remaining</span>
-                    <span id="timer-text">10s</span>
+                    <span id="timer-text" style="font-family: 'Fredoka', sans-serif;">10s</span>
                 </div>
                 <div id="timer-container">
                     <div id="timer-bar"></div>
@@ -656,7 +699,7 @@
             </div>
 
             <div id="game-content" class="hidden" style="position: relative;">
-                <div id="question-text"></div>
+                <div id="question-text" style="font-family: 'Fredoka', sans-serif;"></div>
                 <img id="pokemon-image" src="" alt="Pokemon">
                 <div id="options"></div>
             </div>
@@ -679,7 +722,7 @@
 
         <div id="end-screen" class="screen">
             <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="mini-game-logo" style="margin-bottom: 20px;">
-            <h1 id="end-title" style="font-size: 32px; font-weight: 900; margin-bottom: 5px;"></h1>
+            <h1 id="end-title" style="font-size: 32px; font-weight: 700; margin-bottom: 5px; font-family: 'Fredoka', sans-serif;"></h1>
             <p id="end-message" style="font-size: 16px; font-weight: 700; color: #64748b; margin-top: 0; margin-bottom: 25px;"></p>
             
             <div style="background: #f1f5f9; padding: 20px; border-radius: 20px; margin-bottom: 25px;">
@@ -688,23 +731,25 @@
                 <div id="standard-results" style="display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 2px dashed #cbd5e1; padding-bottom: 15px;">
                     <div style="text-align: center; flex: 1;">
                         <p style="font-size: 12px; font-weight: 800; color: #16a34a; margin: 0; text-transform: uppercase;">Right</p>
-                        <p id="end-right" style="font-size: 28px; font-weight: 900; color: #22c55e; margin: 5px 0 0 0;">0</p>
+                        <p id="end-right" style="font-family: 'Fredoka', sans-serif; font-size: 28px; font-weight: 700; color: #22c55e; margin: 5px 0 0 0;">0</p>
                     </div>
                     <div style="width: 2px; background: #cbd5e1;"></div>
                     <div style="text-align: center; flex: 1;">
                         <p style="font-size: 12px; font-weight: 800; color: #dc2626; margin: 0; text-transform: uppercase;">Missed</p>
-                        <p id="end-wrong" style="font-size: 28px; font-weight: 900; color: #ef4444; margin: 5px 0 0 0;">0</p>
+                        <p id="end-wrong" style="font-family: 'Fredoka', sans-serif; font-size: 28px; font-weight: 700; color: #ef4444; margin: 5px 0 0 0;">0</p>
                     </div>
                 </div>
 
                 <div style="text-align: center;">
                     <p style="font-size: 14px; font-weight: 800; color: #8b5cf6; margin: 0; text-transform: uppercase;">Session XP Earned</p>
-                    <p style="font-size: 32px; font-weight: 900; color: #7c3aed; margin: 5px 0 0 0;">+<span id="end-session-xp">0</span> XP</p>
+                    <p style="font-family: 'Fredoka', sans-serif; font-size: 32px; font-weight: 700; color: #7c3aed; margin: 5px 0 0 0;">+<span id="end-session-xp">0</span> XP</p>
                 </div>
             </div>
             
-            <button class="primary-btn btn-blue" onclick="restartGame()" style="margin-bottom: 10px;">Play Again</button>
-            <button class="primary-btn btn-purple" onclick="goHome()">Home Screen</button>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                <button class="primary-btn btn-blue" onclick="restartGame()" style="width: 85%; margin: 0;">Play Again</button>
+                <button class="primary-btn btn-purple" onclick="goHome()" style="width: 85%; margin: 0;">Home Screen</button>
+            </div>
         </div>
     </div>
 
@@ -970,13 +1015,13 @@
         }
 
         function showXPFloatingText(text) {
-            const levelPill = document.getElementById('level-pill');
-            if(!levelPill) return;
+            const targetContainer = document.querySelector('.progression-track');
+            if(!targetContainer) return;
             
             const popup = document.createElement('div');
             popup.className = 'xp-popup';
             popup.innerText = text;
-            levelPill.appendChild(popup);
+            targetContainer.appendChild(popup);
             setTimeout(() => { popup.remove(); }, 1200);
         }
 
@@ -1830,7 +1875,7 @@
                     <div id="scramble-guess-display" style="font-size:24px; font-weight:900; letter-spacing:6px; min-height: 35px; margin-bottom: 15px; color:#1e293b; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px;"></div>
                     <div id="scramble-bank" style="display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-bottom: 20px;"></div>
                     <div style="display:flex; gap:10px;">
-                        <button class="primary-btn" style="background:#64748b; flex:1;" id="btn-undo">Undo</button>
+                        <button class="primary-btn btn-gray" style="flex:1;" id="btn-undo">Undo</button>
                         <button class="primary-btn btn-blue" style="flex:2;" id="btn-submit">Submit</button>
                         <button class="primary-btn btn-orange" style="flex:1;" id="btn-skip">Skip</button>
                     </div>
@@ -2036,7 +2081,8 @@
             const allBtns = document.querySelectorAll('.option-btn');
             allBtns.forEach(btn => btn.disabled = true);
 
-            clickedBtn.style.transform = "translateY(4px)";
+            // Button stays pressed down visually
+            clickedBtn.style.transform = "translateY(6px)";
             clickedBtn.style.boxShadow = "0 0 0 transparent";
 
             const delay = isCorrect ? 1000 : 1500;
@@ -2058,7 +2104,7 @@
                 allBtns.forEach(btn => {
                     if (btn.dataset.value === correctAnswersAttribute) {
                         btn.classList.add('correct');
-                        btn.style.transform = "translateY(4px)";
+                        btn.style.transform = "translateY(6px)";
                         btn.style.boxShadow = "0 0 0 transparent";
                     }
                 });
@@ -2088,7 +2134,7 @@
             allBtns.forEach(btn => {
                 if (btn.dataset.value === correctAnswersAttribute) {
                     btn.classList.add('correct');
-                    btn.style.transform = "translateY(4px)";
+                    btn.style.transform = "translateY(6px)";
                     btn.style.boxShadow = "0 0 0 transparent";
                 }
             });
