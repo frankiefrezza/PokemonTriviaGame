@@ -87,7 +87,7 @@
         #game-screen { position: relative; }
         #game-content { transition: opacity 0.4s ease-in-out; opacity: 1; min-height: 350px; }
 
-        /* --- DYNAMIC LOGO STYLES (MARQUEE) --- */
+        /* --- DYNAMIC LOGO STYLES --- */
         .logo-wrapper { 
             position: relative; 
             margin: -60px auto 25px auto;
@@ -127,7 +127,6 @@
 
         .trainer-card { position: relative; border-radius: 25px; padding: 25px; margin-bottom: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); color: #1e293b; transition: all 0.4s ease; text-align: left; border: none; outline: 1px solid rgba(255,255,255,0.5); }
         
-        /* --- CLEAN SVG WATERMARK --- */
         .card-bg-watermark { position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 25px; overflow: hidden; z-index: 0; pointer-events: none; }
         .watermark-pokeball { position: absolute; bottom: -30px; right: -20px; width: 180px; height: 180px; opacity: 0.12; transform: rotate(-15deg); color: #ffffff; }
         .rank-rookie .watermark-pokeball { color: #64748b; opacity: 0.08; } 
@@ -138,15 +137,15 @@
         .rank-elite { background: linear-gradient(135deg, #3b0764 0%, #6b21a8 100%); color: #f3e8ff; border: 1px solid #9333ea; }
         .rank-master { background: linear-gradient(135deg, #0f172a 0%, #334155 100%); color: #f8fafc; border: 1px solid #475569; }
 
-        /* --- RESTORED & IMPROVED BADGE SOCKET --- */
+        /* --- INTEGRATED BADGE SOCKET --- */
         .badge-socket-container { position: absolute; right: 20px; top: 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
-        .badge-socket { width: 68px; height: 68px; border-radius: 50%; background: rgba(255, 255, 255, 0.4); border: 2px solid rgba(255,255,255,0.7); box-shadow: inset 0 3px 6px rgba(0,0,0,0.05), 0 2px 5px rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; transition: transform 0.3s ease; }
+        .badge-socket { width: 68px; height: 68px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); border: 2px solid rgba(255,255,255,0.5); box-shadow: inset 0 3px 6px rgba(0,0,0,0.1), 0 4px 10px rgba(0,0,0,0.05); display: flex; justify-content: center; align-items: center; transition: transform 0.3s ease; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
         .badge-socket img { width: 48px; height: 48px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25)); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; z-index: 2;}
         .badge-socket-container:hover .badge-socket img { transform: scale(1.15) rotate(5deg); }
         
-        .badge-label { margin-top: -10px; padding: 3px 8px; border-radius: 10px; font-size: 9px; font-weight: 900; font-family: 'Fredoka', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; z-index: 11; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .rank-rookie .badge-label, .rank-ace .badge-label, .rank-gym .badge-label { background: #ffffff; color: #475569; border: 1px solid #cbd5e1; }
-        .rank-elite .badge-label, .rank-master .badge-label { background: rgba(15, 23, 42, 0.5); color: #f8fafc; border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(4px); }
+        .badge-label { margin-top: -12px; padding: 4px 10px; border-radius: 8px; font-size: 9px; font-weight: 900; font-family: 'Fredoka', sans-serif; text-transform: uppercase; letter-spacing: 1px; z-index: 11; box-shadow: 0 4px 6px rgba(0,0,0,0.15); }
+        .rank-rookie .badge-label, .rank-ace .badge-label, .rank-gym .badge-label { background: #ffffff; color: #334155; border: 1px solid #e2e8f0; }
+        .rank-elite .badge-label, .rank-master .badge-label { background: #1e293b; color: #f8fafc; border: 1px solid #475569; }
 
         .trainer-header { display: flex; align-items: center; gap: 20px; margin-bottom: 25px; position: relative; z-index: 1; cursor: pointer; transition: transform 0.2s; border-radius: 16px; padding: 5px; }
         .trainer-header:hover { transform: scale(1.02); background: rgba(255,255,255,0.1); }
@@ -166,18 +165,19 @@
         .trainer-avatar-circle::after { content: '✎'; position: absolute; bottom: -5px; right: -5px; background: #3b82f6; color: white; font-size: 14px; width: 26px; height: 26px; border-radius: 50%; display: flex; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.2s; z-index: 10; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         .trainer-avatar-container:hover .trainer-avatar-circle::after { opacity: 1; }
 
-        .trainer-info { display: flex; flex-direction: column; align-items: flex-start; z-index: 1; flex-grow: 1; overflow: hidden; padding-right: 65px; }
+        .trainer-info { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; z-index: 1; flex-grow: 1; overflow: hidden; padding-right: 75px; }
         
-        .trainer-name-display { font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 30px; line-height: 1.1; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; transition: color 0.3s, text-shadow 0.3s; }
+        .trainer-name-display { font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 32px; line-height: 1; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; transition: color 0.3s, text-shadow 0.3s; }
         .rank-rookie .trainer-name-display, .rank-ace .trainer-name-display, .rank-gym .trainer-name-display { color: #0f172a; text-shadow: 0 2px 4px rgba(255,255,255,0.5); }
         .rank-elite .trainer-name-display, .rank-master .trainer-name-display { color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.6); }
         
-        .trainer-title-label { font-size: 11px; text-transform: uppercase; font-weight: 900; letter-spacing: 0.5px; line-height: 1; border-radius: 8px; padding: 6px 10px; margin-top: 2px; }
-        .rank-rookie .trainer-title-label { background: rgba(226, 232, 240, 0.8); color: #475569; }
-        .rank-ace .trainer-title-label { background: rgba(255, 255, 255, 0.7); color: #1e3a8a; }
-        .rank-gym .trainer-title-label { background: rgba(255, 255, 255, 0.7); color: #713f12; }
-        .rank-elite .trainer-title-label { background: rgba(255, 255, 255, 0.15); color: #e9d5ff; border: 1px solid rgba(216, 180, 254, 0.4); }
-        .rank-master .trainer-title-label { background: rgba(255, 255, 255, 0.15); color: #f8fafc; border: 1px solid rgba(255, 255, 255, 0.3); }
+        /* Typography-based title instead of clunky pill */
+        .trainer-title-label { font-size: 13px; text-transform: uppercase; font-weight: 900; letter-spacing: 1.5px; line-height: 1; display: inline-block; margin-top: 2px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        .rank-rookie .trainer-title-label { color: #64748b; }
+        .rank-ace .trainer-title-label { color: #2563eb; }
+        .rank-gym .trainer-title-label { color: #b45309; }
+        .rank-elite .trainer-title-label { color: #d8b4fe; }
+        .rank-master .trainer-title-label { color: #cbd5e1; }
 
         .progression-track { display: flex; align-items: center; position: relative; z-index: 1; padding: 0 5px; }
         
@@ -302,7 +302,7 @@
 
         #question-text { font-size: 20px; font-weight: 800; color: #1e293b; margin: 15px 0; min-height: 28px; line-height: 1.3; }
         
-        /* --- DYNAMIC GAME IMAGES (Standard & Evolutions) --- */
+        /* --- DYNAMIC GAME IMAGES --- */
         #pokemon-image { width: 240px; height: 240px; margin: 10px auto 20px auto; display: block; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2)); transition: filter 0.3s; }
         .dual-image-container { display: flex; align-items: center; justify-content: center; gap: 20px; margin: 10px auto 25px auto; }
         .dual-image-sprite { width: 130px; height: 130px; object-fit: contain; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2)); transition: filter 0.5s ease; }
