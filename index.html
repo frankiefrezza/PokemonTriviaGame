@@ -75,7 +75,7 @@
             max-width: 100%; 
             box-sizing: border-box; 
             position: relative; 
-            margin-top: 20px; /* Reduced from 40px to move game up */
+            margin-top: 20px;
         }
         
         .hidden { display: none !important; }
@@ -165,13 +165,14 @@
         .trainer-avatar-circle::after { content: '✎'; position: absolute; bottom: -5px; right: -5px; background: #3b82f6; color: white; font-size: 14px; width: 26px; height: 26px; border-radius: 50%; display: flex; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.2s; z-index: 10; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         .trainer-avatar-container:hover .trainer-avatar-circle::after { opacity: 1; }
 
-        .trainer-info { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; z-index: 1; flex-grow: 1; overflow: hidden; padding-right: 75px; }
+        /* CENTERED INFO BLOCK */
+        .trainer-info { display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1; flex-grow: 1; overflow: hidden; padding-right: 75px; text-align: center; }
         
-        .trainer-name-display { font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 32px; line-height: 1; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; transition: color 0.3s, text-shadow 0.3s; }
+        .trainer-name-display { font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 32px; line-height: 1; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; transition: color 0.3s, text-shadow 0.3s; text-align: center; }
         .rank-rookie .trainer-name-display, .rank-ace .trainer-name-display, .rank-gym .trainer-name-display { color: #0f172a; text-shadow: 0 2px 4px rgba(255,255,255,0.5); }
         .rank-elite .trainer-name-display, .rank-master .trainer-name-display { color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.6); }
         
-        .trainer-title-label { font-size: 13px; text-transform: uppercase; font-weight: 900; letter-spacing: 1.5px; line-height: 1; display: inline-block; margin-top: 2px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        .trainer-title-label { font-size: 11px; text-transform: uppercase; font-weight: 900; letter-spacing: 1.5px; line-height: 1; display: inline-block; margin-top: 2px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
         .rank-rookie .trainer-title-label { color: #64748b; }
         .rank-ace .trainer-title-label { color: #2563eb; }
         .rank-gym .trainer-title-label { color: #b45309; }
@@ -225,7 +226,6 @@
             text-align: left; 
             cursor: pointer; 
             background-color: #ffffff;
-            /* Added smooth transition specifically for the 3D press */
             transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
@@ -349,7 +349,6 @@
         .shiny-glow { filter: brightness(1) drop-shadow(0 0 25px rgba(250, 204, 21, 0.8)) !important; }
 
         /* --- INSTANT FEEDBACK BUTTONS --- */
-        /* Redesigned to be entirely flat 3D without blurry shadows */
         .option-btn { 
             display: block; width: 100%; padding: 15px; margin: 12px 0 16px 0; 
             font-size: 18px; font-family: 'Fredoka', sans-serif; font-weight: 700; 
@@ -357,7 +356,7 @@
             background: #ffffff;
             border: 2px solid #cbd5e1; border-radius: 20px; 
             cursor: pointer; 
-            box-shadow: 0 6px 0 #94a3b8; /* Darker slate shadow for crisper depth */
+            box-shadow: 0 6px 0 #94a3b8; 
             transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.1s cubic-bezier(0.4, 0, 0.2, 1); 
             position: relative; overflow: hidden;
         }
@@ -453,7 +452,6 @@
         @keyframes pulseAvatar { 0% { transform: scale(1); box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); } 100% { transform: scale(1.05); box-shadow: 0 0 25px rgba(59, 130, 246, 0.7); } }
 
         @media (max-width: 480px) {
-            /* Adjusted to move game further up on mobile */
             body { padding: 0; align-items: flex-start; } 
             #app { 
                 width: 100%; 
@@ -463,7 +461,7 @@
                 box-shadow: 0 -10px 40px rgba(0,0,0,0.15); 
                 border: 2px solid rgba(255, 255, 255, 0.4); 
                 border-bottom: none; 
-                margin-top: env(safe-area-inset-top, 10px); 
+                margin-top: calc(env(safe-area-inset-top, 12px) + 4px); /* Pushed game up just slightly more */
             }
             .input-group { flex-direction: column; gap: 10px; margin-bottom: 15px; }
             #username-input, #pin-input { width: 100%; margin-bottom: 0; }
