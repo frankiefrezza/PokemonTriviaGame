@@ -75,7 +75,7 @@
             max-width: 100%; 
             box-sizing: border-box; 
             position: relative; 
-            margin-top: 40px;
+            margin-top: 20px; /* Reduced from 40px to move game up */
         }
         
         .hidden { display: none !important; }
@@ -106,7 +106,7 @@
             animation: floatMainLogo 4s ease-in-out infinite; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15));
         }
         .mini-game-logo { 
-            width: 160px; margin: -50px auto 20px auto; display: block; position: relative; z-index: 50; 
+            width: 160px; margin: -40px auto 20px auto; display: block; position: relative; z-index: 50; 
             animation: floatMiniLogo 4s ease-in-out infinite; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
         }
 
@@ -125,17 +125,17 @@
 
         .bento-box { background: rgba(255,255,255,0.7); backdrop-filter: blur(12px); border-radius: 25px; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 8px 20px rgba(0,0,0,0.08); padding: 20px; margin-bottom: 20px; position: relative; overflow: hidden; }
 
-        .trainer-card { position: relative; border-radius: 25px; padding: 25px; margin-bottom: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); color: #1e293b; transition: all 0.4s ease; text-align: left; border: none; outline: 1px solid rgba(255,255,255,0.5); }
+        .trainer-card { position: relative; border-radius: 25px; padding: 25px; margin-bottom: 20px; color: #1e293b; transition: all 0.4s ease; text-align: left; border: none; outline: 1px solid rgba(255,255,255,0.5); }
         
         .card-bg-watermark { position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 25px; overflow: hidden; z-index: 0; pointer-events: none; }
         .watermark-pokeball { position: absolute; bottom: -30px; right: -20px; width: 180px; height: 180px; opacity: 0.12; transform: rotate(-15deg); color: #ffffff; }
         .rank-rookie .watermark-pokeball { color: #64748b; opacity: 0.08; } 
 
-        .rank-rookie { background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%); border: 1px solid #cbd5e1; }
-        .rank-ace { background: linear-gradient(135deg, #eff6ff 0%, #bfdbfe 100%); color: #1e3a8a; border: 1px solid #93c5fd; }
-        .rank-gym { background: linear-gradient(135deg, #fefce8 0%, #fde047 100%); color: #713f12; border: 1px solid #facc15; }
-        .rank-elite { background: linear-gradient(135deg, #3b0764 0%, #6b21a8 100%); color: #f3e8ff; border: 1px solid #9333ea; }
-        .rank-master { background: linear-gradient(135deg, #0f172a 0%, #334155 100%); color: #f8fafc; border: 1px solid #475569; }
+        .rank-rookie { background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%); border: 2px solid #cbd5e1; box-shadow: 0 8px 0 #94a3b8; }
+        .rank-ace { background: linear-gradient(135deg, #eff6ff 0%, #bfdbfe 100%); color: #1e3a8a; border: 2px solid #60a5fa; box-shadow: 0 8px 0 #3b82f6; }
+        .rank-gym { background: linear-gradient(135deg, #fefce8 0%, #fde047 100%); color: #713f12; border: 2px solid #fbbf24; box-shadow: 0 8px 0 #d97706; }
+        .rank-elite { background: linear-gradient(135deg, #3b0764 0%, #6b21a8 100%); color: #f3e8ff; border: 2px solid #a855f7; box-shadow: 0 8px 0 #7e22ce; }
+        .rank-master { background: linear-gradient(135deg, #0f172a 0%, #334155 100%); color: #f8fafc; border: 2px solid #475569; box-shadow: 0 8px 0 #1e293b; }
 
         /* --- INTEGRATED BADGE SOCKET --- */
         .badge-socket-container { position: absolute; right: 20px; top: 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
@@ -171,7 +171,6 @@
         .rank-rookie .trainer-name-display, .rank-ace .trainer-name-display, .rank-gym .trainer-name-display { color: #0f172a; text-shadow: 0 2px 4px rgba(255,255,255,0.5); }
         .rank-elite .trainer-name-display, .rank-master .trainer-name-display { color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.6); }
         
-        /* Typography-based title instead of clunky pill */
         .trainer-title-label { font-size: 13px; text-transform: uppercase; font-weight: 900; letter-spacing: 1.5px; line-height: 1; display: inline-block; margin-top: 2px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
         .rank-rookie .trainer-title-label { color: #64748b; }
         .rank-ace .trainer-title-label { color: #2563eb; }
@@ -208,51 +207,83 @@
         .dc-btn:active { transform: translateY(3px); box-shadow: 0 0 0 #059669; }
 
         .modes-master-bento { padding: 20px; }
-        .modes-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .menu-box { padding: 18px; border-radius: 20px; border: 2px solid; transition: transform 0.1s, box-shadow 0.1s, filter 0.2s; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; position: relative; overflow: hidden; text-align: left; cursor: pointer; }
         
-        .menu-box:hover { filter: brightness(1.05); transform: translateY(-3px); }
-        .menu-box:active { transform: translateY(6px); }
+        /* Revised cohesive grid */
+        .modes-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        
+        /* Unified 3D Button Style for Game Modes */
+        .menu-box { 
+            padding: 18px; 
+            border-radius: 20px; 
+            border: 2px solid; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            box-sizing: border-box; 
+            position: relative; 
+            overflow: hidden; 
+            text-align: left; 
+            cursor: pointer; 
+            background-color: #ffffff;
+            /* Added smooth transition specifically for the 3D press */
+            transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* The press-down effect completely flattens the shadow */
+        .menu-box:active { 
+            transform: translateY(8px); 
+        }
 
         .menu-box h3 { margin: 0 0 6px 0; font-size: 16px; font-weight: 700; font-family: 'Fredoka', sans-serif; text-transform: uppercase; line-height: 1.1; letter-spacing: 1px; position: relative; z-index: 1; }
         .menu-box p { font-size: 12px; color: #475569; margin-top: 0; margin-bottom: 16px; font-weight: 700; flex-grow: 1; line-height: 1.3; position: relative; z-index: 1; }
         
-        .mode-action-pill { display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 6px 14px; border-radius: 12px; font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 13px; text-transform: uppercase; align-self: flex-start; box-shadow: 0 3px 0 rgba(0,0,0,0.1); position: relative; z-index: 1; transition: transform 0.2s; }
-        .menu-box:hover .mode-action-pill svg { transform: translateX(3px); }
-        .mode-action-pill svg { transition: transform 0.2s; }
+        /* Sleek inset tags instead of inner buttons */
+        .mode-action-pill { 
+            display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 4px 10px; 
+            border-radius: 8px; font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 11px; 
+            text-transform: uppercase; align-self: flex-start; position: relative; z-index: 1; 
+            background: rgba(255,255,255,0.75); color: inherit;
+        }
 
-        .mode-bg-icon { position: absolute; right: -15px; bottom: -15px; width: 90px; height: 90px; opacity: 0.12; transform: rotate(-15deg); pointer-events: none; z-index: 0; }
+        .mode-bg-icon { position: absolute; right: -10px; bottom: -10px; width: 85px; height: 85px; opacity: 0.15; transform: rotate(-10deg); pointer-events: none; z-index: 0; }
         .mode-bg-icon svg { width: 100%; height: 100%; }
 
-        .mode-guess { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-color: #93c5fd; box-shadow: 0 6px 0 #93c5fd; }
-        .mode-guess:active { box-shadow: 0 0 0 #93c5fd; }
+        /* Specific Mode Colors for Flat 3D */
+        .mode-guess { background: #dbeafe; border-color: #60a5fa; box-shadow: 0 8px 0 #3b82f6; }
+        .mode-guess:active { box-shadow: 0 0 0 #3b82f6; }
         .mode-guess h3 { color: #1d4ed8; }
-        .mode-guess .mode-action-pill { background: #3b82f6; color: white; }
+        .mode-guess .mode-action-pill { color: #1d4ed8; border: 1px solid rgba(59, 130, 246, 0.3); }
         .mode-guess .mode-bg-icon { color: #3b82f6; }
 
-        .mode-types { background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-color: #86efac; box-shadow: 0 6px 0 #86efac; }
-        .mode-types:active { box-shadow: 0 0 0 #86efac; }
+        .mode-types { background: #dcfce7; border-color: #4ade80; box-shadow: 0 8px 0 #10b981; }
+        .mode-types:active { box-shadow: 0 0 0 #10b981; }
         .mode-types h3 { color: #047857; }
-        .mode-types .mode-action-pill { background: #10b981; color: white; }
+        .mode-types .mode-action-pill { color: #047857; border: 1px solid rgba(16, 185, 129, 0.3); }
         .mode-types .mode-bg-icon { color: #10b981; }
 
-        .mode-evolutions { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); border-color: #fde047; box-shadow: 0 6px 0 #fde047; }
-        .mode-evolutions:active { box-shadow: 0 0 0 #fde047; }
+        .mode-evolutions { background: #fef3c7; border-color: #fbbf24; box-shadow: 0 8px 0 #d97706; }
+        .mode-evolutions:active { box-shadow: 0 0 0 #d97706; }
         .mode-evolutions h3 { color: #b45309; }
-        .mode-evolutions .mode-action-pill { background: #f59e0b; color: white; }
+        .mode-evolutions .mode-action-pill { color: #b45309; border: 1px solid rgba(245, 158, 11, 0.3); }
         .mode-evolutions .mode-bg-icon { color: #d97706; }
 
-        .mode-scramble { background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%); border-color: #f9a8d4; box-shadow: 0 6px 0 #f9a8d4; }
-        .mode-scramble:active { box-shadow: 0 0 0 #f9a8d4; }
+        .mode-scramble { background: #fce7f3; border-color: #f472b6; box-shadow: 0 8px 0 #db2777; }
+        .mode-scramble:active { box-shadow: 0 0 0 #db2777; }
         .mode-scramble h3 { color: #be185d; }
-        .mode-scramble .mode-action-pill { background: #ec4899; color: white; }
+        .mode-scramble .mode-action-pill { color: #be185d; border: 1px solid rgba(219, 39, 119, 0.3); }
         .mode-scramble .mode-bg-icon { color: #db2777; }
 
-        .mode-trivia { background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border-color: #d8b4fe; box-shadow: 0 6px 0 #d8b4fe; grid-column: span 2; }
-        .mode-trivia:active { box-shadow: 0 0 0 #d8b4fe; }
+        .mode-survival { background: #ffe4e6; border-color: #fb7185; box-shadow: 0 8px 0 #e11d48; }
+        .mode-survival:active { box-shadow: 0 0 0 #e11d48; }
+        .mode-survival h3 { color: #be123c; }
+        .mode-survival .mode-action-pill { color: #be123c; border: 1px solid rgba(225, 29, 72, 0.3); }
+        .mode-survival .mode-bg-icon { color: #e11d48; }
+
+        .mode-trivia { background: #f3e8ff; border-color: #c084fc; box-shadow: 0 8px 0 #9333ea; }
+        .mode-trivia:active { box-shadow: 0 0 0 #9333ea; }
         .mode-trivia h3 { color: #6d28d9; }
-        .mode-trivia .mode-action-pill { background: #8b5cf6; color: white; }
-        .mode-trivia .mode-bg-icon { color: #7c3aed; right: 5px; bottom: -25px; width: 110px; height: 110px; transform: rotate(-5deg); }
+        .mode-trivia .mode-action-pill { color: #6d28d9; border: 1px solid rgba(147, 51, 234, 0.3); }
+        .mode-trivia .mode-bg-icon { color: #9333ea; }
 
         .nav-btn { display: flex; align-items: center; gap: 6px; padding: 8px 16px; font-size: 14px; background-color: #e2e8f0; color: #475569; border: none; border-radius: 12px; cursor: pointer; font-weight: 800; transition: all 0.2s; }
         .nav-btn:hover { background-color: #cbd5e1; color: #1e293b; }
@@ -318,18 +349,19 @@
         .shiny-glow { filter: brightness(1) drop-shadow(0 0 25px rgba(250, 204, 21, 0.8)) !important; }
 
         /* --- INSTANT FEEDBACK BUTTONS --- */
+        /* Redesigned to be entirely flat 3D without blurry shadows */
         .option-btn { 
-            display: block; width: 100%; padding: 15px; margin: 12px 0; 
+            display: block; width: 100%; padding: 15px; margin: 12px 0 16px 0; 
             font-size: 18px; font-family: 'Fredoka', sans-serif; font-weight: 700; 
             color: #334155; letter-spacing: 1.5px; text-transform: uppercase;
             background: #ffffff;
             border: 2px solid #cbd5e1; border-radius: 20px; 
-            cursor: pointer; box-shadow: 0 6px 0 #cbd5e1, 0 8px 15px rgba(0,0,0,0.05); 
-            transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), 
-                        box-shadow 0.1s cubic-bezier(0.4, 0, 0.2, 1); 
+            cursor: pointer; 
+            box-shadow: 0 6px 0 #94a3b8; /* Darker slate shadow for crisper depth */
+            transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.1s cubic-bezier(0.4, 0, 0.2, 1); 
             position: relative; overflow: hidden;
         }
-        .option-btn:hover:not(:disabled) { filter: brightness(1.02); transform: translateY(-2px); box-shadow: 0 8px 0 #cbd5e1, 0 10px 20px rgba(0,0,0,0.08); }
+        .option-btn:hover:not(:disabled) { filter: brightness(0.98); }
         .option-btn:active:not(:disabled) { transform: translateY(6px); box-shadow: 0 0 0 transparent; }
         .option-btn:disabled { cursor: default; }
         
@@ -359,11 +391,11 @@
         .primary-btn:hover { filter: brightness(1.05); transform: translateY(-2px); }
         .primary-btn:active { transform: translateY(6px); box-shadow: 0 0 0 transparent !important; }
         
-        .btn-blue { background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 100%); box-shadow: 0 6px 0 #2563eb, 0 8px 15px rgba(59,130,246,0.2); } 
-        .btn-green { background: linear-gradient(180deg, #34d399 0%, #10b981 100%); box-shadow: 0 6px 0 #059669, 0 8px 15px rgba(16,185,129,0.2); } 
-        .btn-orange { background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%); box-shadow: 0 6px 0 #d97706, 0 8px 15px rgba(245,158,11,0.2); } 
-        .btn-purple { background: linear-gradient(180deg, #a78bfa 0%, #8b5cf6 100%); box-shadow: 0 6px 0 #7c3aed, 0 8px 15px rgba(139,92,246,0.2); }
-        .btn-gray { background: linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%); color: #475569 !important; box-shadow: 0 6px 0 #cbd5e1, 0 8px 15px rgba(0,0,0,0.05); }
+        .btn-blue { background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 100%); box-shadow: 0 6px 0 #2563eb; } 
+        .btn-green { background: linear-gradient(180deg, #34d399 0%, #10b981 100%); box-shadow: 0 6px 0 #059669; } 
+        .btn-orange { background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%); box-shadow: 0 6px 0 #d97706; } 
+        .btn-purple { background: linear-gradient(180deg, #a78bfa 0%, #8b5cf6 100%); box-shadow: 0 6px 0 #7c3aed; }
+        .btn-gray { background: linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%); color: #475569 !important; box-shadow: 0 6px 0 #94a3b8; }
 
         .bottom-dock { display: flex; justify-content: space-around; align-items: center; gap: 10px; margin-top: 5px; margin-bottom: 0; }
         .game-dock { margin-top: 40px; } 
@@ -421,31 +453,31 @@
         @keyframes pulseAvatar { 0% { transform: scale(1); box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); } 100% { transform: scale(1.05); box-shadow: 0 0 25px rgba(59, 130, 246, 0.7); } }
 
         @media (max-width: 480px) {
-            body { padding: calc(env(safe-area-inset-top, 20px) + 5px) 0 0 0; align-items: flex-start; } 
+            /* Adjusted to move game further up on mobile */
+            body { padding: 0; align-items: flex-start; } 
             #app { 
                 width: 100%; 
-                min-height: calc(100vh - 50px); 
-                border-radius: 45px 45px 0 0; 
-                padding: 20px 15px env(safe-area-inset-bottom, 30px) 15px; 
+                min-height: calc(100vh - 10px); 
+                border-radius: 35px 35px 0 0; 
+                padding: 15px 15px env(safe-area-inset-bottom, 30px) 15px; 
                 box-shadow: 0 -10px 40px rgba(0,0,0,0.15); 
                 border: 2px solid rgba(255, 255, 255, 0.4); 
                 border-bottom: none; 
-                margin-top: calc(env(safe-area-inset-top, 20px) + 15px); 
+                margin-top: env(safe-area-inset-top, 10px); 
             }
             .input-group { flex-direction: column; gap: 10px; margin-bottom: 15px; }
             #username-input, #pin-input { width: 100%; margin-bottom: 0; }
             
-            .logo-wrapper { margin: -50px auto 15px auto; max-width: 200px; } 
-            .mini-game-logo { width: 140px; margin: -50px auto 15px auto; }
+            .logo-wrapper { margin: -30px auto 10px auto; max-width: 180px; } 
+            .mini-game-logo { width: 140px; margin: -25px auto 15px auto; }
             
             .modes-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
             .modes-master-bento { padding: 12px; }
-            .menu-box { padding: 14px; }
+            .menu-box { padding: 14px; margin-bottom: 8px; }
             .menu-box h3 { font-size: 14px; margin-bottom: 4px; }
             .menu-box p { font-size: 10px; margin-bottom: 10px; }
             .mode-bg-icon { width: 65px; height: 65px; right: -10px; bottom: -10px; }
-            .mode-trivia .mode-bg-icon { width: 80px; height: 80px; right: -5px; bottom: -15px; }
-            .mode-action-pill { padding: 5px 10px; font-size: 11px; }
+            .mode-action-pill { padding: 4px 8px; font-size: 10px; }
             
             .bento-box { margin-bottom: 15px; }
 
@@ -459,7 +491,7 @@
             .dual-image-sprite { width: 100px; height: 100px; }
             .evolution-arrow { width: 28px; height: 28px; }
             
-            .option-btn { padding: 14px !important; margin: 8px 0 !important; font-size: 16px !important; border-radius: 16px; }
+            .option-btn { padding: 14px !important; margin: 8px 0 12px 0 !important; font-size: 16px !important; border-radius: 16px; }
             .game-dock { margin-top: 30px !important; padding-top: 15px !important; }
             #game-content { min-height: 280px !important; }
             .primary-btn { padding: 14px 16px; font-size: 16px; }
@@ -743,6 +775,18 @@
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                         </div>
                     </div>
+
+                    <div class="menu-box mode-survival" onclick="startGame('SURVIVAL')">
+                        <div class="mode-bg-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                        </div>
+                        <h3>SURVIVAL MODE</h3>
+                        <p>Race the clock! 60s to answer as many as possible.</p>
+                        <div class="mode-action-pill">
+                            PLAY 
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                        </div>
+                    </div>
                     
                     <div class="menu-box mode-trivia" onclick="startGame('TRIVIA')">
                         <div class="mode-bg-icon">
@@ -934,7 +978,6 @@
 
         let currentMode = 'GUESS', currentQuestion = 0, correctAnswersAttribute = ''; 
         let currentQuestionMode = '';
-        let currentQuestionTimeLimit = 10;
         let currentPokemonId = null; 
         let currentUser = null, currentXP = 0;
         let sessionRight = 0, sessionWrong = 0, sessionXP = 0; 
@@ -1374,7 +1417,10 @@
         function startTimer() {
             clearInterval(timerInterval);
             isPaused = false;
-            timeLeft = 10;
+            
+            if (currentMode !== 'SURVIVAL') {
+                timeLeft = 10;
+            }
             
             timerWrapper.classList.remove('hidden');
             updateTimerUI();
@@ -1390,12 +1436,16 @@
 
         function updateTimerUI() {
             timerText.innerText = timeLeft + 's';
-            const percentage = (timeLeft / 10) * 100;
+            let maxTime = currentMode === 'SURVIVAL' ? 60 : 10;
+            const percentage = (timeLeft / maxTime) * 100;
             timerBar.style.width = percentage + '%';
 
-            if (timeLeft <= 5 && timeLeft > 3) {
+            let warnThreshold = currentMode === 'SURVIVAL' ? 15 : 5;
+            let dangerThreshold = currentMode === 'SURVIVAL' ? 5 : 3;
+
+            if (timeLeft <= warnThreshold && timeLeft > dangerThreshold) {
                 timerBar.className = 'timer-warning';
-            } else if (timeLeft <= 3) {
+            } else if (timeLeft <= dangerThreshold) {
                 timerBar.className = 'timer-danger';
             } else {
                 timerBar.className = '';
@@ -1764,10 +1814,21 @@
             sessionXP = 0; 
             currentStreak = 0;
             
-            TOTAL_QUESTIONS = (mode === 'TRIVIA') ? 25 : 20;
+            if (mode === 'SURVIVAL') {
+                TOTAL_QUESTIONS = 60; // Fetch an excess amount to make sure they have enough for 60 seconds
+            } else if (mode === 'TRIVIA') {
+                TOTAL_QUESTIONS = 25;
+            } else {
+                TOTAL_QUESTIONS = 20;
+            }
 
             document.getElementById('streak-display').classList.add('hidden');
-            document.getElementById('question-count').nextSibling.nodeValue = "/" + TOTAL_QUESTIONS + " ";
+            
+            if (mode === 'SURVIVAL') {
+                document.getElementById('question-count').nextSibling.nodeValue = " (Survival) ";
+            } else {
+                document.getElementById('question-count').nextSibling.nodeValue = "/" + TOTAL_QUESTIONS + " ";
+            }
             
             sessionXPDisplay.innerText = sessionXP;
             showScreen(gameScreen);
@@ -1799,6 +1860,9 @@
             let evalMode = mode;
             if (mode === 'TRIVIA') {
                 evalMode = ['GUESS', 'TYPES', 'EVOLUTIONS', 'SCRAMBLE', 'TRIVIA_KNOWLEDGE'][Math.floor(Math.random() * 5)];
+            } else if (mode === 'SURVIVAL') {
+                // Ensure survival mode is strictly rapid-fire modes
+                evalMode = ['GUESS', 'EVOLUTIONS'][Math.floor(Math.random() * 2)];
             }
 
             let targetId = Math.floor(Math.random() * MAX_POKEMON_ID) + 1;
@@ -1958,6 +2022,7 @@
             progressBar.style.width = '100%';
             
             setTimeout(() => {
+                if (currentMode === 'SURVIVAL') timeLeft = 60;
                 document.getElementById('loading-container').classList.add('hidden');
                 document.getElementById('game-content').classList.remove('hidden');
                 loadNextQuestionFromBatch();
@@ -2132,7 +2197,8 @@
             
             setTimeout(() => { 
                 gameContent.style.opacity = 1; 
-                if (currentQuestionMode !== 'SCRAMBLE') {
+                // Always show the timer in survival mode regardless of question type
+                if (currentQuestionMode !== 'SCRAMBLE' || currentMode === 'SURVIVAL') {
                     document.getElementById('timer-wrapper').classList.remove('hidden');
                     startTimer();
                 } else {
@@ -2213,8 +2279,11 @@
         }
 
         function handleGuess(clickedBtn, isCorrect) {
-            clearInterval(timerInterval);
-            isPaused = false;
+            // Only stop the timer if not in survival mode so it ticks continuously during feedback
+            if (currentMode !== 'SURVIVAL') {
+                clearInterval(timerInterval);
+                isPaused = false;
+            }
 
             if (currentQuestionMode === 'GUESS') {
                 let imgEl = document.getElementById('pokemon-image');
@@ -2230,7 +2299,8 @@
             clickedBtn.style.transform = "translateY(6px)";
             clickedBtn.style.boxShadow = "0 0 0 transparent";
 
-            const delay = isCorrect ? 1000 : 1500;
+            // Faster transitions in survival mode
+            const delay = currentMode === 'SURVIVAL' ? 800 : (isCorrect ? 1000 : 1500);
             triggerFeedbackAnimation(isCorrect);
 
             if (isCorrect) {
@@ -2256,7 +2326,12 @@
                 applyScore(false);
             }
 
-            setTimeout(() => { loadNextQuestionFromBatch(); }, delay);
+            // In survival, wait slightly less time before hopping to the next question
+            setTimeout(() => { 
+                if (timeLeft > 0 || currentMode !== 'SURVIVAL') {
+                    loadNextQuestionFromBatch(); 
+                }
+            }, delay);
         }
 
         function handleTimeOut() {
@@ -2264,6 +2339,30 @@
             timerBar.style.width = '0%';
             timerText.innerText = '0s';
             
+            if (currentMode === 'SURVIVAL') {
+                triggerFeedbackAnimation(false);
+                if (isSoundEnabled) {
+                    const wrongAudio = new Audio('wrong.mp3');
+                    wrongAudio.play().catch(e => console.log("Audio playback browser error."));
+                }
+                
+                // Disable all game interaction inputs
+                const allBtns = document.querySelectorAll('.option-btn');
+                allBtns.forEach(btn => btn.disabled = true);
+                
+                const btnUndo = document.getElementById('btn-undo');
+                if(btnUndo) btnUndo.disabled = true;
+                const btnSubmit = document.getElementById('btn-submit');
+                if(btnSubmit) btnSubmit.disabled = true;
+                const btnSkip = document.getElementById('btn-skip');
+                if(btnSkip) btnSkip.disabled = true;
+                const bankBtns = document.querySelectorAll('#scramble-bank button');
+                bankBtns.forEach(b => b.disabled = true);
+
+                setTimeout(() => { endGame(); }, 1500);
+                return;
+            }
+
             if (currentQuestionMode === 'GUESS') {
                 let imgEl = document.getElementById('pokemon-image');
                 if(imgEl) imgEl.className = isShiny ? 'shiny-glow' : 'revealed'; 
@@ -2307,25 +2406,31 @@
 
             let perfectScoreThreshold = TOTAL_QUESTIONS;
             
-            if (sessionRight === perfectScoreThreshold) { 
-                endTitleEl.innerText = "PERFECT SCORE!"; endTitleEl.style.color = "#10b981"; 
-                endMessageEl.innerText = "You are a true Pokémon Master!"; 
-            } 
-            else if (sessionRight >= perfectScoreThreshold * 0.75) { 
-                endTitleEl.innerText = "AMAZING JOB!"; endTitleEl.style.color = "#3b82f6"; 
-                endMessageEl.innerText = "You really know your Pokémon!"; 
-            } 
-            else if (sessionRight >= perfectScoreThreshold * 0.5) { 
-                endTitleEl.innerText = "GREAT WORK!"; endTitleEl.style.color = "#8b5cf6"; 
-                endMessageEl.innerText = "Keep it up!"; 
-            } 
-            else if (sessionRight >= perfectScoreThreshold * 0.25) { 
-                endTitleEl.innerText = "GOOD EFFORT!"; endTitleEl.style.color = "#f59e0b"; 
-                endMessageEl.innerText = "You're getting there!"; 
-            } 
-            else { 
-                endTitleEl.innerText = "NICE TRY!"; endTitleEl.style.color = "#ef4444"; 
-                endMessageEl.innerText = "Keep practicing to catch 'em all!"; 
+            if (currentMode === 'SURVIVAL') {
+                endTitleEl.innerText = "TIME'S UP!"; 
+                endTitleEl.style.color = "#f43f5e"; 
+                endMessageEl.innerText = `You survived and correctly answered ${sessionRight} questions!`;
+            } else {
+                if (sessionRight === perfectScoreThreshold) { 
+                    endTitleEl.innerText = "PERFECT SCORE!"; endTitleEl.style.color = "#10b981"; 
+                    endMessageEl.innerText = "You are a true Pokémon Master!"; 
+                } 
+                else if (sessionRight >= perfectScoreThreshold * 0.75) { 
+                    endTitleEl.innerText = "AMAZING JOB!"; endTitleEl.style.color = "#3b82f6"; 
+                    endMessageEl.innerText = "You really know your Pokémon!"; 
+                } 
+                else if (sessionRight >= perfectScoreThreshold * 0.5) { 
+                    endTitleEl.innerText = "GREAT WORK!"; endTitleEl.style.color = "#8b5cf6"; 
+                    endMessageEl.innerText = "Keep it up!"; 
+                } 
+                else if (sessionRight >= perfectScoreThreshold * 0.25) { 
+                    endTitleEl.innerText = "GOOD EFFORT!"; endTitleEl.style.color = "#f59e0b"; 
+                    endMessageEl.innerText = "You're getting there!"; 
+                } 
+                else { 
+                    endTitleEl.innerText = "NICE TRY!"; endTitleEl.style.color = "#ef4444"; 
+                    endMessageEl.innerText = "Keep practicing to catch 'em all!"; 
+                }
             }
         }
     </script>
