@@ -77,11 +77,43 @@
             animation: pulseSpotlight 3s infinite alternate; 
             filter: drop-shadow(0 15px 25px rgba(0,0,0,0.2)); 
         }
-        .splash-text { 
-            margin-top: 30px; font-family: 'Fredoka', sans-serif; font-size: 20px; 
-            font-weight: 800; color: white; letter-spacing: 3px; 
-            text-transform: uppercase; animation: pulse 1.5s infinite; 
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2); 
+        
+        .splash-bar-track {
+            width: 60%;
+            max-width: 220px;
+            height: 12px;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            margin-top: 35px;
+            position: relative;
+        }
+        
+        .splash-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #34d399, #10b981);
+            width: 0%;
+            border-radius: 6px;
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -2px 4px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+            animation: fillSplashBar 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .splash-progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: translateX(-100%);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes fillSplashBar {
+            0% { width: 0%; }
+            100% { width: 100%; }
         }
 
         #app { 
@@ -559,7 +591,9 @@
 
     <div id="splash-screen">
         <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="splash-logo">
-        <div class="splash-text">LOADING...</div>
+        <div class="splash-bar-track">
+            <div class="splash-progress-bar"></div>
+        </div>
     </div>
 
     <div id="trainer-modal" class="modal-overlay hidden">
