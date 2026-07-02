@@ -2080,7 +2080,7 @@
             currentStreak = 0;
             
             if (mode === 'SURVIVAL') {
-                TOTAL_QUESTIONS = 60; 
+                TOTAL_QUESTIONS = 150; 
             } else if (mode === 'TRIVIA') {
                 TOTAL_QUESTIONS = 25;
             } else {
@@ -2271,13 +2271,15 @@
             progressBar.style.width = '20%'; 
             
             // Step 1: Secure the first 3 indices sequentially so gameplay initiates instantly
-            try {
-                for (let i = 0; i < Math.min(3, TOTAL_QUESTIONS); i++) {
+            let initialFails = 0;
+            while(preloadedQuestions.length < Math.min(3, TOTAL_QUESTIONS) && initialFails < 10) {
+                try {
                     const firstQ = await generateQuestionData(mode);
                     preloadedQuestions.push(firstQ);
+                } catch (error) {
+                    console.error("Initial block stream configuration error, retrying...", error);
+                    initialFails++;
                 }
-            } catch (error) {
-                console.error("Initial block stream configuration error: ", error);
             }
 
             // Fire UI transition sequence immediately
@@ -2291,17 +2293,22 @@
                 loadNextQuestionFromBatch();
             }, 500);
 
-            // Step 2: Linear trickle parser prevents concurrent packet bursts completely
+            // Step 2: Linear trickle parser using a while loop prevents concurrent packet bursts completely
             (async function trickleLoadThread() {
-                for (let i = preloadedQuestions.length; i < TOTAL_QUESTIONS; i++) {
+                let consecutiveFails = 0;
+                while (preloadedQuestions.length < TOTAL_QUESTIONS && consecutiveFails < 20) {
                     try {
                         const nextQuestion = await generateQuestionData(mode);
                         preloadedQuestions.push(nextQuestion);
+                        consecutiveFails = 0; // Reset fails on success
                         
-                        // Strict 250ms anti-DDoS spacing window rules out firewall blocks
+                        // Strict 250ms anti-DDoS spacing
                         await new Promise(resolve => setTimeout(resolve, 250));
                     } catch (error) {
-                        console.error(`Skipping slot index ${i} gracefully following frame network failure`, error);
+                        consecutiveFails++;
+                        console.error(`Network failure, retrying. Failed ${consecutiveFails} times.`, error);
+                        // Wait a full second before retrying to let the network recover
+                        await new Promise(resolve => setTimeout(resolve, 1000));
                     }
                 }
             })();
