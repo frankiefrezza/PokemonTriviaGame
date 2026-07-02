@@ -532,7 +532,8 @@
 
         .toggle-container { display: flex; justify-content: space-between; align-items: center; margin: 25px 0; font-weight: 800; color: #475569; font-size: 16px; }
 
-        .lb-row { display: flex; align-items: center; padding: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; margin-bottom: 10px; }
+        .lb-row { display: flex; align-items: center; padding: 12px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 16px; margin-bottom: 10px; transition: all 0.2s; cursor: pointer; }
+        .lb-row:hover { transform: scale(1.02); border-color: #3b82f6; box-shadow: 0 4px 6px rgba(59, 130, 246, 0.1); }
         .lb-rank { font-size: 18px; font-weight: 900; color: #94a3b8; width: 30px; text-align: center; }
         .lb-rank.gold { color: #f59e0b; font-size: 22px; }
         .lb-avatar { width: 40px; height: 40px; border-radius: 10px; background: white; border: 2px solid #e2e8f0; object-fit: contain; margin: 0 12px; }
@@ -651,7 +652,7 @@
 
     <div id="trainer-modal" class="modal-overlay hidden">
         <div class="modal-content" style="padding: 0; overflow: hidden; border: 4px solid #cbd5e1;">
-            <button class="close-x" onclick="closeTrainerCard()">✕</button>
+            <button class="close-x" id="tc-close-x">✕</button>
             <div style="background: linear-gradient(90deg, #3b82f6, #8b5cf6); padding: 20px; text-align: center; color: white;">
                  <h2 style="margin: 0; font-family: 'Fredoka', sans-serif; text-transform: uppercase; letter-spacing: 2px;">Trainer ID Card</h2>
             </div>
@@ -672,7 +673,7 @@
                     </div>
                 </div>
                 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
                     <div style="background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center;">
                         <div style="font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase;">Total XP</div>
                         <div id="tc-xp" style="font-family: 'Fredoka', sans-serif; font-size: 20px; font-weight: 700; color: #8b5cf6;">0</div>
@@ -691,8 +692,27 @@
                     </div>
                 </div>
 
+                <!-- SURVIVAL STATS BLOCK -->
+                <div style="background: #eff6ff; padding: 15px; border-radius: 12px; border: 2px solid #bfdbfe; margin-bottom: 25px; text-align: center;">
+                    <div style="font-size: 12px; font-weight: 900; color: #1e3a8a; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 1px;">Survival Records</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                        <div>
+                            <div style="font-size: 10px; font-weight: 800; color: #3b82f6; text-transform: uppercase;">Best Run</div>
+                            <div id="tc-surv-best" style="font-family: 'Fredoka', sans-serif; font-size: 18px; font-weight: 700; color: #1d4ed8;">0</div>
+                        </div>
+                        <div style="border-left: 2px dashed #bfdbfe; border-right: 2px dashed #bfdbfe;">
+                            <div style="font-size: 10px; font-weight: 800; color: #3b82f6; text-transform: uppercase;">Avg/Run</div>
+                            <div id="tc-surv-avg" style="font-family: 'Fredoka', sans-serif; font-size: 18px; font-weight: 700; color: #1d4ed8;">0.0</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 10px; font-weight: 800; color: #3b82f6; text-transform: uppercase;">Runs</div>
+                            <div id="tc-surv-runs" style="font-family: 'Fredoka', sans-serif; font-size: 18px; font-weight: 700; color: #1d4ed8;">0</div>
+                        </div>
+                    </div>
+                </div>
+
                 <div style="display: flex; justify-content: center;">
-                    <button class="primary-btn btn-blue" style="width: 85%; margin: 0;" onclick="closeTrainerCard()">Close ID Card</button>
+                    <button class="primary-btn btn-blue" style="width: 85%; margin: 0;" id="tc-close-btn">Close ID Card</button>
                 </div>
             </div>
         </div>
@@ -1196,7 +1216,6 @@
         const POKEMON_TYPES = ['normal', 'fire', 'water', 'grass', 'electric', 'ice', 'fighting', 'poison', 'ground', 'flying', 'psychic', 'bug', 'rock', 'ghost', 'dragon', 'dark', 'steel', 'fairy'];
         const REGIONS = {'generation-i': 'Kanto', 'generation-ii': 'Johto', 'generation-iii': 'Hoenn', 'generation-iv': 'Sinnoh', 'generation-v': 'Unova', 'generation-vi': 'Kalos', 'generation-vii': 'Alola', 'generation-viii': 'Galar', 'generation-ix': 'Paldea'};
         
-        // High-quality static wrong choices library to eliminate 60% of network fetches completely
         const FILLER_POKEMON_POOL = ['pikachu', 'charizard', 'bulbasaur', 'squirtle', 'eevee', 'mewtwo', 'gengar', 'snorlax', 'blastoise', 'venusaur', 'jigglypuff', 'lucario', 'gardevoir', 'mudkip', 'rayquaza', 'garchomp', 'scizor', 'togepi', 'ampharos', 'tyranitar', 'lugia', 'ho-oh', 'celebi', 'blaziken', 'milotic', 'arceus', 'zoroark', 'snivy', 'tepig', 'oshawott', 'talonflame', 'sylveon', 'mimikyu', 'incineroar', 'dragapult', 'corviknight', 'ceruledge', 'tinkaton', 'koraidon', 'miraidon', 'lapras', 'dragonite', 'mew', 'chikorita', 'cyndaquil', 'totodile', 'treecko', 'torchic', 'turtwig', 'chimchar', 'piplup', 'riolu', 'zorua', 'froakie', 'chespin', 'fennekin', 'rowlet', 'litten', 'popplio', 'grookey', 'scorbunny', 'sobble', 'sprigatito', 'fuecoco', 'quaxly'];
 
         const POKEDEX_REGIONS = [
@@ -1216,10 +1235,11 @@
         let currentPokemonId = null; 
         let currentUser = null, currentXP = 0;
         let sessionRight = 0, sessionWrong = 0, sessionXP = 0; 
-        let sessionMoney = 0; // Tracks money earned in current game
+        let sessionMoney = 0;
         let selectedAvatarUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
         let knownUsers = JSON.parse(localStorage.getItem('knownPokeUsers')) || [];
         let preloadedQuestions = [];
+        let leaderboardDataCache = [];
         
         /* --- ECONOMY VARIABLES --- */
         let pokeDollars = 0;
@@ -1244,9 +1264,7 @@
             initSettingsUI();
             const savedUser = localStorage.getItem('pokeUser');
             
-            // Splash screen sequence
             setTimeout(() => {
-                // Load the app content behind the splash screen BEFORE fading out
                 if (savedUser) {
                     currentUser = savedUser;
                     loadUserData(currentUser);
@@ -1261,8 +1279,8 @@
                 
                 setTimeout(() => {
                     splash.style.display = 'none';
-                }, 500); // Wait for fade transition
-            }, 3500); // Show splash for 3.5s
+                }, 500); 
+            }, 3500); 
         };
 
         function getLevenshteinDistance(a, b) {
@@ -1547,11 +1565,49 @@
             setTimeout(() => { popup.remove(); }, 2000);
         }
 
-        function openTrainerCard() {
-            document.getElementById('tc-avatar').src = selectedAvatarUrl;
-            document.getElementById('tc-name').innerText = currentUser;
+        function openTrainerCard(publicData = null) {
+            let pName, pAvatar, pXP, pSeen, pRight, pWrong, pSurvHigh, pSurvTotal, pSurvGames;
+
+            if (publicData) {
+                pName = publicData.user;
+                pAvatar = publicData.avatar || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
+                pXP = publicData.xp || 0;
+                pSeen = (publicData.seen && publicData.seen.length) ? publicData.seen.length : 0;
+                pRight = publicData.stats_right || 0;
+                pWrong = publicData.stats_wrong || 0;
+                pSurvHigh = publicData.survival_high || 0;
+                pSurvTotal = publicData.survival_total_correct || 0;
+                pSurvGames = publicData.survival_games || 0;
+                
+                document.getElementById('tc-close-btn').innerText = "Back to Leaderboard";
+                document.getElementById('tc-close-btn').onclick = () => {
+                    closeTrainerCard();
+                    openLeaderboard();
+                };
+                document.getElementById('tc-close-x').onclick = () => {
+                    closeTrainerCard();
+                    openLeaderboard();
+                };
+            } else {
+                pName = currentUser;
+                pAvatar = selectedAvatarUrl;
+                pXP = currentXP;
+                pSeen = (JSON.parse(localStorage.getItem('seen_' + currentUser)) || []).length;
+                pRight = parseInt(localStorage.getItem('stats_right_' + currentUser)) || 0;
+                pWrong = parseInt(localStorage.getItem('stats_wrong_' + currentUser)) || 0;
+                pSurvHigh = parseInt(localStorage.getItem(`survival_high_${currentUser}`)) || 0;
+                pSurvTotal = parseInt(localStorage.getItem(`survival_total_correct_${currentUser}`)) || 0;
+                pSurvGames = parseInt(localStorage.getItem(`survival_games_${currentUser}`)) || 0;
+
+                document.getElementById('tc-close-btn').innerText = "Close ID Card";
+                document.getElementById('tc-close-btn').onclick = closeTrainerCard;
+                document.getElementById('tc-close-x').onclick = closeTrainerCard;
+            }
+
+            document.getElementById('tc-avatar').src = pAvatar;
+            document.getElementById('tc-name').innerText = pName;
             
-            const level = Math.floor(currentXP / 100) + 1;
+            const level = Math.floor(pXP / 100) + 1;
             let title = "Rookie Trainer";
             if (level >= 100) title = "Pokémon Master";
             else if (level >= 80) title = "League Champion";
@@ -1566,16 +1622,15 @@
             const badgeFiles = ["LV1-10.png", "LV10-20.png", "LV20-30.png", "LV30-40.png", "LV40-50.png", "LV50-60.png", "LV60-70.png", "LV70-80.png", "LV80-90.png", "LV90-100.png"];
             document.getElementById('tc-badge').src = badgeFiles[badgeIndex];
             
-            document.getElementById('tc-xp').innerText = currentXP;
-            
-            let seenDex = JSON.parse(localStorage.getItem('seen_' + currentUser)) || [];
-            document.getElementById('tc-seen').innerText = seenDex.length;
-            
-            let totalRight = parseInt(localStorage.getItem('stats_right_' + currentUser)) || 0;
-            document.getElementById('tc-right').innerText = totalRight;
-            
-            let totalWrong = parseInt(localStorage.getItem('stats_wrong_' + currentUser)) || 0;
-            document.getElementById('tc-wrong').innerText = totalWrong;
+            document.getElementById('tc-xp').innerText = pXP;
+            document.getElementById('tc-seen').innerText = pSeen;
+            document.getElementById('tc-right').innerText = pRight;
+            document.getElementById('tc-wrong').innerText = pWrong;
+
+            document.getElementById('tc-surv-best').innerText = pSurvHigh;
+            document.getElementById('tc-surv-runs').innerText = pSurvGames;
+            let avg = pSurvGames > 0 ? (pSurvTotal / pSurvGames).toFixed(1) : "0.0";
+            document.getElementById('tc-surv-avg').innerText = avg;
             
             const tcCircle = document.getElementById('tc-avatar-circle');
             let borderColor = '#cbd5e1'; let shadowColor = 'rgba(100, 116, 139, 0.2)';
@@ -1645,14 +1700,18 @@
             try {
                 const snapshot = await db.collection("trainers").orderBy("xp", "desc").limit(10).get();
                 lbList.innerHTML = '';
+                leaderboardDataCache = [];
+                
                 let index = 0;
                 snapshot.forEach(doc => {
                     const player = doc.data();
+                    leaderboardDataCache.push(player);
+                    
                     let rankStr = index === 0 ? '👑' : (index + 1);
                     let rankClass = index === 0 ? 'lb-rank gold' : 'lb-rank';
                     
                     lbList.innerHTML += `
-                        <div class="lb-row">
+                        <div class="lb-row" onclick="viewPublicCard(${index})">
                             <span class="${rankClass}">${rankStr}</span>
                             <img class="lb-avatar" src="${player.avatar || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png'}">
                             <div class="lb-details">
@@ -1667,6 +1726,13 @@
             } catch (e) {
                 lbList.innerHTML = '<p style="text-align:center; color:#ef4444; font-weight:bold;">Error loading leaderboard. Check database rules.</p>';
             }
+        }
+        
+        function viewPublicCard(index) {
+            const player = leaderboardDataCache[index];
+            if (!player) return;
+            document.getElementById('leaderboard-modal').classList.add('hidden');
+            openTrainerCard(player);
         }
         
         function closeLeaderboard() { 
@@ -2020,6 +2086,18 @@
 
                     pokeDollars = cloudData.pokeDollars || parseInt(localStorage.getItem(`pokeDollars_${currentUser}`)) || 0;
                     localStorage.setItem(`pokeDollars_${currentUser}`, pokeDollars);
+                    
+                    let localSurvHigh = parseInt(localStorage.getItem(`survival_high_${currentUser}`)) || 0;
+                    let finalSurvHigh = cloudData.survival_high !== undefined ? cloudData.survival_high : localSurvHigh;
+                    localStorage.setItem(`survival_high_${currentUser}`, finalSurvHigh);
+
+                    let localSurvTotal = parseInt(localStorage.getItem(`survival_total_correct_${currentUser}`)) || 0;
+                    let finalSurvTotal = cloudData.survival_total_correct !== undefined ? cloudData.survival_total_correct : localSurvTotal;
+                    localStorage.setItem(`survival_total_correct_${currentUser}`, finalSurvTotal);
+
+                    let localSurvGames = parseInt(localStorage.getItem(`survival_games_${currentUser}`)) || 0;
+                    let finalSurvGames = cloudData.survival_games !== undefined ? cloudData.survival_games : localSurvGames;
+                    localStorage.setItem(`survival_games_${currentUser}`, finalSurvGames);
 
                     let localInventory = JSON.parse(localStorage.getItem(`inventory_${currentUser}`));
                     if (!localInventory) localInventory = { razz: 2, nanab: 2, sash: 1 };
@@ -2035,6 +2113,9 @@
                         seen: finalSeen,
                         stats_right: finalRight,
                         stats_wrong: finalWrong,
+                        survival_high: finalSurvHigh,
+                        survival_total_correct: finalSurvTotal,
+                        survival_games: finalSurvGames,
                         claimedRaids: finalRaids,
                         pokeDollars: pokeDollars,
                         inventory: inventory
@@ -2047,6 +2128,9 @@
                     
                     localStorage.setItem(`xp_${currentUser}`, 0);
                     localStorage.setItem(`pokeDollars_${currentUser}`, pokeDollars);
+                    localStorage.setItem(`survival_high_${currentUser}`, 0);
+                    localStorage.setItem(`survival_total_correct_${currentUser}`, 0);
+                    localStorage.setItem(`survival_games_${currentUser}`, 0);
                     localStorage.setItem(`inventory_${currentUser}`, JSON.stringify(inventory));
                     localStorage.setItem(`avatar_${currentUser}`, selectedAvatarUrl);
                     
@@ -2061,6 +2145,9 @@
                         shiny_dex: [],
                         stats_right: 0,
                         stats_wrong: 0,
+                        survival_high: 0,
+                        survival_total_correct: 0,
+                        survival_games: 0,
                         claimedRaids: [],
                         pokeDollars: pokeDollars,
                         inventory: inventory
@@ -2118,6 +2205,9 @@
                 localStorage.removeItem(`shiny_dex_${userToDelete}`);
                 localStorage.removeItem(`stats_right_${userToDelete}`);
                 localStorage.removeItem(`stats_wrong_${userToDelete}`);
+                localStorage.removeItem(`survival_high_${userToDelete}`);
+                localStorage.removeItem(`survival_total_correct_${userToDelete}`);
+                localStorage.removeItem(`survival_games_${userToDelete}`);
                 localStorage.removeItem(`pokeDollars_${userToDelete}`);
                 localStorage.removeItem(`inventory_${userToDelete}`);
                 
@@ -2838,9 +2928,37 @@
             let perfectScoreThreshold = TOTAL_QUESTIONS;
             
             if (currentMode === 'SURVIVAL') {
-                endTitleEl.innerText = "TIME'S UP!"; 
-                endTitleEl.style.color = "#f43f5e"; 
-                endMessageEl.innerText = `You survived and correctly answered ${sessionRight} questions!`;
+                let survHigh = parseInt(localStorage.getItem(`survival_high_${currentUser}`)) || 0;
+                let survTotal = parseInt(localStorage.getItem(`survival_total_correct_${currentUser}`)) || 0;
+                let survGames = parseInt(localStorage.getItem(`survival_games_${currentUser}`)) || 0;
+                
+                let isNewHigh = false;
+                if (sessionRight > survHigh) {
+                    survHigh = sessionRight;
+                    isNewHigh = true;
+                }
+                survTotal += sessionRight;
+                survGames += 1;
+
+                localStorage.setItem(`survival_high_${currentUser}`, survHigh);
+                localStorage.setItem(`survival_total_correct_${currentUser}`, survTotal);
+                localStorage.setItem(`survival_games_${currentUser}`, survGames);
+
+                db.collection("trainers").doc(currentUser).set({
+                    survival_high: survHigh,
+                    survival_total_correct: survTotal,
+                    survival_games: survGames
+                }, { merge: true });
+
+                if (isNewHigh && sessionRight > 0) {
+                    endTitleEl.innerText = "NEW PERSONAL BEST!"; 
+                    endTitleEl.style.color = "#f59e0b"; 
+                    endMessageEl.innerText = `Incredible! You set a new record of ${sessionRight} answers!`;
+                } else {
+                    endTitleEl.innerText = "TIME'S UP!"; 
+                    endTitleEl.style.color = "#f43f5e"; 
+                    endMessageEl.innerText = `You survived and correctly answered ${sessionRight} questions!`;
+                }
             } else {
                 if (sessionRight === perfectScoreThreshold) { 
                     endTitleEl.innerText = "PERFECT SCORE!"; endTitleEl.style.color = "#10b981"; 
