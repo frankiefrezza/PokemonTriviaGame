@@ -65,50 +65,98 @@
         /* --- SPLASH SCREEN --- */
         #splash-screen {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(-45deg, #74ebd5, #9face6, #8fd3f4, #84fab0);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            background: linear-gradient(180deg, #98cbf1 0%, #b2d8f5 50%, #98cbf1 100%);
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             z-index: 99999;
             transition: opacity 0.5s ease-out;
+            overflow: hidden;
         }
+        
+        .splash-sunburst {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 200vmax; height: 200vmax;
+            transform: translate(-50%, -50%);
+            background: repeating-conic-gradient(
+                rgba(255, 255, 255, 0.12) 0deg 10deg, 
+                transparent 10deg 20deg
+            );
+            animation: rotateSunburst 60s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes rotateSunburst {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .splash-watermark {
+            position: absolute;
+            width: 250px; height: 250px;
+            color: rgba(255, 255, 255, 0.15);
+            z-index: 0;
+        }
+        .splash-watermark.top-left { top: -60px; left: -60px; transform: rotate(-15deg); }
+        .splash-watermark.bottom-right { bottom: -60px; right: -60px; transform: rotate(15deg); }
+        .splash-watermark.bottom-left { bottom: 15%; left: -100px; transform: rotate(-30deg); width: 220px; height: 220px; }
+
+        .sparkle {
+            position: absolute;
+            color: white;
+            font-size: 24px;
+            z-index: 1;
+            animation: twinkle 2s ease-in-out infinite alternate;
+            text-shadow: 0 0 8px rgba(255,255,255,0.8);
+            user-select: none;
+        }
+        .sparkle.s1 { top: 30%; left: 20%; font-size: 32px; animation-delay: 0s; }
+        .sparkle.s2 { top: 25%; right: 25%; font-size: 20px; animation-delay: 0.5s; color: #fef08a;}
+        .sparkle.s3 { top: 60%; right: 15%; font-size: 28px; animation-delay: 1s; }
+        .sparkle.s4 { top: 65%; left: 25%; font-size: 18px; animation-delay: 1.5s; }
+
+        @keyframes twinkle {
+            0% { opacity: 0.3; transform: scale(0.8) rotate(0deg); }
+            100% { opacity: 1; transform: scale(1.2) rotate(15deg); }
+        }
+
         .splash-logo { 
-            width: 260px; max-width: 80%; 
-            animation: pulseSpotlight 3s infinite alternate; 
-            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.2)); 
+            width: 340px; max-width: 85%; 
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.25)); 
+            z-index: 2;
         }
         
         .splash-bar-track {
-            width: 60%;
-            max-width: 220px;
-            height: 12px;
-            background: rgba(0, 0, 0, 0.15);
-            border-radius: 6px;
+            width: 70%;
+            max-width: 280px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
-            border: 1px solid rgba(255,255,255,0.3);
-            margin-top: 35px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1), inset 0 2px 4px rgba(0,0,0,0.05);
+            border: 2px solid rgba(255,255,255,0.9);
+            margin-top: 45px;
             position: relative;
+            z-index: 2;
         }
         
         .splash-progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, #34d399, #10b981);
+            background: linear-gradient(90deg, #6ee7b7, #10b981);
             width: 0%;
-            border-radius: 6px;
-            box-shadow: inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -2px 4px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.5);
             position: relative;
             overflow: hidden;
-            animation: fillSplashBar 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation: fillSplashBar 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
         .splash-progress-bar::after {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
             transform: translateX(-100%);
-            animation: shimmer 2s infinite;
+            animation: shimmer 1.5s infinite;
         }
 
         @keyframes fillSplashBar {
@@ -153,7 +201,7 @@
             position: absolute; width: 140%; height: 100%; 
             background: radial-gradient(ellipse, rgba(255, 255, 255, 0.6) 0%, rgba(255,255,255,0) 70%); 
             border-radius: 50%; z-index: 0; 
-            animation: pulseSpotlight 4s ease-in-out infinite; pointer-events: none; 
+            pointer-events: none; 
         }
         .main-logo { 
             width: 100%; height: auto; display: block; position: relative; z-index: 1; 
@@ -162,11 +210,6 @@
         .mini-game-logo { 
             width: 190px; margin: -40px auto 20px auto; display: block; position: relative; z-index: 50; 
             filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
-        }
-
-        @keyframes pulseSpotlight {
-            0%, 100% { transform: scale(1); opacity: 0.6; }
-            50% { transform: scale(1.2); opacity: 1; }
         }
 
         .bento-box { background: rgba(255,255,255,0.7); backdrop-filter: blur(12px); border-radius: 25px; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 8px 20px rgba(0,0,0,0.08); padding: 20px; margin-bottom: 20px; position: relative; overflow: hidden; }
@@ -590,6 +633,16 @@
 <body>
 
     <div id="splash-screen">
+        <div class="splash-sunburst"></div>
+        <svg class="splash-watermark top-left" viewBox="0 0 100 100" fill="currentColor"><path d="M50 0C22.4 0 0 22.4 0 50s22.4 50 50 50 50-22.4 50-50S77.6 0 50 0zm0 90C27.9 90 10 72.1 10 50c0-2.3.2-4.5.6-6.7h25.1c2.4 7.6 9.5 13.3 18.2 13.3s15.8-5.7 18.2-13.3h25.1c.4 2.2.6 4.4.6 6.7 0 22.1-17.9 40-40 40zM50 43.3c-3.7 0-6.7 3-6.7 6.7s3 6.7 6.7 6.7 6.7-3 6.7-6.7-3-6.7-6.7-6.7zm41.6-10H66.5c-2.4-7.6-9.5-13.3-18.2-13.3S32.5 25.7 30.1 33.3H8.4C13.2 18.8 29.8 10 50 10c20.2 0 36.8 8.8 41.6 23.3z"/></svg>
+        <svg class="splash-watermark bottom-right" viewBox="0 0 100 100" fill="currentColor"><path d="M50 0C22.4 0 0 22.4 0 50s22.4 50 50 50 50-22.4 50-50S77.6 0 50 0zm0 90C27.9 90 10 72.1 10 50c0-2.3.2-4.5.6-6.7h25.1c2.4 7.6 9.5 13.3 18.2 13.3s15.8-5.7 18.2-13.3h25.1c.4 2.2.6 4.4.6 6.7 0 22.1-17.9 40-40 40zM50 43.3c-3.7 0-6.7 3-6.7 6.7s3 6.7 6.7 6.7 6.7-3 6.7-6.7-3-6.7-6.7-6.7zm41.6-10H66.5c-2.4-7.6-9.5-13.3-18.2-13.3S32.5 25.7 30.1 33.3H8.4C13.2 18.8 29.8 10 50 10c20.2 0 36.8 8.8 41.6 23.3z"/></svg>
+        <svg class="splash-watermark bottom-left" viewBox="0 0 100 100" fill="currentColor"><path d="M50 0C22.4 0 0 22.4 0 50s22.4 50 50 50 50-22.4 50-50S77.6 0 50 0zm0 90C27.9 90 10 72.1 10 50c0-2.3.2-4.5.6-6.7h25.1c2.4 7.6 9.5 13.3 18.2 13.3s15.8-5.7 18.2-13.3h25.1c.4 2.2.6 4.4.6 6.7 0 22.1-17.9 40-40 40zM50 43.3c-3.7 0-6.7 3-6.7 6.7s3 6.7 6.7 6.7 6.7-3 6.7-6.7-3-6.7-6.7-6.7zm41.6-10H66.5c-2.4-7.6-9.5-13.3-18.2-13.3S32.5 25.7 30.1 33.3H8.4C13.2 18.8 29.8 10 50 10c20.2 0 36.8 8.8 41.6 23.3z"/></svg>
+        
+        <div class="sparkle s1">✦</div>
+        <div class="sparkle s2">✦</div>
+        <div class="sparkle s3">✦</div>
+        <div class="sparkle s4">✦</div>
+
         <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="splash-logo">
         <div class="splash-bar-track">
             <div class="splash-progress-bar"></div>
@@ -1209,7 +1262,7 @@
                 setTimeout(() => {
                     splash.style.display = 'none';
                 }, 500); // Wait for fade transition
-            }, 2500); // Show splash for 2.5s
+            }, 3500); // Show splash for 3.5s
         };
 
         function getLevenshteinDistance(a, b) {
