@@ -62,6 +62,28 @@
             100% { background-position: 60px 60px; }
         }
 
+        /* --- SPLASH SCREEN --- */
+        #splash-screen {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(-45deg, #74ebd5, #9face6, #8fd3f4, #84fab0);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 99999;
+            transition: opacity 0.5s ease-out;
+        }
+        .splash-logo { 
+            width: 260px; max-width: 80%; 
+            animation: pulseSpotlight 3s infinite alternate; 
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.2)); 
+        }
+        .splash-text { 
+            margin-top: 30px; font-family: 'Fredoka', sans-serif; font-size: 20px; 
+            font-weight: 800; color: white; letter-spacing: 3px; 
+            text-transform: uppercase; animation: pulse 1.5s infinite; 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2); 
+        }
+
         #app { 
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 249, 255, 0.85) 100%); 
             backdrop-filter: blur(15px); 
@@ -218,7 +240,6 @@
             text-align: left; 
             cursor: pointer; 
             background-color: #ffffff;
-            /* Added smooth transition specifically for the 3D press */
             transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
@@ -491,13 +512,13 @@
                 box-shadow: 0 -10px 40px rgba(0,0,0,0.15); 
                 border: 2px solid rgba(255, 255, 255, 0.4); 
                 border-bottom: none; 
-                margin-top: calc(env(safe-area-inset-top, 12px) + 15px); 
+                margin-top: calc(env(safe-area-inset-top, 12px) + 20px); 
             }
             .input-group { flex-direction: column; gap: 10px; margin-bottom: 15px; }
             #username-input, #pin-input { width: 100%; margin-bottom: 0; }
             
-            .logo-wrapper { margin: -30px auto 10px auto; max-width: 220px; } 
-            .mini-game-logo { width: 170px; margin: -25px auto 15px auto; }
+            .logo-wrapper { margin: -30px auto 10px auto; max-width: 260px; } 
+            .mini-game-logo { width: 210px; margin: -25px auto 15px auto; }
             
             .modes-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
             .modes-master-bento { padding: 12px; }
@@ -535,6 +556,11 @@
     </style>
 </head>
 <body>
+
+    <div id="splash-screen">
+        <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="splash-logo">
+        <div class="splash-text">LOADING...</div>
+    </div>
 
     <div id="trainer-modal" class="modal-overlay hidden">
         <div class="modal-content" style="padding: 0; overflow: hidden; border: 4px solid #cbd5e1;">
@@ -1130,14 +1156,26 @@
         window.onload = () => {
             initSettingsUI();
             const savedUser = localStorage.getItem('pokeUser');
-            if (savedUser) {
-                currentUser = savedUser;
-                loadUserData(currentUser);
-                showScreen(homeScreen);
-            } else {
-                renderUserHistory();
-                showScreen(loginScreen);
-            }
+            
+            // Splash screen sequence
+            setTimeout(() => {
+                // Load the app content behind the splash screen BEFORE fading out
+                if (savedUser) {
+                    currentUser = savedUser;
+                    loadUserData(currentUser);
+                    showScreen(homeScreen);
+                } else {
+                    renderUserHistory();
+                    showScreen(loginScreen);
+                }
+
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                
+                setTimeout(() => {
+                    splash.style.display = 'none';
+                }, 500); // Wait for fade transition
+            }, 2500); // Show splash for 2.5s
         };
 
         function getLevenshteinDistance(a, b) {
@@ -1221,7 +1259,7 @@
             
             document.getElementById('raid-claim-btn').classList.add('hidden');
             document.getElementById('raid-hp').innerText = "CLAIMED!";
-            showXPFloatingText("+200 XP", "#8b5cf6");
+            showXPFloatingText("+200 XP", "#8b5cf6", 2500);
         }
 
         function initDailyTask() {
@@ -1299,11 +1337,11 @@
                 db.collection("trainers").doc(currentUser).set({ xp: currentXP }, { merge: true });
                 
                 renderDailyTask();
-                showXPFloatingText("+25 XP", "#8b5cf6");
+                showXPFloatingText("+25 XP", "#8b5cf6", 2500);
             }
         }
 
-        function showXPFloatingText(text, color = "#10b981") {
+        function showXPFloatingText(text, color = "#10b981", durationMs = 1200) {
             const targetContainer = document.querySelector('.progression-track');
             if(!targetContainer) return;
             
@@ -1311,8 +1349,9 @@
             popup.className = 'xp-popup';
             popup.innerText = text;
             popup.style.color = color;
+            popup.style.animationDuration = `${durationMs / 1000}s`;
             targetContainer.appendChild(popup);
-            setTimeout(() => { popup.remove(); }, 1200);
+            setTimeout(() => { popup.remove(); }, durationMs);
         }
 
         /* --- SHOP AND INVENTORY LOGIC --- */
@@ -1380,8 +1419,9 @@
             popup.style.color = "#ec4899";
             popup.style.bottom = "100%";
             popup.style.right = "0";
+            popup.style.animationDuration = "2s";
             timerContainer.appendChild(popup);
-            setTimeout(() => { popup.remove(); }, 1200);
+            setTimeout(() => { popup.remove(); }, 2000);
         }
 
         function useNanabBerry() {
@@ -1415,8 +1455,9 @@
             popup.className = 'xp-popup';
             popup.innerText = "HINT!";
             popup.style.color = "#3b82f6";
+            popup.style.animationDuration = "2s";
             statsContainer.appendChild(popup);
-            setTimeout(() => { popup.remove(); }, 1200);
+            setTimeout(() => { popup.remove(); }, 2000);
         }
 
         function openTrainerCard() {
@@ -2114,7 +2155,6 @@
             return null;
         }
 
-        // Generate wrong answers on-the-fly from the static pool to save up to 3 network frames per call
         function getRandomWrongChoices(correctValue, count = 3) {
             let pool = FILLER_POKEMON_POOL.filter(name => name !== correctValue);
             pool.sort(() => Math.random() - 0.5);
@@ -2157,7 +2197,6 @@
                 imageClass = 'silhouette'; 
                 correctAnswersAttribute = mainPokemon.name;
                 
-                // Static generation eliminates extra fetching frame drops completely
                 let wrongChoices = getRandomWrongChoices(correctAnswersAttribute, 3);
                 choices = [{ text: cleanName, value: correctAnswersAttribute }, ...wrongChoices].sort(() => Math.random() - 0.5);
             } 
@@ -2243,7 +2282,6 @@
             return { targetId, spriteUrl, isShiny, imageClass, questionText, correctAnswersAttribute, choices, evalMode, evolveToSpriteUrl };
         }
 
-        // Sequential structural trickle-load logic protects application thread pool and API bandwidth balances
         async function prefetchAllQuestions(mode) {
             document.getElementById('loading-container').classList.remove('hidden');
             document.getElementById('game-content').classList.add('hidden');
@@ -2262,7 +2300,6 @@
             preloadedQuestions = [];
             progressBar.style.width = '20%'; 
             
-            // Step 1: Secure the first 3 indices sequentially so gameplay initiates instantly
             let initialFails = 0;
             while(preloadedQuestions.length < Math.min(3, TOTAL_QUESTIONS) && initialFails < 10) {
                 try {
@@ -2274,7 +2311,6 @@
                 }
             }
 
-            // Fire UI transition sequence immediately
             clearInterval(spriteInterval);
             progressBar.style.width = '100%';
             
@@ -2285,21 +2321,18 @@
                 loadNextQuestionFromBatch();
             }, 500);
 
-            // Step 2: Linear trickle parser using a while loop prevents concurrent packet bursts completely
             (async function trickleLoadThread() {
                 let consecutiveFails = 0;
                 while (preloadedQuestions.length < TOTAL_QUESTIONS && consecutiveFails < 20) {
                     try {
                         const nextQuestion = await generateQuestionData(mode);
                         preloadedQuestions.push(nextQuestion);
-                        consecutiveFails = 0; // Reset fails on success
+                        consecutiveFails = 0; 
                         
-                        // Strict 250ms anti-DDoS spacing
                         await new Promise(resolve => setTimeout(resolve, 250));
                     } catch (error) {
                         consecutiveFails++;
                         console.error(`Network failure, retrying. Failed ${consecutiveFails} times.`, error);
-                        // Wait a full second before retrying to let the network recover
                         await new Promise(resolve => setTimeout(resolve, 1000));
                     }
                 }
@@ -2309,7 +2342,6 @@
         function loadNextQuestionFromBatch() {
             if (currentQuestion >= TOTAL_QUESTIONS) return endGame();
 
-            // Safe-guard if player answer execution rate clears background frame pipelines
             if (!preloadedQuestions[currentQuestion]) {
                 isPaused = true; 
                 document.getElementById('game-content').classList.add('hidden');
@@ -2542,7 +2574,7 @@
                     const streakEl = document.getElementById('streak-display');
                     streakEl.classList.remove('hidden');
                     document.getElementById('streak-count').innerText = currentStreak;
-                    showXPFloatingText("💰 +10", "#fbbf24");
+                    showXPFloatingText("💰 +10", "#fbbf24", 2000);
                 }
                 
                 updateDailyTaskProgress('correct');
@@ -2575,8 +2607,9 @@
                     popup.className = 'xp-popup';
                     popup.innerText = "STREAK SAVED!";
                     popup.style.color = "#f59e0b"; 
+                    popup.style.animationDuration = "3s";
                     statsContainer.appendChild(popup);
-                    setTimeout(() => { popup.remove(); }, 1500);
+                    setTimeout(() => { popup.remove(); }, 3000);
                 } else {
                     sessionWrong++;
                     currentStreak = 0;
