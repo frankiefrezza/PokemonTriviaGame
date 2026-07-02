@@ -554,11 +554,13 @@
         .dex-trophy.earned { filter: grayscale(0); opacity: 1; }
         
         .dex-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; padding-top: 15px; border-top: 2px dashed #cbd5e1; }
-        .dex-sprite-box { background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 5px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+        
+        .dex-sprite-box { background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 5px; text-align: center; display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: all 0.2s; }
+        .dex-sprite-box:hover { transform: scale(1.05); border-color: #3b82f6; box-shadow: 0 4px 8px rgba(59, 130, 246, 0.15); }
+        
         .dex-sprite { width: 50px; height: 50px; object-fit: contain; }
         .dex-id { font-size: 10px; font-weight: 800; color: #94a3b8; }
 
-        /* SHOP ITEMS CSS (Updated for larger Coin PNGs) */
         .coin-icon-large { width: 38px; height: 38px; vertical-align: middle; margin-right: 8px; }
         .coin-icon-small { width: 22px; height: 22px; vertical-align: middle; margin-right: 6px; }
         
@@ -581,6 +583,9 @@
         @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
         
         @keyframes pulseAvatar { 0% { transform: scale(1); box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); } 100% { transform: scale(1.05); box-shadow: 0 0 25px rgba(59, 130, 246, 0.7); } }
+        
+        /* UPDATE: Adding keyframes for the sliding loader bar */
+        @keyframes slideLoader { 0% { transform: translateX(-100%); } 100% { transform: translateX(200%); } }
 
         @media (max-width: 480px) {
             body { padding: 0; align-items: flex-start; } 
@@ -622,7 +627,6 @@
             
             .option-btn { padding: 12px 10px !important; margin: 8px 0 12px 0 !important; font-size: 14px !important; border-radius: 16px; }
             
-            /* Tighter, perfectly square item buttons for mobile */
             .item-btn { height: 42px; width: 42px; margin-bottom: 8px; border-radius: 10px; padding: 2px; }
             .item-btn img { width: 22px; height: 22px; }
             .item-count { font-size: 9px; bottom: -5px; right: -5px; padding: 2px 4px; }
@@ -696,7 +700,6 @@
                     </div>
                 </div>
 
-                <!-- SURVIVAL STATS BLOCK -->
                 <div style="background: #eff6ff; padding: 15px; border-radius: 12px; border: 2px solid #bfdbfe; margin-bottom: 25px; text-align: center;">
                     <div style="font-size: 12px; font-weight: 900; color: #1e3a8a; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 1px;">Survival Records</div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
@@ -722,7 +725,6 @@
         </div>
     </div>
 
-    <!-- UPDATE: Shop Modal modified with new Blue Color and larger coin.png images -->
     <div id="shop-modal" class="modal-overlay hidden">
         <div class="modal-content" style="padding: 0; overflow: hidden; border: 4px solid #cbd5e1; background: white;">
             <button class="close-x" onclick="closeShopModal()">✕</button>
@@ -829,6 +831,30 @@
         </div>
     </div>
 
+    <!-- UPDATE: Detailed Pokémon Viewer Modal with CSS loading bar -->
+    <div id="pokemon-detail-modal" class="modal-overlay hidden" style="z-index: 1050;">
+        <div class="modal-content" style="text-align: center; background: linear-gradient(135deg, #f8fafc, #e2e8f0); border: 4px solid #cbd5e1; padding: 40px 20px;">
+            <button class="close-x" onclick="closePokemonDetail()">✕</button>
+            <h2 id="detail-name" style="margin-top: 0; font-family: 'Fredoka', sans-serif; text-transform: uppercase; color: #334155; font-size: 28px; letter-spacing: 2px;">Loading...</h2>
+            <span id="detail-id" style="font-weight: 900; color: #94a3b8; font-size: 16px;">#000</span>
+            
+            <div style="margin: 20px auto; width: 220px; height: 220px; display: flex; justify-content: center; align-items: center; position: relative;">
+                <div style="position: absolute; width: 100%; height: 100%; background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%); z-index: 0; border-radius: 50%;"></div>
+                
+                <!-- Animated Loading Bar Container -->
+                <div id="detail-loading-bar" style="width: 60%; height: 6px; background: #cbd5e1; border-radius: 3px; position: relative; overflow: hidden; z-index: 1;">
+                    <div style="height: 100%; width: 50%; background: #3b82f6; border-radius: 3px; animation: slideLoader 1s infinite ease-in-out alternate;"></div>
+                </div>
+
+                <img id="detail-image" class="hidden" src="" style="width: 100%; height: 100%; object-fit: contain; position: absolute; z-index: 2; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));">
+            </div>
+            
+            <div id="detail-types" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 25px;"></div>
+            
+            <button class="primary-btn btn-blue" onclick="closePokemonDetail()" style="width: 85%; margin: 0 auto;">Close Details</button>
+        </div>
+    </div>
+
     <div id="avatar-modal" class="modal-overlay hidden">
         <div class="modal-content">
             <button class="close-x" onclick="closeAvatarModal()">✕</button>
@@ -925,7 +951,6 @@
                 
                 <div class="progression-track">
                     <div class="xp-core">
-                        <!-- UPDATE: Increased Home Screen Wallet icon to 22px and bumped font slightly -->
                         <div class="xp-stats-row">
                             <span class="xp-text-label">LVL <span id="display-level">1</span></span>
                             <div style="font-weight: 900; color: #d97706; font-size: 16px; display: flex; align-items: center;">
@@ -1750,6 +1775,51 @@
             isPaused = false;
         }
 
+        /* UPDATE: openPokemonDetail logic updated to use the CSS sliding loader */
+        async function openPokemonDetail(id, isShiny) {
+            document.getElementById('pokemon-detail-modal').classList.remove('hidden');
+            
+            const imgEl = document.getElementById('detail-image');
+            const loaderEl = document.getElementById('detail-loading-bar');
+            
+            imgEl.className = 'hidden'; 
+            loaderEl.classList.remove('hidden');
+            imgEl.src = ""; 
+            
+            document.getElementById('detail-name').innerText = "Loading...";
+            document.getElementById('detail-id').innerText = "#" + id;
+            document.getElementById('detail-types').innerHTML = "";
+
+            try {
+                let data = await fetchWithCache('https://pokeapi.co/api/v2/pokemon/' + id);
+                document.getElementById('detail-name').innerText = data.name.replace('-', ' ');
+                
+                let spriteUrl = isShiny 
+                    ? (data.sprites.other['official-artwork'].front_shiny || data.sprites.front_shiny)
+                    : data.sprites.other['official-artwork'].front_default;
+                
+                // Show the image and hide the loader only when the image has fully downloaded
+                imgEl.onload = () => {
+                    loaderEl.classList.add('hidden');
+                    imgEl.className = isShiny ? 'shiny-glow' : '';
+                };
+                imgEl.src = spriteUrl;
+
+                let typesHtml = data.types.map(t => {
+                    return `<span style="background: #cbd5e1; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 800; text-transform: uppercase; color: #334155; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1);">${t.type.name}</span>`;
+                }).join('');
+                document.getElementById('detail-types').innerHTML = typesHtml;
+
+            } catch (e) {
+                document.getElementById('detail-name').innerText = "Unknown Pokémon";
+                loaderEl.classList.add('hidden');
+            }
+        }
+
+        function closePokemonDetail() {
+            document.getElementById('pokemon-detail-modal').classList.add('hidden');
+        }
+
         function openPokedex() {
             const dexContainer = document.getElementById('pokedex-regions-container');
             dexContainer.innerHTML = '';
@@ -1816,7 +1886,7 @@
             } else {
                 shinyDex.sort((a,b) => a - b);
                 grid.innerHTML = shinyDex.map(id => `
-                    <div class="dex-sprite-box" style="border-color: #fde047; background: #fffbeb;">
+                    <div class="dex-sprite-box" style="border-color: #fde047; background: #fffbeb;" onclick="event.stopPropagation(); openPokemonDetail(${id}, true)">
                         <img class="dex-sprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${id}.png">
                         <span class="dex-id">#${id}</span>
                     </div>
@@ -1841,7 +1911,7 @@
             } else {
                 caughtInRegion.sort((a,b) => a - b);
                 grid.innerHTML = caughtInRegion.map(id => `
-                    <div class="dex-sprite-box">
+                    <div class="dex-sprite-box" onclick="event.stopPropagation(); openPokemonDetail(${id}, false)">
                         <img class="dex-sprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png">
                         <span class="dex-id">#${id}</span>
                     </div>
@@ -2761,7 +2831,6 @@
                     const streakEl = document.getElementById('streak-display');
                     streakEl.classList.remove('hidden');
                     document.getElementById('streak-count').innerText = currentStreak;
-                    // UPDATE: Pass innerHTML correctly for streak popup rendering
                     showXPFloatingText("<img src='coin.png' style='width: 20px; height: 20px; vertical-align: middle; margin-top: -4px;'> +10", "#fbbf24", 2000);
                 }
                 
