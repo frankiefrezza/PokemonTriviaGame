@@ -1100,9 +1100,11 @@
 
             <div class="bento-box modes-master-bento">
                 <div class="modes-grid">
+                    <!-- WHO'S THAT POKEMON -->
                     <div class="menu-box mode-guess" onclick="startGame('GUESS')">
                         <div class="mode-bg-icon">
-                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 16h-2v-2h2v2zm2.07-7.75l-.9.92c-.5.51-.86 1.09-.86 2.33h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41a2 2 0 00-2-2 2 2 0 00-2 2H8a4 4 0 014-4 4 4 0 014 4c0 .88-.36 1.68-.93 2.25z"/></svg>
+                            <!-- Uses PokeAPI artwork as a mask to create a perfect, theme-colored Pikachu silhouette -->
+                            <div style="width: 100%; height: 100%; background-color: currentColor; -webkit-mask: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png') no-repeat center / contain; mask: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png') no-repeat center / contain;"></div>
                         </div>
                         <h3>WHO'S THAT POKÉMON</h3>
                         <p>Identify the Pokémon from its silhouette.</p>
