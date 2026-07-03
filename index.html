@@ -214,6 +214,7 @@
 
         .bento-box { background: rgba(255,255,255,0.7); backdrop-filter: blur(12px); border-radius: 25px; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 8px 20px rgba(0,0,0,0.08); padding: 20px; margin-bottom: 20px; position: relative; overflow: hidden; }
 
+        /* --- TRAINER CARD STYLES --- */
         .trainer-card { position: relative; border-radius: 25px; padding: 25px; margin-bottom: 20px; color: #334155; transition: all 0.4s ease; text-align: left; border: none; outline: 1px solid rgba(255,255,255,0.5); }
         
         .card-bg-watermark { position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 25px; overflow: hidden; z-index: 0; pointer-events: none; }
@@ -223,7 +224,11 @@
         .rank-rookie { background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%); border: 2px solid #cbd5e1; box-shadow: 0 8px 0 #94a3b8; }
         .rank-ace { background: linear-gradient(135deg, #eff6ff 0%, #bfdbfe 100%); color: #1e3a8a; border: 2px solid #60a5fa; box-shadow: 0 8px 0 #3b82f6; }
         .rank-gym { background: linear-gradient(135deg, #fefce8 0%, #fde047 100%); color: #713f12; border: 2px solid #fbbf24; box-shadow: 0 8px 0 #d97706; }
-        .rank-elite { background: linear-gradient(135deg, #3b0764 0%, #6b21a8 100%); color: #f3e8ff; border: 2px solid #a855f7; box-shadow: 0 8px 0 #7e22ce; }
+        .rank-veteran { background: linear-gradient(135deg, #ecfdf5 0%, #a7f3d0 100%); color: #064e3b; border: 2px solid #34d399; box-shadow: 0 8px 0 #059669; }
+        .rank-elite { background: linear-gradient(135deg, #f3e8ff 0%, #d8b4fe 100%); color: #4c1d95; border: 2px solid #a855f7; box-shadow: 0 8px 0 #7e22ce; }
+        .rank-champion { background: linear-gradient(135deg, #ecfeff 0%, #bae6fd 100%); color: #075985; border: 2px solid #38bdf8; box-shadow: 0 8px 0 #0284c7; }
+        .rank-legend { background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%); color: #7f1d1d; border: 2px solid #f87171; box-shadow: 0 8px 0 #dc2626; }
+        .rank-legendary { background: linear-gradient(135deg, #18181b 0%, #3f3f46 100%); color: #fbbf24; border: 2px solid #52525b; box-shadow: 0 8px 0 #27272a; }
         .rank-master { background: linear-gradient(135deg, #0f172a 0%, #334155 100%); color: #f8fafc; border: 2px solid #475569; box-shadow: 0 8px 0 #334155; }
 
         /* --- INTEGRATED BADGE SOCKET --- */
@@ -233,8 +238,11 @@
         .badge-socket-container:hover .badge-socket img { transform: scale(1.15) rotate(5deg); }
         
         .badge-label { margin-top: -12px; padding: 4px 10px; border-radius: 8px; font-size: 9px; font-weight: 900; font-family: 'Fredoka', sans-serif; text-transform: uppercase; letter-spacing: 1px; z-index: 11; box-shadow: 0 4px 6px rgba(0,0,0,0.15); }
+        
         .rank-rookie .badge-label, .rank-ace .badge-label, .rank-gym .badge-label { background: #ffffff; color: #334155; border: 1px solid #e2e8f0; }
-        .rank-elite .badge-label, .rank-master .badge-label { background: #334155; color: #f8fafc; border: 1px solid #475569; }
+        .rank-veteran .badge-label, .rank-champion .badge-label, .rank-legend .badge-label, .rank-elite .badge-label { background: #ffffff; color: inherit; border: 1px solid currentColor; }
+        .rank-legendary .badge-label { background: #fbbf24; color: #18181b; border: 1px solid #ca8a04; }
+        .rank-master .badge-label { background: #334155; color: #f8fafc; border: 1px solid #475569; }
 
         .trainer-header { display: flex; align-items: center; gap: 20px; margin-bottom: 25px; position: relative; z-index: 1; cursor: pointer; transition: transform 0.2s; border-radius: 16px; padding: 5px; }
         .trainer-header:hover { transform: scale(1.02); background: rgba(255,255,255,0.1); }
@@ -245,7 +253,11 @@
         .rank-rookie .trainer-avatar-circle { box-shadow: 0 0 15px rgba(100, 116, 139, 0.2); border: 3px solid #cbd5e1; }
         .rank-ace .trainer-avatar-circle { box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); border: 3px solid #60a5fa; }
         .rank-gym .trainer-avatar-circle { box-shadow: 0 0 15px rgba(234, 179, 8, 0.4); border: 3px solid #facc15; }
-        .rank-elite .trainer-avatar-circle { box-shadow: 0 0 20px rgba(168, 85, 247, 0.6); border: 3px solid #d8b4fe; }
+        .rank-veteran .trainer-avatar-circle { box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); border: 3px solid #34d399; }
+        .rank-elite .trainer-avatar-circle { box-shadow: 0 0 15px rgba(168, 85, 247, 0.4); border: 3px solid #a855f7; }
+        .rank-champion .trainer-avatar-circle { box-shadow: 0 0 15px rgba(56, 189, 248, 0.6); border: 3px solid #38bdf8; }
+        .rank-legend .trainer-avatar-circle { box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); border: 3px solid #f87171; }
+        .rank-legendary .trainer-avatar-circle { box-shadow: 0 0 20px rgba(251, 191, 36, 0.6); border: 3px solid #fbbf24; }
         .rank-master .trainer-avatar-circle { box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); border: 3px solid #94a3b8; }
 
         .trainer-avatar-circle img { width: 125%; height: 125%; object-fit: contain; position: absolute; bottom: 5px; filter: drop-shadow(0 6px 8px rgba(0,0,0,0.25)); transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
@@ -258,14 +270,21 @@
         .trainer-info { display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1; flex-grow: 1; overflow: hidden; padding-right: 75px; text-align: center; }
         
         .trainer-name-display { font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 32px; line-height: 1; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; transition: color 0.3s, text-shadow 0.3s; text-align: center; color: #334155;}
-        .rank-rookie .trainer-name-display, .rank-ace .trainer-name-display, .rank-gym .trainer-name-display { text-shadow: 0 2px 4px rgba(255,255,255,0.5); }
-        .rank-elite .trainer-name-display, .rank-master .trainer-name-display { color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.6); }
+        
+        .rank-rookie .trainer-name-display, .rank-ace .trainer-name-display, .rank-gym .trainer-name-display, .rank-veteran .trainer-name-display, .rank-elite .trainer-name-display, .rank-champion .trainer-name-display, .rank-legend .trainer-name-display { text-shadow: 0 2px 4px rgba(255,255,255,0.5); }
+        .rank-legendary .trainer-name-display { color: #fbbf24; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+        .rank-master .trainer-name-display { color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.6); }
         
         .trainer-title-label { font-size: 11px; text-transform: uppercase; font-weight: 900; letter-spacing: 1.5px; line-height: 1; display: inline-block; margin-top: 2px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        
         .rank-rookie .trainer-title-label { color: #475569; }
         .rank-ace .trainer-title-label { color: #2563eb; }
         .rank-gym .trainer-title-label { color: #b45309; }
-        .rank-elite .trainer-title-label { color: #d8b4fe; }
+        .rank-veteran .trainer-title-label { color: #059669; }
+        .rank-elite .trainer-title-label { color: #7e22ce; }
+        .rank-champion .trainer-title-label { color: #0284c7; }
+        .rank-legend .trainer-title-label { color: #dc2626; }
+        .rank-legendary .trainer-title-label { color: #fcd34d; }
         .rank-master .trainer-title-label { color: #cbd5e1; }
 
         .progression-track { display: flex; align-items: center; position: relative; z-index: 1; padding: 0 5px; }
@@ -274,8 +293,13 @@
         .xp-stats-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px; padding: 0 2px; }
         
         .xp-text-label { font-size: 15px; font-weight: 700; font-family: 'Fredoka', sans-serif; letter-spacing: 0.5px; opacity: 0.9; transition: color 0.3s; }
-        .rank-rookie .xp-text-label, .rank-ace .xp-text-label, .rank-gym .xp-text-label { color: #334155; }
-        .rank-elite .xp-text-label, .rank-master .xp-text-label { color: #f8fafc; }
+        
+        .rank-rookie .xp-text-label, .rank-ace .xp-text-label, .rank-gym .xp-text-label, .rank-elite .xp-text-label { color: #334155; }
+        .rank-veteran .xp-text-label { color: #064e3b; }
+        .rank-champion .xp-text-label { color: #075985; }
+        .rank-legend .xp-text-label { color: #7f1d1d; }
+        .rank-legendary .xp-text-label { color: #fbbf24; }
+        .rank-master .xp-text-label { color: #f8fafc; }
         
         .xp-bar-track { width: 100%; height: 14px; background: rgba(0, 0, 0, 0.15); border-radius: 7px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3); position: relative; }
         #xp-progress-bar { height: 100%; background: linear-gradient(90deg, #34d399, #10b981); width: 0%; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 7px; box-shadow: inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -2px 4px rgba(0,0,0,0.2); position: relative; overflow: hidden; }
@@ -288,6 +312,9 @@
         .xp-popup { position: absolute; color: #10b981; font-weight: 700; font-size: 28px; animation: floatUpXP 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; pointer-events: none; text-shadow: 0px 3px 0px #fff, 0px -3px 0px #fff, 3px 0px 0px #fff, -3px 0px 0px #fff, 0 8px 12px rgba(0,0,0,0.2); z-index: 100; font-family: 'Fredoka', sans-serif; right: 0; bottom: 100%; white-space: nowrap; }
         @keyframes floatUpXP { 0% { opacity: 0; transform: translateY(10px) scale(0.5); } 20% { opacity: 1; transform: translateY(0) scale(1.2); } 100% { opacity: 0; transform: translateY(-40px) scale(1); } }
 
+        .item-popup { position: absolute; font-weight: 900; font-size: 24px; pointer-events: none; text-shadow: 0px 2px 0px #fff, 0px -2px 0px #fff, 2px 0px 0px #fff, -2px 0px 0px #fff, 0 4px 6px rgba(0,0,0,0.2); z-index: 100; font-family: 'Fredoka', sans-serif; bottom: 110%; left: 50%; white-space: nowrap; animation: floatUpItem 3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes floatUpItem { 0% { opacity: 0; transform: translateX(-50%) translateY(10px) scale(0.5); } 15% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1.2); } 25% { transform: translateX(-50%) translateY(0) scale(1); } 80% { opacity: 1; transform: translateX(-50%) translateY(-15px) scale(1); } 100% { opacity: 0; transform: translateX(-50%) translateY(-25px) scale(1); } }
+
         .daily-challenges-container { text-align: left; background: rgba(255, 251, 235, 0.7); }
         .dc-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.6); padding: 10px; border-radius: 12px; margin-bottom: 8px; border: 1px solid rgba(253, 230, 138, 0.8); }
         .dc-item:last-child { margin-bottom: 0; }
@@ -298,10 +325,8 @@
 
         .modes-master-bento { padding: 20px; }
         
-        /* Revised cohesive grid */
         .modes-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
         
-        /* Unified 3D Button Style for Game Modes */
         .menu-box { 
             padding: 18px; 
             border-radius: 20px; 
@@ -318,15 +343,11 @@
             transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        /* The press-down effect completely flattens the shadow */
-        .menu-box:active { 
-            transform: translateY(8px); 
-        }
+        .menu-box:active { transform: translateY(8px); }
 
         .menu-box h3 { margin: 0 0 6px 0; font-size: 16px; font-weight: 700; font-family: 'Fredoka', sans-serif; text-transform: uppercase; line-height: 1.1; letter-spacing: 1px; position: relative; z-index: 1; }
         .menu-box p { font-size: 12px; color: #475569; margin-top: 0; margin-bottom: 16px; font-weight: 700; flex-grow: 1; line-height: 1.3; position: relative; z-index: 1; }
         
-        /* Sleek inset tags instead of inner buttons */
         .mode-action-pill { 
             display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 4px 10px; 
             border-radius: 8px; font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 11px; 
@@ -337,7 +358,6 @@
         .mode-bg-icon { position: absolute; right: -10px; bottom: -10px; width: 85px; height: 85px; opacity: 0.15; transform: rotate(-10deg); pointer-events: none; z-index: 0; }
         .mode-bg-icon svg { width: 100%; height: 100%; }
 
-        /* Specific Mode Colors for Flat 3D */
         .mode-guess { background: #dbeafe; border-color: #60a5fa; box-shadow: 0 8px 0 #3b82f6; }
         .mode-guess:active { box-shadow: 0 0 0 #3b82f6; }
         .mode-guess h3 { color: #1d4ed8; }
@@ -584,7 +604,6 @@
         
         @keyframes pulseAvatar { 0% { transform: scale(1); box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); } 100% { transform: scale(1.05); box-shadow: 0 0 25px rgba(59, 130, 246, 0.7); } }
         
-        /* UPDATE: Adding keyframes for the sliding loader bar */
         @keyframes slideLoader { 0% { transform: translateX(-100%); } 100% { transform: translateX(200%); } }
 
         @media (max-width: 480px) {
@@ -658,6 +677,28 @@
         </div>
     </div>
 
+    <div id="daily-reward-modal" class="modal-overlay hidden" style="z-index: 1060;">
+        <div class="modal-content" style="text-align: center; background: white; border: 4px solid #fbbf24; padding: 30px;">
+            <h2 style="margin-top: 0; font-family: 'Fredoka', sans-serif; color: #d97706; text-transform: uppercase; font-size: 26px;">Daily Bonus!</h2>
+            <p style="font-weight: 800; color: #64748b; font-size: 14px; margin-bottom: 20px;">Thanks for playing today! Here's your reward:</p>
+            
+            <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 25px;">
+                <div style="background: #fffbeb; border: 2px solid #fde68a; border-radius: 16px; padding: 15px; width: 100px;">
+                    <img src="coin.png" style="width: 40px; height: 40px; margin-bottom: 5px;">
+                    <div style="font-family: 'Fredoka', sans-serif; font-size: 20px; font-weight: 700; color: #b45309;">100</div>
+                    <div style="font-size: 10px; font-weight: 900; color: #d97706; text-transform: uppercase;">Coins</div>
+                </div>
+                <div style="background: #f0fdf4; border: 2px solid #bbf7d0; border-radius: 16px; padding: 15px; width: 100px;">
+                    <img id="dr-berry-img" src="" style="width: 40px; height: 40px; margin-bottom: 5px; object-fit: contain;">
+                    <div style="font-family: 'Fredoka', sans-serif; font-size: 20px; font-weight: 700; color: #15803d;">x1</div>
+                    <div id="dr-berry-name" style="font-size: 10px; font-weight: 900; color: #16a34a; text-transform: uppercase;">Berry</div>
+                </div>
+            </div>
+            
+            <button class="primary-btn btn-green" onclick="closeDailyReward()" style="width: 100%;">Claim Reward</button>
+        </div>
+    </div>
+
     <div id="trainer-modal" class="modal-overlay hidden">
         <div class="modal-content" style="padding: 0; overflow: hidden; border: 4px solid #cbd5e1;">
             <button class="close-x" id="tc-close-x">✕</button>
@@ -687,7 +728,7 @@
                         <div id="tc-xp" style="font-family: 'Fredoka', sans-serif; font-size: 20px; font-weight: 700; color: #8b5cf6;">0</div>
                     </div>
                     <div style="background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center;">
-                        <div style="font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase;">Pokémon Seen</div>
+                        <div style="font-size: 11px; font-weight: 800; color: #3b82f6; text-transform: uppercase;">Pokémon Seen</div>
                         <div id="tc-seen" style="font-family: 'Fredoka', sans-serif; font-size: 20px; font-weight: 700; color: #3b82f6;">0</div>
                     </div>
                     <div style="background: #f0fdf4; padding: 12px; border-radius: 12px; border: 1px solid #bbf7d0; text-align: center;">
@@ -744,7 +785,7 @@
                         <span class="shop-item-name">Razz Berry</span>
                         <span class="shop-item-desc">Adds +10 seconds to the clock.</span>
                         <div>
-                            <button class="shop-buy-btn" onclick="buyItem('razz', 50)"><img src="coin.png" class="coin-icon-small"> 50 - BUY</button>
+                            <button class="shop-buy-btn" onclick="buyItem('razz', 100)"><img src="coin.png" class="coin-icon-small"> 100 - BUY</button>
                         </div>
                     </div>
                 </div>
@@ -755,7 +796,7 @@
                         <span class="shop-item-name">Nanab Berry</span>
                         <span class="shop-item-desc">Removes 2 wrong answers or flashes hint.</span>
                         <div>
-                            <button class="shop-buy-btn" onclick="buyItem('nanab', 50)"><img src="coin.png" class="coin-icon-small"> 50 - BUY</button>
+                            <button class="shop-buy-btn" onclick="buyItem('nanab', 100)"><img src="coin.png" class="coin-icon-small"> 100 - BUY</button>
                         </div>
                     </div>
                 </div>
@@ -766,7 +807,7 @@
                         <span class="shop-item-name">Focus Sash</span>
                         <span class="shop-item-desc" style="color:#e11d48;">Passive: Saves your streak automatically.</span>
                         <div>
-                            <button class="shop-buy-btn" onclick="buyItem('sash', 150)"><img src="coin.png" class="coin-icon-small"> 150 - BUY</button>
+                            <button class="shop-buy-btn" onclick="buyItem('sash', 300)"><img src="coin.png" class="coin-icon-small"> 300 - BUY</button>
                         </div>
                     </div>
                 </div>
@@ -831,7 +872,6 @@
         </div>
     </div>
 
-    <!-- UPDATE: Detailed Pokémon Viewer Modal with CSS loading bar -->
     <div id="pokemon-detail-modal" class="modal-overlay hidden" style="z-index: 1050;">
         <div class="modal-content" style="text-align: center; background: linear-gradient(135deg, #f8fafc, #e2e8f0); border: 4px solid #cbd5e1; padding: 40px 20px;">
             <button class="close-x" onclick="closePokemonDetail()">✕</button>
@@ -841,7 +881,6 @@
             <div style="margin: 20px auto; width: 220px; height: 220px; display: flex; justify-content: center; align-items: center; position: relative;">
                 <div style="position: absolute; width: 100%; height: 100%; background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%); z-index: 0; border-radius: 50%;"></div>
                 
-                <!-- Animated Loading Bar Container -->
                 <div id="detail-loading-bar" style="width: 60%; height: 6px; background: #cbd5e1; border-radius: 3px; position: relative; overflow: hidden; z-index: 1;">
                     <div style="height: 100%; width: 50%; background: #3b82f6; border-radius: 3px; animation: slideLoader 1s infinite ease-in-out alternate;"></div>
                 </div>
@@ -1217,6 +1256,67 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
+        /* --- INDEXED DB NATIVE WRAPPER --- */
+        const dbPromise = new Promise((resolve, reject) => {
+            const request = indexedDB.open('PKMNTriviaDB', 1);
+            request.onupgradeneeded = (e) => { e.target.result.createObjectStore('trainerData'); };
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+        });
+
+        async function idbSet(key, value) {
+            const database = await dbPromise;
+            return new Promise((resolve, reject) => {
+                const tx = database.transaction('trainerData', 'readwrite');
+                tx.objectStore('trainerData').put(value, key);
+                tx.oncomplete = () => resolve();
+                tx.onerror = () => reject(tx.error);
+            });
+        }
+
+        async function idbGet(key) {
+            const database = await dbPromise;
+            return new Promise((resolve, reject) => {
+                const tx = database.transaction('trainerData', 'readonly');
+                const req = tx.objectStore('trainerData').get(key);
+                req.onsuccess = () => resolve(req.result);
+                req.onerror = () => reject(req.error);
+            });
+        }
+
+        async function idbDelete(key) {
+            const database = await dbPromise;
+            return new Promise((resolve, reject) => {
+                const tx = database.transaction('trainerData', 'readwrite');
+                tx.objectStore('trainerData').delete(key);
+                tx.oncomplete = () => resolve();
+                tx.onerror = () => reject(tx.error);
+            });
+        }
+
+        /* --- UPDATE: Robust JSON verification script to protect legacy caches --- */
+        async function getMigratedData(key) {
+            try {
+                let val = await idbGet(key);
+                if (!val) {
+                    const local = localStorage.getItem(key);
+                    try {
+                        val = local ? JSON.parse(local) : [];
+                    } catch(e) {
+                        val = [];
+                    }
+                    if(local) {
+                        await idbSet(key, val);
+                        localStorage.removeItem(key);
+                    }
+                }
+                return Array.isArray(val) ? val : [];
+            } catch (err) {
+                console.error("IndexedDB engine exception handled safely:", err);
+                return [];
+            }
+        }
+
         function showScreen(screenEl) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             screenEl.classList.add('active');
@@ -1265,6 +1365,11 @@
             { name: 'Paldea', start: 906, end: 1025 }
         ];
 
+        /* --- MEMORY ARRAYS (Prevents UI stutter while syncing to IndexedDB) --- */
+        let memPokedex = [];
+        let memShinyDex = [];
+        let memSeen = [];
+
         let currentMode = 'GUESS', currentQuestion = 0, correctAnswersAttribute = ''; 
         let currentQuestionMode = '';
         let currentPokemonId = null; 
@@ -1276,10 +1381,8 @@
         let preloadedQuestions = [];
         let leaderboardDataCache = [];
         
-        /* --- ECONOMY VARIABLES --- */
         let pokeDollars = 0;
         let inventory = { razz: 0, nanab: 0, sash: 0 };
-        
         let isSoundEnabled = localStorage.getItem('setting_sound') === 'true';
 
         let timerInterval;
@@ -1295,15 +1398,16 @@
         const timerWrapper = document.getElementById('timer-wrapper'), timerBar = document.getElementById('timer-bar'), timerText = document.getElementById('timer-text');
         const sessionXPDisplay = document.getElementById('session-xp-display');
 
-        window.onload = () => {
+        window.onload = async () => {
             initSettingsUI();
             const savedUser = localStorage.getItem('pokeUser');
             
-            setTimeout(() => {
+            setTimeout(async () => {
                 if (savedUser) {
                     currentUser = savedUser;
-                    loadUserData(currentUser);
+                    await loadUserData(currentUser);
                     showScreen(homeScreen);
+                    checkDailyReward(currentUser);
                 } else {
                     renderUserHistory();
                     showScreen(loginScreen);
@@ -1317,6 +1421,30 @@
                 }, 500); 
             }, 3500); 
         };
+
+        async function checkDailyReward(username) {
+            const today = new Date().toDateString();
+            const lastLogin = localStorage.getItem(`lastLogin_${username}`);
+            if (lastLogin !== today) {
+                localStorage.setItem(`lastLogin_${username}`, today);
+                db.collection("trainers").doc(username).set({ lastLogin: today }, { merge: true });
+                
+                pokeDollars += 100;
+                const isRazz = Math.random() > 0.5;
+                if (isRazz) inventory.razz++; else inventory.nanab++;
+                saveInventory();
+                
+                document.getElementById('dr-berry-img').src = isRazz ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/razz-berry.png" : "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nanab-berry.png";
+                document.getElementById('dr-berry-name').innerText = isRazz ? "Razz Berry" : "Nanab Berry";
+                document.getElementById('daily-reward-modal').classList.remove('hidden');
+                isPaused = true;
+            }
+        }
+
+        function closeDailyReward() {
+            document.getElementById('daily-reward-modal').classList.add('hidden');
+            isPaused = false;
+        }
 
         function getLevenshteinDistance(a, b) {
             if(a.length === 0) return b.length;
@@ -1552,16 +1680,13 @@
             timeLeft += 10;
             updateTimerUI();
             
-            const timerContainer = document.getElementById('timer-wrapper');
+            const btn = document.getElementById('btn-item-razz');
             const popup = document.createElement('div');
-            popup.className = 'xp-popup';
+            popup.className = 'item-popup';
             popup.innerHTML = "+10s";
             popup.style.color = "#ec4899";
-            popup.style.bottom = "100%";
-            popup.style.right = "0";
-            popup.style.animationDuration = "2s";
-            timerContainer.appendChild(popup);
-            setTimeout(() => { popup.remove(); }, 2000);
+            btn.appendChild(popup);
+            setTimeout(() => { popup.remove(); }, 3000);
         }
 
         function useNanabBerry() {
@@ -1590,14 +1715,13 @@
                 if(wrongBtns[1]) { wrongBtns[1].disabled = true; wrongBtns[1].style.opacity = '0.3'; }
             }
             
-            const statsContainer = document.querySelector('.stats');
+            const btn = document.getElementById('btn-item-nanab');
             const popup = document.createElement('div');
-            popup.className = 'xp-popup';
+            popup.className = 'item-popup';
             popup.innerHTML = "HINT!";
             popup.style.color = "#3b82f6";
-            popup.style.animationDuration = "2s";
-            statsContainer.appendChild(popup);
-            setTimeout(() => { popup.remove(); }, 2000);
+            btn.appendChild(popup);
+            setTimeout(() => { popup.remove(); }, 3000);
         }
 
         function openTrainerCard(publicData = null) {
@@ -1627,7 +1751,7 @@
                 pName = currentUser;
                 pAvatar = selectedAvatarUrl;
                 pXP = currentXP;
-                pSeen = (JSON.parse(localStorage.getItem('seen_' + currentUser)) || []).length;
+                pSeen = memSeen.length;
                 pRight = parseInt(localStorage.getItem('stats_right_' + currentUser)) || 0;
                 pWrong = parseInt(localStorage.getItem('stats_wrong_' + currentUser)) || 0;
                 pSurvHigh = parseInt(localStorage.getItem(`survival_high_${currentUser}`)) || 0;
@@ -1643,12 +1767,19 @@
             document.getElementById('tc-name').innerText = pName;
             
             const level = Math.floor(pXP / 100) + 1;
+            
             let title = "Rookie Trainer";
-            if (level >= 100) title = "Pokémon Master";
-            else if (level >= 80) title = "League Champion";
-            else if (level >= 60) title = "Elite Four";
-            else if (level >= 40) title = "Gym Leader";
-            else if (level >= 20) title = "Ace Trainer";
+            let rankClass = "rank-rookie";
+            let borderColor = '#cbd5e1'; let shadowColor = 'rgba(100, 116, 139, 0.2)';
+            
+            if (level >= 200) { title = "Pokémon Master"; rankClass = "rank-master"; borderColor = '#94a3b8'; shadowColor = 'rgba(255, 255, 255, 0.3)'; }
+            else if (level >= 175) { title = "Legendary Trainer"; rankClass = "rank-legendary"; borderColor = '#fbbf24'; shadowColor = 'rgba(251, 191, 36, 0.6)'; }
+            else if (level >= 150) { title = "Battle Legend"; rankClass = "rank-legend"; borderColor = '#f87171'; shadowColor = 'rgba(239, 68, 68, 0.4)'; }
+            else if (level >= 125) { title = "League Champion"; rankClass = "rank-champion"; borderColor = '#38bdf8'; shadowColor = 'rgba(56, 189, 248, 0.6)'; }
+            else if (level >= 100) { title = "Elite Four"; rankClass = "rank-elite"; borderColor = '#d8b4fe'; shadowColor = 'rgba(168, 85, 247, 0.6)'; }
+            else if (level >= 75) { title = "Veteran Trainer"; rankClass = "rank-veteran"; borderColor = '#34d399'; shadowColor = 'rgba(16, 185, 129, 0.4)'; }
+            else if (level >= 50) { title = "Gym Leader"; rankClass = "rank-gym"; borderColor = '#facc15'; shadowColor = 'rgba(234, 179, 8, 0.4)'; }
+            else if (level >= 25) { title = "Ace Trainer"; rankClass = "rank-ace"; borderColor = '#60a5fa'; shadowColor = 'rgba(59, 130, 246, 0.4)'; }
             
             document.getElementById('tc-title').innerText = title;
             document.getElementById('tc-level').innerText = level;
@@ -1668,12 +1799,6 @@
             document.getElementById('tc-surv-avg').innerText = avg;
             
             const tcCircle = document.getElementById('tc-avatar-circle');
-            let borderColor = '#cbd5e1'; let shadowColor = 'rgba(100, 116, 139, 0.2)';
-            if (level >= 100) { borderColor = '#94a3b8'; shadowColor = 'rgba(255, 255, 255, 0.3)'; }
-            else if (level >= 80 || level >= 60) { borderColor = '#d8b4fe'; shadowColor = 'rgba(168, 85, 247, 0.6)'; }
-            else if (level >= 40) { borderColor = '#facc15'; shadowColor = 'rgba(234, 179, 8, 0.4)'; }
-            else if (level >= 20) { borderColor = '#60a5fa'; shadowColor = 'rgba(59, 130, 246, 0.4)'; }
-            
             tcCircle.style.border = `3px solid ${borderColor}`;
             tcCircle.style.boxShadow = `0 0 15px ${shadowColor}`;
 
@@ -1775,60 +1900,21 @@
             isPaused = false;
         }
 
-        /* UPDATE: openPokemonDetail logic updated to use the CSS sliding loader */
-        async function openPokemonDetail(id, isShiny) {
-            document.getElementById('pokemon-detail-modal').classList.remove('hidden');
-            
-            const imgEl = document.getElementById('detail-image');
-            const loaderEl = document.getElementById('detail-loading-bar');
-            
-            imgEl.className = 'hidden'; 
-            loaderEl.classList.remove('hidden');
-            imgEl.src = ""; 
-            
-            document.getElementById('detail-name').innerText = "Loading...";
-            document.getElementById('detail-id').innerText = "#" + id;
-            document.getElementById('detail-types').innerHTML = "";
-
-            try {
-                let data = await fetchWithCache('https://pokeapi.co/api/v2/pokemon/' + id);
-                document.getElementById('detail-name').innerText = data.name.replace('-', ' ');
-                
-                let spriteUrl = isShiny 
-                    ? (data.sprites.other['official-artwork'].front_shiny || data.sprites.front_shiny)
-                    : data.sprites.other['official-artwork'].front_default;
-                
-                // Show the image and hide the loader only when the image has fully downloaded
-                imgEl.onload = () => {
-                    loaderEl.classList.add('hidden');
-                    imgEl.className = isShiny ? 'shiny-glow' : '';
-                };
-                imgEl.src = spriteUrl;
-
-                let typesHtml = data.types.map(t => {
-                    return `<span style="background: #cbd5e1; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 800; text-transform: uppercase; color: #334155; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1);">${t.type.name}</span>`;
-                }).join('');
-                document.getElementById('detail-types').innerHTML = typesHtml;
-
-            } catch (e) {
-                document.getElementById('detail-name').innerText = "Unknown Pokémon";
-                loaderEl.classList.add('hidden');
-            }
-        }
-
-        function closePokemonDetail() {
-            document.getElementById('pokemon-detail-modal').classList.add('hidden');
-        }
-
+        /* --- UPDATE: Protected openPokedex renderer with explicit type-guards --- */
         function openPokedex() {
+            if (!Array.isArray(memPokedex)) memPokedex = [];
+            if (!Array.isArray(memShinyDex)) memShinyDex = [];
+
             const dexContainer = document.getElementById('pokedex-regions-container');
+            if (!dexContainer) return;
             dexContainer.innerHTML = '';
             
-            let userDex = JSON.parse(localStorage.getItem('pokedex_' + currentUser)) || [];
-            document.getElementById('dex-total-count').innerText = `${userDex.length} / 1025`;
-
-            let shinyDex = JSON.parse(localStorage.getItem('shiny_dex_' + currentUser)) || [];
-            let shinyCount = shinyDex.length;
+            const dexTotalCountEl = document.getElementById('dex-total-count');
+            if (dexTotalCountEl) {
+                dexTotalCountEl.innerText = `${memPokedex.length} / 1025`;
+            }
+            
+            let shinyCount = memShinyDex.length;
 
             let shinyHtml = `
                 <div class="dex-region-card" onclick="toggleShinyGrid()" style="border-color: #fde047; background: #fefce8;">
@@ -1843,7 +1929,7 @@
 
             POKEDEX_REGIONS.forEach((region, index) => {
                 let regionTotal = (region.end - region.start) + 1;
-                let caughtInRegion = userDex.filter(id => id >= region.start && id <= region.end);
+                let caughtInRegion = memPokedex.filter(id => id >= region.start && id <= region.end);
                 let caughtCount = caughtInRegion.length;
                 let progressPercent = (caughtCount / regionTotal) * 100;
                 let trophyClass = caughtCount === regionTotal ? 'dex-trophy earned' : 'dex-trophy';
@@ -1867,25 +1953,25 @@
             document.getElementById('pokedex-modal').classList.remove('hidden');
             isPaused = true;
         }
+        
         function closePokedex() { 
             document.getElementById('pokedex-modal').classList.add('hidden');
             isPaused = false;
         }
 
         function toggleShinyGrid() {
+            if (!Array.isArray(memShinyDex)) memShinyDex = [];
             const grid = document.getElementById(`dex-grid-shiny`);
             if (!grid.classList.contains('hidden')) {
                 grid.classList.add('hidden');
                 return;
             }
             
-            let shinyDex = JSON.parse(localStorage.getItem('shiny_dex_' + currentUser)) || [];
-            
-            if(shinyDex.length === 0) {
+            if(memShinyDex.length === 0) {
                 grid.innerHTML = `<span style="grid-column: span 4; text-align: center; font-size: 12px; color: #94a3b8; font-weight: 700;">No Shinies caught yet!</span>`;
             } else {
-                shinyDex.sort((a,b) => a - b);
-                grid.innerHTML = shinyDex.map(id => `
+                let tempShiny = [...memShinyDex].sort((a,b) => a - b);
+                grid.innerHTML = tempShiny.map(id => `
                     <div class="dex-sprite-box" style="border-color: #fde047; background: #fffbeb;" onclick="event.stopPropagation(); openPokemonDetail(${id}, true)">
                         <img class="dex-sprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${id}.png">
                         <span class="dex-id">#${id}</span>
@@ -1896,15 +1982,15 @@
         }
 
         function toggleRegionGrid(regionIndex) {
+            if (!Array.isArray(memPokedex)) memPokedex = [];
             const grid = document.getElementById(`dex-grid-${regionIndex}`);
             if (!grid.classList.contains('hidden')) {
                 grid.classList.add('hidden');
                 return;
             }
             
-            let userDex = JSON.parse(localStorage.getItem('pokedex_' + currentUser)) || [];
             let region = POKEDEX_REGIONS[regionIndex];
-            let caughtInRegion = userDex.filter(id => id >= region.start && id <= region.end);
+            let caughtInRegion = memPokedex.filter(id => id >= region.start && id <= region.end);
             
             if(caughtInRegion.length === 0) {
                 grid.innerHTML = `<span style="grid-column: span 4; text-align: center; font-size: 12px; color: #94a3b8; font-weight: 700;">No Pokémon caught yet!</span>`;
@@ -2140,17 +2226,17 @@
                     currentXP = cloudData.xp || 0;
                     selectedAvatarUrl = cloudData.avatar || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
                     
-                    let localDex = JSON.parse(localStorage.getItem(`pokedex_${currentUser}`)) || [];
-                    let finalDex = cloudData.pokedex || localDex;
-                    localStorage.setItem(`pokedex_${currentUser}`, JSON.stringify(finalDex));
+                    memPokedex = cloudData.pokedex || await getMigratedData(`pokedex_${currentUser}`);
+                    memShinyDex = cloudData.shiny_dex || await getMigratedData(`shiny_dex_${currentUser}`);
+                    memSeen = cloudData.seen || await getMigratedData(`seen_${currentUser}`);
 
-                    let localShiny = JSON.parse(localStorage.getItem(`shiny_dex_${currentUser}`)) || [];
-                    let finalShiny = cloudData.shiny_dex || localShiny;
-                    localStorage.setItem(`shiny_dex_${currentUser}`, JSON.stringify(finalShiny));
+                    if (!Array.isArray(memPokedex)) memPokedex = [];
+                    if (!Array.isArray(memShinyDex)) memShinyDex = [];
+                    if (!Array.isArray(memSeen)) memSeen = [];
 
-                    let localSeen = JSON.parse(localStorage.getItem(`seen_${currentUser}`)) || [];
-                    let finalSeen = cloudData.seen || localSeen;
-                    localStorage.setItem(`seen_${currentUser}`, JSON.stringify(finalSeen));
+                    idbSet(`pokedex_${currentUser}`, memPokedex);
+                    idbSet(`shiny_dex_${currentUser}`, memShinyDex);
+                    idbSet(`seen_${currentUser}`, memSeen);
 
                     let localRight = parseInt(localStorage.getItem(`stats_right_${currentUser}`)) || 0;
                     let finalRight = cloudData.stats_right !== undefined ? cloudData.stats_right : localRight;
@@ -2187,10 +2273,14 @@
                     localStorage.setItem(`xp_${currentUser}`, currentXP);
                     localStorage.setItem(`avatar_${currentUser}`, selectedAvatarUrl);
                     
+                    if (cloudData.lastLogin) {
+                        localStorage.setItem(`lastLogin_${currentUser}`, cloudData.lastLogin);
+                    }
+
                     await db.collection("trainers").doc(currentUser).set({
-                        pokedex: finalDex,
-                        shiny_dex: finalShiny,
-                        seen: finalSeen,
+                        pokedex: memPokedex,
+                        shiny_dex: memShinyDex,
+                        seen: memSeen,
                         stats_right: finalRight,
                         stats_wrong: finalWrong,
                         survival_high: finalSurvHigh,
@@ -2206,6 +2296,14 @@
                     pokeDollars = 0;
                     inventory = { razz: 2, nanab: 2, sash: 1 }; 
                     
+                    memPokedex = [];
+                    memShinyDex = [];
+                    memSeen = [];
+                    
+                    idbSet(`pokedex_${currentUser}`, memPokedex);
+                    idbSet(`shiny_dex_${currentUser}`, memShinyDex);
+                    idbSet(`seen_${currentUser}`, memSeen);
+
                     localStorage.setItem(`xp_${currentUser}`, 0);
                     localStorage.setItem(`pokeDollars_${currentUser}`, pokeDollars);
                     localStorage.setItem(`survival_high_${currentUser}`, 0);
@@ -2220,9 +2318,9 @@
                         level: 1,
                         avatar: selectedAvatarUrl,
                         pin: pinCode,
-                        pokedex: [],
-                        seen: [],
-                        shiny_dex: [],
+                        pokedex: memPokedex,
+                        seen: memSeen,
+                        shiny_dex: memShinyDex,
                         stats_right: 0,
                         stats_wrong: 0,
                         survival_high: 0,
@@ -2234,9 +2332,6 @@
                     });
                 }
 
-                if (!localStorage.getItem(`pokedex_${currentUser}`)) localStorage.setItem(`pokedex_${currentUser}`, JSON.stringify([]));
-                if (!localStorage.getItem(`seen_${currentUser}`)) localStorage.setItem(`seen_${currentUser}`, JSON.stringify([]));
-                if (!localStorage.getItem(`shiny_dex_${currentUser}`)) localStorage.setItem(`shiny_dex_${currentUser}`, JSON.stringify([]));
                 if (!localStorage.getItem(`stats_right_${currentUser}`)) localStorage.setItem(`stats_right_${currentUser}`, 0);
                 if (!localStorage.getItem(`stats_wrong_${currentUser}`)) localStorage.setItem(`stats_wrong_${currentUser}`, 0);
 
@@ -2246,8 +2341,9 @@
                     localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
                 }
 
-                loadUserData(currentUser); 
+                await loadUserData(currentUser); 
                 initDailyTask();
+                checkDailyReward(currentUser);
                 
                 document.getElementById('pin-input').value = ''; 
                 showScreen(homeScreen);
@@ -2268,6 +2364,10 @@
             selectedAvatarUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
             document.getElementById('login-avatar-preview').src = selectedAvatarUrl;
             
+            memPokedex = [];
+            memShinyDex = [];
+            memSeen = [];
+
             renderUserHistory();
             showScreen(loginScreen);
         }
@@ -2280,7 +2380,7 @@
                 localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
                 localStorage.removeItem(`xp_${userToDelete}`);
                 localStorage.removeItem(`avatar_${userToDelete}`);
-                localStorage.removeItem(`pokedex_${userToDelete}`);
+                localStorage.removeItem(`pokedex_${userToDelete}`); 
                 localStorage.removeItem(`seen_${userToDelete}`);
                 localStorage.removeItem(`shiny_dex_${userToDelete}`);
                 localStorage.removeItem(`stats_right_${userToDelete}`);
@@ -2290,7 +2390,12 @@
                 localStorage.removeItem(`survival_games_${userToDelete}`);
                 localStorage.removeItem(`pokeDollars_${userToDelete}`);
                 localStorage.removeItem(`inventory_${userToDelete}`);
+                localStorage.removeItem(`lastLogin_${userToDelete}`);
                 
+                idbDelete(`pokedex_${userToDelete}`);
+                idbDelete(`shiny_dex_${userToDelete}`);
+                idbDelete(`seen_${userToDelete}`);
+
                 db.collection("trainers").doc(userToDelete).delete().catch((error) => {
                 });
 
@@ -2298,12 +2403,20 @@
             }
         }
 
-        function loadUserData(username) {
+        async function loadUserData(username) {
             document.getElementById('display-name').innerText = username;
             currentXP = parseInt(localStorage.getItem(`xp_${username}`)) || 0;
             pokeDollars = parseInt(localStorage.getItem(`pokeDollars_${username}`)) || 0;
             inventory = JSON.parse(localStorage.getItem(`inventory_${username}`)) || { razz: 0, nanab: 0, sash: 0 };
             
+            memPokedex = await getMigratedData(`pokedex_${username}`);
+            memShinyDex = await getMigratedData(`shiny_dex_${username}`);
+            memSeen = await getMigratedData(`seen_${username}`);
+
+            if (!Array.isArray(memPokedex)) memPokedex = [];
+            if (!Array.isArray(memShinyDex)) memShinyDex = [];
+            if (!Array.isArray(memSeen)) memSeen = [];
+
             document.getElementById('home-display-wallet').innerText = pokeDollars;
 
             const savedAvatar = localStorage.getItem('avatar_' + username) || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
@@ -2327,11 +2440,14 @@
             let title = "Rookie Trainer";
             let rankClass = "rank-rookie";
             
-            if (level >= 100) { title = "Pokémon Master"; rankClass = "rank-master"; }
-            else if (level >= 80) { title = "League Champion"; rankClass = "rank-elite"; }
-            else if (level >= 60) { title = "Elite Four"; rankClass = "rank-elite"; }
-            else if (level >= 40) { title = "Gym Leader"; rankClass = "rank-gym"; }
-            else if (level >= 20) { title = "Ace Trainer"; rankClass = "rank-ace"; }
+            if (level >= 200) { title = "Pokémon Master"; rankClass = "rank-master"; }
+            else if (level >= 175) { title = "Legendary Trainer"; rankClass = "rank-legendary"; }
+            else if (level >= 150) { title = "Battle Legend"; rankClass = "rank-legend"; }
+            else if (level >= 125) { title = "League Champion"; rankClass = "rank-champion"; }
+            else if (level >= 100) { title = "Elite Four"; rankClass = "rank-elite"; }
+            else if (level >= 75) { title = "Veteran Trainer"; rankClass = "rank-veteran"; }
+            else if (level >= 50) { title = "Gym Leader"; rankClass = "rank-gym"; }
+            else if (level >= 25) { title = "Ace Trainer"; rankClass = "rank-ace"; }
             
             const titleElement = document.getElementById('trainer-dynamic-title');
             if(titleElement) titleElement.innerText = title;
@@ -2625,11 +2741,10 @@
             correctAnswersAttribute = qData.correctAnswersAttribute;
             currentQuestionMode = qData.evalMode;
             
-            let seenDex = JSON.parse(localStorage.getItem('seen_' + currentUser)) || [];
-            if (!seenDex.includes(currentPokemonId)) {
-                seenDex.push(currentPokemonId);
-                localStorage.setItem('seen_' + currentUser, JSON.stringify(seenDex));
-                db.collection("trainers").doc(currentUser).set({ seen: seenDex }, { merge: true });
+            if (!memSeen.includes(currentPokemonId)) {
+                memSeen.push(currentPokemonId);
+                idbSet(`seen_${currentUser}`, memSeen);
+                db.collection("trainers").doc(currentUser).set({ seen: memSeen }, { merge: true });
             }
 
             questionTextEl.style.display = qData.questionText === "" ? 'none' : 'block';
@@ -2800,16 +2915,14 @@
 
         function applyScore(isCorrect) {
             if (isCorrect) {
-                let userDex = JSON.parse(localStorage.getItem('pokedex_' + currentUser)) || [];
-                if (!userDex.includes(currentPokemonId)) {
-                    userDex.push(currentPokemonId);
-                    localStorage.setItem('pokedex_' + currentUser, JSON.stringify(userDex));
+                if (!memPokedex.includes(currentPokemonId)) {
+                    memPokedex.push(currentPokemonId);
+                    idbSet(`pokedex_${currentUser}`, memPokedex);
                 }
                 
-                let shinyDex = JSON.parse(localStorage.getItem('shiny_dex_' + currentUser)) || [];
-                if (isShiny && !shinyDex.includes(currentPokemonId)) {
-                    shinyDex.push(currentPokemonId);
-                    localStorage.setItem('shiny_dex_' + currentUser, JSON.stringify(shinyDex));
+                if (isShiny && !memShinyDex.includes(currentPokemonId)) {
+                    memShinyDex.push(currentPokemonId);
+                    idbSet(`shiny_dex_${currentUser}`, memShinyDex);
                 }
 
                 sessionRight++;
@@ -2849,8 +2962,8 @@
                     xp: currentXP,
                     level: Math.floor(currentXP / 100) + 1,
                     avatar: selectedAvatarUrl,
-                    pokedex: userDex,
-                    shiny_dex: shinyDex,
+                    pokedex: memPokedex,
+                    shiny_dex: memShinyDex,
                     stats_right: totalRight
                 }, { merge: true });
             } else {
@@ -2872,7 +2985,7 @@
                     currentStreak = 0;
                     document.getElementById('streak-display').classList.add('hidden');
                     
-                    let totalWrong = parseInt(localStorage.getItem('stats_wrong_' + currentUser)) || 0;
+                    let totalWrong = parseInt(localStorage.getItem('stats_wrong_${currentUser}')) || 0;
                     totalWrong++;
                     localStorage.setItem('stats_wrong_' + currentUser, totalWrong);
                     
