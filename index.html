@@ -707,7 +707,7 @@
             </div>
             <div style="padding: 25px;">
                 <div style="display: flex; gap: 20px; align-items: center; border-bottom: 2px dashed #e2e8f0; padding-bottom: 20px; margin-bottom: 20px;">
-                    <div class="trainer-avatar-container" style="cursor: default;">
+                    <div id="tc-avatar-btn" class="trainer-avatar-container" style="cursor: pointer;" onclick="handleTcAvatarClick()" title="Edit Avatar">
                         <div id="tc-avatar-circle" class="trainer-avatar-circle" style="box-shadow: 0 0 15px rgba(100, 116, 139, 0.2); border: 3px solid #cbd5e1; background: #ffffff;">
                             <img id="tc-avatar" src="" style="width: 125%; height: 125%; object-fit: contain; position: absolute; bottom: 5px; filter: drop-shadow(0 6px 8px rgba(0,0,0,0.25)); transition: transform 0.2s;">
                         </div>
@@ -894,7 +894,7 @@
         </div>
     </div>
 
-    <div id="avatar-modal" class="modal-overlay hidden">
+    <div id="avatar-modal" class="modal-overlay hidden" style="z-index: 1060;">
         <div class="modal-content">
             <button class="close-x" onclick="closeAvatarModal()">✕</button>
             <h3 style="margin-top: 0; color: #334155; font-size: 20px; font-weight: 700; margin-bottom: 5px; font-family: 'Fredoka', sans-serif;">Choose Avatar</h3>
@@ -1726,6 +1726,7 @@
 
         function openTrainerCard(publicData = null) {
             let pName, pAvatar, pXP, pSeen, pRight, pWrong, pSurvHigh, pSurvTotal, pSurvGames;
+            const tcAvatarBtn = document.getElementById('tc-avatar-btn');
 
             if (publicData) {
                 pName = publicData.user;
@@ -1738,6 +1739,9 @@
                 pSurvTotal = publicData.survival_total_correct || 0;
                 pSurvGames = publicData.survival_games || 0;
                 
+                tcAvatarBtn.style.cursor = 'default';
+                tcAvatarBtn.title = '';
+
                 document.getElementById('tc-close-btn').innerText = "Back to Leaderboard";
                 document.getElementById('tc-close-btn').onclick = () => {
                     closeTrainerCard();
@@ -1757,6 +1761,9 @@
                 pSurvHigh = parseInt(localStorage.getItem(`survival_high_${currentUser}`)) || 0;
                 pSurvTotal = parseInt(localStorage.getItem(`survival_total_correct_${currentUser}`)) || 0;
                 pSurvGames = parseInt(localStorage.getItem(`survival_games_${currentUser}`)) || 0;
+                
+                tcAvatarBtn.style.cursor = 'pointer';
+                tcAvatarBtn.title = 'Edit Avatar';
 
                 document.getElementById('tc-close-btn').innerText = "Close ID Card";
                 document.getElementById('tc-close-btn').onclick = closeTrainerCard;
@@ -1804,6 +1811,13 @@
 
             document.getElementById('trainer-modal').classList.remove('hidden');
             isPaused = true;
+        }
+
+        function handleTcAvatarClick() {
+            if (document.getElementById('tc-name').innerText === currentUser) {
+                closeTrainerCard();
+                openAvatarModal();
+            }
         }
 
         function closeTrainerCard() {
@@ -1900,7 +1914,6 @@
             isPaused = false;
         }
 
-        /* --- UPDATE: Protected openPokedex renderer with explicit type-guards --- */
         function openPokedex() {
             if (!Array.isArray(memPokedex)) memPokedex = [];
             if (!Array.isArray(memShinyDex)) memShinyDex = [];
@@ -2004,6 +2017,63 @@
                 `).join('');
             }
             grid.classList.remove('hidden');
+        }
+
+        async function openPokemonDetail(id, isShinyDex) {
+            const modal = document.getElementById('pokemon-detail-modal');
+            const nameEl = document.getElementById('detail-name');
+            const idEl = document.getElementById('detail-id');
+            const imgEl = document.getElementById('detail-image');
+            const typesEl = document.getElementById('detail-types');
+            const loader = document.getElementById('detail-loading-bar');
+
+            modal.classList.remove('hidden');
+            isPaused = true;
+
+            nameEl.innerText = "Loading...";
+            idEl.innerText = `#${id.toString().padStart(3, '0')}`;
+            imgEl.classList.add('hidden');
+            loader.classList.remove('hidden');
+            typesEl.innerHTML = '';
+
+            try {
+                const data = await fetchWithCache(`https://pokeapi.co/api/v2/pokemon/${id}`);
+                nameEl.innerText = data.name.replace('-', ' ');
+                
+                let spriteUrl = data.sprites.other['official-artwork'].front_default;
+                if (isShinyDex && (data.sprites.other['official-artwork'].front_shiny || data.sprites.front_shiny)) {
+                    spriteUrl = data.sprites.other['official-artwork'].front_shiny || data.sprites.front_shiny;
+                }
+                
+                imgEl.src = spriteUrl;
+                
+                typesEl.innerHTML = data.types.map(t => {
+                    const typeColors = {
+                        normal: '#A8A77A', fire: '#EE8130', water: '#6390F0', electric: '#F7D02C',
+                        grass: '#7AC74C', ice: '#96D9D6', fighting: '#C22E28', poison: '#A33EA1',
+                        ground: '#E2BF65', flying: '#A98FF3', psychic: '#F95587', bug: '#A6B91A',
+                        rock: '#B6A136', ghost: '#735797', dragon: '#6F35FC', dark: '#705746',
+                        steel: '#B7B7CE', fairy: '#D685AD'
+                    };
+                    const color = typeColors[t.type.name] || '#777';
+                    return `<span style="background: ${color}; color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 800; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">${t.type.name}</span>`;
+                }).join('');
+
+                imgEl.onload = () => {
+                    loader.classList.add('hidden');
+                    imgEl.classList.remove('hidden');
+                };
+            } catch (e) {
+                nameEl.innerText = "Error loading";
+                loader.classList.add('hidden');
+            }
+        }
+
+        function closePokemonDetail() {
+            document.getElementById('pokemon-detail-modal').classList.add('hidden');
+            if (document.getElementById('pokedex-modal').classList.contains('hidden')) {
+                isPaused = false;
+            }
         }
 
         function startTimer() {
