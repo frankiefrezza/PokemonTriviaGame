@@ -414,9 +414,9 @@
         .timer-danger { background: #ef4444 !important; }
         
         .input-group { display: flex; gap: 10px; margin-bottom: 20px; width: 100%; }
-        #username-input { flex: 2; width: 100%; min-width: 0; padding: 15px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; text-transform: uppercase; background: rgba(255,255,255,0.9); transition: background 0.3s, color 0.3s, border-color 0.3s; }
+        #username-input { flex: 2; width: 100%; min-width: 0; padding: 15px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; text-transform: uppercase; background: rgba(255,255,255,0.9); color: #334155; transition: background 0.3s, color 0.3s, border-color 0.3s; }
         #username-input:focus { outline: none; border-color: #3b82f6; }
-        #pin-input { flex: 1; width: 100%; min-width: 0; padding: 15px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; letter-spacing: 4px; background: rgba(255,255,255,0.9); transition: background 0.3s, color 0.3s, border-color 0.3s; }
+        #pin-input { flex: 1; width: 100%; min-width: 0; padding: 15px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; letter-spacing: 4px; background: rgba(255,255,255,0.9); color: #334155; transition: background 0.3s, color 0.3s, border-color 0.3s; }
         #pin-input:focus { outline: none; border-color: #8b5cf6; }
         
         .avatar-preview-box { width: 100px; height: 100px; background: #ffffff; border: 2px solid #cbd5e1; border-radius: 20px; display: flex; justify-content: center; align-items: center; margin: 0 auto 15px auto; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); transition: background 0.3s, border-color 0.3s; }
@@ -649,7 +649,7 @@
         body.dark-mode #timer-text { color: #f1f5f9; }
         
         body.dark-mode .modal-content { background: #1e293b !important; border-color: #334155 !important; }
-        body.dark-mode .lb-row, body.dark-mode .dex-region-card, body.dark-mode .shop-item-card, body.dark-mode .avatar-item, body.dark-mode .history-chip {
+        body.dark-mode .lb-row, body.dark-mode .dex-region-card, body.dark-mode .shop-item-card, body.dark-mode .avatar-grid, body.dark-mode .avatar-item, body.dark-mode .history-chip {
             background: #0f172a; border-color: #334155;
         }
         body.dark-mode .lb-row:hover, body.dark-mode .dex-region-card:hover { border-color: #3b82f6; }
@@ -663,7 +663,7 @@
         body.dark-mode .option-btn.wrong { background: #ef4444 !important; border-color: #dc2626 !important; box-shadow: 0 0 0 transparent !important; }
         
         body.dark-mode #username-input, body.dark-mode #pin-input {
-            background: rgba(15,23,42,0.9); color: #f1f5f9; border-color: #334155;
+            background: rgba(15,23,42,0.9) !important; color: #f1f5f9 !important; border-color: #334155 !important;
         }
         body.dark-mode .dock-btn span { color: #94a3b8; }
         
@@ -1021,8 +1021,8 @@
                 </div>
                 
                 <div class="input-group" style="position: relative; z-index: 1; flex-direction: column;">
-                    <input type="text" id="username-input" placeholder="TRAINER NAME" style="width: 100%; text-align: center; background: rgba(255,255,255,0.95);">
-                    <input type="password" id="pin-input" placeholder="PIN (4 DIGITS)" maxlength="4" pattern="[0-9]*" inputmode="numeric" style="width: 100%; text-align: center; background: rgba(255,255,255,0.95);">
+                    <input type="text" id="username-input" placeholder="TRAINER NAME">
+                    <input type="password" id="pin-input" placeholder="PIN (4 DIGITS)" maxlength="4" pattern="[0-9]*" inputmode="numeric">
                 </div>
 
                 <button class="primary-btn btn-green" style="position: relative; z-index: 1; margin-bottom: 0;" onclick="loginUser()">Log In</button>
