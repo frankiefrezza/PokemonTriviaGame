@@ -166,7 +166,7 @@
         }
 
         #app { 
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 249, 255, 0.85) 100%); 
+            background: linear-gradient(135deg, rgba(175, 203, 255, 0.85) 0%, rgba(186, 230, 253, 0.85) 50%, rgba(221, 214, 254, 0.85) 100%); 
             backdrop-filter: blur(15px); 
             -webkit-backdrop-filter: blur(15px);
             padding: 30px; 
@@ -214,7 +214,19 @@
             filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
         }
 
-        .bento-box { background: rgba(255,255,255,0.7); backdrop-filter: blur(12px); border-radius: 25px; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 8px 20px rgba(0,0,0,0.08); padding: 20px; margin-bottom: 20px; position: relative; overflow: hidden; transition: background 0.3s ease, border-color 0.3s ease;}
+        /* --- VIBRANT BENTO BOXES --- */
+        .bento-box { 
+            background: linear-gradient(135deg, rgba(254, 240, 138, 0.85) 0%, rgba(255, 204, 213, 0.85) 50%, rgba(216, 180, 254, 0.85) 100%); 
+            backdrop-filter: blur(12px); 
+            border-radius: 25px; 
+            border: 2px solid rgba(255,255,255,0.8); 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08); 
+            padding: 20px; 
+            margin-bottom: 20px; 
+            position: relative; 
+            overflow: hidden; 
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
 
         /* --- TRAINER CARD STYLES --- */
         .trainer-card { position: relative; border-radius: 25px; padding: 25px; margin-bottom: 20px; color: #334155; transition: all 0.4s ease; text-align: left; border: none; outline: 1px solid rgba(255,255,255,0.5); }
@@ -328,73 +340,34 @@
         .modes-master-bento { padding: 20px; }
         
         .modes-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        
-        .menu-box { 
-            padding: 18px; 
-            border-radius: 20px; 
-            border: 2px solid; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: space-between; 
-            box-sizing: border-box; 
-            position: relative; 
-            overflow: hidden; 
-            text-align: left; 
-            cursor: pointer; 
-            background-color: #ffffff;
-            transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.1s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s, border-color 0.3s;
+
+        /* --- NEW IMAGE BUTTON STYLES --- */
+        .image-mode-btn {
+            background: transparent;
+            border: none;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), filter 0.15s ease;
+            outline: none;
+            display: block;
+            width: 100%;
         }
-        
-        .menu-box:active { transform: translateY(8px); }
-
-        .menu-box h3 { margin: 0 0 6px 0; font-size: 16px; font-weight: 700; font-family: 'Fredoka', sans-serif; text-transform: uppercase; line-height: 1.1; letter-spacing: 1px; position: relative; z-index: 1; transition: color 0.3s; }
-        .menu-box p { font-size: 12px; color: #475569; margin-top: 0; margin-bottom: 16px; font-weight: 700; flex-grow: 1; line-height: 1.3; position: relative; z-index: 1; transition: color 0.3s; }
-        
-        .mode-action-pill { 
-            display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 4px 10px; 
-            border-radius: 8px; font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 11px; 
-            text-transform: uppercase; align-self: flex-start; position: relative; z-index: 1; 
-            background: rgba(255,255,255,0.75); color: inherit;
+        .image-mode-btn img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 20px;
+            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15));
         }
-
-        .mode-bg-icon { position: absolute; right: -10px; bottom: -10px; width: 85px; height: 85px; opacity: 0.15; transform: rotate(-10deg); pointer-events: none; z-index: 0; }
-        .mode-bg-icon svg { width: 100%; height: 100%; }
-
-        .mode-guess { background: #dbeafe; border-color: #60a5fa; box-shadow: 0 8px 0 #3b82f6; }
-        .mode-guess:active { box-shadow: 0 0 0 #3b82f6; }
-        .mode-guess h3 { color: #1d4ed8; }
-        .mode-guess .mode-action-pill { color: #1d4ed8; border: 1px solid rgba(59, 130, 246, 0.3); }
-        .mode-guess .mode-bg-icon { color: #3b82f6; }
-
-        .mode-types { background: #dcfce7; border-color: #4ade80; box-shadow: 0 8px 0 #10b981; }
-        .mode-types:active { box-shadow: 0 0 0 #10b981; }
-        .mode-types h3 { color: #047857; }
-        .mode-types .mode-action-pill { color: #047857; border: 1px solid rgba(16, 185, 129, 0.3); }
-        .mode-types .mode-bg-icon { color: #10b981; }
-
-        .mode-evolutions { background: #fef3c7; border-color: #fbbf24; box-shadow: 0 8px 0 #d97706; }
-        .mode-evolutions:active { box-shadow: 0 0 0 #d97706; }
-        .mode-evolutions h3 { color: #b45309; }
-        .mode-evolutions .mode-action-pill { color: #b45309; border: 1px solid rgba(245, 158, 11, 0.3); }
-        .mode-evolutions .mode-bg-icon { color: #d97706; }
-
-        .mode-scramble { background: #fce7f3; border-color: #f472b6; box-shadow: 0 8px 0 #db2777; }
-        .mode-scramble:active { box-shadow: 0 0 0 #db2777; }
-        .mode-scramble h3 { color: #be185d; }
-        .mode-scramble .mode-action-pill { color: #be185d; border: 1px solid rgba(219, 39, 119, 0.3); }
-        .mode-scramble .mode-bg-icon { color: #db2777; }
-
-        .mode-survival { background: #ffe4e6; border-color: #fb7185; box-shadow: 0 8px 0 #e11d48; }
-        .mode-survival:active { box-shadow: 0 0 0 #e11d48; }
-        .mode-survival h3 { color: #be123c; }
-        .mode-survival .mode-action-pill { color: #be123c; border: 1px solid rgba(225, 29, 72, 0.3); }
-        .mode-survival .mode-bg-icon { color: #e11d48; }
-
-        .mode-trivia { background: #f3e8ff; border-color: #c084fc; box-shadow: 0 8px 0 #9333ea; }
-        .mode-trivia:active { box-shadow: 0 0 0 #9333ea; }
-        .mode-trivia h3 { color: #6d28d9; }
-        .mode-trivia .mode-action-pill { color: #6d28d9; border: 1px solid rgba(147, 51, 234, 0.3); }
-        .mode-trivia .mode-bg-icon { color: #9333ea; }
+        .image-mode-btn:hover {
+            transform: translateY(-4px) scale(1.02);
+            filter: brightness(1.05);
+        }
+        .image-mode-btn:active {
+            transform: translateY(2px) scale(0.98);
+        }
 
         .nav-btn { display: flex; align-items: center; gap: 6px; padding: 8px 16px; font-size: 14px; background-color: #e2e8f0; color: #475569; border: none; border-radius: 12px; cursor: pointer; font-weight: 800; transition: all 0.2s; }
         .nav-btn:hover { background-color: #cbd5e1; color: #334155; }
@@ -619,7 +592,7 @@
             box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.1);
         }
         body.dark-mode .bento-box {
-            background: rgba(30, 41, 59, 0.7);
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.85) 100%);
             border-color: rgba(255,255,255,0.1);
         }
         
@@ -636,12 +609,6 @@
         body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode #question-text, body.dark-mode #detail-name {
             color: #f1f5f9 !important;
         }
-        body.dark-mode .menu-box {
-            background-color: #1e293b;
-            border-color: #334155 !important;
-        }
-        body.dark-mode .menu-box h3 { color: #f8fafc !important; }
-        body.dark-mode .menu-box p { color: #94a3b8 !important; }
         
         body.dark-mode .stats, body.dark-mode .mini-xp-box, body.dark-mode .dex-total-header {
             background: #0f172a; border-color: #334155; color: #f1f5f9;
@@ -705,11 +672,6 @@
             
             .modes-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
             .modes-master-bento { padding: 12px; }
-            .menu-box { padding: 14px; margin-bottom: 8px; }
-            .menu-box h3 { font-size: 14px; margin-bottom: 4px; }
-            .menu-box p { font-size: 10px; margin-bottom: 10px; }
-            .mode-bg-icon { width: 65px; height: 65px; right: -10px; bottom: -10px; }
-            .mode-action-pill { padding: 4px 8px; font-size: 10px; }
             
             .bento-box { margin-bottom: 15px; }
 
@@ -1082,17 +1044,6 @@
                 </div>
             </div>
 
-            <div id="raid-container" class="bento-box raid-box hidden">
-                <h3>🌍 Weekend Raid Boss <span style="font-size:12px; background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 6px;">CO-OP</span></h3>
-                <div class="raid-boss-name" id="raid-name">Mewtwo</div>
-                <div class="raid-hp-track"><div id="raid-bar"></div></div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
-                    <span style="font-size: 11px; font-weight: 700; color: #a78bfa;">Correct answers deal damage!</span>
-                    <span id="raid-hp">5000 / 5000</span>
-                </div>
-                <button id="raid-claim-btn" class="raid-btn hidden" style="width: 100%; margin-top: 10px;" onclick="claimRaidReward()">Claim Victory +200 XP!</button>
-            </div>
-
             <div id="daily-challenges-container" class="bento-box daily-challenges-container hidden">
                 <h3 style="margin: 0 0 15px 0; font-size: 16px; font-weight: 900; color: #d97706; text-transform: uppercase; text-align: center;">Daily Challenges</h3>
                 <div id="dc-list"></div>
@@ -1100,113 +1051,29 @@
 
             <div class="bento-box modes-master-bento">
                 <div class="modes-grid">
-                    <!-- WHO'S THAT POKEMON -->
-                    <div class="menu-box mode-guess" onclick="startGame('GUESS')">
-                        <div class="mode-bg-icon">
-                            <!-- Uses PokeAPI artwork as a mask to create a perfect, theme-colored Pikachu silhouette -->
-                            <div style="width: 100%; height: 100%; background-color: currentColor; -webkit-mask: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png') no-repeat center / contain; mask: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png') no-repeat center / contain;"></div>
-                        </div>
-                        <h3>WHO'S THAT POKÉMON</h3>
-                        <p>Identify the Pokémon from its silhouette.</p>
-                        <div class="mode-action-pill">
-                            PLAY 
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-                        </div>
-                    </div>
+                    <button class="image-mode-btn" onclick="startGame('GUESS')">
+                        <img src="whosthatpokemon.png" alt="Who's That Pokémon">
+                    </button>
                     
-                                      <!-- TYPES MODE -->
-                    <div class="menu-box mode-types" onclick="startGame('TYPES')">
-                        <div class="mode-bg-icon">
-                            <!-- Clustered Elemental Type Badges (Electric, Water, Grass) -->
-                            <svg viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="
-                                    M12,28 A20,20 0 1,0 52,28 A20,20 0 1,0 12,28 Z 
-                                    M34,13 L22,29 L30,29 L26,43 L44,25 L34,25 Z
-                                    
-                                    M52,38 A20,20 0 1,0 92,38 A20,20 0 1,0 52,38 Z 
-                                    M72,21 Q60,36 60,43 A12,12 0 0,0 84,43 Q84,36 72,21 Z
-                                    
-                                    M28,72 A20,20 0 1,0 68,72 A20,20 0 1,0 28,72 Z 
-                                    M38,82 Q38,62 58,62 Q58,82 38,82 Z
-                                " />
-                            </svg>
-                        </div>
-                        <h3>TYPES MODE</h3>
-                        <p>Test your knowledge on elemental types.</p>
-                        <div class="mode-action-pill">
-                            PLAY 
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-                        </div>
-                    </div>
+                    <button class="image-mode-btn" onclick="startGame('TYPES')">
+                        <img src="typesmode.png" alt="Types Mode">
+                    </button>
                     
-                                        <!-- EVOLUTIONS -->
-                    <div class="menu-box mode-evolutions" onclick="startGame('EVOLUTIONS')">
-                        <div class="mode-bg-icon">
-                            <!-- Guaranteed solid DNA icon using CSS mask -->
-                            <div style="width: 100%; height: 100%; background-color: currentColor; -webkit-mask: url('https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/svgs/solid/dna.svg') no-repeat center / contain; mask: url('https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/svgs/solid/dna.svg') no-repeat center / contain;"></div>
-                        </div>
-                        <h3>EVOLUTIONS</h3>
-                        <p>Who does this Pokémon evolve into?</p>
-                        <div class="mode-action-pill">
-                            PLAY 
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-                        </div>
-                    </div>
+                    <button class="image-mode-btn" onclick="startGame('EVOLUTIONS')">
+                        <img src="evolutions.png" alt="Evolutions">
+                    </button>
                     
-                                      <!-- NAME SCRAMBLE -->
-                    <div class="menu-box mode-scramble" onclick="startGame('SCRAMBLE')">
-                        <div class="mode-bg-icon">
-                            <!-- Custom Scattered Letter Tiles SVG -->
-                            <svg viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <!-- Tile A -->
-                                <g transform="translate(8, 12) rotate(-15 20 20)">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M4,0 h32 a4,4 0 0 1 4,4 v32 a4,4 0 0 1 -4,4 h-32 a4,4 0 0 1 -4,-4 v-32 a4,4 0 0 1 4,-4 Z M20,8 l8,24 h-4 l-1.5,-6 h-5 l-1.5,6 h-4 Z M20,14 l-1.5,6 h3 Z" />
-                                </g>
-                                <!-- Tile Z -->
-                                <g transform="translate(48, 5) rotate(20 20 20)">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M4,0 h32 a4,4 0 0 1 4,4 v32 a4,4 0 0 1 -4,4 h-32 a4,4 0 0 1 -4,-4 v-32 a4,4 0 0 1 4,-4 Z M12,12 h16 v3 l-12,11 h12 v3 h-16 v-3 l12,-11 h-12 Z" />
-                                </g>
-                                <!-- Tile E -->
-                                <g transform="translate(18, 48) rotate(10 20 20)">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M4,0 h32 a4,4 0 0 1 4,4 v32 a4,4 0 0 1 -4,4 h-32 a4,4 0 0 1 -4,-4 v-32 a4,4 0 0 1 4,-4 Z M12,10 h16 v3 h-12 v5 h10 v3 h-10 v6 h12 v3 h-16 Z" />
-                                </g>
-                                <!-- Tile P -->
-                                <g transform="translate(55, 45) rotate(-20 20 20)">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M4,0 h32 a4,4 0 0 1 4,4 v32 a4,4 0 0 1 -4,4 h-32 a4,4 0 0 1 -4,-4 v-32 a4,4 0 0 1 4,-4 Z M12,10 h12 l4,4 v6 l-4,4 h-8 v10 h-4 Z M16,14 h8 l1,1 v4 l-1,1 h-8 Z" />
-                                </g>
-                            </svg>
-                        </div>
-                        <h3 style="color:#be185d;">NAME SCRAMBLE</h3>
-                        <p>Unscramble the letters to spell the Pokémon!</p>
-                        <div class="mode-action-pill">
-                            PLAY 
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-                        </div>
-                    </div>
+                    <button class="image-mode-btn" onclick="startGame('SCRAMBLE')">
+                        <img src="namescramble.png" alt="Name Scramble">
+                    </button>
 
-                    <div class="menu-box mode-survival" onclick="startGame('SURVIVAL')">
-                        <div class="mode-bg-icon">
-                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-                        </div>
-                        <h3>SURVIVAL MODE</h3>
-                        <p>Race the clock! 60s to answer as many as possible.</p>
-                        <div class="mode-action-pill">
-                            PLAY 
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-                        </div>
-                    </div>
+                    <button class="image-mode-btn" onclick="startGame('SURVIVAL')">
+                        <img src="survivalmode.png" alt="Survival Mode">
+                    </button>
                     
-                    <div class="menu-box mode-trivia" onclick="startGame('TRIVIA')">
-                        <div class="mode-bg-icon">
-                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94C8.23 14.36 9.59 15.5 11 15.92V19H7v2h10v-2h-4v-3.08c1.41-.42 2.77-1.56 3.61-2.98C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>
-                        </div>
-                        <h3>TRIVIA MODE</h3>
-                        <p>PLAY ALL! 25 questions mixing every mode.</p>
-                        <div class="mode-action-pill">
-                            PLAY 
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-                        </div>
-                    </div>
+                    <button class="image-mode-btn" onclick="startGame('TRIVIA')">
+                        <img src="triviamode.png" alt="Trivia Mode">
+                    </button>
                 </div>
             </div>
 
@@ -1508,7 +1375,6 @@
         
         let isShiny = false;
         let currentStreak = 0;
-        let isWeekend = [0, 6].includes(new Date().getDay()); 
 
         const loginScreen = document.getElementById('login-screen'), homeScreen = document.getElementById('home-screen'), gameScreen = document.getElementById('game-screen'), endScreen = document.getElementById('end-screen'), gameContent = document.getElementById('game-content'), questionCountEl = document.getElementById('question-count'), questionTextEl = document.getElementById('question-text'), optionsEl = document.getElementById('options');
         const endTitleEl = document.getElementById('end-title'), endMessageEl = document.getElementById('end-message');
@@ -1579,72 +1445,6 @@
                 }
             }
             return matrix[b.length][a.length];
-        }
-
-        let currentRaidWeek = null;
-        async function loadRaidBoss() {
-            if (!isWeekend) return;
-            try {
-                const raidRef = db.collection('global').doc('raid');
-                const doc = await raidRef.get();
-                
-                const d = new Date();
-                const weekNum = Math.ceil((((d - new Date(d.getFullYear(),0,1)) / 86400000) + new Date(d.getFullYear(),0,1).getDay()+1)/7);
-                
-                if (!doc.exists || doc.data().hp <= 0 && doc.data().week !== weekNum) {
-                    await raidRef.set({ name: 'Mewtwo', maxHp: 5000, hp: 5000, week: weekNum });
-                }
-
-                raidRef.onSnapshot(snap => {
-                    if (snap.exists) {
-                        const data = snap.data();
-                        currentRaidWeek = data.week;
-                        document.getElementById('raid-container').classList.remove('hidden');
-                        document.getElementById('raid-name').innerText = data.name;
-                        
-                        let displayHp = Math.max(0, data.hp);
-                        document.getElementById('raid-hp').innerText = displayHp + " / " + data.maxHp;
-                        const pct = (displayHp / data.maxHp) * 100;
-                        document.getElementById('raid-bar').style.width = pct + '%';
-
-                        if (displayHp <= 0) {
-                            document.getElementById('raid-hp').innerText = "DEFEATED!";
-                            checkRaidReward(data.week);
-                        }
-                    }
-                });
-            } catch (e) {
-                console.log("Raid Boss offline:", e);
-            }
-        }
-
-        async function damageRaidBoss() {
-            try { await db.collection('global').doc('raid').update({ hp: firebase.firestore.FieldValue.increment(-10) }); } catch(e) {} 
-        }
-
-        function checkRaidReward(week) {
-            let claimedRaids = JSON.parse(localStorage.getItem('claimedRaids_' + currentUser)) || [];
-            if (!claimedRaids.includes(week)) {
-                document.getElementById('raid-claim-btn').classList.remove('hidden');
-            } else {
-                document.getElementById('raid-claim-btn').classList.add('hidden');
-                document.getElementById('raid-hp').innerText = "CLAIMED!";
-            }
-        }
-
-        function claimRaidReward() {
-            let claimedRaids = JSON.parse(localStorage.getItem('claimedRaids_' + currentUser)) || [];
-            claimedRaids.push(currentRaidWeek);
-            localStorage.setItem('claimedRaids_' + currentUser, JSON.stringify(claimedRaids));
-            
-            currentXP += 200;
-            localStorage.setItem(`xp_${currentUser}`, currentXP);
-            updateXPUI();
-            db.collection("trainers").doc(currentUser).set({ xp: currentXP, claimedRaids: claimedRaids }, { merge: true });
-            
-            document.getElementById('raid-claim-btn').classList.add('hidden');
-            document.getElementById('raid-hp').innerText = "CLAIMED!";
-            showXPFloatingText("+200 XP", "#8b5cf6", 2500);
         }
 
         function initDailyTask() {
@@ -1901,7 +1701,7 @@
             else if (level >= 150) { title = "Battle Legend"; rankClass = "rank-legend"; borderColor = '#f87171'; shadowColor = 'rgba(239, 68, 68, 0.4)'; }
             else if (level >= 125) { title = "League Champion"; rankClass = "rank-champion"; borderColor = '#38bdf8'; shadowColor = 'rgba(56, 189, 248, 0.6)'; }
             else if (level >= 100) { title = "Elite Four"; rankClass = "rank-elite"; borderColor = '#d8b4fe'; shadowColor = 'rgba(168, 85, 247, 0.6)'; }
-            else if (level >= 75) { title = "Veteran Trainer"; rankClass = "rank-veteran"; borderColor = '#34d399'; shadowColor = 'rgba(16, 185, 129, 0.4)'; }
+            else if (level >= 75) { title = "Veteran Trainer"; rankClass = "veteran-trainer"; borderColor = '#34d399'; shadowColor = 'rgba(16, 185, 129, 0.4)'; }
             else if (level >= 50) { title = "Gym Leader"; rankClass = "rank-gym"; borderColor = '#facc15'; shadowColor = 'rgba(234, 179, 8, 0.4)'; }
             else if (level >= 25) { title = "Ace Trainer"; rankClass = "rank-ace"; borderColor = '#60a5fa'; shadowColor = 'rgba(59, 130, 246, 0.4)'; }
             
@@ -2446,10 +2246,6 @@
                     let finalWrong = cloudData.stats_wrong !== undefined ? cloudData.stats_wrong : localWrong;
                     localStorage.setItem(`stats_wrong_${currentUser}`, finalWrong);
 
-                    let localRaids = JSON.parse(localStorage.getItem(`claimedRaids_${currentUser}`)) || [];
-                    let finalRaids = cloudData.claimedRaids || localRaids;
-                    localStorage.setItem(`claimedRaids_${currentUser}`, JSON.stringify(finalRaids));
-
                     pokeDollars = cloudData.pokeDollars || parseInt(localStorage.getItem(`pokeDollars_${currentUser}`)) || 0;
                     localStorage.setItem(`pokeDollars_${currentUser}`, pokeDollars);
                     
@@ -2486,7 +2282,6 @@
                         survival_high: finalSurvHigh,
                         survival_total_correct: finalSurvTotal,
                         survival_games: finalSurvGames,
-                        claimedRaids: finalRaids,
                         pokeDollars: pokeDollars,
                         inventory: inventory
                     }, { merge: true });
@@ -2526,7 +2321,6 @@
                         survival_high: 0,
                         survival_total_correct: 0,
                         survival_games: 0,
-                        claimedRaids: [],
                         pokeDollars: pokeDollars,
                         inventory: inventory
                     });
