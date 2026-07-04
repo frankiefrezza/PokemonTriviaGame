@@ -28,7 +28,9 @@
 
         body { 
             font-family: 'Nunito', -apple-system, sans-serif; 
-            background: linear-gradient(135deg, #74ebd5, #9face6, #8fd3f4, #84fab0);
+            background: linear-gradient(-45deg, #74ebd5, #9face6, #8fd3f4, #84fab0);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             display: flex; justify-content: center; align-items: center; 
             min-height: 100vh; 
             min-height: -webkit-fill-available; 
@@ -48,6 +50,12 @@
             z-index: -1;
             pointer-events: none;
             animation: driftPattern 20s linear infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         @keyframes driftPattern {
@@ -332,7 +340,7 @@
         .dc-item:last-child { margin-bottom: 0; }
         .dc-desc { font-size: 14px; font-weight: 800; color: #334155; flex: 1; margin-right: 10px; font-family: 'Nunito', sans-serif; }
         .dc-status { font-size: 13px; font-weight: 900; color: #64748b; background: rgba(255,255,255,0.8); padding: 6px 12px; border-radius: 12px; text-align: center; min-width: 45px; font-family: 'Fredoka', sans-serif; border: 1px solid rgba(255,255,255,0.8); }
-        .dc-btn { background: linear-gradient(180deg, #34d399 0%, #10b981 100%); color: white; border: none; padding: 8px 16px; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 13px; box-shadow: 0 4px 0 #059669; transition: transform 0.1s, box-shadow 0.1s, background 0.2s; font-family: 'Fredoka', sans-serif; letter-spacing: 1px; outline: none; -webkit-tap-highlight-color: transparent;}
+        .dc-btn { background: linear-gradient(180deg, #34d399 0%, #10b981 100%); color: white; border: none; padding: 8px 16px; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 13px; box-shadow: 0 4px 0 #059669; transition: transform 0.1s, box-shadow 0.1s; font-family: 'Fredoka', sans-serif; letter-spacing: 1px; outline: none; -webkit-tap-highlight-color: transparent;}
         .dc-btn:active { transform: translateY(4px); box-shadow: 0 0 0 transparent !important; }
 
         .modes-master-bento { padding: 20px; }
@@ -541,7 +549,7 @@
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 1000; }
         .modal-content { 
             position: relative; 
-            background: linear-gradient(135deg, rgba(254, 240, 138, 0.95) 0%, rgba(255, 204, 213, 0.95) 50%, rgba(216, 180, 254, 0.95) 100%); 
+            background: rgba(255, 255, 255, 0.85); 
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             padding: 30px; 
@@ -609,7 +617,7 @@
         .shop-item-name { font-weight: 800; color: #334155; font-size: 16px; text-transform: uppercase; transition: color 0.3s; }
         .shop-item-desc { font-weight: 700; color: #64748b; font-size: 11px; margin-bottom: 5px; line-height: 1.2; }
         
-        .shop-buy-btn { background: #3B4CCA; border: 2px solid #283593; box-shadow: 0 4px 0 #283593; color: white; border-radius: 12px; padding: 6px 12px; font-weight: 900; font-family: 'Nunito', sans-serif; cursor: pointer; transition: transform 0.1s, background 0.2s, box-shadow 0.1s; text-transform: uppercase; display: inline-flex; align-items: center; gap: 5px; font-size: 12px; outline: none; -webkit-tap-highlight-color: transparent;}
+        .shop-buy-btn { background: #3B4CCA; border: 2px solid #283593; box-shadow: 0 4px 0 #283593; color: white; border-radius: 12px; padding: 6px 12px; font-weight: 900; font-family: 'Nunito', sans-serif; cursor: pointer; transition: transform 0.1s, box-shadow 0.1s; text-transform: uppercase; display: inline-flex; align-items: center; gap: 5px; font-size: 12px; outline: none; -webkit-tap-highlight-color: transparent;}
         .shop-buy-btn:active { transform: translateY(4px); box-shadow: 0 0 0 transparent !important; }
 
         #scramble-guess-display { color: #334155; transition: color 0.3s; }
@@ -629,7 +637,8 @@
 
         /* --- DARK MODE OVERRIDES --- */
         body.dark-mode {
-            background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
+            background: linear-gradient(-45deg, #0f172a, #1e293b, #0f172a, #334155);
+            background-size: 400% 400%;
         }
         body.dark-mode #app {
             background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%);
@@ -660,7 +669,6 @@
         }
         body.dark-mode #timer-text { color: #f1f5f9; }
         
-        body.dark-mode .modal-content { background: #1e293b !important; }
         body.dark-mode .lb-row, body.dark-mode .dex-region-card, body.dark-mode .shop-item-card, body.dark-mode .avatar-grid, body.dark-mode .avatar-item, body.dark-mode .history-chip, body.dark-mode .dex-total-header {
             background: rgba(15, 23, 42, 0.6); border-color: rgba(255,255,255,0.1);
         }
@@ -690,8 +698,8 @@
         body.dark-mode .dc-status { background: rgba(15, 23, 42, 0.8); border-color: rgba(255,255,255,0.1); color: #cbd5e1; }
         
         body.dark-mode .dex-sprite-box { background: rgba(15, 23, 42, 0.6); border-color: rgba(255,255,255,0.1); }
-        body.dark-mode .item-btn { background: #1e293b; border-color: #334155; box-shadow: 0 4px 0 #0f172a; }
-        body.dark-mode .item-btn.passive-item { background: #0f172a; border-color: #b45309; box-shadow: 0 4px 0 #78350f; }
+        body.dark-mode .item-btn { background: rgba(15, 23, 42, 0.8); border-color: rgba(255,255,255,0.1); box-shadow: 0 4px 0 rgba(0,0,0,0.5); }
+        body.dark-mode .item-btn.passive-item { background: rgba(15, 23, 42, 0.9); border-color: #b45309; box-shadow: 0 4px 0 #78350f; }
         
         body.dark-mode .avatar-preview-box { background: rgba(15, 23, 42, 0.6); border-color: rgba(255,255,255,0.1); }
         body.dark-mode .region-tab { background: rgba(15, 23, 42, 0.6); color: #f1f5f9; border-color: rgba(255,255,255,0.1); }
@@ -818,32 +826,32 @@
                 </div>
                 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
-                    <div style="background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center;">
+                    <div style="background: rgba(255,255,255,0.6); padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.8); text-align: center;">
                         <div style="font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase;">Total XP</div>
                         <div id="tc-xp" style="font-family: 'Fredoka', sans-serif; font-size: 20px; font-weight: 700; color: #8b5cf6;">0</div>
                     </div>
-                    <div style="background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center;">
+                    <div style="background: rgba(255,255,255,0.6); padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.8); text-align: center;">
                         <div style="font-size: 11px; font-weight: 800; color: #3b82f6; text-transform: uppercase;">Pokémon Seen</div>
                         <div id="tc-seen" style="font-family: 'Fredoka', sans-serif; font-size: 20px; font-weight: 700; color: #3b82f6;">0</div>
                     </div>
-                    <div style="background: #f0fdf4; padding: 12px; border-radius: 12px; border: 1px solid #bbf7d0; text-align: center;">
+                    <div style="background: rgba(255,255,255,0.6); padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.8); text-align: center;">
                         <div style="font-size: 11px; font-weight: 800; color: #16a34a; text-transform: uppercase;">Correct</div>
                         <div id="tc-right" style="font-family: 'Fredoka', sans-serif; font-size: 20px; font-weight: 700; color: #22c55e;">0</div>
                     </div>
-                    <div style="background: #fef2f2; padding: 12px; border-radius: 12px; border: 1px solid #fecaca; text-align: center;">
+                    <div style="background: rgba(255,255,255,0.6); padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.8); text-align: center;">
                         <div style="font-size: 11px; font-weight: 800; color: #dc2626; text-transform: uppercase;">Incorrect</div>
                         <div id="tc-wrong" style="font-family: 'Fredoka', sans-serif; font-size: 20px; font-weight: 700; color: #ef4444;">0</div>
                     </div>
                 </div>
 
-                <div style="background: #eff6ff; padding: 15px; border-radius: 12px; border: 1px solid #bfdbfe; margin-bottom: 25px; text-align: center;">
+                <div style="background: rgba(255,255,255,0.6); padding: 15px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.8); margin-bottom: 25px; text-align: center;">
                     <div style="font-size: 12px; font-weight: 900; color: #1e3a8a; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 1px;">Survival Records</div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
                         <div>
                             <div style="font-size: 10px; font-weight: 800; color: #3b82f6; text-transform: uppercase;">Best Run</div>
                             <div id="tc-surv-best" style="font-family: 'Fredoka', sans-serif; font-size: 18px; font-weight: 700; color: #1d4ed8;">0</div>
                         </div>
-                        <div style="border-left: 2px dashed #bfdbfe; border-right: 2px dashed #bfdbfe;">
+                        <div style="border-left: 2px dashed rgba(255,255,255,0.8); border-right: 2px dashed rgba(255,255,255,0.8);">
                             <div style="font-size: 10px; font-weight: 800; color: #3b82f6; text-transform: uppercase;">Avg/Run</div>
                             <div id="tc-surv-avg" style="font-family: 'Fredoka', sans-serif; font-size: 18px; font-weight: 700; color: #1d4ed8;">0.0</div>
                         </div>
@@ -880,7 +888,7 @@
                         <span class="shop-item-name">Razz Berry</span>
                         <span class="shop-item-desc">Adds +10 seconds to the clock.</span>
                         <div>
-                            <button class="shop-buy-btn" onclick="buyItem('razz', 100, this)"><img src="coin.png" class="coin-icon-small"> 100 - BUY</button>
+                            <button class="shop-buy-btn" onclick="buyItem('razz', 100)"><img src="coin.png" class="coin-icon-small"> 100 - BUY</button>
                         </div>
                     </div>
                 </div>
@@ -891,7 +899,7 @@
                         <span class="shop-item-name">Nanab Berry</span>
                         <span class="shop-item-desc">Removes 2 wrong answers or flashes hint.</span>
                         <div>
-                            <button class="shop-buy-btn" onclick="buyItem('nanab', 100, this)"><img src="coin.png" class="coin-icon-small"> 100 - BUY</button>
+                            <button class="shop-buy-btn" onclick="buyItem('nanab', 100)"><img src="coin.png" class="coin-icon-small"> 100 - BUY</button>
                         </div>
                     </div>
                 </div>
@@ -902,7 +910,7 @@
                         <span class="shop-item-name">Focus Sash</span>
                         <span class="shop-item-desc" style="color:#e11d48;">Passive: Saves your streak automatically.</span>
                         <div>
-                            <button class="shop-buy-btn" onclick="buyItem('sash', 300, this)"><img src="coin.png" class="coin-icon-small"> 300 - BUY</button>
+                            <button class="shop-buy-btn" onclick="buyItem('sash', 300)"><img src="coin.png" class="coin-icon-small"> 300 - BUY</button>
                         </div>
                     </div>
                 </div>
@@ -921,7 +929,7 @@
                 <button id="sound-btn" class="primary-btn btn-blue" onclick="toggleSound()" style="width: 85%; margin: 0;">Sound: OFF</button>
                 <button id="dark-mode-btn" class="primary-btn btn-gray" onclick="toggleDarkMode()" style="width: 85%; margin: 0;">Dark Mode: OFF</button>
                 
-                <div id="in-game-settings-btns" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center; gap: 15px; border-bottom: 2px dashed rgba(203,213,225,0.8); padding-bottom: 15px; margin-top: 15px; border-top: 2px dashed rgba(203,213,225,0.8); padding-top: 15px;">
+                <div id="in-game-settings-btns" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center; gap: 15px; border-bottom: 2px dashed rgba(255,255,255,0.8); padding-bottom: 15px; margin-top: 15px; border-top: 2px dashed rgba(255,255,255,0.8); padding-top: 15px;">
                     <button class="primary-btn btn-blue" onclick="restartGame(); toggleSettings();" style="width: 85%; margin: 0;">Restart Game</button>
                     <button class="primary-btn btn-blue" onclick="goHome(); toggleSettings();" style="width: 85%; margin: 0;">Return Home</button>
                 </div>
@@ -977,7 +985,7 @@
             <div style="margin: 20px auto; width: 220px; height: 220px; display: flex; justify-content: center; align-items: center; position: relative;">
                 <div style="position: absolute; width: 100%; height: 100%; background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%); z-index: 0; border-radius: 50%;"></div>
                 
-                <div id="detail-loading-bar" style="width: 60%; height: 6px; background: #e2e8f0; border-radius: 3px; position: relative; overflow: hidden; z-index: 1;">
+                <div id="detail-loading-bar" style="width: 60%; height: 6px; background: rgba(255,255,255,0.8); border-radius: 3px; position: relative; overflow: hidden; z-index: 1;">
                     <div style="height: 100%; width: 50%; background: #3b82f6; border-radius: 3px; animation: slideLoader 1s infinite ease-in-out alternate;"></div>
                 </div>
 
@@ -1000,8 +1008,8 @@
             
             <div id="avatar-grid-container" class="avatar-grid"></div>
 
-            <div style="display: flex; gap: 15px; align-items: center; margin-top: 15px; padding-top: 15px; border-top: 2px dashed #e2e8f0;">
-                <div class="avatar-preview-box" style="width: 80px; height: 80px; margin: 0; flex-shrink: 0; background: #ffffff; border: 1px solid #cbd5e1;">
+            <div style="display: flex; gap: 15px; align-items: center; margin-top: 15px; padding-top: 15px; border-top: 2px dashed rgba(255,255,255,0.8);">
+                <div class="avatar-preview-box" style="width: 80px; height: 80px; margin: 0; flex-shrink: 0; background: rgba(255,255,255,0.8); border: 2px solid rgba(255,255,255,0.8);">
                     <img id="modal-avatar-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png">
                 </div>
                 <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 10px;">
@@ -1630,30 +1638,13 @@
             isPaused = false;
         }
 
-        function buyItem(itemType, cost, btnElement) {
+        function buyItem(itemType, cost) {
             if (pokeDollars >= cost) {
                 pokeDollars -= cost;
                 inventory[itemType]++;
                 saveInventory();
                 updateItemUI();
                 document.getElementById('shop-modal-wallet').innerText = pokeDollars;
-                
-                const originalHtml = btnElement.innerHTML;
-                const originalBg = btnElement.style.background;
-                const originalBorder = btnElement.style.borderColor;
-                const originalShadow = btnElement.style.boxShadow;
-                
-                btnElement.innerHTML = "✔ BOUGHT!";
-                btnElement.style.background = "#10b981";
-                btnElement.style.borderColor = "#059669";
-                btnElement.style.boxShadow = "0 4px 0 #047857";
-                
-                setTimeout(() => {
-                    btnElement.innerHTML = originalHtml;
-                    btnElement.style.background = originalBg;
-                    btnElement.style.borderColor = originalBorder;
-                    btnElement.style.boxShadow = originalShadow;
-                }, 1000);
             } else {
                 alert("Not enough PokéDollars! Keep answering questions to earn more.");
             }
@@ -2275,7 +2266,7 @@
 
             currentUser = rawName.toUpperCase();
 
-            const loginBtn = document.querySelector('#login-screen .btn-green');
+            const loginBtn = document.querySelector('#login-screen .btn-blue');
             const originalText = loginBtn.innerText;
             loginBtn.innerText = "Syncing...";
             loginBtn.disabled = true;
