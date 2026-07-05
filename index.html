@@ -271,7 +271,14 @@
         .trainer-avatar-circle img { width: 125%; height: 125%; object-fit: contain; position: absolute; bottom: 5px; filter: drop-shadow(0 6px 8px rgba(0,0,0,0.25)); transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .trainer-avatar-container:hover .trainer-avatar-circle img { transform: scale(1.15) translateY(-5px); }
 
-        .trainer-avatar-circle::after { content: '✎'; position: absolute; bottom: -5px; right: -5px; background: #3b82f6; color: white; font-size: 14px; width: 26px; height: 26px; border-radius: 50%; display: flex; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.2s; z-index: 10; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .trainer-avatar-circle::after { 
+            content: ''; 
+            position: absolute; bottom: -5px; right: -5px; 
+            background: #3b82f6 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>') no-repeat center; 
+            background-size: 14px;
+            width: 26px; height: 26px; border-radius: 50%; 
+            opacity: 0; transition: opacity 0.2s; z-index: 10; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2); 
+        }
         .trainer-avatar-container:hover .trainer-avatar-circle::after { opacity: 1; }
 
         /* CENTERED INFO BLOCK */
@@ -518,23 +525,55 @@
             100% { box-shadow: 0 0 20px rgba(250,204,21,1), 0 4px 0 rgba(245,158,11,0.5); } 
         }
 
+        /* --- ENHANCED PRIMARY BUTTONS --- */
         .primary-btn { 
-            display: flex; align-items: center; justify-content: center; gap: 8px; padding: 16px 20px; 
-            font-size: 18px; font-family: 'Fredoka', sans-serif; color: white; border: none; border-radius: 20px; 
-            cursor: pointer; font-weight: 700; width: 100%; text-transform: uppercase; letter-spacing: 1.5px; 
-            transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; 
+            display: flex; align-items: center; justify-content: center; gap: 8px; 
+            padding: 16px 20px; 
+            font-size: 18px; font-family: 'Fredoka', sans-serif; font-weight: 700; 
+            width: 100%; text-transform: uppercase; letter-spacing: 1.5px; 
+            border-radius: 20px; 
+            cursor: pointer; 
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1); 
+            position: relative; overflow: hidden; 
             outline: none; -webkit-tap-highlight-color: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            color: white;
         }
         @media (hover: hover) {
-            .primary-btn:hover { filter: brightness(1.05); transform: translateY(-2px); }
+            .primary-btn:hover { filter: brightness(1.08); transform: translateY(-2px); }
         }
-        .primary-btn:active { transform: translateY(6px); box-shadow: 0 0 0 transparent !important; }
+        .primary-btn:active { 
+            transform: translateY(6px); 
+            box-shadow: inset 0 3px 6px rgba(0,0,0,0.2) !important; 
+        }
         
-        .btn-blue { background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 100%); box-shadow: 0 6px 0 #2563eb; } 
-        .btn-green { background: linear-gradient(180deg, #34d399 0%, #10b981 100%); box-shadow: 0 6px 0 #059669; } 
-        .btn-orange { background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%); box-shadow: 0 6px 0 #d97706; } 
-        .btn-purple { background: linear-gradient(180deg, #a78bfa 0%, #8b5cf6 100%); box-shadow: 0 6px 0 #7c3aed; }
-        .btn-gray { background: linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%); color: #475569 !important; box-shadow: 0 6px 0 #94a3b8; }
+        .btn-blue { 
+            background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 100%); 
+            box-shadow: 0 6px 0 #2563eb, inset 0 3px 0 rgba(255,255,255,0.4); 
+        } 
+        .btn-green { 
+            background: linear-gradient(180deg, #34d399 0%, #10b981 100%); 
+            box-shadow: 0 6px 0 #059669, inset 0 3px 0 rgba(255,255,255,0.4); 
+        } 
+        .btn-orange { 
+            background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%); 
+            box-shadow: 0 6px 0 #d97706, inset 0 3px 0 rgba(255,255,255,0.4); 
+        } 
+        .btn-purple { 
+            background: linear-gradient(180deg, #a78bfa 0%, #8b5cf6 100%); 
+            box-shadow: 0 6px 0 #7c3aed, inset 0 3px 0 rgba(255,255,255,0.4); 
+        }
+        .btn-red { 
+            background: linear-gradient(180deg, #f87171 0%, #ef4444 100%); 
+            box-shadow: 0 6px 0 #b91c1c, inset 0 3px 0 rgba(255,255,255,0.4); 
+        }
+        .btn-gray { 
+            background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%); 
+            color: #475569 !important; 
+            box-shadow: 0 6px 0 #94a3b8, inset 0 3px 0 rgba(255,255,255,0.7); 
+            text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+        }
 
         .bottom-dock { display: flex; justify-content: space-around; align-items: center; gap: 10px; margin-top: 5px; margin-bottom: 0; }
         .game-dock { margin-top: 40px; } 
@@ -557,7 +596,7 @@
             max-height: 85vh; 
             overflow-y: auto; 
             text-align: left; 
-            margin-bottom: 0; /* Override bento margin */
+            margin-bottom: 0; 
         }
         
         .modal-content::-webkit-scrollbar { 
@@ -574,7 +613,7 @@
             background-clip: padding-box; 
         }
         
-        .close-x { position: absolute; top: 15px; right: 15px; background: rgba(254,226,226,0.9); color: #ef4444; border: 2px solid rgba(255,255,255,0.8); border-radius: 50%; width: 32px; height: 32px; font-size: 18px; font-weight: 900; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 100; outline: none; -webkit-tap-highlight-color: transparent;}
+        .close-x { position: absolute; top: 15px; right: 15px; background: rgba(254,226,226,0.9); color: #ef4444; border: 2px solid rgba(255,255,255,0.8); border-radius: 50%; width: 32px; height: 32px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 100; outline: none; -webkit-tap-highlight-color: transparent;}
         @media (hover: hover) {
             .close-x:hover { background: #fca5a5; color: #b91c1c; transform: scale(1.1); }
         }
@@ -757,6 +796,17 @@
             border: 6px solid transparent;
             background-clip: padding-box;
         }
+        
+        body.dark-mode .primary-btn { border-color: rgba(255,255,255,0.15); }
+        body.dark-mode .btn-gray { 
+            background: linear-gradient(180deg, #334155 0%, #1e293b 100%); 
+            color: #f1f5f9 !important; 
+            box-shadow: 0 6px 0 #0f172a, inset 0 3px 0 rgba(255,255,255,0.1);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        body.dark-mode .btn-red {
+            box-shadow: 0 6px 0 #7f1d1d, inset 0 3px 0 rgba(255,255,255,0.1);
+        }
 
         @media (max-width: 480px) {
             body { padding: 0; align-items: flex-start; } 
@@ -848,7 +898,9 @@
 
     <div id="trainer-modal" class="modal-overlay hidden">
         <div class="modal-content" style="padding: 0; overflow: hidden;">
-            <button class="close-x" id="tc-close-x">✕</button>
+            <button class="close-x" id="tc-close-x">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
             <div style="background: rgba(255, 255, 255, 0.4); border-bottom: 1px solid #e2e8f0; padding: 20px; text-align: center;">
                  <h2 style="margin: 0; font-family: 'Fredoka', sans-serif; text-transform: uppercase; letter-spacing: 2px; color: inherit;">Trainer ID Card</h2>
             </div>
@@ -915,7 +967,9 @@
 
     <div id="shop-modal" class="modal-overlay hidden">
         <div class="modal-content" style="padding: 0; overflow: hidden;">
-            <button class="close-x" onclick="closeShopModal()">✕</button>
+            <button class="close-x" onclick="closeShopModal()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
             <div style="background: rgba(255, 255, 255, 0.4); border-bottom: 1px solid #e2e8f0; padding: 25px 20px 20px 20px; text-align: center;">
                  <h2 style="margin: 0; font-family: 'Fredoka', sans-serif; text-transform: uppercase; letter-spacing: 2px;">PokéMart</h2>
                  <div style="font-size: 28px; font-weight: 900; margin-top: 10px; display: flex; align-items: center; justify-content: center;">
@@ -966,7 +1020,9 @@
 
     <div id="settings-modal" class="modal-overlay hidden">
         <div class="modal-content" style="text-align: center;">
-            <button class="close-x" onclick="toggleSettings()">✕</button>
+            <button class="close-x" onclick="toggleSettings()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
             <h3 style="margin-top: 0; font-size: 24px; font-weight: 700; margin-bottom: 25px; font-family: 'Fredoka', sans-serif; text-align: left;">Settings</h3>
             
             <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
@@ -974,21 +1030,31 @@
                 <button id="dark-mode-btn" class="primary-btn btn-gray" onclick="toggleDarkMode()" style="width: 85%; margin: 0;">Dark Mode: OFF</button>
                 
                 <div id="in-game-settings-btns" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center; gap: 15px; border-bottom: 2px dashed rgba(203,213,225,0.8); padding-bottom: 15px; margin-top: 15px; border-top: 2px dashed rgba(203,213,225,0.8); padding-top: 15px;">
-                    <button class="primary-btn btn-blue" onclick="restartGame(); toggleSettings();" style="width: 85%; margin: 0;">Restart Game</button>
-                    <button class="primary-btn btn-blue" onclick="goHome(); toggleSettings();" style="width: 85%; margin: 0;">Return Home</button>
+                    <button class="primary-btn btn-blue" onclick="restartGame(); toggleSettings();" style="width: 85%; margin: 0;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><polyline points="23 20 23 14 17 14"></polyline><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path></svg> Restart Game
+                    </button>
+                    <button class="primary-btn btn-blue" onclick="goHome(); toggleSettings();" style="width: 85%; margin: 0;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Return Home
+                    </button>
                 </div>
 
-                <button class="primary-btn btn-gray" onclick="logoutUser(); toggleSettings();" style="width: 85%; margin: 0; margin-top: 15px; color: #ef4444 !important;">Logout Trainer</button>
-                <button class="primary-btn btn-gray" onclick="toggleSettings()" style="width: 85%; margin: 0;">Close</button>
+                <button class="primary-btn btn-red" onclick="logoutUser(); toggleSettings();" style="width: 85%; margin: 0; margin-top: 15px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Logout Trainer
+                </button>
+                <button class="primary-btn btn-gray" onclick="toggleSettings()" style="width: 85%; margin: 0;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg> Close
+                </button>
             </div>
         </div>
     </div>
 
     <div id="leaderboard-modal" class="modal-overlay hidden">
         <div class="modal-content">
-            <button class="close-x" onclick="closeLeaderboard()">✕</button>
+            <button class="close-x" onclick="closeLeaderboard()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
             <h3 style="margin-top: 0; font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 10px; font-family: 'Fredoka', sans-serif;">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M2 20h20v2H2v-2zm1.5-13l3.5 4 4.5-6 4.5 6 3.5-4L18 18H6L3.5 7z"/></svg> Global Rank
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"></path></svg> Global Rank
             </h3>
             <p style="font-size: 13px; margin-bottom: 20px; font-weight: 700;">Top trainers worldwide.</p>
             
@@ -1002,7 +1068,9 @@
 
     <div id="pokedex-modal" class="modal-overlay hidden">
         <div class="modal-content">
-            <button class="close-x" onclick="closePokedex()">✕</button>
+            <button class="close-x" onclick="closePokedex()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
             <h3 style="margin-top: 0; font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 10px; font-family: 'Fredoka', sans-serif;">
                 <img src="pokedex.png" alt="Pokédex" style="width: 32px; height: 32px;"> Pokédex
             </h3>
@@ -1022,7 +1090,9 @@
 
     <div id="pokemon-detail-modal" class="modal-overlay hidden" style="z-index: 1050;">
         <div class="modal-content" style="text-align: center; padding: 40px 20px;">
-            <button class="close-x" onclick="closePokemonDetail()">✕</button>
+            <button class="close-x" onclick="closePokemonDetail()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
             <h2 id="detail-name" style="margin-top: 0; font-family: 'Fredoka', sans-serif; text-transform: uppercase; font-size: 28px; letter-spacing: 2px;">Loading...</h2>
             <span id="detail-id" style="font-weight: 900; font-size: 16px;">#000</span>
             
@@ -1044,7 +1114,9 @@
 
     <div id="avatar-modal" class="modal-overlay hidden" style="z-index: 1060;">
         <div class="modal-content">
-            <button class="close-x" onclick="closeAvatarModal()">✕</button>
+            <button class="close-x" onclick="closeAvatarModal()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
             <h3 style="margin-top: 0; font-size: 20px; font-weight: 700; margin-bottom: 5px; font-family: 'Fredoka', sans-serif;">Choose Avatar</h3>
             <p style="font-size: 12px; color: #ef4444; margin-bottom: 15px; font-weight: 800;">Unlock new generations by leveling up!</p>
             
@@ -1887,21 +1959,21 @@
             const soundBtn = document.getElementById('sound-btn');
             if (isSoundEnabled) {
                 soundBtn.className = 'primary-btn btn-blue';
-                soundBtn.innerHTML = 'Sound: ON';
+                soundBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg> Sound: ON';
             } else {
                 soundBtn.className = 'primary-btn btn-gray';
-                soundBtn.innerHTML = 'Sound: OFF';
+                soundBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg> Sound: OFF';
             }
 
             const darkBtn = document.getElementById('dark-mode-btn');
             if (isDarkMode) {
                 document.body.classList.add('dark-mode');
                 darkBtn.className = 'primary-btn btn-blue';
-                darkBtn.innerHTML = 'Dark Mode: ON';
+                darkBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg> Dark Mode: ON';
             } else {
                 document.body.classList.remove('dark-mode');
                 darkBtn.className = 'primary-btn btn-gray';
-                darkBtn.innerHTML = 'Dark Mode: OFF';
+                darkBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg> Dark Mode: OFF';
             }
         }
 
@@ -1952,7 +2024,7 @@
                     const player = doc.data();
                     leaderboardDataCache.push(player);
                     
-                    let rankStr = index === 0 ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M2 20h20v2H2v-2zm1.5-13l3.5 4 4.5-6 4.5 6 3.5-4L18 18H6L3.5 7z"/></svg>' : (index + 1);
+                    let rankStr = index === 0 ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"></path></svg>' : (index + 1);
                     let rankClass = index === 0 ? 'lb-rank gold' : 'lb-rank';
                     
                     lbList.innerHTML += `
@@ -2004,7 +2076,7 @@
                 <div class="dex-region-card" onclick="toggleShinyGrid()" style="border-color: rgba(253,224,71,0.8); background: rgba(254, 252, 232, 0.6);">
                     <div class="dex-region-header">
                         <span class="dex-region-name" style="color: #b45309;">✨ Shiny Dex</span>
-                        <span class="dex-region-count">${shinyCount} <span class="dex-trophy ${shinyCount > 0 ? 'earned' : ''}"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="vertical-align: middle;"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94C8.23 14.36 9.59 15.5 11 15.92V19H7v2h10v-2h-4v-3.08c1.41-.42 2.77-1.56 3.61-2.98C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg></span></span>
+                        <span class="dex-region-count">${shinyCount} <span class="dex-trophy ${shinyCount > 0 ? 'earned' : ''}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg></span></span>
                     </div>
                     <div id="dex-grid-shiny" class="dex-grid hidden"></div>
                 </div>
@@ -2017,7 +2089,7 @@
                 let caughtCount = caughtInRegion.length;
                 let progressPercent = (caughtCount / regionTotal) * 100;
                 let trophyClass = caughtCount === regionTotal ? 'dex-trophy earned' : 'dex-trophy';
-                let trophyIcon = caughtCount === regionTotal ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="vertical-align: middle;"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94C8.23 14.36 9.59 15.5 11 15.92V19H7v2h10v-2h-4v-3.08c1.41-.42 2.77-1.56 3.61-2.98C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>' : '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="vertical-align: middle;"><path d="M12 2c-2.76 0-5 2.24-5 5v4H5v11h14V11h-2V7c0-2.76-2.24-5-5-5zm3 9H9V7c0-1.66 1.34-3 3-3s3 1.34 3 3v4z"/></svg>';
+                let trophyIcon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>';
 
                 let regionHtml = `
                     <div class="dex-region-card" onclick="toggleRegionGrid(${index})">
@@ -2230,7 +2302,7 @@
             
             tabsContainer.innerHTML = AVATAR_REGIONS.map((reg, index) => {
                 let isLocked = level < reg.reqLevel;
-                let lockIcon = isLocked ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="vertical-align: middle; margin-right: 4px; margin-bottom: 2px;"><path d="M12 2c-2.76 0-5 2.24-5 5v4H5v11h14V11h-2V7c0-2.76-2.24-5-5-5zm3 9H9V7c0-1.66 1.34-3 3-3s3 1.34 3 3v4z"/></svg>' : '';
+                let lockIcon = isLocked ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px; margin-bottom: 2px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>' : '';
                 let activeClass = index === currentAvatarTab ? 'active' : '';
                 let lockStyle = isLocked ? 'opacity: 0.5; cursor: not-allowed;' : '';
                 
@@ -2319,7 +2391,7 @@
 
                     const delBtn = document.createElement('button');
                     delBtn.className = 'delete-btn';
-                    delBtn.innerHTML = '✕'; 
+                    delBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>'; 
                     delBtn.title = "Delete Player";
                     delBtn.onclick = () => deleteUser(user);
 
@@ -2346,7 +2418,7 @@
             currentUser = rawName.toUpperCase();
 
             const loginBtn = document.querySelector('#login-screen .btn-blue');
-            const originalText = loginBtn.innerText;
+            const originalText = loginBtn.innerHTML;
             loginBtn.innerText = "Syncing...";
             loginBtn.disabled = true;
 
@@ -2359,7 +2431,7 @@
                     
                     if (cloudData.pin && cloudData.pin !== pinCode) {
                         alert("Incorrect PIN! Please try again.");
-                        loginBtn.innerText = originalText;
+                        loginBtn.innerHTML = originalText;
                         loginBtn.disabled = false;
                         return; 
                     }
@@ -2486,7 +2558,7 @@
             } catch (error) {
                 alert("Failed to connect to the server. Please check your connection.");
             } finally {
-                loginBtn.innerText = originalText;
+                loginBtn.innerHTML = originalText;
                 loginBtn.disabled = false;
             }
         }
