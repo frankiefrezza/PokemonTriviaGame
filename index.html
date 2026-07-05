@@ -614,7 +614,30 @@
         .shop-item-name { font-weight: 800; color: #334155; font-size: 16px; text-transform: uppercase; transition: color 0.3s; }
         .shop-item-desc { font-weight: 700; color: #64748b; font-size: 11px; margin-bottom: 5px; line-height: 1.2; }
         
-        .shop-buy-btn { background: #3B4CCA; border: 2px solid #283593; box-shadow: 0 4px 0 #283593; color: white; border-radius: 12px; padding: 6px 12px; font-weight: 900; font-family: 'Nunito', sans-serif; cursor: pointer; transition: transform 0.1s, background 0.2s, box-shadow 0.1s; text-transform: uppercase; display: inline-flex; align-items: center; gap: 5px; font-size: 12px; outline: none; -webkit-tap-highlight-color: transparent;}
+        /* --- NEW POLISHED SHOP BUY BUTTON --- */
+        .shop-buy-btn { 
+            background: linear-gradient(180deg, #fcd34d 0%, #f59e0b 100%); 
+            border: 2px solid #d97706; 
+            box-shadow: 0 4px 0 #b45309; 
+            color: #78350f; 
+            border-radius: 12px; 
+            padding: 8px 16px; 
+            font-weight: 900; 
+            font-family: 'Fredoka', sans-serif; 
+            cursor: pointer; 
+            transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1); 
+            text-transform: uppercase; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 6px; 
+            font-size: 13px; 
+            outline: none; 
+            -webkit-tap-highlight-color: transparent;
+            letter-spacing: 0.5px;
+        }
+        @media (hover: hover) {
+            .shop-buy-btn:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 6px 0 #b45309; }
+        }
         .shop-buy-btn:active { transform: translateY(4px); box-shadow: 0 0 0 transparent !important; }
 
         #scramble-guess-display { color: #334155; transition: color 0.3s; }
@@ -890,7 +913,7 @@
                     <img class="shop-item-icon" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/razz-berry.png">
                     <div class="shop-item-details">
                         <span class="shop-item-name">Razz Berry</span>
-                        <span class="shop-item-desc">Adds +10 seconds to the clock.</span>
+                        <span class="shop-item-desc">Adds +5 seconds to the clock.</span>
                         <div>
                             <button class="shop-buy-btn" onclick="buyItem('razz', 100, this)"><img src="coin.png" class="coin-icon-small"> 100 - BUY</button>
                         </div>
@@ -1439,6 +1462,7 @@
         let inventory = { razz: 0, nanab: 0, sash: 0 };
         let isSoundEnabled = localStorage.getItem('setting_sound') === 'true';
         let isDarkMode = localStorage.getItem('setting_darkmode') === 'true';
+        let razzUsesThisRun = 0;
 
         let timerInterval;
         let timeLeft = 10;
@@ -1681,17 +1705,26 @@
 
         function useRazzBerry() {
             if (inventory.razz <= 0 || isPaused) return;
+
+            // Enforce the 6-use limit specifically for Survival Mode
+            if (currentMode === 'SURVIVAL' && razzUsesThisRun >= 6) {
+                alert("You have reached the maximum of 6 Razz Berries for this run!");
+                return;
+            }
+
             inventory.razz--;
+            if (currentMode === 'SURVIVAL') razzUsesThisRun++; 
+            
             saveInventory();
             updateItemUI();
             
-            timeLeft += 10;
+            timeLeft += 5; 
             updateTimerUI();
             
             const btn = document.getElementById('btn-item-razz');
             const popup = document.createElement('div');
             popup.className = 'item-popup';
-            popup.innerHTML = "+10s";
+            popup.innerHTML = "+5s"; 
             popup.style.color = "#ec4899";
             btn.appendChild(popup);
             setTimeout(() => { popup.remove(); }, 3000);
@@ -2569,6 +2602,7 @@
             sessionXP = 0; 
             sessionMoney = 0; 
             currentStreak = 0;
+            razzUsesThisRun = 0;
             
             if (mode === 'SURVIVAL') {
                 TOTAL_QUESTIONS = 150; 
