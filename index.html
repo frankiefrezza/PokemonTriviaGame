@@ -560,8 +560,19 @@
             margin-bottom: 0; /* Override bento margin */
         }
         
-        .modal-content::-webkit-scrollbar { width: 6px; }
-        .modal-content::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .modal-content::-webkit-scrollbar { 
+            width: 18px; 
+        }
+        .modal-content::-webkit-scrollbar-track { 
+            background: transparent; 
+            margin: 25px 0; 
+        }
+        .modal-content::-webkit-scrollbar-thumb { 
+            background-color: #94a3b8; 
+            border-radius: 100px; 
+            border: 6px solid transparent; 
+            background-clip: padding-box; 
+        }
         
         .close-x { position: absolute; top: 15px; right: 15px; background: rgba(254,226,226,0.9); color: #ef4444; border: 2px solid rgba(255,255,255,0.8); border-radius: 50%; width: 32px; height: 32px; font-size: 18px; font-weight: 900; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 100; outline: none; -webkit-tap-highlight-color: transparent;}
         @media (hover: hover) {
@@ -739,6 +750,12 @@
         /* Dark Mode fix for the silhouette visibility */
         body.dark-mode .silhouette {
             filter: brightness(0) invert(1) drop-shadow(0 10px 15px rgba(0,0,0,0.5)) !important;
+        }
+        
+        body.dark-mode .modal-content::-webkit-scrollbar-thumb {
+            background-color: #475569;
+            border: 6px solid transparent;
+            background-clip: padding-box;
         }
 
         @media (max-width: 480px) {
