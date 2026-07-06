@@ -1820,39 +1820,47 @@
         }
 
         function useNanabBerry() {
-            if (inventory.nanab <= 0 || isPaused) return;
-            inventory.nanab--;
-            saveInventory();
-            updateItemUI();
+    if (inventory.nanab <= 0 || isPaused) return;
+    inventory.nanab--;
+    saveInventory();
+    updateItemUI();
 
-            if (currentQuestionMode === 'SCRAMBLE') {
-                const display = document.getElementById('scramble-guess-display');
-                if(display) {
-                    const originalText = display.innerText;
-                    display.innerText = correctAnswersAttribute.toUpperCase();
-                    display.style.color = '#3b82f6';
-                    setTimeout(() => {
-                        display.innerText = originalText;
-                        display.style.color = ''; 
-                    }, 2000);
-                }
-            } else {
-                const btns = Array.from(document.querySelectorAll('.option-btn:not(:disabled)'));
-                const wrongBtns = btns.filter(b => b.dataset.value !== correctAnswersAttribute);
-                
-                wrongBtns.sort(() => Math.random() - 0.5);
-                if(wrongBtns[0]) { wrongBtns[0].disabled = true; wrongBtns[0].style.opacity = '0.3'; }
-                if(wrongBtns[1]) { wrongBtns[1].disabled = true; wrongBtns[1].style.opacity = '0.3'; }
-            }
+    if (currentQuestionMode === 'SCRAMBLE') {
+        const display = document.getElementById('scramble-guess-display');
+        if(display) {
+            const originalText = display.innerText;
+            const correctStr = correctAnswersAttribute.replace(/[\s\.\-']/g, '').toUpperCase();
             
-            const btn = document.getElementById('btn-item-nanab');
-            const popup = document.createElement('div');
-            popup.className = 'item-popup';
-            popup.innerHTML = "HINT!";
-            popup.style.color = "#3b82f6";
-            btn.appendChild(popup);
-            setTimeout(() => { popup.remove(); }, 3000);
+            // Determine how many letters to reveal based on name length
+            const revealCount = correctStr.length > 6 ? 3 : 2;
+            const hintText = correctStr.substring(0, revealCount) + "_".repeat(correctStr.length - revealCount);
+
+            display.innerText = hintText;
+            display.style.color = '#3b82f6';
+            
+            // Increased from 2000 to 4000 (4 seconds)
+            setTimeout(() => {
+                display.innerText = originalText;
+                display.style.color = ''; 
+            }, 4000);
         }
+    } else {
+        const btns = Array.from(document.querySelectorAll('.option-btn:not(:disabled)'));
+        const wrongBtns = btns.filter(b => b.dataset.value !== correctAnswersAttribute);
+        
+        wrongBtns.sort(() => Math.random() - 0.5);
+        if(wrongBtns[0]) { wrongBtns[0].disabled = true; wrongBtns[0].style.opacity = '0.3'; }
+        if(wrongBtns[1]) { wrongBtns[1].disabled = true; wrongBtns[1].style.opacity = '0.3'; }
+    }
+    
+    const btn = document.getElementById('btn-item-nanab');
+    const popup = document.createElement('div');
+    popup.className = 'item-popup';
+    popup.innerHTML = "HINT!";
+    popup.style.color = "#3b82f6";
+    btn.appendChild(popup);
+    setTimeout(() => { popup.remove(); }, 3000);
+}
 
         function openTrainerCard(publicData = null) {
             let pName, pAvatar, pXP, pSeen, pRight, pWrong, pSurvHigh, pSurvTotal, pSurvGames;
