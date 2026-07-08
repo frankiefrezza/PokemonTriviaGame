@@ -646,13 +646,47 @@ body {
         .lb-xp { font-weight: 700; color: #64748b; font-size: 12px; }
         .lb-level { background: #ede9fe; color: #7c3aed; padding: 4px 10px; border-radius: 8px; font-size: 13px; font-weight: 900; }
 
-        .dex-total-header { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.6); padding: 15px; border-radius: 16px; border: 2px solid rgba(255,255,255,0.8); margin-bottom: 20px; transition: background 0.3s, border-color 0.3s; }
-        .dex-total-text { font-weight: 900; color: #1e3a8a; font-size: 18px; }
-        
-        .dex-region-card { background: rgba(255,255,255,0.6); border: 2px solid rgba(255,255,255,0.8); border-radius: 16px; padding: 15px; margin-bottom: 15px; cursor: pointer; transition: all 0.2s, background 0.3s, border-color 0.3s; -webkit-tap-highlight-color: transparent;}
-        @media (hover: hover) {
-            .dex-region-card:hover { border-color: #3b82f6; transform: translateY(-2px); }
-        }
+        /* --- POKÉDEX GLASSMORPHIC CARDS --- */
+.dex-total-header { 
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+    padding: 15px; border-radius: 16px; 
+    
+    /* Glass Effect */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.05) 100%);
+    backdrop-filter: blur(15px) saturate(150%);
+    -webkit-backdrop-filter: blur(15px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.8);
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.4);
+    transition: background 0.3s, border-color 0.3s; 
+}
+.dex-total-text { font-weight: 900; color: #1e3a8a; font-size: 18px; }
+
+.dex-region-card { 
+    padding: 15px; border-radius: 16px; margin-bottom: 15px; cursor: pointer; 
+    
+    /* Glass Effect */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%);
+    backdrop-filter: blur(15px) saturate(150%);
+    -webkit-backdrop-filter: blur(15px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.8);
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.4);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) {
+    .dex-region-card:hover { 
+        border-color: rgba(59, 130, 246, 0.5);
+        border-top-color: rgba(59, 130, 246, 0.8);
+        border-left-color: rgba(59, 130, 246, 0.6);
+        box-shadow: 0 12px 24px rgba(59, 130, 246, 0.15), inset 0 1px 0 rgba(255,255,255,0.4);
+        transform: translateY(-2px); 
+    }
+}
         .dex-region-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .dex-region-name { font-weight: 800; color: #334155; font-size: 16px; text-transform: uppercase; letter-spacing: 0.5px; transition: color 0.3s; }
         .dex-region-count { font-weight: 800; color: #64748b; font-size: 14px; display: flex; align-items: center; gap: 5px; }
