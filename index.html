@@ -26,9 +26,14 @@
             min-height: -webkit-fill-available;
         }
 
-        body { 
+                        body { 
             font-family: 'Nunito', -apple-system, sans-serif; 
-            background: linear-gradient(135deg, #74ebd5, #9face6, #8fd3f4, #84fab0);
+            background-color: #022c22;
+            background-image: url('loadingscreen.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Keeps the background pinned in place */
+            background-repeat: no-repeat;
             display: flex; justify-content: center; align-items: center; 
             min-height: 100vh; 
             min-height: -webkit-fill-available; 
@@ -113,14 +118,15 @@
             100% { width: 100%; }
         }
 
-        #app { 
-            background: linear-gradient(135deg, rgba(175, 203, 255, 0.85) 0%, rgba(186, 230, 253, 0.85) 50%, rgba(221, 214, 254, 0.85) 100%); 
+                    #app { 
+            /* Changed the 0.85 to 0.4 to lower the opacity and let the background peek through! */
+            background: linear-gradient(135deg, rgba(209, 250, 229, 0.2) 0%, rgba(167, 243, 208, 0.2) 50%, rgba(110, 231, 183, 0.2) 100%); 
             backdrop-filter: blur(15px); 
             -webkit-backdrop-filter: blur(15px);
             padding: 30px; 
             border-radius: 35px; 
             border: 2px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.15), inset 0 0 0 2px rgba(255,255,255,0.5); 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.25), inset 0 0 0 2px rgba(255,255,255,0.5); 
             text-align: center; 
             width: 440px; 
             max-width: 100%; 
@@ -163,14 +169,16 @@
             filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
         }
 
-        /* --- VIBRANT BENTO BOXES & MODALS --- */
+                       /* --- VIBRANT BENTO BOXES & MODALS --- */
         .bento-box, #login-card, .modal-content { 
-            background: linear-gradient(135deg, rgba(254, 240, 138, 0.95) 0%, rgba(255, 204, 213, 0.95) 50%, rgba(216, 180, 254, 0.95) 100%); 
+            /* Lowered the opacity to 0.4 and 0.3 for that perfect see-through glass effect! */
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(236, 253, 245, 0.35) 50%, rgba(209, 250, 229, 0.3) 100%); 
             backdrop-filter: blur(12px); 
             -webkit-backdrop-filter: blur(12px);
             border-radius: 25px; 
-            border: 2px solid rgba(255, 255, 255, 0.8); 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08); 
+            /* Softened the border slightly so it looks like a real glass edge */
+            border: 2px solid rgba(255, 255, 255, 0.5); 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
             padding: 20px; 
             margin-bottom: 20px; 
             position: relative; 
@@ -178,23 +186,28 @@
             transition: background 0.3s ease, border-color 0.3s ease;
         }
 
-        /* --- TRAINER CARD STYLES --- */
-        .trainer-card { position: relative; border-radius: 25px; padding: 25px; margin-bottom: 20px; color: #334155; transition: all 0.4s ease; text-align: left; border: none; outline: 1px solid rgba(255,255,255,0.5); }
+                /* --- TRAINER CARD STYLES --- */
+        .trainer-card { 
+            position: relative; border-radius: 25px; padding: 25px; margin-bottom: 20px; color: #334155; transition: all 0.4s ease; text-align: left; border: none; outline: 1px solid rgba(255,255,255,0.5); 
+            /* Added the frosted blur directly to the card */
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+        }
         
         .card-bg-watermark { position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 25px; overflow: hidden; z-index: 0; pointer-events: none; }
         .watermark-pokeball { position: absolute; bottom: -30px; right: -20px; width: 180px; height: 180px; opacity: 0.12; transform: rotate(-15deg); color: #ffffff; }
         .rank-rookie .watermark-pokeball { color: #64748b; opacity: 0.08; } 
 
-        .rank-rookie { background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%); border: 2px solid #cbd5e1; box-shadow: 0 8px 0 #94a3b8; }
-        .rank-ace { background: linear-gradient(135deg, #eff6ff 0%, #bfdbfe 100%); color: #1e3a8a; border: 2px solid #60a5fa; box-shadow: 0 8px 0 #3b82f6; }
-        .rank-gym { background: linear-gradient(135deg, #fefce8 0%, #fde047 100%); color: #713f12; border: 2px solid #fbbf24; box-shadow: 0 8px 0 #d97706; }
-        .rank-veteran { background: linear-gradient(135deg, #ecfdf5 0%, #a7f3d0 100%); color: #064e3b; border: 2px solid #34d399; box-shadow: 0 8px 0 #059669; }
-        .rank-elite { background: linear-gradient(135deg, #f3e8ff 0%, #d8b4fe 100%); color: #4c1d95; border: 2px solid #a855f7; box-shadow: 0 8px 0 #7e22ce; }
-        .rank-champion { background: linear-gradient(135deg, #ecfeff 0%, #bae6fd 100%); color: #075985; border: 2px solid #38bdf8; box-shadow: 0 8px 0 #0284c7; }
-        .rank-legend { background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%); color: #7f1d1d; border: 2px solid #f87171; box-shadow: 0 8px 0 #dc2626; }
-        .rank-legendary { background: linear-gradient(135deg, #18181b 0%, #3f3f46 100%); color: #fbbf24; border: 2px solid #52525b; box-shadow: 0 8px 0 #27272a; }
-        .rank-master { background: linear-gradient(135deg, #0f172a 0%, #334155 100%); color: #f8fafc; border: 2px solid #475569; box-shadow: 0 8px 0 #334155; }
-
+        /* Converted all specific ranks into semi-transparent glass gradients! */
+        .rank-rookie { background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(226,232,240,0.4) 100%); border: 2px solid rgba(203,213,225,0.6); box-shadow: 0 8px 0 rgba(148,163,184,0.5); }
+        .rank-ace { background: linear-gradient(135deg, rgba(239,246,255,0.4) 0%, rgba(191,219,254,0.4) 100%); color: #1e3a8a; border: 2px solid rgba(96,165,250,0.6); box-shadow: 0 8px 0 rgba(59,130,246,0.5); }
+        .rank-gym { background: linear-gradient(135deg, rgba(254,252,232,0.4) 0%, rgba(253,224,71,0.4) 100%); color: #713f12; border: 2px solid rgba(251,191,36,0.6); box-shadow: 0 8px 0 rgba(217,119,6,0.5); }
+        .rank-veteran { background: linear-gradient(135deg, rgba(236,253,245,0.4) 0%, rgba(167,243,208,0.4) 100%); color: #064e3b; border: 2px solid rgba(52,211,153,0.6); box-shadow: 0 8px 0 rgba(5,150,105,0.5); }
+        .rank-elite { background: linear-gradient(135deg, rgba(243,232,255,0.4) 0%, rgba(216,180,254,0.4) 100%); color: #4c1d95; border: 2px solid rgba(168,85,247,0.6); box-shadow: 0 8px 0 rgba(126,34,206,0.5); }
+        .rank-champion { background: linear-gradient(135deg, rgba(236,254,255,0.4) 0%, rgba(186,230,253,0.4) 100%); color: #075985; border: 2px solid rgba(56,189,248,0.6); box-shadow: 0 8px 0 rgba(2,132,199,0.5); }
+        .rank-legend { background: linear-gradient(135deg, rgba(254,242,242,0.4) 0%, rgba(254,202,202,0.4) 100%); color: #7f1d1d; border: 2px solid rgba(248,113,113,0.6); box-shadow: 0 8px 0 rgba(220,38,38,0.5); }
+        .rank-legendary { background: linear-gradient(135deg, rgba(24,24,27,0.5) 0%, rgba(63,63,70,0.5) 100%); color: #fbbf24; border: 2px solid rgba(82,82,91,0.6); box-shadow: 0 8px 0 rgba(39,39,42,0.6); }
+        .rank-master { background: linear-gradient(135deg, rgba(15,23,42,0.5) 0%, rgba(51,65,85,0.5) 100%); color: #f8fafc; border: 2px solid rgba(71,85,105,0.6); box-shadow: 0 8px 0 rgba(51,65,85,0.6); }
         /* --- INTEGRATED BADGE SOCKET --- */
         .badge-socket-container { position: absolute; right: 20px; top: 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
         .badge-socket { width: 68px; height: 68px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); border: 2px solid rgba(255,255,255,0.5); box-shadow: inset 0 3px 6px rgba(0,0,0,0.1), 0 4px 10px rgba(0,0,0,0.05); display: flex; justify-content: center; align-items: center; transition: transform 0.3s ease; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
@@ -428,15 +441,19 @@
         .revealed { filter: brightness(1) !important; transition: filter 0.5s ease; }
         .shiny-glow { filter: brightness(1) drop-shadow(0 0 25px rgba(250, 204, 21, 0.8)) !important; }
 
-        /* --- INSTANT FEEDBACK BUTTONS --- */
+                /* --- INSTANT FEEDBACK BUTTONS --- */
         .option-btn { 
             display: block; width: 100%; padding: 15px; margin: 12px 0 16px 0; 
             font-size: 18px; font-family: 'Fredoka', sans-serif; font-weight: 600; 
             color: #475569; letter-spacing: 1.5px; text-transform: uppercase;
-            background: #ffffff;
-            border: 2px solid #cbd5e1; border-radius: 20px; 
+            /* Changed to translucent white glass */
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 2px solid rgba(203, 213, 225, 0.6); 
+            border-radius: 20px; 
             cursor: pointer; 
-            box-shadow: 0 6px 0 #94a3b8; 
+            box-shadow: 0 6px 0 rgba(148, 163, 184, 0.8); 
             transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.1s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s, color 0.3s, border-color 0.3s, opacity 0.3s; 
             position: relative; overflow: hidden;
             outline: none; -webkit-tap-highlight-color: transparent;
@@ -493,7 +510,7 @@
             100% { box-shadow: 0 0 20px rgba(250,204,21,1), 0 4px 0 rgba(245,158,11,0.5); } 
         }
 
-        /* --- ENHANCED PRIMARY BUTTONS --- */
+                        /* --- ENHANCED PRIMARY BUTTONS --- */
         .primary-btn { 
             display: flex; align-items: center; justify-content: center; gap: 8px; 
             padding: 16px 20px; 
@@ -504,43 +521,48 @@
             transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1); 
             position: relative; overflow: hidden; 
             outline: none; -webkit-tap-highlight-color: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.6);
-            text-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            
+            /* Enhanced the frosted glass blur and polished the white rim */
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4); /* Stronger shadow to pop against the art */
             color: white;
         }
         @media (hover: hover) {
-            .primary-btn:hover { filter: brightness(1.08); transform: translateY(-2px); }
+            .primary-btn:hover { filter: brightness(1.1); transform: translateY(-2px); }
         }
         .primary-btn:active { 
             transform: translateY(6px); 
             box-shadow: inset 0 3px 6px rgba(0,0,0,0.2) !important; 
         }
         
+                /* Bumped up the color opacity to 0.65 for a vibrant pop, kept shadows translucent! */
         .btn-blue { 
-            background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 100%); 
-            box-shadow: 0 6px 0 #2563eb, inset 0 3px 0 rgba(255,255,255,0.4); 
+            background: linear-gradient(180deg, rgba(96, 165, 250, 0.65) 0%, rgba(59, 130, 246, 0.65) 100%); 
+            box-shadow: 0 6px 0 rgba(37, 99, 235, 0.5), inset 0 3px 0 rgba(255,255,255,0.3); 
         } 
         .btn-green { 
-            background: linear-gradient(180deg, #34d399 0%, #10b981 100%); 
-            box-shadow: 0 6px 0 #059669, inset 0 3px 0 rgba(255,255,255,0.4); 
+            background: linear-gradient(180deg, rgba(52, 211, 153, 0.65) 0%, rgba(16, 185, 129, 0.65) 100%); 
+            box-shadow: 0 6px 0 rgba(5, 150, 105, 0.5), inset 0 3px 0 rgba(255,255,255,0.3); 
         } 
         .btn-orange { 
-            background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%); 
-            box-shadow: 0 6px 0 #d97706, inset 0 3px 0 rgba(255,255,255,0.4); 
+            background: linear-gradient(180deg, rgba(251, 191, 36, 0.65) 0%, rgba(245, 158, 11, 0.65) 100%); 
+            box-shadow: 0 6px 0 rgba(217, 119, 6, 0.5), inset 0 3px 0 rgba(255,255,255,0.3); 
         } 
         .btn-purple { 
-            background: linear-gradient(180deg, #a78bfa 0%, #8b5cf6 100%); 
-            box-shadow: 0 6px 0 #7c3aed, inset 0 3px 0 rgba(255,255,255,0.4); 
+            background: linear-gradient(180deg, rgba(167, 139, 250, 0.65) 0%, rgba(139, 92, 246, 0.65) 100%); 
+            box-shadow: 0 6px 0 rgba(124, 58, 237, 0.5), inset 0 3px 0 rgba(255,255,255,0.3); 
         }
         .btn-red { 
-            background: linear-gradient(180deg, #f87171 0%, #ef4444 100%); 
-            box-shadow: 0 6px 0 #b91c1c, inset 0 3px 0 rgba(255,255,255,0.4); 
+            background: linear-gradient(180deg, rgba(248, 113, 113, 0.65) 0%, rgba(239, 68, 68, 0.65) 100%); 
+            box-shadow: 0 6px 0 rgba(185, 28, 28, 0.5), inset 0 3px 0 rgba(255,255,255,0.3); 
         }
         .btn-gray { 
-            background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%); 
-            color: #475569 !important; 
-            box-shadow: 0 6px 0 #94a3b8, inset 0 3px 0 rgba(255,255,255,0.7); 
-            text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+            background: linear-gradient(180deg, rgba(248, 250, 252, 0.45) 0%, rgba(226, 232, 240, 0.45) 100%); 
+            color: #ffffff !important; 
+            box-shadow: 0 6px 0 rgba(148, 163, 184, 0.4), inset 0 3px 0 rgba(255,255,255,0.4); 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4) !important;
         }
 
         .bottom-dock { display: flex; justify-content: space-around; align-items: center; gap: 10px; margin-top: 5px; margin-bottom: 0; }
@@ -626,8 +648,18 @@
         .coin-icon-large { width: 38px; height: 38px; vertical-align: middle; margin-right: 8px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
         .coin-icon-small { width: 22px; height: 22px; vertical-align: middle; margin-right: 6px; }
         
-        .shop-item-card { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.6); border: 2px solid rgba(255,255,255,0.8); border-radius: 16px; padding: 15px; margin-bottom: 15px; transition: background 0.3s, border-color 0.3s; }
-        .shop-item-icon { width: 50px; height: 50px; object-fit: contain; background: rgba(255,255,255,0.8); border-radius: 12px; border: 2px solid rgba(255,255,255,0.8); padding: 5px; }
+        .shop-item-card { 
+    display: flex; align-items: center; gap: 15px; 
+    background: rgba(255, 255, 255, 0.25); 
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    border: 2px solid rgba(255, 255, 255, 0.4); 
+    border-radius: 20px; padding: 15px; margin-bottom: 15px; 
+}
+.shop-item-icon { 
+    width: 50px; height: 50px; object-fit: contain; 
+    background: rgba(255, 255, 255, 0.3); 
+    border-radius: 12px; border: 2px solid rgba(255, 255, 255, 0.4); 
+}
         .shop-item-details { flex-grow: 1; display: flex; flex-direction: column; }
         .shop-item-name { font-weight: 800; color: #334155; font-size: 16px; text-transform: uppercase; transition: color 0.3s; }
         .shop-item-desc { font-weight: 700; color: #64748b; font-size: 11px; margin-bottom: 5px; line-height: 1.2; }
