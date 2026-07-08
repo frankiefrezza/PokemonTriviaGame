@@ -750,7 +750,7 @@
         body.dark-mode #tc-title { color: #60a5fa !important; }
         body.dark-mode #tc-badge ~ span { color: #cbd5e1 !important; }
 
-                /* Dark Mode fix for the silhouette visibility */
+        /* Dark Mode fix for the silhouette visibility */
         body.dark-mode .silhouette {
             filter: brightness(0) invert(1) !important;
         }
@@ -1083,7 +1083,7 @@
 
             <div style="display: flex; gap: 15px; align-items: center; margin-top: 15px; padding-top: 15px; border-top: 2px dashed rgba(255,255,255,0.8);">
                 <div class="avatar-preview-box" style="width: 80px; height: 80px; margin: 0; flex-shrink: 0; background: rgba(255,255,255,0.8); border: 2px solid rgba(255,255,255,0.8);">
-                    <img id="modal-avatar-img" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png">
+                    <img id="modal-avatar-img" src="pokemon/official-artwork/25.png">
                 </div>
                 <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 10px;">
                     <button class="primary-btn btn-green" id="confirm-avatar-btn" onclick="confirmAvatar()">Select</button>
@@ -1111,7 +1111,7 @@
                 <div style="position: relative; z-index: 1; margin-bottom: 25px;">
                     <div class="trainer-avatar-container" style="margin: 0 auto 8px auto; cursor: pointer; width: 100px; height: 100px;" onclick="openAvatarModal()" title="Tap to choose starter">
                         <div class="trainer-avatar-circle" style="border: 3px solid #93c5fd; animation: pulseAvatar 2s infinite alternate;">
-                            <img id="login-avatar-preview" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" style="background: transparent !important;">
+                            <img id="login-avatar-preview" src="pokemon/official-artwork/25.png" style="background: transparent !important;">
                         </div>
                     </div>
                     <div style="font-size: 11px; font-weight: 900; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.8;">Tap to choose starter</div>
@@ -1264,7 +1264,7 @@
             
             <div id="loading-container" class="bento-box hidden" style="text-align: center; padding: 40px 20px; margin-bottom: 20px;">
                 <div style="height: 120px; display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
-                    <img id="loading-sprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" style="width: 100px; height: 100px; object-fit: contain; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15)); transition: transform 0.1s;">
+                    <img id="loading-sprite" src="pokemon/25.png" style="width: 100px; height: 100px; object-fit: contain; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15)); transition: transform 0.1s;">
                 </div>
                 <h2 id="loading-text" style="font-size: 16px; font-weight: 800; margin: 0 0 15px 0; text-transform: uppercase; letter-spacing: 1px;">Searching tall grass for Pokémon...</h2>
                 
@@ -1375,6 +1375,19 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
+        /* --- OFFLINE AVATAR REWRITER HELPER --- */
+        function getLocalSprite(url) {
+            if (!url) return 'pokemon/official-artwork/25.png';
+            if (url.includes('raw.githubusercontent.com')) {
+                return url.replace('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/', 'pokemon/gif/')
+                          .replace('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/', 'pokemon/official-artwork/shiny/')
+                          .replace('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/', 'pokemon/official-artwork/')
+                          .replace('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/', 'pokemon/shiny/')
+                          .replace('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/', 'pokemon/');
+            }
+            return url;
+        }
+
         /* --- INDEXED DB NATIVE WRAPPER --- */
         const dbPromise = new Promise((resolve, reject) => {
             const request = indexedDB.open('PKMNTriviaDB', 1);
@@ -1474,7 +1487,7 @@
         const POKEMON_TYPES = ['normal', 'fire', 'water', 'grass', 'electric', 'ice', 'fighting', 'poison', 'ground', 'flying', 'psychic', 'bug', 'rock', 'ghost', 'dragon', 'dark', 'steel', 'fairy'];
         const REGIONS = {'generation-i': 'Kanto', 'generation-ii': 'Johto', 'generation-iii': 'Hoenn', 'generation-iv': 'Sinnoh', 'generation-v': 'Unova', 'generation-vi': 'Kalos', 'generation-vii': 'Alola', 'generation-viii': 'Galar', 'generation-ix': 'Paldea'};
         
-        let masterPokemonList = []; // NEW: Core database fetched once on load
+        let masterPokemonList = []; 
 
         const POKEDEX_REGIONS = [
             { name: 'Kanto', start: 1, end: 151 },
@@ -1499,7 +1512,7 @@
         let currentUser = null, currentXP = 0;
         let sessionRight = 0, sessionWrong = 0, sessionXP = 0; 
         let sessionMoney = 0;
-        let selectedAvatarUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
+        let selectedAvatarUrl = 'pokemon/official-artwork/25.png';
         let knownUsers = JSON.parse(localStorage.getItem('knownPokeUsers')) || [];
         let preloadedQuestions = [];
         let leaderboardDataCache = [];
@@ -1524,7 +1537,6 @@
         window.onload = async () => {
             initSettingsUI();
             
-            // NEW: Fetch master list once to prevent API blocking
             try {
                 const masterData = await fetchWithCache('https://pokeapi.co/api/v2/pokemon?limit=1025');
                 masterPokemonList = masterData.results;
@@ -1829,7 +1841,7 @@
 
             if (publicData) {
                 pName = publicData.user;
-                pAvatar = publicData.avatar || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
+                pAvatar = getLocalSprite(publicData.avatar || 'pokemon/official-artwork/25.png');
                 pXP = publicData.xp || 0;
                 pSeen = (publicData.seen && publicData.seen.length) ? publicData.seen.length : 0;
                 pRight = publicData.stats_right || 0;
@@ -1984,7 +1996,7 @@
                     lbList.innerHTML += `
                         <div class="lb-row" onclick="viewPublicCard(${index})">
                             <span class="${rankClass}">${rankStr}</span>
-                            <img class="lb-avatar" src="${player.avatar || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png'}">
+                            <img class="lb-avatar" src="${getLocalSprite(player.avatar || 'pokemon/official-artwork/25.png')}">
                             <div class="lb-details">
                                 <span class="lb-name">${player.user}</span>
                                 <span class="lb-xp">${player.xp} Total XP</span>
@@ -2083,7 +2095,7 @@
                 let tempShiny = [...memShinyDex].sort((a,b) => a - b);
                 grid.innerHTML = tempShiny.map(id => `
                     <div class="dex-sprite-box" style="border-color: rgba(253,224,71,0.8); background: rgba(255,251,235,0.8);" onclick="event.stopPropagation(); openPokemonDetail(${id}, true)">
-                        <img class="dex-sprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${id}.png">
+                        <img class="dex-sprite" src="pokemon/shiny/${id}.png">
                         <span class="dex-id">#${id}</span>
                     </div>
                 `).join('');
@@ -2108,7 +2120,7 @@
                 caughtInRegion.sort((a,b) => a - b);
                 grid.innerHTML = caughtInRegion.map(id => `
                     <div class="dex-sprite-box" onclick="event.stopPropagation(); openPokemonDetail(${id}, false)">
-                        <img class="dex-sprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png">
+                        <img class="dex-sprite" src="pokemon/${id}.png">
                         <span class="dex-id">#${id}</span>
                     </div>
                 `).join('');
@@ -2137,11 +2149,7 @@
                 const data = await fetchWithCache(`https://pokeapi.co/api/v2/pokemon/${id}`);
                 nameEl.innerText = data.name.replace('-', ' ');
                 
-                let spriteUrl = data.sprites.other['official-artwork'].front_default;
-                if (isShinyDex && (data.sprites.other['official-artwork'].front_shiny || data.sprites.front_shiny)) {
-                    spriteUrl = data.sprites.other['official-artwork'].front_shiny || data.sprites.front_shiny;
-                }
-                
+                let spriteUrl = isShinyDex ? `pokemon/official-artwork/shiny/${id}.png` : `pokemon/official-artwork/${id}.png`;
                 imgEl.src = spriteUrl;
                 
                 typesEl.innerHTML = data.types.map(t => {
@@ -2282,8 +2290,8 @@
 
             let html = '';
             for (let id = region.start; id <= region.end; id++) {
-                let url = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${id}.gif`;
-                let gridImg = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+                let url = `pokemon/gif/${id}.gif`;
+                let gridImg = `pokemon/${id}.png`;
                 
                 html += `<div class="avatar-item" onclick="selectAvatarTemp('${url}')">
                     <img src="${gridImg}" loading="lazy">
@@ -2324,7 +2332,7 @@
             if (knownUsers.length > 0) {
                 container.classList.remove('hidden');
                 knownUsers.forEach(user => {
-                    const avatarUrl = localStorage.getItem('avatar_' + user) || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
+                    const avatarUrl = getLocalSprite(localStorage.getItem('avatar_' + user) || 'pokemon/official-artwork/25.png');
                     
                     const chip = document.createElement('div');
                     chip.className = 'history-chip';
@@ -2391,7 +2399,7 @@
                     }
                     
                     currentXP = cloudData.xp || 0;
-                    selectedAvatarUrl = cloudData.avatar || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
+                    selectedAvatarUrl = getLocalSprite(cloudData.avatar || 'pokemon/official-artwork/25.png');
                     
                     memPokedex = cloudData.pokedex || await getMigratedData(`pokedex_${currentUser}`);
                     memShinyDex = cloudData.shiny_dex || await getMigratedData(`shiny_dex_${currentUser}`);
@@ -2441,6 +2449,7 @@
                     }
 
                     await db.collection("trainers").doc(currentUser).set({
+                        avatar: selectedAvatarUrl,
                         pokedex: memPokedex,
                         shiny_dex: memShinyDex,
                         seen: memSeen,
@@ -2524,7 +2533,7 @@
             currentUser = null;
             document.getElementById('username-input').value = '';
             document.getElementById('pin-input').value = '';
-            selectedAvatarUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
+            selectedAvatarUrl = 'pokemon/official-artwork/25.png';
             document.getElementById('login-avatar-preview').src = selectedAvatarUrl;
             
             memPokedex = [];
@@ -2580,7 +2589,7 @@
 
             document.getElementById('home-display-wallet').innerText = pokeDollars;
 
-            const savedAvatar = localStorage.getItem('avatar_' + username) || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png';
+            const savedAvatar = getLocalSprite(localStorage.getItem('avatar_' + username) || 'pokemon/official-artwork/25.png');
             selectedAvatarUrl = savedAvatar; 
             document.getElementById('trainer-display-avatar').src = selectedAvatarUrl;
             updateXPUI();
@@ -2690,7 +2699,6 @@
             return null;
         }
 
-        // NEW: Pull random choices from the master database completely locally
         function getRandomWrongChoices(correctValue, count = 3) {
             let pool = [];
             if (!masterPokemonList || masterPokemonList.length === 0) return pool;
@@ -2724,20 +2732,17 @@
                         masterPokemonList = fallbackData.results;
                     }
 
-                    // NEW: Pull name locally instead of fetching /pokemon/id
                     let rawName = masterPokemonList[targetId - 1].name;
                     let cleanName = rawName.replace('-', ' ');
                     let isShiny = Math.random() < 0.03; 
                     
-                    // NEW: Generate sprite URL locally to prevent API bombing
                     let spriteUrl = isShiny 
-                        ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${targetId}.png`
-                        : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${targetId}.png`;
+                        ? `pokemon/official-artwork/shiny/${targetId}.png`
+                        : `pokemon/official-artwork/${targetId}.png`;
                     
                     let speciesData = null, chainData = null, mainPokemon = null;
                     let evolveToSpriteUrl = null;
 
-                    // Deep load ONLY if the specific question mode demands it
                     if (evalMode === 'TYPES' || evalMode === 'EVOLUTIONS' || evalMode === 'TRIVIA_KNOWLEDGE') {
                         mainPokemon = await fetchWithCache(`https://pokeapi.co/api/v2/pokemon/${targetId}`);
                         if (evalMode === 'EVOLUTIONS' || evalMode === 'TRIVIA_KNOWLEDGE') {
@@ -2779,17 +2784,14 @@
                         questionText = `Who does <strong style="text-transform: capitalize; color: #f59e0b;">${cleanName}</strong> evolve into?`;
                         correctAnswersAttribute = evolveTo;
 
-                        // Local URL generation for the evolved sprite
                         let evolveToId = masterPokemonList.findIndex(p => p.name === evolveTo) + 1;
                         if (evolveToId > 0) {
                             evolveToSpriteUrl = isShiny 
-                                ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${evolveToId}.png`
-                                : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${evolveToId}.png`;
+                                ? `pokemon/official-artwork/shiny/${evolveToId}.png`
+                                : `pokemon/official-artwork/${evolveToId}.png`;
                         } else {
                             let evolveToData = await fetchWithCache(`https://pokeapi.co/api/v2/pokemon/${evolveTo}`);
-                            evolveToSpriteUrl = isShiny && (evolveToData.sprites.other['official-artwork'].front_shiny) 
-                                ? evolveToData.sprites.other['official-artwork'].front_shiny 
-                                : evolveToData.sprites.other['official-artwork'].front_default;
+                            evolveToSpriteUrl = isShiny ? `pokemon/official-artwork/shiny/${evolveToData.id}.png` : `pokemon/official-artwork/${evolveToData.id}.png`;
                         }
 
                         let wrongChoices = getRandomWrongChoices(correctAnswersAttribute, 3);
@@ -2885,7 +2887,7 @@
             let cycleIdx = 0;
             
             const spriteInterval = setInterval(() => {
-                spriteCycler.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${cycleIds[cycleIdx]}.png`;
+                spriteCycler.src = `pokemon/${cycleIds[cycleIdx]}.png`;
                 cycleIdx = (cycleIdx + 1) % cycleIds.length;
             }, 120);
 
@@ -2927,7 +2929,6 @@
                         preloadedQuestions.push(nextQuestion);
                         consecutiveFails = 0; 
                         
-                        // NEW: Throttle based on deep API call risk
                         let delay = (mode === 'TRIVIA' || mode === 'EVOLUTIONS' || mode === 'TYPES') ? 600 : 100;
                         await new Promise(resolve => setTimeout(resolve, delay));
                     } catch (error) {
@@ -3143,98 +3144,98 @@
         }
 
         function applyScore(isCorrect) {
-            if (isCorrect) {
-                if (!memPokedex.includes(currentPokemonId)) {
-                    memPokedex.push(currentPokemonId);
-                    idbSet(`pokedex_${currentUser}`, memPokedex);
-                }
-                
-                if (isShiny && !memShinyDex.includes(currentPokemonId)) {
-                    memShinyDex.push(currentPokemonId);
-                    idbSet(`shiny_dex_${currentUser}`, memShinyDex);
-                }
+    if (isCorrect) {
+        if (!memPokedex.includes(currentPokemonId)) {
+            memPokedex.push(currentPokemonId);
+            idbSet(`pokedex_${currentUser}`, memPokedex);
+        }
+        
+        if (isShiny && !memShinyDex.includes(currentPokemonId)) {
+            memShinyDex.push(currentPokemonId);
+            idbSet(`shiny_dex_${currentUser}`, memShinyDex);
+        }
 
-                sessionRight++;
-                currentStreak++;
-                pokeDollars += 2; 
-                sessionMoney += 2;
-                
-                let totalRight = parseInt(localStorage.getItem(`stats_right_${currentUser}`)) || 0;
-                totalRight++;
-                localStorage.setItem(`stats_right_${currentUser}`, totalRight);
+        sessionRight++;
+        currentStreak++;
+        pokeDollars += 2; 
+        sessionMoney += 2;
+        
+        let totalRight = parseInt(localStorage.getItem(`stats_right_${currentUser}`)) || 0;
+        totalRight++;
+        localStorage.setItem(`stats_right_${currentUser}`, totalRight);
 
-                let xpGain = 5; 
-                let floatText = "<img src='coin.png' style='width: 20px; height: 20px; vertical-align: middle; margin-top: -4px;'> +2";
-                
-                if (isShiny) {
-                    xpGain *= 2;
-                    floatText = "<svg width='16' height='16' viewBox='0 0 24 24' fill='currentColor' stroke='none' style='vertical-align: middle; margin-top: -4px; margin-right: 4px;'><path d='M12 2l2.4 7.6 8.6 1-6.6 5.4 2 8-7.4-4.6-7.4 4.6 2-8-6.6-5.4 8.6-1z'/></svg> SHINY! +10 XP";
-                }
-                
-                if (currentStreak >= 5) {
-                    xpGain += 2;
-                    pokeDollars += 10; 
-                    sessionMoney += 10;
-                    updateDailyTaskProgress('streak');
-                    const streakEl = document.getElementById('streak-display');
-                    streakEl.classList.remove('hidden');
-                    document.getElementById('streak-count').innerText = currentStreak;
-                    
-                    if(!isShiny) {
-                        floatText = "<img src='coin.png' style='width: 20px; height: 20px; vertical-align: middle; margin-top: -4px;'> +10";
-                    } else {
-                        floatText = "<svg width='16' height='16' viewBox='0 0 24 24' fill='currentColor' stroke='none' style='vertical-align: middle; margin-top: -4px; margin-right: 4px;'><path d='M12 2l2.4 7.6 8.6 1-6.6 5.4 2 8-7.4-4.6-7.4 4.6 2-8-6.6-5.4 8.6-1z'/></svg> SHINY STREAK! +12 XP";
-                    }
-                }
-                
-                showXPFloatingText(floatText, isShiny ? "#f59e0b" : "#fbbf24", 2000);
-                
-                updateDailyTaskProgress('correct');
-                
-                sessionXP += xpGain;
-                sessionXPDisplay.innerText = sessionXP;
-
-                currentXP += xpGain;
-                
-                saveInventory();
-                updateXPUI();
-                
-                db.collection("trainers").doc(currentUser).set({
-                    user: currentUser,
-                    xp: currentXP,
-                    level: Math.floor(currentXP / 100) + 1,
-                    avatar: selectedAvatarUrl,
-                    pokedex: memPokedex,
-                    shiny_dex: memShinyDex,
-                    stats_right: totalRight
-                }, { merge: true }).catch(e => console.error("Firebase sync error:", e));
+        let xpGain = 5; 
+        let floatText = "<img src='coin.png' style='width: 20px; height: 20px; vertical-align: middle; margin-top: -4px;'> +2";
+        
+        if (isShiny) {
+            xpGain *= 2;
+            floatText = "<svg width='16' height='16' viewBox='0 0 24 24' fill='currentColor' stroke='none' style='vertical-align: middle; margin-top: -4px; margin-right: 4px;'><path d='M12 2l2.4 7.6 8.6 1-6.6 5.4 2 8-7.4-4.6-7.4 4.6 2-8-6.6-5.4 8.6-1z'/></svg> SHINY! +10 XP";
+        }
+        
+        if (currentStreak >= 5) {
+            xpGain += 2;
+            pokeDollars += 10; 
+            sessionMoney += 10;
+            updateDailyTaskProgress('streak');
+            const streakEl = document.getElementById('streak-display');
+            streakEl.classList.remove('hidden');
+            document.getElementById('streak-count').innerText = currentStreak;
+            
+            if(!isShiny) {
+                floatText = "<img src='coin.png' style='width: 20px; height: 20px; vertical-align: middle; margin-top: -4px;'> +10";
             } else {
-                if (inventory.sash > 0) {
-                    inventory.sash--;
-                    saveInventory();
-                    updateItemUI();
-                    
-                    const statsContainer = document.querySelector('.stats');
-                    const popup = document.createElement('div');
-                    popup.className = 'xp-popup';
-                    popup.innerHTML = "STREAK SAVED!";
-                    popup.style.color = "#f59e0b"; 
-                    popup.style.animationDuration = "3s";
-                    statsContainer.appendChild(popup);
-                    setTimeout(() => { popup.remove(); }, 3000);
-                } else {
-                    sessionWrong++;
-                    currentStreak = 0;
-                    document.getElementById('streak-display').classList.add('hidden');
-                    
-                    let totalWrong = parseInt(localStorage.getItem(`stats_wrong_${currentUser}`)) || 0;
-                    totalWrong++;
-                    localStorage.setItem(`stats_wrong_${currentUser}`, totalWrong);
-                    
-                    db.collection("trainers").doc(currentUser).set({ stats_wrong: totalWrong }, { merge: true }).catch(e => console.error("Firebase sync error:", e));
-                }
+                floatText = "<svg width='16' height='16' viewBox='0 0 24 24' fill='currentColor' stroke='none' style='vertical-align: middle; margin-top: -4px; margin-right: 4px;'><path d='M12 2l2.4 7.6 8.6 1-6.6 5.4 2 8-7.4-4.6-7.4 4.6 2-8-6.6-5.4 8.6-1z'/></svg> SHINY STREAK! +12 XP";
             }
         }
+        
+        showXPFloatingText(floatText, isShiny ? "#f59e0b" : "#fbbf24", 2000);
+        
+        updateDailyTaskProgress('correct');
+        
+        sessionXP += xpGain;
+        sessionXPDisplay.innerText = sessionXP;
+
+        currentXP += xpGain;
+        
+        saveInventory();
+        updateXPUI();
+        
+        db.collection("trainers").doc(currentUser).set({
+            user: currentUser,
+            xp: currentXP,
+            level: Math.floor(currentXP / 100) + 1,
+            avatar: selectedAvatarUrl,
+            pokedex: memPokedex,
+            shiny_dex: memShinyDex,
+            stats_right: totalRight
+        }, { merge: true }).catch(e => console.error("Firebase sync error:", e));
+    } else {
+        if (inventory.sash > 0) {
+            inventory.sash--;
+            saveInventory();
+            updateItemUI();
+            
+            const statsContainer = document.querySelector('.stats');
+            const popup = document.createElement('div');
+            popup.className = 'xp-popup';
+            popup.innerHTML = "STREAK SAVED!";
+            popup.style.color = "#f59e0b"; 
+            popup.style.animationDuration = "3s";
+            statsContainer.appendChild(popup);
+            setTimeout(() => { popup.remove(); }, 3000);
+        } else {
+            sessionWrong++;
+            currentStreak = 0;
+            document.getElementById('streak-display').classList.add('hidden');
+            
+            let totalWrong = parseInt(localStorage.getItem(`stats_wrong_${currentUser}`)) || 0;
+            totalWrong++;
+            localStorage.setItem(`stats_wrong_${currentUser}`, totalWrong);
+            
+            db.collection("trainers").doc(currentUser).set({ stats_wrong: totalWrong }, { merge: true }).catch(e => console.error("Firebase sync error:", e));
+        }
+    }
+}
 
         function handleGuess(clickedBtn, isCorrect) {
             if (currentMode !== 'SURVIVAL') {
@@ -3332,8 +3333,7 @@
             allBtns.forEach(btn => {
                 if (btn.dataset.value === correctAnswersAttribute) {
                     btn.classList.add('correct');
-                    btn.style.transform =
-"translateY(6px)";
+                    btn.style.transform = "translateY(6px)";
                     btn.style.boxShadow = "0 0 0 transparent";
                 }
             });
