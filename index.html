@@ -942,6 +942,81 @@ body {
             .dock-btn img { height: 50px; } 
             .dock-btn span { font-size: 10px; }
         }
+            /* --- TCG EVOLUTION LAYOUT --- */
+    .tcg-base-box {
+        position: absolute;
+        top: -25px; 
+        left: -20px; 
+        width: 85px;
+        height: 85px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.05) 100%);
+        backdrop-filter: blur(25px) saturate(180%);
+        -webkit-backdrop-filter: blur(25px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-top: 2px solid rgba(255, 255, 255, 0.9);
+        border-left: 2px solid rgba(255, 255, 255, 0.7);
+        box-shadow: 0 15px 25px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.5);
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 5;
+    }
+    
+    .tcg-base-sprite {
+        width: 85%;
+        height: 85%;
+        object-fit: contain;
+        filter: drop-shadow(0 6px 8px rgba(0,0,0,0.25));
+    }
+
+    .tcg-evolved-sprite {
+        width: 220px;
+        height: 220px;
+        object-fit: contain;
+        margin: 5px auto;
+        display: block;
+        position: relative;
+        z-index: 1;
+    }
+    
+    /* Dark mode support for the small floating box */
+    body.dark-mode .tcg-base-box {
+        background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.2) 100%);
+        border-color: rgba(255, 255, 255, 0.15);
+        border-top-color: rgba(255, 255, 255, 0.4);
+        border-left-color: rgba(255, 255, 255, 0.25);
+        box-shadow: 0 15px 25px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+    }
+        /* --- MAIN GLASS IMAGE CONTAINER --- */
+    #image-container {
+        position: relative; /* This is what makes the small TCG box anchor to its corner! */
+        width: 100% !important;
+        max-width: 320px; 
+        padding: 15px; 
+        margin: 0 auto;
+        box-sizing: border-box; 
+        
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.0) 100%);
+        backdrop-filter: blur(15px) saturate(150%);
+        -webkit-backdrop-filter: blur(15px) saturate(150%);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-top: 1px solid rgba(255, 255, 255, 0.8);
+        border-left: 1px solid rgba(255, 255, 255, 0.5);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.4);
+        border-radius: 30px;
+        
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    body.dark-mode #image-container {
+        background: linear-gradient(135deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.1) 100%);
+        border-color: rgba(255, 255, 255, 0.1);
+        border-top-color: rgba(255, 255, 255, 0.2);
+        border-left-color: rgba(255, 255, 255, 0.15);
+    }
     </style>
 </head>
 <body>
@@ -3103,13 +3178,12 @@ body {
             
             let shinyTagHtml = `<div id="shiny-tag" class="hidden" style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #fbbf24, #f59e0b); color: white; padding: 4px 16px; border-radius: 12px; font-weight: 900; font-size: 14px; letter-spacing: 2px; text-shadow: 0 1px 2px rgba(0,0,0,0.2); box-shadow: 0 4px 10px rgba(245,158,11,0.4); z-index: 20; border: 2px solid white; animation: pulseGlow 1.5s infinite alternate; display: flex; align-items: center; gap: 6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l2.4 7.6 8.6 1-6.6 5.4 2 8-7.4-4.6-7.4 4.6 2-8-6.6-5.4 8.6-1z"/></svg> SHINY <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l2.4 7.6 8.6 1-6.6 5.4 2 8-7.4-4.6-7.4 4.6 2-8-6.6-5.4 8.6-1z"/></svg></div>`;
             
-            if (currentQuestionMode === 'EVOLUTIONS') {
+                        if (currentQuestionMode === 'EVOLUTIONS') {
                 imageContainer.innerHTML = shinyTagHtml + `
-                    <div class="dual-image-container">
-                        <img src="${qData.spriteUrl}" class="dual-image-sprite ${isShiny ? 'shiny-glow' : 'revealed'}">
-                        <svg class="evolution-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                        <img id="evolved-pokemon-image" src="${qData.evolveToSpriteUrl}" class="dual-image-sprite silhouette">
+                    <div class="tcg-base-box">
+                        <img src="${qData.spriteUrl}" class="tcg-base-sprite ${isShiny ? 'shiny-glow' : 'revealed'}">
                     </div>
+                    <img id="evolved-pokemon-image" src="${qData.evolveToSpriteUrl}" class="tcg-evolved-sprite silhouette">
                 `;
             } else {
                 imageContainer.innerHTML = shinyTagHtml + `<img id="pokemon-image" src="${qData.spriteUrl}" class="${qData.imageClass}" alt="Pokemon">`;
@@ -3374,7 +3448,7 @@ body {
                 if(imgEl) imgEl.className = isShiny ? 'shiny-glow' : 'revealed'; 
             } else if (currentQuestionMode === 'EVOLUTIONS') {
                 let evImgEl = document.getElementById('evolved-pokemon-image');
-                if(evImgEl) evImgEl.className = isShiny ? 'dual-image-sprite shiny-glow' : 'dual-image-sprite revealed';
+                        if(evImgEl) evImgEl.className = isShiny ? 'tcg-evolved-sprite shiny-glow' : 'tcg-evolved-sprite revealed';
             }
 
             const allBtns = document.querySelectorAll('.option-btn');
@@ -3443,7 +3517,7 @@ body {
                 if(imgEl) imgEl.className = isShiny ? 'shiny-glow' : 'revealed'; 
             } else if (currentQuestionMode === 'EVOLUTIONS') {
                 let evImgEl = document.getElementById('evolved-pokemon-image');
-                if(evImgEl) evImgEl.className = isShiny ? 'dual-image-sprite shiny-glow' : 'dual-image-sprite revealed';
+                if(evImgEl) evImgEl.className = isShiny ? 'tcg-evolved-sprite shiny-glow' : 'tcg-evolved-sprite revealed';
             }
 
             triggerFeedbackAnimation(false);
