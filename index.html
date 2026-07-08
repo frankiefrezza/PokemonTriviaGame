@@ -54,29 +54,23 @@
             100% { background-position: 60px 60px; }
         }
 
-        /* --- STATIC SPLASH SCREEN --- */
+                /* --- STATIC SPLASH SCREEN --- */
         #splash-screen {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(135deg, #fef08a 0%, #fecdd3 50%, #d8b4fe 100%);
+            background-color: #74ebd5; 
+            background-image: url('loadingscreen.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             z-index: 99999;
             transition: opacity 0.5s ease-out;
             overflow: hidden;
         }
 
-        .splash-watermark {
-            position: absolute;
-            width: 250px; height: 250px;
-            color: rgba(255, 255, 255, 0.15);
-            z-index: 0;
-        }
-        .splash-watermark.top-left { top: -60px; left: -60px; transform: rotate(-15deg); }
-        .splash-watermark.bottom-right { bottom: -60px; right: -60px; transform: rotate(15deg); }
-        .splash-watermark.bottom-left { bottom: 15%; left: -100px; transform: rotate(-30deg); width: 220px; height: 220px; }
-
         .splash-logo { 
             width: 340px; max-width: 85%; 
-            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.25)); 
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.3)); 
             z-index: 2;
         }
         
@@ -318,7 +312,7 @@
         
         .modes-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
 
-                /* --- NEW IMAGE BUTTON STYLES --- */
+                        /* --- NEW IMAGE BUTTON STYLES --- */
         .image-mode-btn {
             background: transparent;
             border: none;
@@ -330,16 +324,26 @@
             outline: none;
             display: block;
             width: 100%;
-            height: 100%; /* Forces button to fill the grid cell height */
             -webkit-tap-highlight-color: transparent;
         }
+
         .image-mode-btn img {
             width: 100%;
-            height: 100%; /* Changed from auto to 100% */
-            object-fit: cover; /* Ensures the image fills the space without squishing */
             display: block;
+            object-fit: cover; 
             border-radius: 20px;
             filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15));
+        }
+
+        /* FORCES THE TOP 4 ICONS INTO PERFECT, IDENTICAL SQUARES */
+        .modes-grid .image-mode-btn:not(:last-child) img {
+            aspect-ratio: 1 / 1;
+            height: 100%;
+        }
+
+        /* LETS THE SURVIVAL BANNER KEEP ITS NATURAL WIDE SHAPE */
+        .modes-grid .image-mode-btn:last-child img {
+            height: auto;
         }
         @media (hover: hover) {
             .image-mode-btn:hover {
@@ -821,11 +825,7 @@
 </head>
 <body>
 
-    <div id="splash-screen">
-        <svg class="splash-watermark top-left" viewBox="0 0 100 100" fill="currentColor"><path d="M50 0C22.4 0 0 22.4 0 50s22.4 50 50 50 50-22.4 50-50S77.6 0 50 0zm0 90C27.9 90 10 72.1 10 50c0-2.3.2-4.5.6-6.7h25.1c2.4 7.6 9.5 13.3 18.2 13.3s15.8-5.7 18.2-13.3h25.1c.4 2.2.6 4.4.6 6.7 0 22.1-17.9 40-40 40zM50 43.3c-3.7 0-6.7 3-6.7 6.7s3 6.7 6.7 6.7 6.7-3 6.7-6.7-3-6.7-6.7-6.7zm41.6-10H66.5c-2.4-7.6-9.5-13.3-18.2-13.3S32.5 25.7 30.1 33.3H8.4C13.2 18.8 29.8 10 50 10c20.2 0 36.8 8.8 41.6 23.3z"/></svg>
-        <svg class="splash-watermark bottom-right" viewBox="0 0 100 100" fill="currentColor"><path d="M50 0C22.4 0 0 22.4 0 50s22.4 50 50 50 50-22.4 50-50S77.6 0 50 0zm0 90C27.9 90 10 72.1 10 50c0-2.3.2-4.5.6-6.7h25.1c2.4 7.6 9.5 13.3 18.2 13.3s15.8-5.7 18.2-13.3h25.1c.4 2.2.6 4.4.6 6.7 0 22.1-17.9 40-40 40zM50 43.3c-3.7 0-6.7 3-6.7 6.7s3 6.7 6.7 6.7 6.7-3 6.7-6.7-3-6.7-6.7-6.7zm41.6-10H66.5c-2.4-7.6-9.5-13.3-18.2-13.3S32.5 25.7 30.1 33.3H8.4C13.2 18.8 29.8 10 50 10c20.2 0 36.8 8.8 41.6 23.3z"/></svg>
-        <svg class="splash-watermark bottom-left" viewBox="0 0 100 100" fill="currentColor"><path d="M50 0C22.4 0 0 22.4 0 50s22.4 50 50 50 50-22.4 50-50S77.6 0 50 0zm0 90C27.9 90 10 72.1 10 50c0-2.3.2-4.5.6-6.7h25.1c2.4 7.6 9.5 13.3 18.2 13.3s15.8-5.7 18.2-13.3h25.1c.4 2.2.6 4.4.6 6.7 0 22.1-17.9 40-40 40zM50 43.3c-3.7 0-6.7 3-6.7 6.7s3 6.7 6.7 6.7 6.7-3 6.7-6.7-3-6.7-6.7-6.7zm41.6-10H66.5c-2.4-7.6-9.5-13.3-18.2-13.3S32.5 25.7 30.1 33.3H8.4C13.2 18.8 29.8 10 50 10c20.2 0 36.8 8.8 41.6 23.3z"/></svg>
-
+            <div id="splash-screen">
         <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="splash-logo">
         <div class="splash-bar-track">
             <div class="splash-progress-bar"></div>
