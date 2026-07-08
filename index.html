@@ -401,23 +401,55 @@ body {
         #pin-input { flex: 1; width: 100%; min-width: 0; padding: 15px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; letter-spacing: 4px; background: rgba(255,255,255,0.9); color: #334155; transition: background 0.3s, color 0.3s, border-color 0.3s; }
         #pin-input:focus { outline: none; border-color: #8b5cf6; }
         
-        .avatar-preview-box { width: 100px; height: 100px; background: rgba(255,255,255,0.8); border: 2px solid rgba(255,255,255,0.8); border-radius: 20px; display: flex; justify-content: center; align-items: center; margin: 0 auto 15px auto; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); transition: background 0.3s, border-color 0.3s; }
-        .avatar-preview-box img { width: 100%; height: 100%; object-fit: contain; padding: 5px; }
-        
-        .region-tabs-container { display: flex; overflow-x: auto; gap: 8px; padding-bottom: 10px; margin-bottom: 10px; -webkit-overflow-scrolling: touch; }
-        .region-tabs-container::-webkit-scrollbar { height: 4px; }
-        .region-tabs-container::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 2px; }
-        .region-tab { padding: 8px 14px; border-radius: 14px; background: rgba(255,255,255,0.6); font-weight: 800; font-size: 12px; color: #475569; white-space: nowrap; border: 2px solid rgba(255,255,255,0.8); cursor: pointer; transition: all 0.2s; font-family: 'Nunito', sans-serif; outline: none; -webkit-tap-highlight-color: transparent;}
-        .region-tab.active { background: #3b82f6; color: white; border-color: #2563eb; }
-        
-        .avatar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 10px; max-height: 280px; overflow-y: auto; padding: 5px; margin-bottom: 15px; border: 2px solid rgba(255,255,255,0.8); border-radius: 12px; background: rgba(255,255,255,0.6); transition: background 0.3s, border-color 0.3s; }
-        .avatar-item { background: rgba(255,255,255,0.8); border: 2px solid rgba(255,255,255,0.8); border-radius: 12px; padding: 5px; text-align: center; cursor: pointer; position: relative; transition: all 0.1s; height: 60px; display: flex; align-items: center; justify-content: center; outline: none; -webkit-tap-highlight-color: transparent;}
-        @media (hover: hover) {
-            .avatar-item:hover { border-color: #3b82f6; transform: scale(1.05); }
-        }
-        .avatar-item.selected { border-color: #10b981; background: #ecfdf5; }
-        .avatar-item img { width: 100%; height: 100%; object-fit: contain; }
+/* --- TRANSPARENT AVATAR BOXES & RESTORED GRID --- */
+.avatar-preview-box { 
+    width: 80px; height: 80px; 
+    background: rgba(255, 255, 255, 0.15) !important; 
+    border: 2px solid rgba(255,255,255,0.4) !important; 
+    border-radius: 20px; 
+    display: flex; justify-content: center; align-items: center; 
+    margin: 0 auto 15px auto; 
+    overflow: hidden; 
+    transition: background 0.3s, border-color 0.3s; 
+}
+.avatar-preview-box img { width: 100%; height: 100%; object-fit: contain; padding: 5px; }
 
+/* Restored and Glassified Region Tabs */
+.region-tabs-container { display: flex; overflow-x: auto; gap: 8px; padding-bottom: 10px; margin-bottom: 10px; -webkit-overflow-scrolling: touch; }
+.region-tabs-container::-webkit-scrollbar { height: 4px; }
+.region-tabs-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.5); border-radius: 2px; }
+.region-tab { padding: 8px 14px; border-radius: 14px; background: rgba(255,255,255,0.15); font-weight: 800; font-size: 13px; color: #334155; white-space: nowrap; border: 1px solid rgba(255,255,255,0.3); cursor: pointer; transition: all 0.2s; font-family: 'Nunito', sans-serif; outline: none; -webkit-tap-highlight-color: transparent;}
+.region-tab.active { background: rgba(59, 130, 246, 0.8); color: white; border-color: #3b82f6; }
+
+/* Restored Avatar Grid */
+.avatar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 10px; max-height: 280px; overflow-y: auto; padding: 5px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; background: transparent; transition: background 0.3s, border-color 0.3s; }
+
+.avatar-item { 
+    background: rgba(255, 255, 255, 0.15);     
+    border: 2px solid rgba(255,255,255,0.3); 
+    border-radius: 12px; 
+    padding: 5px; 
+    text-align: center; 
+    cursor: pointer; 
+    position: relative; 
+    transition: all 0.2s ease; 
+    height: 60px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    outline: none; 
+    -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) {
+    .avatar-item:hover { border-color: #3b82f6; transform: scale(1.05); }
+}
+
+.avatar-item.selected { 
+    border-color: #10b981; 
+    background: rgba(16, 185, 129, 0.15); 
+}
+.avatar-item img { width: 100%; height: 100%; object-fit: contain; }
         .history-chip { display: inline-flex; align-items: center; background: rgba(255,255,255,0.6); border: 2px solid rgba(255,255,255,0.8); border-radius: 30px; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); padding: 4px 6px 4px 4px; gap: 2px; }
         @media (hover: hover) {
             .history-chip:hover { border-color: #cbd5e1; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
