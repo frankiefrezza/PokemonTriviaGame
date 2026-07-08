@@ -21,43 +21,26 @@
 
     <style>
         /* --- iOS ROOT CANVAS FIX --- */
-        html {
-            background-color: #74ebd5; 
-            min-height: -webkit-fill-available;
-        }
+html {
+    background: url('loadingscreen.png') no-repeat center center fixed;
+    background-size: cover;
+    min-height: -webkit-fill-available;
+    overscroll-behavior: none; /* This stops the mobile bounce effect */
+}
 
-                        body { 
-            font-family: 'Nunito', -apple-system, sans-serif; 
-            background-color: #022c22;
-            background-image: url('loadingscreen.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed; /* Keeps the background pinned in place */
-            background-repeat: no-repeat;
-            display: flex; justify-content: center; align-items: center; 
-            min-height: 100vh; 
-            min-height: -webkit-fill-available; 
-            margin: 0; 
-            padding: env(safe-area-inset-top, 20px) 20px env(safe-area-inset-bottom, 20px) 20px; 
-            box-sizing: border-box; overscroll-behavior: none; 
-            overflow-x: hidden;
-        }
+body { 
+    font-family: 'Nunito', -apple-system, sans-serif; 
+    background: transparent; /* Makes sure the HTML image shows through */
+    display: flex; justify-content: center; align-items: center; 
+    min-height: 100vh; 
+    min-height: -webkit-fill-available; 
+    margin: 0; 
+    padding: env(safe-area-inset-top, 20px) 20px env(safe-area-inset-bottom, 20px) 20px; 
+    box-sizing: border-box; 
+    overscroll-behavior: none; /* Double protection against bounce */
+    overflow-x: hidden;
+}
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: radial-gradient(rgba(255,255,255,0.2) 2px, transparent 2px);
-            background-size: 30px 30px;
-            z-index: -1;
-            pointer-events: none;
-            animation: driftPattern 20s linear infinite;
-        }
-
-        @keyframes driftPattern {
-            0% { background-position: 0 0; }
-            100% { background-position: 60px 60px; }
-        }
 
                 /* --- STATIC SPLASH SCREEN --- */
         #splash-screen {
@@ -705,10 +688,9 @@
         
         @keyframes slideLoader { 0% { transform: translateX(-100%); } 100% { transform: translateX(200%); } }
 
-        /* --- DARK MODE OVERRIDES --- */
         body.dark-mode {
-            background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
-        }
+    background: rgba(15, 23, 42, 0.75);
+}
         body.dark-mode #app {
             background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%);
             border-color: rgba(255,255,255,0.1);
