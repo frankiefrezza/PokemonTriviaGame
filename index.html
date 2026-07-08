@@ -1135,7 +1135,7 @@ body {
                 <p style="font-size: 12px; font-weight: 800; text-align: center; margin-top: 0; margin-bottom: 20px; text-transform: uppercase;">Spend PokéDollars to buy items</p>
 
                 <div class="shop-item-card">
-                    <img class="shop-item-icon" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/razz-berry.png">
+                    <img class="shop-item-icon" src="razzberry.png">
                     <div class="shop-item-details">
                         <span class="shop-item-name">Razz Berry</span>
                         <span class="shop-item-desc">Adds +5 seconds to the clock.</span>
@@ -1146,7 +1146,7 @@ body {
                 </div>
 
                 <div class="shop-item-card">
-                    <img class="shop-item-icon" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nanab-berry.png">
+                    <img class="shop-item-icon" src="nanabberry.png">
                     <div class="shop-item-details">
                         <span class="shop-item-name">Nanab Berry</span>
                         <span class="shop-item-desc">Removes 2 wrong answers or flashes hint.</span>
@@ -1157,7 +1157,7 @@ body {
                 </div>
 
                 <div class="shop-item-card">
-                    <img class="shop-item-icon" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/focus-sash.png">
+                    <img class="shop-item-icon" src="focussash.png">
                     <div class="shop-item-details">
                         <span class="shop-item-name">Focus Sash</span>
                         <span class="shop-item-desc" style="color:#e11d48;">Passive: Saves your streak automatically.</span>
@@ -1477,15 +1477,15 @@ body {
                     
                     <div id="item-column" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 8px; z-index: 10;">
                         <button class="item-btn" onclick="useRazzBerry()" id="btn-item-razz">
-                            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/razz-berry.png" alt="Razz Berry">
+                            <img src="razzberry.png" alt="Razz Berry">
                             <span class="item-count" id="count-razz">0</span>
                         </button>
                         <button class="item-btn" onclick="useNanabBerry()" id="btn-item-nanab">
-                            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nanab-berry.png" alt="Nanab Berry">
+                            <img src="nanabberry.png" alt="Nanab Berry">
                             <span class="item-count" id="count-nanab">0</span>
                         </button>
                         <div class="item-btn passive-item" id="btn-item-sash" title="Passive: Saves Streak">
-                            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/focus-sash.png" alt="Focus Sash">
+                            <img src="focussash.png" alt="Focus Sash">
                             <span class="item-count" id="count-sash">0</span>
                         </div>
                     </div>
@@ -1774,7 +1774,7 @@ body {
                 if (isRazz) inventory.razz++; else inventory.nanab++;
                 saveInventory();
                 
-                document.getElementById('dr-berry-img').src = isRazz ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/razz-berry.png" : "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nanab-berry.png";
+                document.getElementById('dr-berry-img').src = isRazz ? "razzberry.png" : "nanabberry.png";
                 document.getElementById('dr-berry-name').innerText = isRazz ? "Razz Berry" : "Nanab Berry";
                 document.getElementById('daily-reward-modal').classList.remove('hidden');
                 isPaused = true;
