@@ -301,7 +301,20 @@ body.dark-mode .glass-pill {
         .trainer-header:hover { transform: scale(1.02); background: rgba(255,255,255,0.1); }
         
         .trainer-avatar-container { position: relative; width: 90px; height: 90px; flex-shrink: 0; }
-        .trainer-avatar-circle { width: 100%; height: 100%; border-radius: 50%; background: rgba(255, 255, 255, 0.95); display: flex; justify-content: center; align-items: flex-end; position: relative; z-index: 2; box-sizing: border-box; }
+        .trainer-avatar-circle { 
+    width: 100%; 
+    height: 100%; 
+    border-radius: 50%; 
+    background: url('avatar-frame.png') no-repeat center center !important; 
+    background-size: contain !important; 
+    display: flex; 
+    justify-content: center; 
+    align-items: flex-end; 
+    position: relative; 
+    z-index: 2; 
+    box-sizing: border-box; 
+    border: none !important; 
+}
         
         .rank-rookie .trainer-avatar-circle { box-shadow: 0 0 15px rgba(100, 116, 139, 0.2); border: 3px solid #cbd5e1; }
         .rank-ace .trainer-avatar-circle { box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); border: 3px solid #60a5fa; }
@@ -2404,7 +2417,7 @@ body.dark-mode #leaderboard-modal p {
             document.getElementById('tc-surv-avg').innerText = avg;
             
             const tcCircle = document.getElementById('tc-avatar-circle');
-            tcCircle.style.border = `3px solid ${borderColor}`;
+/* tcCircle.style.border = `3px solid ${borderColor}`; */
             tcCircle.style.boxShadow = `0 0 15px ${shadowColor}`;
 
             document.getElementById('trainer-modal').classList.remove('hidden');
