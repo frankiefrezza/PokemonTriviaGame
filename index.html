@@ -792,58 +792,46 @@ body.dark-mode .glass-pill {
 
                         /* --- ENHANCED PRIMARY BUTTONS --- */
         .primary-btn { 
-            display: flex; align-items: center; justify-content: center; gap: 8px; 
-            padding: 16px 20px; 
-            font-size: 18px; font-family: 'Fredoka', sans-serif; font-weight: 700; 
-            width: 100%; text-transform: uppercase; letter-spacing: 1.5px; 
-            border-radius: 20px; 
-            cursor: pointer; 
-            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1); 
-            position: relative; overflow: hidden; 
-            outline: none; -webkit-tap-highlight-color: transparent;
-            
-            /* Enhanced the frosted glass blur and polished the white rim */
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px);
-            text-shadow: 0 2px 4px rgba(0,0,0,0.4); /* Stronger shadow to pop against the art */
-            color: white;
-        }
-        @media (hover: hover) {
-            .primary-btn:hover { filter: brightness(1.1); transform: translateY(-2px); }
-        }
+    display: flex; align-items: center; justify-content: center; gap: 8px; 
+    padding: 16px 20px; 
+    font-size: 18px; font-family: 'Fredoka', sans-serif; font-weight: 700; 
+    width: 100%; text-transform: uppercase; letter-spacing: 1.5px; 
+    border-radius: 20px; 
+    cursor: pointer; 
+    /* Removed movement-based transitions */
+    transition: background 0.15s ease; 
+    outline: none; 
+    -webkit-tap-highlight-color: transparent;
+    border: none; 
+    color: white;
+}
+
+/* This targets the button when you are actively clicking/tapping it */
+.primary-btn:active { 
+    filter: brightness(0.7); /* Darkens the button color immediately */
+    transform: none !important; /* Forces the button to stay exactly where it is */
+    box-shadow: none !important; /* Removes any shadow that might appear */
+}
+
+/* Remove the jump on hover */
+@media (hover: hover) {
+    .primary-btn:hover { 
+        filter: brightness(1.1); 
+        transform: none; /* Removed the -2px jump */
+    }
+}
         .primary-btn:active { 
             transform: translateY(6px); 
             box-shadow: inset 0 3px 6px rgba(0,0,0,0.2) !important; 
         }
         
-                /* Bumped up the color opacity to 0.65 for a vibrant pop, kept shadows translucent! */
-        .btn-blue { 
-            background: linear-gradient(180deg, rgba(96, 165, 250, 0.65) 0%, rgba(59, 130, 246, 0.65) 100%); 
-            box-shadow: 0 6px 0 rgba(37, 99, 235, 0.5), inset 0 3px 0 rgba(255,255,255,0.3); 
-        } 
-        .btn-green { 
-            background: linear-gradient(180deg, rgba(52, 211, 153, 0.65) 0%, rgba(16, 185, 129, 0.65) 100%); 
-            box-shadow: 0 6px 0 rgba(5, 150, 105, 0.5), inset 0 3px 0 rgba(255,255,255,0.3); 
-        } 
-        .btn-orange { 
-            background: linear-gradient(180deg, rgba(251, 191, 36, 0.65) 0%, rgba(245, 158, 11, 0.65) 100%); 
-            box-shadow: 0 6px 0 rgba(217, 119, 6, 0.5), inset 0 3px 0 rgba(255,255,255,0.3); 
-        } 
-        .btn-purple { 
-            background: linear-gradient(180deg, rgba(167, 139, 250, 0.65) 0%, rgba(139, 92, 246, 0.65) 100%); 
-            box-shadow: 0 6px 0 rgba(124, 58, 237, 0.5), inset 0 3px 0 rgba(255,255,255,0.3); 
-        }
-        .btn-red { 
-            background: linear-gradient(180deg, rgba(248, 113, 113, 0.65) 0%, rgba(239, 68, 68, 0.65) 100%); 
-            box-shadow: 0 6px 0 rgba(185, 28, 28, 0.5), inset 0 3px 0 rgba(255,255,255,0.3); 
-        }
-        .btn-gray { 
-            background: linear-gradient(180deg, rgba(248, 250, 252, 0.45) 0%, rgba(226, 232, 240, 0.45) 100%); 
-            color: #ffffff !important; 
-            box-shadow: 0 6px 0 rgba(148, 163, 184, 0.4), inset 0 3px 0 rgba(255,255,255,0.4); 
-            text-shadow: 0 2px 4px rgba(0,0,0,0.4) !important;
-        }
+                /* Update these to use flat background colors with low opacity */
+.btn-blue { background: rgba(59, 130, 246, 0.6); } 
+.btn-green { background: rgba(16, 185, 129, 0.6); } 
+.btn-orange { background: rgba(245, 158, 11, 0.6); } 
+.btn-purple { background: rgba(139, 92, 246, 0.6); }
+.btn-red { background: rgba(239, 68, 68, 0.6); }
+.btn-gray { background: rgba(148, 163, 184, 0.4); color: #f1f5f9; }
 
         .bottom-dock { display: flex; justify-content: space-around; align-items: center; gap: 10px; margin-top: 5px; margin-bottom: 0; }
         .game-dock { margin-top: 40px; } 
@@ -1386,24 +1374,24 @@ body.dark-mode #leaderboard-modal p {
     }
 
     .widget-badge-container {
-    width: 100px; /* Scaled up from 80px */
-    height: 100px; /* Scaled up from 80px */
-    background: rgba(255, 255, 255, 0.35);
-    border: 2px solid rgba(255, 255, 255, 0.65);
-    border-radius: 26px; /* Slightly rounder to match the new larger size */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: inset 0 2px 4px rgba(255,255,255,0.5), 0 6px 12px rgba(0,0,0,0.1);
-    margin: 0 10px;
-}
+        width: 80px; 
+        height: 80px; 
+        background: rgba(255, 255, 255, 0.35);
+        border: 2px solid rgba(255, 255, 255, 0.65);
+        border-radius: 22px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: inset 0 2px 4px rgba(255,255,255,0.5), 0 6px 12px rgba(0,0,0,0.1);
+        margin: 0 10px;
+    }
 
-.widget-badge-container img {
-    width: 80px; /* Scaled up from 60px */
-    height: 80px; /* Scaled up from 60px */
-    object-fit: contain;
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
-}
+    .widget-badge-container img {
+        width: 60px; 
+        height: 60px; 
+        object-fit: contain;
+        filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+    }
 
     /* Dark mode overrides for the new widget */
     body.dark-mode .widget-capsule-top,
@@ -1594,7 +1582,7 @@ body.dark-mode #leaderboard-modal p {
                     </div>
                 </div>
 
-                <button class="primary-btn btn-blue" style="margin-top: 25px; width: 100%; border-radius: 25px; background: linear-gradient(180deg, rgba(96, 165, 250, 0.45) 0%, rgba(59, 130, 246, 0.45) 100%); border: 2px solid rgba(255,255,255,0.6);" onclick="closeShopModal()">CLOSE</button>
+                <button class="primary-btn btn-blue" style="margin-top: 25px; width: 100%; border-radius: 25px; background: linear-gradient(180deg, rgba(96, 165, 250, 0.45) 0%, rgba(59, 130, 246, 0.45) 100%);" onclick="closeShopModal()">CLOSE</button>
             </div>
         </div>
     </div>
@@ -1650,7 +1638,7 @@ body.dark-mode #leaderboard-modal p {
 
             <!-- Transparent CLOSE button to match the shop -->
             <div style="display: flex; justify-content: center; margin-top: 25px;">
-                <button class="primary-btn btn-blue" style="width: 100%; margin: 0; border-radius: 25px; background: linear-gradient(180deg, rgba(96, 165, 250, 0.45) 0%, rgba(59, 130, 246, 0.45) 100%); border: 2px solid rgba(255,255,255,0.6);" onclick="closeLeaderboard()">CLOSE</button>
+                <button class="primary-btn btn-blue" style="width: 100%; margin: 0; border-radius: 25px; background: linear-gradient(180deg, rgba(96, 165, 250, 0.45) 0%, rgba(59, 130, 246, 0.45) 100%);" onclick="closeLeaderboard()">CLOSE</button>
             </div>
         </div>
     </div>
