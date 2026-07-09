@@ -423,11 +423,12 @@ body {
             /* Bumped z-index up to 10 so it's always the top clickable layer */
             z-index: 10; 
         }
-        .login-img-btn img {
+               .login-img-btn img {
             width: 100%;
             display: block;
             object-fit: contain;
             filter: drop-shadow(0 8px 16px rgba(0,0,0,0.25));
+            pointer-events: none;
         }
         .login-img-btn:active {
             transform: scale(0.95); 
@@ -2719,10 +2720,11 @@ body {
 
             currentUser = rawName.toUpperCase();
 
-            const loginBtn = document.querySelector('#login-screen .btn-blue');
-            const originalText = loginBtn.innerHTML;
-            loginBtn.innerText = "Syncing...";
-            loginBtn.disabled = true;
+            const loginBtn = document.querySelector('.login-img-btn');
+            if (loginBtn) {
+                loginBtn.style.opacity = '0.5';
+                loginBtn.disabled = true;
+            }
 
             try {
                 const docRef = db.collection("trainers").doc(currentUser);
@@ -2863,8 +2865,10 @@ body {
             } catch (error) {
                 alert("Failed to connect to the server. Please check your connection.");
             } finally {
-                loginBtn.innerHTML = originalText;
-                loginBtn.disabled = false;
+                if (loginBtn) {
+                    loginBtn.style.opacity = '1';
+                    loginBtn.disabled = false;
+                }
             }
         }
 
