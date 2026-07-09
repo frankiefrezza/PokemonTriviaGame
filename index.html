@@ -74,57 +74,59 @@ body {
             filter: drop-shadow(0 15px 25px rgba(0,0,0,0.3)); 
             z-index: 2;
         }
-    .loader-container {
-    position: relative;
-    width: 140px; /* Scaled up container */
-    height: 140px;
-    margin-top: 45px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2;
-}
+        .loader-container {
+        position: relative;
+        width: 160px; /* Expanded for more breathing room */
+        height: 160px;
+        margin-top: 45px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2;
+    }
 
-.circular-loader {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    transform: rotate(-90deg); 
-    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));
-}
+    .circular-loader {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transform: rotate(-90deg); 
+        filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));
+    }
 
-.loader-track {
-    fill: transparent;
-    stroke: rgba(255, 255, 255, 0.25);
-    stroke-width: 5;
-}
+    .loader-track {
+        fill: transparent;
+        stroke: rgba(255, 255, 255, 0.25);
+        stroke-width: 5;
+    }
 
-.loader-fill {
-    fill: transparent;
-    stroke: url(#loader-gradient); /* Reconnects to the gradient */
-    stroke-width: 8;               /* Thicker line for better visibility */
-    stroke-linecap: round;
-    stroke-dasharray: 377;
-    stroke-dashoffset: 377; 
-    animation: fillCircle 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
+    .loader-fill {
+        fill: transparent;
+        stroke: url(#loader-gradient); 
+        stroke-width: 8;               
+        stroke-linecap: round;
+        /* The new circumference for the wider circle is 440 */
+        stroke-dasharray: 440;
+        stroke-dashoffset: 440; 
+        animation: fillCircle 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
 
-@keyframes fillCircle {
-    0% { stroke-dashoffset: 377; }
-    100% { stroke-dashoffset: 0; }
-}
+    @keyframes fillCircle {
+        0% { stroke-dashoffset: 440; }
+        100% { stroke-dashoffset: 0; }
+    }
 
-.spinning-pokeball {
-    width: 80px; /* Massive Pokeball */
-    height: 80px; 
-    object-fit: contain;
-    animation: spinPokeball 1.5s linear infinite;
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
-    position: relative;
-    z-index: 5;
-}
+    .spinning-pokeball {
+        width: 100px; /* Massive Pokeball */
+        height: 100px; 
+        object-fit: contain;
+        animation: spinPokeball 1.75s linear infinite;
+        /* Changed from a black shadow to a white radial glow */
+        filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.9)); 
+        position: relative;
+        z-index: 5;
+    }
 
 @keyframes spinPokeball {
     0% { transform: rotate(0deg); }
@@ -1408,11 +1410,13 @@ body.dark-mode #leaderboard-modal p {
         display: flex;
         align-items: center;
         box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        flex: 1;
+        justify-content: center;
     }
 
     .widget-badge-container {
-        width: 80px; 
-        height: 80px; 
+        width: 100px; 
+        height: 100px; 
         background: rgba(255, 255, 255, 0.35);
         border: 2px solid rgba(255, 255, 255, 0.65);
         border-radius: 22px;
@@ -1424,8 +1428,8 @@ body.dark-mode #leaderboard-modal p {
     }
 
     .widget-badge-container img {
-        width: 60px; 
-        height: 60px; 
+        width: 80px; 
+        height: 80px; 
         object-fit: contain;
         filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
     }
@@ -1448,12 +1452,25 @@ body.dark-mode #leaderboard-modal p {
         border-color: rgba(255, 255, 255, 0.15);
         color: #f1f5f9;
     }
-    body.dark-mode .widget-badge-container {
+        body.dark-mode .widget-badge-container {
         background: rgba(15, 23, 42, 0.4);
         border-color: rgba(255, 255, 255, 0.15);
     }
 
-    </style>
+    /* --- CUSTOM PILL SHAPES --- */
+    /* This targets the FIRST pill (Level) and makes the right side flat */
+    .widget-capsule-bottom .widget-stat-pill:first-child {
+        /* Top-Left: 20px, Top-Right: 0, Bottom-Right: 0, Bottom-Left: 20px */
+        border-radius: 20px 0 0 20px !important; 
+    }
+
+    /* This targets the LAST pill (Coins) and makes the left side flat */
+    .widget-capsule-bottom .widget-stat-pill:last-child {
+        /* Top-Left: 0, Top-Right: 20px, Bottom-Right: 20px, Bottom-Left: 0 */
+        border-radius: 0 20px 20px 0 !important; 
+    }
+
+    </style> 
 </head>
 <body>
 
@@ -1462,15 +1479,13 @@ body.dark-mode #leaderboard-modal p {
     
         <div class="loader-container">
         <!-- Circular Progress Ring (Expanded to 140px) -->
-        <svg class="circular-loader" width="140" height="140" viewBox="0 0 140 140">
+      <svg class="circular-loader" width="160" height="160" viewBox="0 0 160 160">
             <defs>
-    <linearGradient id="loader-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stop-color="#22c55e" /> 
-        <stop offset="100%" stop-color="#4ade80" />
-    </linearGradient>
-</defs>
-            <circle class="loader-track" cx="70" cy="70" r="60"></circle>
-            <circle class="loader-fill" cx="70" cy="70" r="60"></circle>
+                                    <linearGradient id="loader-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#f59e0b" /> <stop offset="100%" stop-color="#fde047" /> </linearGradient>
+            </defs>
+            <circle class="loader-track" cx="80" cy="80" r="70"></circle>
+            <circle class="loader-fill" cx="80" cy="80" r="70"></circle>
         </svg>
         
         <!-- Spinning Pokeball (Expanded to 80px) -->
@@ -1507,8 +1522,11 @@ body.dark-mode #leaderboard-modal p {
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
         
-        <h2 style="margin: 0 0 20px 0; font-family: 'Fredoka', sans-serif; text-transform: uppercase; letter-spacing: 1px; color: #10b981; font-size: 16px;">Trainer ID Card</h2>
-        
+        <div style="text-align: center;">
+            <div class="header-pill" style="margin-top: 0; margin-bottom: 20px;">
+                Trainer ID Card
+            </div>
+        </div>        
         <!-- Avatar -->
         <div id="tc-avatar-btn" class="trainer-avatar-container" style="cursor: pointer; width: 110px; height: 110px; margin: 0 auto 10px auto;" onclick="handleTcAvatarClick()" title="Edit Avatar">
                     <div id="tc-avatar-circle" class="trainer-avatar-circle" style="background: rgba(255, 255, 255, 0.2); border: 3px solid rgba(255, 255, 255, 0.4); box-shadow: 0 8px 16px rgba(0,0,0,0.1);">
@@ -1522,17 +1540,22 @@ body.dark-mode #leaderboard-modal p {
 
         <!-- 3 Pill Row (Enlarged Badge & Transparent Rectangles) -->
         <div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 20px; width: 100%;">
-            <div class="light-pill" style="flex: 1; font-size: 16px; display: flex; justify-content: center; align-items: center; padding: 12px;">
-                <span style="font-weight: 900;">Lv. <span id="tc-level">1</span></span>
+            
+            <!-- LEFT PILL (Level) -->
+            <div class="light-pill" style="flex: 1; font-size: 16px; display: flex; justify-content: center; align-items: center; padding: 12px; border-radius: 20px 0 0 20px;">
+                <span style="font-weight: 900;">LVL: <span id="tc-level">1</span></span>
             </div>
             
-            <div class="light-pill" style="width: 75px; height: 75px; flex-shrink: 0; display: flex; justify-content: center; align-items: center; padding: 0; border-radius: 18px;">
-                <img id="tc-badge" src="" style="width: 55px; height: 55px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));">
+            <!-- CENTER BADGE -->
+            <div class="light-pill" style="width: 100px; height: 100px; flex-shrink: 0; display: flex; justify-content: center; align-items: center; padding: 0; border-radius: 22px;">
+                <img id="tc-badge" src="" style="width: 80px; height: 80px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));">
             </div>
             
-            <div class="light-pill" style="flex: 1; font-size: 16px; color: #d97706; display: flex; justify-content: center; align-items: center; padding: 12px;">
+            <!-- RIGHT PILL (Coins) -->
+            <div class="light-pill" style="flex: 1; font-size: 16px; color: #d97706; display: flex; justify-content: center; align-items: center; padding: 12px; border-radius: 0 20px 20px 0;">
                 <img src="coin.png" style="width: 20px; height: 20px; margin-right: 4px;"> <span id="tc-modal-wallet" style="font-weight: 900;">0</span>
             </div>
+            
         </div>
                 <!-- XP Progress Track -->
         <div style="width: 100%; margin-bottom: 25px; background: rgba(255, 255, 255, 0.12); border-radius: 20px; box-sizing: border-box; border: 1px solid rgba(255, 255, 255, 0.3); position: relative; height: 24px; box-shadow: inset 0 1px 2px rgba(255,255,255,0.3), 0 4px 8px rgba(0,0,0,0.05); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
@@ -1543,20 +1566,64 @@ body.dark-mode #leaderboard-modal p {
 
                 <!-- 2-Column Bento Stats -->
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px;">
-            <div class="light-bento-box">
-                <div style="font-size: 11px; font-weight: 800; color: #047857; font-family: 'Nunito', sans-serif; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px;">Trainer Stats</div>
-                <div class="stat-row"><span class="stat-lbl">Total XP</span><span id="tc-xp" class="stat-val" style="color: #047857;">0</span></div>
-                <div class="stat-row"><span class="stat-lbl">Pokémon Seen</span><span id="tc-seen" class="stat-val" style="color: #047857;">0</span></div>
-                <div class="stat-row"><span class="stat-lbl">Correct</span><span id="tc-right" class="stat-val" style="color: #047857;">0</span></div>
-                <div class="stat-row"><span class="stat-lbl">Incorrect</span><span id="tc-wrong" class="stat-val" style="color: #dc2626;">0</span></div>
+            
+            <!-- Left Box: Trainer Stats -->
+            <div class="light-bento-box" style="padding: 15px 12px; display: flex; flex-direction: column; gap: 15px;">
+                <!-- Inner Bento Pill Header -->
+                <div style="background: rgba(255, 255, 255, 0.45); border: 2px solid rgba(255, 255, 255, 0.8); border-radius: 12px; padding: 8px 4px; text-align: center; font-family: 'Fredoka', sans-serif; font-size: 12px; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 6px rgba(0,0,0,0.05), inset 0 2px 4px rgba(255,255,255,0.4);">
+                    Trainer Stats
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span style="font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Total XP</span>
+                        <div style="flex-grow: 1; border-bottom: 2px dotted rgba(100, 116, 139, 0.4); margin: 0 8px; transform: translateY(-2px);"></div>
+                        <span id="tc-xp" style="font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #047857;">0</span>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span style="font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Pkmn Seen</span>
+                        <div style="flex-grow: 1; border-bottom: 2px dotted rgba(100, 116, 139, 0.4); margin: 0 8px; transform: translateY(-2px);"></div>
+                        <span id="tc-seen" style="font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #047857;">0</span>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span style="font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Correct</span>
+                        <div style="flex-grow: 1; border-bottom: 2px dotted rgba(100, 116, 139, 0.4); margin: 0 8px; transform: translateY(-2px);"></div>
+                        <span id="tc-right" style="font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #16a34a;">0</span>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span style="font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Incorrect</span>
+                        <div style="flex-grow: 1; border-bottom: 2px dotted rgba(100, 116, 139, 0.4); margin: 0 8px; transform: translateY(-2px);"></div>
+                        <span id="tc-wrong" style="font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #dc2626;">0</span>
+                    </div>
+                </div>
             </div>
             
-            <div class="light-bento-box">
-                <div style="font-size: 11px; font-weight: 800; color: #047857; font-family: 'Nunito', sans-serif; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px;">Survival Records</div>
-                <div class="stat-row"><span class="stat-lbl">Best Run</span><span id="tc-surv-best" class="stat-val" style="color: #047857;">0</span></div>
-                <div class="stat-row"><span class="stat-lbl">Avg/Run</span><span id="tc-surv-avg" class="stat-val" style="color: #047857;">0.0</span></div>
-                <div class="stat-row"><span class="stat-lbl">Runs</span><span id="tc-surv-runs" class="stat-val" style="color: #047857;">0</span></div>
+            <!-- Right Box: Survival Records -->
+            <div class="light-bento-box" style="padding: 15px 12px; display: flex; flex-direction: column; justify-content: flex-start; gap: 15px;">
+                <!-- Inner Bento Pill Header -->
+                <div style="background: rgba(255, 255, 255, 0.45); border: 2px solid rgba(255, 255, 255, 0.8); border-radius: 12px; padding: 8px 4px; text-align: center; font-family: 'Fredoka', sans-serif; font-size: 12px; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 6px rgba(0,0,0,0.05), inset 0 2px 4px rgba(255,255,255,0.4);">
+                    Survival Records
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span style="font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Best Run</span>
+                        <div style="flex-grow: 1; border-bottom: 2px dotted rgba(100, 116, 139, 0.4); margin: 0 8px; transform: translateY(-2px);"></div>
+                        <span id="tc-surv-best" style="font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #047857;">0</span>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span style="font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Avg/Run</span>
+                        <div style="flex-grow: 1; border-bottom: 2px dotted rgba(100, 116, 139, 0.4); margin: 0 8px; transform: translateY(-2px);"></div>
+                        <span id="tc-surv-avg" style="font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #047857;">0.0</span>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span style="font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Runs</span>
+                        <div style="flex-grow: 1; border-bottom: 2px dotted rgba(100, 116, 139, 0.4); margin: 0 8px; transform: translateY(-2px);"></div>
+                        <span id="tc-surv-runs" style="font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #047857;">0</span>
+                    </div>
+                </div>
             </div>
+            
         </div>
 
                 <!-- Simplified CLOSE Button -->
@@ -1814,16 +1881,16 @@ body.dark-mode #leaderboard-modal p {
 
     <div class="widget-capsule-bottom">
         <div class="widget-stat-pill">
-            <span style="font-size: 13px; color: #64748b; margin-right: 6px;">LV.</span> <span id="display-level">1</span>
+            <span style="margin-right: 6px;">LVL:</span> <span id="display-level">1</span>
         </div>
         
         <div class="widget-badge-container">
             <img id="current-badge" src="LV1-10.png" alt="Current Badge">
         </div>
         
-        <div class="widget-stat-pill" style="color: #d97706;">
-            <img src="coin.png" style="width: 20px; height: 20px; margin-right: 6px;"> <span id="home-display-wallet">0</span>
-        </div>
+            <div class="widget-stat-pill">
+        <img src="coin.png" style="width: 20px; height: 20px; margin-right: 6px;"> <span id="home-display-wallet">0</span>
+    </div>
     </div>
 
     <span id="display-xp" class="hidden"></span>
