@@ -103,10 +103,9 @@ body {
 
 .loader-fill {
     fill: transparent;
-    stroke: url(#loader-gradient);
-    stroke-width: 5;
+    stroke: url(#loader-gradient); /* Reconnects to the gradient */
+    stroke-width: 8;               /* Thicker line for better visibility */
     stroke-linecap: round;
-    /* Math for the new radius: 2 * pi * 60 = 377 */
     stroke-dasharray: 377;
     stroke-dashoffset: 377; 
     animation: fillCircle 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
@@ -220,6 +219,9 @@ body {
     justify-content: center;
     gap: 12px;
     padding: 10px 28px;
+    /* ADD THIS LINE BELOW: */
+    margin-left: 40px; 
+    /* ... keep the rest of your existing lines ... */
     background: rgba(255, 255, 255, 0.15); /* More transparent */
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -918,10 +920,41 @@ body.dark-mode .light-bento-box { background: rgba(15, 23, 42, 0.4); border-colo
             background-clip: padding-box; 
         }
         
-        .close-x { position: absolute; top: 15px; right: 15px; background: rgba(254,226,226,0.9); color: #ef4444; border: 2px solid rgba(255,255,255,0.8); border-radius: 50%; width: 32px; height: 32px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 100; outline: none; -webkit-tap-highlight-color: transparent;}
-        @media (hover: hover) {
-            .close-x:hover { background: #fca5a5; color: #b91c1c; transform: scale(1.1); }
-        }
+        .close-x {
+    position: absolute;
+    /* Move down and to the left: 15px from top/left instead of right */
+    top: 15px; 
+    left: 15px; 
+    
+    /* Flatten the design: remove background, border, and shadows */
+    background: rgba(255, 255, 255, 0.2); 
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+    
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    transition: all 0.2s;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    z-index: 100;
+}
+
+/* Hover/Tap effect to match your new flat buttons */
+@media (hover: hover) {
+    .close-x:hover { 
+        background: rgba(255, 255, 255, 0.4); 
+    }
+}
+
+.close-x:active {
+    filter: brightness(0.7); /* Darkens slightly on tap */
+    transform: none; /* Keeps it flat */
+}
 
         .toggle-container { display: flex; justify-content: space-between; align-items: center; margin: 25px 0; font-weight: 800; color: #475569; font-size: 16px; }
 
@@ -1427,11 +1460,11 @@ body.dark-mode #leaderboard-modal p {
         <!-- Circular Progress Ring (Expanded to 140px) -->
         <svg class="circular-loader" width="140" height="140" viewBox="0 0 140 140">
             <defs>
-                <linearGradient id="loader-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="#6ee7b7" />
-                    <stop offset="100%" stop-color="#10b981" />
-                </linearGradient>
-            </defs>
+    <linearGradient id="loader-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#22c55e" /> 
+        <stop offset="100%" stop-color="#4ade80" />
+    </linearGradient>
+</defs>
             <circle class="loader-track" cx="70" cy="70" r="60"></circle>
             <circle class="loader-fill" cx="70" cy="70" r="60"></circle>
         </svg>
