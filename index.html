@@ -410,16 +410,18 @@ body {
             background: transparent;
             border: none;
             padding: 0;
-            margin: 0 auto;
+            /* Changed margin to add 15px of space above the button */
+            margin: 15px auto 0 auto; 
             display: block;
             width: 100%;
-            max-width: 170px; 
+            max-width: 200px; 
             cursor: pointer;
             transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
             outline: none;
             -webkit-tap-highlight-color: transparent;
             position: relative;
-            z-index: 1;
+            /* Bumped z-index up to 10 so it's always the top clickable layer */
+            z-index: 10; 
         }
         .login-img-btn img {
             width: 100%;
@@ -429,8 +431,7 @@ body {
         }
         .login-img-btn:active {
             transform: scale(0.95); 
-        }
-        /* --- NEW CONTINUE YOUR JOURNEY CARDS --- */
+        }        /* --- NEW CONTINUE YOUR JOURNEY CARDS --- */
         .history-card {
             display: flex;
             align-items: center;
