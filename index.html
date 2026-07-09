@@ -134,7 +134,7 @@ body {
             position: relative; 
             margin: -60px auto 25px auto;
             display: flex; justify-content: center; align-items: center; 
-            width: 100%; max-width: 320px; 
+            width: 100%; max-width: 410px; 
             z-index: 50; 
         }
         .logo-spotlight { 
@@ -396,14 +396,145 @@ body {
         .timer-danger { background: #ef4444 !important; }
         
         .input-group { display: flex; gap: 10px; margin-bottom: 20px; width: 100%; }
-        #username-input { flex: 2; width: 100%; min-width: 0; padding: 15px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; text-transform: uppercase; background: rgba(255,255,255,0.9); color: #334155; transition: background 0.3s, color 0.3s, border-color 0.3s; }
-        #username-input:focus { outline: none; border-color: #3b82f6; }
-        #pin-input { flex: 1; width: 100%; min-width: 0; padding: 15px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 700; letter-spacing: 4px; background: rgba(255,255,255,0.9); color: #334155; transition: background 0.3s, color 0.3s, border-color 0.3s; }
-        #pin-input:focus { outline: none; border-color: #8b5cf6; }
+        #username-input { flex: 2; width: 100%; min-width: 0; padding: 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.4); border-top: 2px solid rgba(255,255,255,0.8); border-left: 1px solid rgba(255,255,255,0.6); font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 800; text-transform: uppercase; background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); box-shadow: 0 8px 16px rgba(0,0,0,0.1), inset 0 2px 4px rgba(255,255,255,0.4); color: #ffffff; transition: all 0.3s; }
+        #username-input:focus { outline: none; border-color: #3b82f6; background: rgba(255, 255, 255, 0.35); }
+        #pin-input { flex: 1; width: 100%; min-width: 0; padding: 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.4); border-top: 2px solid rgba(255,255,255,0.8); border-left: 1px solid rgba(255,255,255,0.6); font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 800; letter-spacing: 4px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); box-shadow: 0 8px 16px rgba(0,0,0,0.1), inset 0 2px 4px rgba(255,255,255,0.4); color: #ffffff; transition: all 0.3s; }
+        #pin-input:focus { outline: none; border-color: #8b5cf6; background: rgba(255, 255, 255, 0.35); }
+        #username-input::placeholder, #pin-input::placeholder { color: rgba(255, 255, 255, 0.8); }
         
-/* --- TRANSPARENT AVATAR BOXES & RESTORED GRID --- */
-.avatar-preview-box { 
-    width: 80px; height: 80px; 
+        #pin-input:focus { outline: none; border-color: #8b5cf6; background: rgba(255, 255, 255, 0.35); }
+        #username-input::placeholder, #pin-input::placeholder { color: rgba(255, 255, 255, 0.8); }
+
+        /* --- CUSTOM IMAGE LOGIN BUTTON --- */
+        .login-img-btn {
+            background: transparent;
+            border: none;
+            padding: 0;
+            margin: 0 auto;
+            display: block;
+            width: 100%;
+            max-width: 170px; 
+            cursor: pointer;
+            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+            z-index: 1;
+        }
+        .login-img-btn img {
+            width: 100%;
+            display: block;
+            object-fit: contain;
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.25));
+        }
+        .login-img-btn:active {
+            transform: scale(0.95); 
+        }
+        /* --- NEW CONTINUE YOUR JOURNEY CARDS --- */
+        .history-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-top: 2px solid rgba(255, 255, 255, 0.8);
+            border-left: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1), inset 0 2px 4px rgba(255,255,255,0.3);
+            border-radius: 20px;
+            /* Increased the right padding to 40px to safely make room for the 'x' button */
+            padding: 8px 40px 8px 10px; 
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s;
+            text-align: left;
+            flex-shrink: 0;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }        .history-card:active {
+            transform: scale(0.96);
+        }
+        .history-card-avatar-wrapper {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            overflow: visible;
+            flex-shrink: 0;
+            position: relative;
+            border: 2px solid #ffffff;
+        }
+        .history-card-avatar {
+            width: 120%;
+            height: 120%;
+            object-fit: contain;
+            position: absolute;
+            bottom: 2px;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
+        }
+        .history-card-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .history-card-name {
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            margin-bottom: 2px;
+            text-transform: uppercase;
+            line-height: 1;
+        }
+        .history-card-stats {
+            font-size: 11px;
+            font-weight: 900;
+            color: #e2e8f0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+        .history-card-title {
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        .history-delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: #ffffff;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            z-index: 10;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .history-delete-btn:active {
+            background: #ef4444;
+            color: white;
+            border-color: #dc2626;
+            transform: scale(0.9);
+        }
+        /* --- TRANSPARENT AVATAR BOXES & RESTORED GRID --- */
+        .avatar-preview-box { 
+            width: 80px; height: 80px;  
     background: rgba(255, 255, 255, 0.15) !important; 
     border: 2px solid rgba(255,255,255,0.4) !important; 
     border-radius: 20px; 
@@ -912,7 +1043,7 @@ body {
             .input-group { flex-direction: column; gap: 10px; margin-bottom: 15px; }
             #username-input, #pin-input { width: 100%; margin-bottom: 0; }
             
-            .logo-wrapper { margin: -30px auto 10px auto; max-width: 260px; } 
+            .logo-wrapper { margin: -30px auto 10px auto; max-width: 320px; } 
             .mini-game-logo { width: 210px; margin: -25px auto 15px auto; }
             
             .modes-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -1303,32 +1434,31 @@ body {
                         <path d="M50 0C22.4 0 0 22.4 0 50s22.4 50 50 50 50-22.4 50-50S77.6 0 50 0zm0 90C27.9 90 10 72.1 10 50c0-2.3.2-4.5.6-6.7h25.1c2.4 7.6 9.5 13.3 18.2 13.3s15.8-5.7 18.2-13.3h25.1c.4 2.2.6 4.4.6 6.7 0 22.1-17.9 40-40 40zM50 43.3c-3.7 0-6.7 3-6.7 6.7s3 6.7 6.7 6.7 6.7-3 6.7-6.7-3-6.7-6.7-6.7zm41.6-10H66.5c-2.4-7.6-9.5-13.3-18.2-13.3S32.5 25.7 30.1 33.3H8.4C13.2 18.8 29.8 10 50 10c20.2 0 36.8 8.8 41.6 23.3z"/>
                     </svg>
                 </div>
-                <h2 style="font-family: 'Fredoka', sans-serif; font-size: 26px; text-transform: uppercase; margin-top: 0; margin-bottom: 20px; position: relative; z-index: 1; letter-spacing: 1px;">TRAINER LOG IN</h2>
-                
                 <div style="position: relative; z-index: 1; margin-bottom: 25px;">
-                    <div class="trainer-avatar-container" style="margin: 0 auto 8px auto; cursor: pointer; width: 100px; height: 100px;" onclick="openAvatarModal()" title="Tap to choose starter">
-                        <div class="trainer-avatar-circle" style="border: 3px solid #93c5fd; animation: pulseAvatar 2s infinite alternate;">
-                            <img id="login-avatar-preview" src="pokemon/official-artwork/25.png" style="background: transparent !important;">
-                        </div>
-                    </div>
-                    <div style="font-size: 11px; font-weight: 900; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.8;">Tap to choose starter</div>
-                </div>
+    <div class="trainer-avatar-container" style="margin: 0 auto 8px auto; cursor: pointer; width: 130px; height: 130px;" onclick="openAvatarModal()" title="Tap to choose starter">
+        <div class="trainer-avatar-circle" style="background: transparent; border: none; box-shadow: none; animation: pulseAvatar 2s infinite alternate;">
+            <img id="login-avatar-preview" src="pokeball.png" style="width: 100%; height: 100%; object-fit: contain; position: relative; bottom: 0; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));">
+        </div>
+    </div>
+    <div style="font-size: 11px; font-weight: 900; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.8;">Tap Poké Ball to choose starter</div>
+</div>
                 
                 <div class="input-group" style="position: relative; z-index: 1; flex-direction: column;">
                     <input type="text" id="username-input" placeholder="TRAINER NAME">
                     <input type="password" id="pin-input" placeholder="PIN (4 DIGITS)" maxlength="4" pattern="[0-9]*" inputmode="numeric">
                 </div>
 
-                <button class="primary-btn btn-blue" style="position: relative; z-index: 1; margin-bottom: 0;" onclick="loginUser()">Log In</button>
+                <button class="login-img-btn" onclick="loginUser()">
+    <img src="trainerlogin.png" alt="Trainer Log In">
+</button>
             </div>
 
-            <div id="user-history-container" class="bento-box hidden" style="padding: 20px; text-align: left;">
-                <h3 style="margin: 0 0 15px 0; font-size: 16px; font-weight: 900; text-transform: uppercase;">
-                    Previous Trainers
+                        <div id="user-history-container" class="bento-box hidden" style="padding: 10px 15px 5px 15px; text-align: center; max-width: 100%; box-sizing: border-box;">
+                <h3 style="margin: 0 0 8px 0; font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: 1.5px; color: inherit;">
+                    — Continue Your Journey —
                 </h3>
-                <div id="user-history-list" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-start;"></div>
-            </div>
-        </div>
+                <div id="user-history-list" style="display: flex; flex-wrap: nowrap; gap: 15px; justify-content: flex-start; overflow-x: auto; padding-bottom: 10px; -webkit-overflow-scrolling: touch;"></div>
+            </div>        </div>
 
         <div id="home-screen" class="screen">
             <div class="logo-wrapper">
@@ -2530,40 +2660,52 @@ body {
                 container.classList.remove('hidden');
                 knownUsers.forEach(user => {
                     const avatarUrl = getLocalSprite(localStorage.getItem('avatar_' + user) || 'pokemon/official-artwork/25.png');
+                    const userXP = parseInt(localStorage.getItem('xp_' + user)) || 0;
+                    const level = Math.floor(userXP / 100) + 1;
                     
-                    const chip = document.createElement('div');
-                    chip.className = 'history-chip';
+                    // Determine Title and Colors based on Level
+                    let title = "Rookie Trainer";
+                    let titleColor = "#cbd5e1"; 
+                    let borderColor = "#cbd5e1";
+                    
+                    if (level >= 200) { title = "Pokémon Master"; titleColor = "#ffffff"; borderColor = "#94a3b8"; }
+                    else if (level >= 175) { title = "Legendary Trainer"; titleColor = "#fcd34d"; borderColor = "#fbbf24"; }
+                    else if (level >= 150) { title = "Battle Legend"; titleColor = "#fca5a5"; borderColor = "#f87171"; }
+                    else if (level >= 125) { title = "League Champion"; titleColor = "#7dd3fc"; borderColor = "#38bdf8"; }
+                    else if (level >= 100) { title = "Elite Four"; titleColor = "#a855f7"; borderColor = "#a855f7"; }
+                    else if (level >= 75) { title = "Veteran Trainer"; titleColor = "#6ee7b7"; borderColor = "#34d399"; }
+                    else if (level >= 50) { title = "Gym Leader"; titleColor = "#fde047"; borderColor = "#facc15"; }
+                    else if (level >= 25) { title = "Ace Trainer"; titleColor = "#93c5fd"; borderColor = "#60a5fa"; }
 
-                    const img = document.createElement('img');
-                    img.src = avatarUrl;
-                    img.className = 'history-avatar';
-
-                    const nameBtn = document.createElement('button');
-                    nameBtn.className = 'history-btn';
-                    nameBtn.innerText = user;
-                    nameBtn.onclick = () => {
+                    const card = document.createElement('div');
+                    card.className = 'history-card';
+                    card.onclick = () => {
                         document.getElementById('username-input').value = user;
                         document.getElementById('pin-input').focus(); 
                         selectedAvatarUrl = avatarUrl;
                         document.getElementById('login-avatar-preview').src = selectedAvatarUrl;
                     };
 
-                    const delBtn = document.createElement('button');
-                    delBtn.className = 'delete-btn';
-                    delBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>'; 
-                    delBtn.title = "Delete Player";
-                    delBtn.onclick = () => deleteUser(user);
-
-                    chip.appendChild(img);
-                    chip.appendChild(nameBtn);
-                    chip.appendChild(delBtn);
-                    list.appendChild(chip);
+                    card.innerHTML = `
+                        <button class="history-delete-btn" onclick="event.stopPropagation(); deleteUser('${user}')" title="Delete Player">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        </button>
+                        <div class="history-card-avatar-wrapper" style="border-color: ${borderColor}; box-shadow: 0 0 10px ${borderColor}66;">
+                            <img src="${avatarUrl}" class="history-card-avatar">
+                        </div>
+                        <div class="history-card-info">
+                            <span class="history-card-name">${user}</span>
+                            <span class="history-card-stats">Lv. ${level}</span>
+                            <span class="history-card-title" style="color: ${titleColor};">${title}</span>
+                        </div>
+                    `;
+                    
+                    list.appendChild(card);
                 });
             } else {
                 container.classList.add('hidden');
             }
         }
-
         async function loginUser() {
             const rawName = document.getElementById('username-input').value.trim();
             const pinCode = document.getElementById('pin-input').value.trim();
