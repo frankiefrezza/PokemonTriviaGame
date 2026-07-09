@@ -22,23 +22,36 @@
     <style>
         /* --- iOS ROOT CANVAS FIX --- */
 html {
-    background: url('loadingscreen.png') no-repeat center center fixed;
-    background-size: cover;
+    background-color: #74ebd5; /* Fallback color */
     min-height: -webkit-fill-available;
-    overscroll-behavior: none; /* This stops the mobile bounce effect */
+}
+
+/* This creates a perfectly locked background that never jumps or zooms on mobile */
+html::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('loadingscreen.png') no-repeat center center;
+    background-size: cover;
+    z-index: -1;
+    pointer-events: none;
 }
 
 body { 
     font-family: 'Nunito', -apple-system, sans-serif; 
-    background: transparent; /* Makes sure the HTML image shows through */
-    display: flex; justify-content: center; align-items: center; 
+    background: transparent; 
+    display: flex; 
+    justify-content: center; 
+    /* Changed from 'center' to 'flex-start' so the top of the UI doesn't get cut off when scrolling */
+    align-items: flex-start; 
     min-height: 100vh; 
     min-height: -webkit-fill-available; 
     margin: 0; 
     padding: env(safe-area-inset-top, 20px) 20px env(safe-area-inset-bottom, 20px) 20px; 
     box-sizing: border-box; 
-    overscroll-behavior: none; /* Double protection against bounce */
     overflow-x: hidden;
+    overflow-y: auto; /* Enables natural scrolling */
+    -webkit-overflow-scrolling: touch; /* Brings back the satisfying rubber-band bounce */
 }
 
 
