@@ -197,6 +197,8 @@ body {
             position: relative; 
             overflow: hidden; 
             transition: background 0.3s ease, border-color 0.3s ease;
+            overscroll-behavior: contain; 
+    -webkit-overflow-scrolling: touch;
         }
 
                 /* --- TRAINER CARD STYLES --- */
@@ -918,19 +920,17 @@ body.dark-mode .light-bento-box { background: rgba(15, 23, 42, 0.4); border-colo
             border-radius: 100px; 
             border: 6px solid transparent; 
             background-clip: padding-box; 
+            overscroll-behavior: contain;
+-webkit-overflow-scrolling: touch;
         }
         
         .close-x {
     position: absolute;
-    /* Move down and to the left: 15px from top/left instead of right */
     top: 15px; 
-    left: 15px; 
-    
-    /* Flatten the design: remove background, border, and shadows */
+    left: 15px;
     background: rgba(255, 255, 255, 0.2); 
     border: none;
     color: rgba(255, 255, 255, 0.8);
-    
     width: 32px;
     height: 32px;
     cursor: pointer;
@@ -942,6 +942,10 @@ body.dark-mode .light-bento-box { background: rgba(15, 23, 42, 0.4); border-colo
     outline: none;
     -webkit-tap-highlight-color: transparent;
     z-index: 100;
+}
+
+.close-x:active {
+    filter: brightness(0.7);
 }
 
 /* Hover/Tap effect to match your new flat buttons */
@@ -2667,6 +2671,7 @@ body.dark-mode #leaderboard-modal p {
         function openPokedex() {
             if (!Array.isArray(memPokedex)) memPokedex = [];
             if (!Array.isArray(memShinyDex)) memShinyDex = [];
+            document.body.style.overflow = 'hidden';
 
             const dexContainer = document.getElementById('pokedex-regions-container');
             if (!dexContainer) return;
@@ -2720,6 +2725,7 @@ body.dark-mode #leaderboard-modal p {
         function closePokedex() { 
             document.getElementById('pokedex-modal').classList.add('hidden');
             isPaused = false;
+            document.body.style.overflow = 'auto';
         }
 
         function toggleShinyGrid() {
