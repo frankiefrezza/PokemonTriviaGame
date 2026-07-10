@@ -2120,7 +2120,7 @@ body.dark-mode #leaderboard-modal p {
 
         /* --- OFFLINE AVATAR REWRITER HELPER --- */
         function getLocalSprite(url) {
-            if (!url) return 'pokemon/official-artwork/25.png';
+            if (!url) return 'pokeball.png';
             if (url.includes('raw.githubusercontent.com')) {
                 return url.replace('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/', 'pokemon/gif/')
                           .replace('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/', 'pokemon/official-artwork/shiny/')
@@ -2255,7 +2255,7 @@ body.dark-mode #leaderboard-modal p {
         let currentUser = null, currentXP = 0;
         let sessionRight = 0, sessionWrong = 0, sessionXP = 0; 
         let sessionMoney = 0;
-        let selectedAvatarUrl = 'pokemon/official-artwork/25.png';
+        let selectedAvatarUrl = 'pokeball.png';
         let knownUsers = JSON.parse(localStorage.getItem('knownPokeUsers')) || [];
         let preloadedQuestions = [];
         let leaderboardDataCache = [];
@@ -2584,7 +2584,7 @@ body.dark-mode #leaderboard-modal p {
 
             if (publicData) {
                 pName = publicData.user;
-                pAvatar = getLocalSprite(publicData.avatar || 'pokemon/official-artwork/25.png');
+                pAvatar = getLocalSprite(publicData.avatar || 'pokeball.png');
                 pXP = publicData.xp || 0;
                 pSeen = (publicData.seen && publicData.seen.length) ? publicData.seen.length : 0;
                 pRight = publicData.stats_right || 0;
@@ -2738,7 +2738,7 @@ body.dark-mode #leaderboard-modal p {
                     lbList.innerHTML += `
                         <div class="lb-row" onclick="viewPublicCard(${index})">
                             <span class="${rankClass}">${rankStr}</span>
-                            <img class="lb-avatar" src="${getLocalSprite(player.avatar || 'pokemon/official-artwork/25.png')}">
+                            <img class="lb-avatar" src="${getLocalSprite(player.avatar || 'pokeball.png')}">
                             <div class="lb-details">
                                 <span class="lb-name">${player.user}</span>
                                 <span class="lb-xp">${player.xp} Total XP</span>
@@ -3076,7 +3076,7 @@ body.dark-mode #leaderboard-modal p {
             if (knownUsers.length > 0) {
                 container.classList.remove('hidden');
                 knownUsers.forEach(user => {
-                    const avatarUrl = getLocalSprite(localStorage.getItem('avatar_' + user) || 'pokemon/official-artwork/25.png');
+                    const avatarUrl = getLocalSprite(localStorage.getItem('avatar_' + user) || 'pokeball.png');
                     const userXP = parseInt(localStorage.getItem('xp_' + user)) || 0;
                     const level = Math.floor(userXP / 100) + 1;
                     
@@ -3156,7 +3156,7 @@ body.dark-mode #leaderboard-modal p {
                     }
                     
                     currentXP = cloudData.xp || 0;
-                    selectedAvatarUrl = getLocalSprite(cloudData.avatar || 'pokemon/official-artwork/25.png');
+                    selectedAvatarUrl = getLocalSprite(cloudData.avatar || 'pokeball.png');
                     
                     memPokedex = cloudData.pokedex || await getMigratedData(`pokedex_${currentUser}`);
                     memShinyDex = cloudData.shiny_dex || await getMigratedData(`shiny_dex_${currentUser}`);
@@ -3292,7 +3292,7 @@ body.dark-mode #leaderboard-modal p {
             currentUser = null;
             document.getElementById('username-input').value = '';
             document.getElementById('pin-input').value = '';
-            selectedAvatarUrl = 'pokemon/official-artwork/25.png';
+            selectedAvatarUrl = 'pokeball.png';
             document.getElementById('login-avatar-preview').src = selectedAvatarUrl;
             
             memPokedex = [];
@@ -3348,7 +3348,7 @@ body.dark-mode #leaderboard-modal p {
 
             document.getElementById('home-display-wallet').innerText = pokeDollars;
 
-            const savedAvatar = getLocalSprite(localStorage.getItem('avatar_' + username) || 'pokemon/official-artwork/25.png');
+            const savedAvatar = getLocalSprite(localStorage.getItem('avatar_' + username) || 'pokeball.png');
             selectedAvatarUrl = savedAvatar; 
             document.getElementById('trainer-display-avatar').src = selectedAvatarUrl;
             updateXPUI();
