@@ -492,8 +492,16 @@ body.dark-mode .glass-pill {
         #timer-container { width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; position: relative; }
         #timer-bar { height: 100%; width: 100%; background: #10b981; position: absolute; right: 0; transition: width 1s linear, background-color 0.3s ease; border-radius: 4px; }
         .timer-warning { background: #f59e0b !important; }
-        .timer-danger { background: #ef4444 !important; }
-        
+        /* --- HEARTBEAT ALARM TIMER --- */
+        .timer-danger { 
+            background: #ef4444 !important; 
+            animation: heartbeatTimer 0.5s infinite alternate ease-in-out !important;
+        }
+
+        @keyframes heartbeatTimer {
+            0% { filter: brightness(1); box-shadow: 0 0 2px rgba(239, 68, 68, 0.2); }
+            100% { filter: brightness(1.4); box-shadow: 0 0 15px rgba(239, 68, 68, 0.9); }
+        }        
         .input-group { display: flex; gap: 10px; margin-bottom: 20px; width: 100%; }
         #username-input { flex: 2; width: 100%; min-width: 0; padding: 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.4); border-top: 2px solid rgba(255,255,255,0.8); border-left: 1px solid rgba(255,255,255,0.6); font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 800; text-transform: uppercase; background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); box-shadow: 0 8px 16px rgba(0,0,0,0.1), inset 0 2px 4px rgba(255,255,255,0.4); color: #ffffff; transition: all 0.3s; }
         #username-input:focus { outline: none; border-color: #3b82f6; background: rgba(255, 255, 255, 0.35); }
@@ -2982,7 +2990,7 @@ body.dark-mode #leaderboard-modal p {
             }
         }
 
-        function startTimer() {
+                function startTimer() {
             clearInterval(timerInterval);
             isPaused = false;
             
@@ -2990,8 +2998,17 @@ body.dark-mode #leaderboard-modal p {
                 timeLeft = 10;
             }
             
+            // 1. Disable transition for an instant snap
+            timerBar.style.transition = 'none';
+            
             timerWrapper.classList.remove('hidden');
             updateTimerUI();
+            
+            // 2. Force browser reflow to apply the instant width change
+            void timerBar.offsetWidth;
+            
+            // 3. Restore smooth ticking animation
+            timerBar.style.transition = 'width 1s linear, background-color 0.3s ease';
             
             timerInterval = setInterval(() => {
                 if(!isPaused) {
