@@ -782,14 +782,20 @@ on-image { width: 240px; height: 240px; margin: 10px auto 20px auto; display: bl
             text-shadow: 0 2px 4px rgba(0,0,0,0.3); 
             transform: scale(1.02) !important;
         }
-        .option-btn.wrong { 
+                .option-btn.wrong { 
             background: linear-gradient(135deg, rgba(239, 68, 68, 0.85) 0%, rgba(220, 38, 38, 0.85) 100%) !important;
             border-color: rgba(255, 255, 255, 0.6) !important;
             border-top-color: rgba(255, 255, 255, 0.9) !important;
             color: white !important; 
             box-shadow: 0 10px 20px rgba(220, 38, 38, 0.3), inset 0 2px 4px rgba(255,255,255,0.5) !important; 
             text-shadow: 0 2px 4px rgba(0,0,0,0.3); 
-            transform: scale(0.96) !important;
+            animation: errorShake 0.4s cubic-bezier(.36,.07,.19,.97) both !important;
+        }
+
+        @keyframes errorShake {
+            0%, 100% { transform: scale(0.96) translateX(0); }
+            20%, 60% { transform: scale(0.96) translateX(-6px); }
+            40%, 80% { transform: scale(0.96) translateX(6px); }
         }
 
         /* --- ITEM BAG BUTTONS --- */
@@ -2318,7 +2324,11 @@ body.dark-mode #leaderboard-modal p {
         
         let isShiny = false;
         let currentStreak = 0;
-
+        function triggerHaptic(type) {
+            if (!navigator.vibrate) return; // Fails safely on iOS/unsupported browsers
+            if (type === 'success') navigator.vibrate([30, 50, 30]); // Double light tap
+            if (type === 'error') navigator.vibrate([50, 100, 50]);  // Heavy double buzz
+        }
         const loginScreen = document.getElementById('login-screen'), homeScreen = document.getElementById('home-screen'), gameScreen = document.getElementById('game-screen'), endScreen = document.getElementById('end-screen'), gameContent = document.getElementById('game-content'), questionCountEl = document.getElementById('question-count'), questionTextEl = document.getElementById('question-text'), optionsEl = document.getElementById('options');
         const endTitleEl = document.getElementById('end-title'), endMessageEl = document.getElementById('end-message');
         const timerWrapper = document.getElementById('timer-wrapper'), timerBar = document.getElementById('timer-bar'), timerText = document.getElementById('timer-text');
@@ -4150,7 +4160,7 @@ imageContainer.innerHTML = shinyTagHtml + `<img id="pokemon-image" src="${qData.
 
             const delay = currentMode === 'SURVIVAL' ? 800 : (isCorrect ? 1000 : 1500);
             triggerFeedbackAnimation(isCorrect);
-
+triggerHaptic(isCorrect ? 'success' : 'error');
             if (isCorrect) {
                 clickedBtn.classList.add('correct');
                 applyScore(true);
@@ -4186,7 +4196,8 @@ imageContainer.innerHTML = shinyTagHtml + `<img id="pokemon-image" src="${qData.
 
             if (currentMode === 'SURVIVAL') {
                 triggerFeedbackAnimation(false);
-                
+                triggerHaptic('error');
+
                 const allBtns = document.querySelectorAll('.option-btn');
                 allBtns.forEach(btn => btn.disabled = true);
                 
@@ -4212,7 +4223,7 @@ imageContainer.innerHTML = shinyTagHtml + `<img id="pokemon-image" src="${qData.
             }
 
             triggerFeedbackAnimation(false);
-
+triggerHaptic('error');
             const allBtns = document.querySelectorAll('.option-btn');
             allBtns.forEach(btn => btn.disabled = true);
             
