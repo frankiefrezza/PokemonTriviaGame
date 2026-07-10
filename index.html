@@ -2287,28 +2287,44 @@ body.dark-mode #leaderboard-modal p {
                 console.error("Failed to load master list", e);
             }
 
+            // --- INACTIVITY & SESSION TRACKER ---
+            const updateActivity = () => { if (currentUser) localStorage.setItem('lastActiveTime', Date.now()); };
+            document.addEventListener('click', updateActivity, { passive: true });
+            document.addEventListener('touchstart', updateActivity, { passive: true });
+
             const savedUser = localStorage.getItem('pokeUser');
+            const lastActive = localStorage.getItem('lastActiveTime');
+            const isSessionActive = sessionStorage.getItem('sessionActive');
+            
+            // Check if inactive for more than 2 hours (7,200,000 milliseconds)
+            const isIdle = lastActive && (Date.now() - parseInt(lastActive) > 7200000);
             
             setTimeout(async () => {
-                if (savedUser) {
+                // Require all 3: A saved user, an active app session, and recent activity
+                if (savedUser && isSessionActive && !isIdle) {
                     currentUser = savedUser;
                     await loadUserData(currentUser);
                     showScreen(homeScreen);
                     checkDailyReward(currentUser);
                 } else {
+                    // Force Wipe & Logout
+                    localStorage.removeItem('pokeUser');
+                    sessionStorage.removeItem('sessionActive');
+                    currentUser = null;
                     renderUserHistory();
                     showScreen(loginScreen);
                 }
 
+                // THIS HIDES THE SPLASH SCREEN
                 const splash = document.getElementById('splash-screen');
-                splash.style.opacity = '0';
-                
-                setTimeout(() => {
-                    splash.style.display = 'none';
-                }, 500); 
+                if (splash) {
+                    splash.style.opacity = '0';
+                    setTimeout(() => {
+                        splash.style.display = 'none';
+                    }, 500); 
+                }
             }, 3500); 
         };
-
         async function checkDailyReward(username) {
             const today = new Date().toDateString();
             const lastLogin = localStorage.getItem(`lastLogin_${username}`);
@@ -3265,7 +3281,8 @@ body.dark-mode #leaderboard-modal p {
                 if (!localStorage.getItem(`stats_wrong_${currentUser}`)) localStorage.setItem(`stats_wrong_${currentUser}`, 0);
 
                 localStorage.setItem('pokeUser', currentUser);
-                if (!knownUsers.includes(currentUser)) {
+                sessionStorage.setItem('sessionActive', 'true');
+                localStorage.setItem('lastActiveTime', Date.now());                if (!knownUsers.includes(currentUser)) {
                     knownUsers.push(currentUser);
                     localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
                 }
@@ -3332,8 +3349,27 @@ body.dark-mode #leaderboard-modal p {
             }
         }
 
-        async function loadUserData(username) {
+                async function loadUserData(username) {
             document.getElementById('display-name').innerText = username;
+            
+            // --- NEW FIREBASE CLOUD SYNC ---
+            try {
+                const docSnap = await db.collection("trainers").doc(username).get();
+                if (docSnap.exists) {
+                    const cloudData = docSnap.data();
+                    if (cloudData.xp !== undefined) localStorage.setItem(`xp_${username}`, cloudData.xp);
+                    if (cloudData.pokeDollars !== undefined) localStorage.setItem(`pokeDollars_${username}`, cloudData.pokeDollars);
+                    if (cloudData.inventory) localStorage.setItem(`inventory_${username}`, JSON.stringify(cloudData.inventory));
+                    if (cloudData.pokedex) idbSet(`pokedex_${username}`, cloudData.pokedex);
+                    if (cloudData.shiny_dex) idbSet(`shiny_dex_${username}`, cloudData.shiny_dex);
+                    if (cloudData.seen) idbSet(`seen_${username}`, cloudData.seen);
+                    if (cloudData.stats_right !== undefined) localStorage.setItem(`stats_right_${username}`, cloudData.stats_right);
+                    if (cloudData.stats_wrong !== undefined) localStorage.setItem(`stats_wrong_${username}`, cloudData.stats_wrong);
+                }
+            } catch (error) {
+                console.error("Cloud sync failed:", error);
+            }
+
             currentXP = parseInt(localStorage.getItem(`xp_${username}`)) || 0;
             pokeDollars = parseInt(localStorage.getItem(`pokeDollars_${username}`)) || 0;
             inventory = JSON.parse(localStorage.getItem(`inventory_${username}`)) || { razz: 0, nanab: 0, sash: 0 };
@@ -3348,7 +3384,7 @@ body.dark-mode #leaderboard-modal p {
 
             document.getElementById('home-display-wallet').innerText = pokeDollars;
 
-            const savedAvatar = getLocalSprite(localStorage.getItem('avatar_' + username) || 'pokeball.png');
+            const savedAvatar = getLocalSprite(localStorage.getItem('avatar_' + username) || 'pokemon/official-artwork/25.png');
             selectedAvatarUrl = savedAvatar; 
             document.getElementById('trainer-display-avatar').src = selectedAvatarUrl;
             updateXPUI();
