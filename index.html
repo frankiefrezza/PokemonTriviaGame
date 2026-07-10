@@ -1543,10 +1543,32 @@ body.dark-mode #leaderboard-modal p {
         border-radius: 20px 0 0 20px !important; 
     }
 
-    /* This targets the LAST pill (Coins) and makes the left side flat */
+        /* This targets the LAST pill (Coins) and makes the left side flat */
     .widget-capsule-bottom .widget-stat-pill:last-child {
         /* Top-Left: 0, Top-Right: 20px, Bottom-Right: 20px, Bottom-Left: 0 */
         border-radius: 0 20px 20px 0 !important; 
+    }
+
+    /* --- SHOP +1 FLOATING ANIMATION --- */
+    .shop-plus-one {
+        position: absolute;
+        top: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #ffffff;
+        font-size: 24px;
+        font-weight: 800;
+        font-family: 'Fredoka', sans-serif;
+        text-shadow: 0 4px 8px rgba(0,0,0,0.4), 0 0 10px rgba(255,255,255,0.5);
+        pointer-events: none;
+        animation: floatUpFade 0.8s ease-out forwards;
+        z-index: 100;
+    }
+
+    @keyframes floatUpFade {
+        0% { opacity: 1; transform: translate(-50%, 0) scale(0.8); }
+        20% { transform: translate(-50%, -15px) scale(1.1); }
+        100% { opacity: 0; transform: translate(-50%, -40px) scale(1); }
     }
 
     </style> 
@@ -2560,25 +2582,24 @@ body.dark-mode #leaderboard-modal p {
                 updateItemUI();
                 document.getElementById('shop-modal-wallet').innerText = pokeDollars;
                 
-                const originalHtml = btnElement.innerHTML;
-                const originalBg = btnElement.style.background;
-                const originalBorder = btnElement.style.borderColor;
-                const originalShadow = btnElement.style.boxShadow;
-                const originalColor = btnElement.style.color;
+                                // --- NEW +1 FLOATING ANIMATION ---
+                // Ensure the button can anchor the floating text
+                btnElement.style.position = 'relative'; 
+
+                // Create the +1 element
+                const plusOne = document.createElement('span');
+                plusOne.className = 'shop-plus-one';
+                plusOne.innerText = '+1';
                 
-                btnElement.innerHTML = "✔ BOUGHT!";
-                btnElement.style.background = "#10b981";
-                btnElement.style.borderColor = "#059669";
-                btnElement.style.boxShadow = "0 4px 0 #047857";
-                btnElement.style.color = "white";
-                
+                // Append it to the button
+                btnElement.appendChild(plusOne);
+
+                // Clean it up from the DOM after the animation finishes
                 setTimeout(() => {
-                    btnElement.innerHTML = originalHtml;
-                    btnElement.style.background = originalBg;
-                    btnElement.style.borderColor = originalBorder;
-                    btnElement.style.boxShadow = originalShadow;
-                    btnElement.style.color = originalColor;
-                }, 500);
+                    if (plusOne.parentElement) {
+                        plusOne.remove();
+                    }
+                }, 800);
             } else {
                 alert("Not enough PokéDollars! Keep answering questions to earn more.");
             }
