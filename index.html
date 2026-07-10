@@ -1109,7 +1109,29 @@ body.dark-mode .light-bento-box { background: rgba(15, 23, 42, 0.4); border-colo
         @keyframes pulseAvatar { 0% { transform: scale(1); box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); } 100% { transform: scale(1.05); box-shadow: 0 0 25px rgba(59, 130, 246, 0.7); } }
         
         @keyframes slideLoader { 0% { transform: translateX(-100%); } 100% { transform: translateX(200%); } }
+        /* --- END SCREEN VICTORY GLOW --- */
+        #end-title {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
+        #end-title::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            max-width: 320px;
+            height: 120px;
+            background: radial-gradient(ellipse, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0) 70%);
+            filter: blur(15px);
+            z-index: -1;
+            pointer-events: none;
+        }
         body.dark-mode {
     background: rgba(15, 23, 42, 0.75);
 }
@@ -2066,7 +2088,7 @@ body.dark-mode #leaderboard-modal p {
                 <div class="logo-spotlight"></div>
                 <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="main-logo">
             </div>
-            <h1 id="end-title" style="font-size: 32px; font-weight: 700; margin-bottom: 5px; font-family: 'Fredoka', sans-serif;"></h1>
+            <h1 id="end-title" style="font-size: 32px; font-weight: 700; margin-bottom: 20px; font-family: 'Fredoka', sans-serif;"></h1>
             <p id="end-message" style="font-size: 16px; font-weight: 700; margin-top: 0; margin-bottom: 25px;"></p>
             
             <div class="bento-box" style="padding: 20px; border-radius: 20px; margin-bottom: 25px;">
@@ -4211,31 +4233,31 @@ imageContainer.innerHTML = shinyTagHtml + `<img id="pokemon-image" src="${qData.
                 }, { merge: true }).catch(e => console.error("Firebase sync error:", e));
 
                                     if (isNewHigh && sessionRight > 0) {
-                    endTitleEl.innerHTML = '<img src="newpersonalbest.png" style="width: 100%; max-width: 320px; filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));">'; 
+                    endTitleEl.innerHTML = '<img src="newpersonalbest.png" style="width: 100%; max-width: 320px; filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9));">'; 
                     endMessageEl.innerText = `Incredible! You set a new record of ${sessionRight} answers!`;
                 } else {
-                    endTitleEl.innerHTML = '<img src="timesup.png" style="width: 100%; max-width: 320px; filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));">'; 
+                    endTitleEl.innerHTML = '<img src="timesup.png" style="width: 100%; max-width: 320px; filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9));">'; 
                     endMessageEl.innerText = `You survived and correctly answered ${sessionRight} questions!`;
                 }
             } else {
                 if (sessionRight === perfectScoreThreshold) { 
-                    endTitleEl.innerHTML = '<img src="perfectscore.png" style="width: 100%; max-width: 320px; filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));">'; 
+                    endTitleEl.innerHTML = '<img src="perfectscore.png" style="width: 100%; max-width: 320px; filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9));">'; 
                     endMessageEl.innerText = "You are a true Pokémon Master!"; 
                 } 
                 else if (sessionRight >= perfectScoreThreshold * 0.75) { 
-                    endTitleEl.innerHTML = '<img src="amazingjob.png" style="width: 100%; max-width: 320px; filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));">'; 
+                    endTitleEl.innerHTML = '<img src="amazingjob.png" style="width: 100%; max-width: 320px; filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9));">'; 
                     endMessageEl.innerText = "You really know your Pokémon!"; 
                 } 
                 else if (sessionRight >= perfectScoreThreshold * 0.5) { 
-                    endTitleEl.innerHTML = '<img src="greatwork.png" style="width: 100%; max-width: 320px; filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));">'; 
+                    endTitleEl.innerHTML = '<img src="greatwork.png" style="width: 100%; max-width: 320px; filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9));">'; 
                     endMessageEl.innerText = "Keep it up!"; 
                 } 
                 else if (sessionRight >= perfectScoreThreshold * 0.25) { 
-                    endTitleEl.innerHTML = '<img src="goodeffort.png" style="width: 100%; max-width: 320px; filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));">'; 
+                    endTitleEl.innerHTML = '<img src="goodeffort.png" style="width: 100%; max-width: 320px; filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9));">'; 
                     endMessageEl.innerText = "You're getting there!"; 
                 } 
                 else { 
-                    endTitleEl.innerHTML = '<img src="nicetry.png" style="width: 100%; max-width: 320px; filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));">'; 
+                    endTitleEl.innerHTML = '<img src="nicetry.png" style="width: 100%; max-width: 320px; filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9));">'; 
                     endMessageEl.innerText = "Keep practicing to catch 'em all!"; 
                 }
             }
