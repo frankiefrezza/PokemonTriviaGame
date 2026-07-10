@@ -4183,10 +4183,14 @@ triggerHaptic(isCorrect ? 'success' : 'error');
             }, delay);
         }
 
-        function handleTimeOut() {
+                function handleTimeOut() {
             clearInterval(timerInterval);
+            
+            // Instantly kill the animation so the bar doesn't trail behind the clock
+            timerBar.style.transition = 'none'; 
             timerBar.style.width = '0%';
             timerText.innerText = '0s';
+            
             isPaused = true;
             
             if (isShiny) {
