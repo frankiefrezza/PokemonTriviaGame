@@ -699,7 +699,24 @@ body.dark-mode .glass-pill {
 #question-text { font-size: 16px; font-weight: 700; color: #1e293b; margin: 10px 0 30px 0; min-height: 28px; line-height: 1.3; text-transform: uppercase !important; letter-spacing: 1px; text-shadow: 0 2px 6px rgba(255,255,255,0.9); transition: color 0.3s; }
 #question-text strong { text-transform: uppercase !important; font-weight: 900 !important; }        
                 /* --- DYNAMIC GAME IMAGES --- */
-        #pokemon-image { width: 240px; height: 240px; margin: 10px auto 20px auto; display: block; transition: filter 0.3s; }
+#pokemon-image { 
+    width: 240px; 
+    height: 240px; 
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    margin: 10px auto 20px auto; 
+    display: block; 
+    transition: filter 0.3s; 
+    
+    /* Anti-Cheat Protections */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    pointer-events: none;
+    -webkit-user-drag: none;
+}
+on-image { width: 240px; height: 240px; margin: 10px auto 20px auto; display: block; transition: filter 0.3s; }
         .dual-image-container { display: flex; align-items: center; justify-content: center; gap: 20px; margin: 10px auto 25px auto; width: 100%; }
         .dual-image-sprite { width: 130px; height: 130px; object-fit: contain; transition: filter 0.5s ease; }
         .evolution-arrow { width: 36px; height: 36px; color: #94a3b8; animation: pulseArrow 1.5s infinite ease-in-out; }
@@ -1289,14 +1306,23 @@ body.dark-mode #leaderboard-modal p {
     }
 
     .tcg-evolved-sprite {
-        width: 220px;
-        height: 220px;
-        object-fit: contain;
-        margin: 5px auto;
-        display: block;
-        position: relative;
-        z-index: 1;
-    }
+    width: 220px;
+    height: 220px;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    margin: 5px auto;
+    display: block;
+    position: relative;
+    z-index: 1;
+
+    /* Anti-Cheat Protections */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    pointer-events: none;
+    -webkit-user-drag: none;
+}
     
     /* Dark mode support for the small floating box */
     body.dark-mode .tcg-base-box {
@@ -3738,11 +3764,9 @@ function updateBadgeDisplay(level) {
                     <div class="tcg-base-box">
                         <img src="${qData.spriteUrl}" class="tcg-base-sprite ${isShiny ? 'shiny-glow' : 'revealed'}">
                     </div>
-                    <img id="evolved-pokemon-image" src="${qData.evolveToSpriteUrl}" class="tcg-evolved-sprite silhouette">
-                `;
+<img id="evolved-pokemon-image" src="${qData.evolveToSpriteUrl}" class="tcg-evolved-sprite silhouette" draggable="false" oncontextmenu="return false;">                `;
             } else {
-                imageContainer.innerHTML = shinyTagHtml + `<img id="pokemon-image" src="${qData.spriteUrl}" class="${qData.imageClass}" alt="Pokemon">`;
-            }
+imageContainer.innerHTML = shinyTagHtml + `<img id="pokemon-image" src="${qData.spriteUrl}" class="${qData.imageClass}" alt="Pokemon" draggable="false" oncontextmenu="return false;">`;            }
 
             if (currentQuestionMode === 'SCRAMBLE') {
                 const correctStr = correctAnswersAttribute.replace(/[\s\.\-']/g, '').toUpperCase();
