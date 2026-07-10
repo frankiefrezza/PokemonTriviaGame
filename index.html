@@ -3675,6 +3675,15 @@ function updateBadgeDisplay(level) {
             while(preloadedQuestions.length < Math.min(3, TOTAL_QUESTIONS) && initialFails < 10) {
                 try {
                     const firstQ = await generateQuestionData(mode);
+                    
+                    // PRELOAD IMAGES TO BROWSER CACHE
+                    const preloadImg1 = new Image();
+                    preloadImg1.src = firstQ.spriteUrl;
+                    if (firstQ.evolveToSpriteUrl) {
+                        const preloadImg2 = new Image();
+                        preloadImg2.src = firstQ.evolveToSpriteUrl;
+                    }
+                    
                     preloadedQuestions.push(firstQ);
                 } catch (error) {
                     console.error("Initial block stream configuration error, retrying...", error);
@@ -3703,6 +3712,15 @@ function updateBadgeDisplay(level) {
 
                     try {
                         const nextQuestion = await generateQuestionData(mode);
+                        
+                        // PRELOAD IMAGES TO BROWSER CACHE
+                        const preloadImg1 = new Image();
+                        preloadImg1.src = nextQuestion.spriteUrl;
+                        if (nextQuestion.evolveToSpriteUrl) {
+                            const preloadImg2 = new Image();
+                            preloadImg2.src = nextQuestion.evolveToSpriteUrl;
+                        }
+                        
                         preloadedQuestions.push(nextQuestion);
                         consecutiveFails = 0; 
                         
