@@ -1423,20 +1423,19 @@ body.dark-mode #leaderboard-modal p {
         padding: 25px 20px 40px 20px; 
         box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.4);
     }
-    /* --- AVATAR WHITE FLARE EFFECT --- */
+        /* --- AVATAR WHITE FLARE EFFECT --- */
     .widget-capsule-top .trainer-avatar-container::before, #tc-avatar-btn::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    will-change: transform, opacity; /* Forces GPU rendering for the pulse */
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
         transform: translate(-50%, -50%);
         width: 150%;
         height: 150%;
         background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.5) 40%, rgba(255, 255, 255, 0) 70%);
         z-index: 1;
         pointer-events: none;
-        animation: breathingFlare 3.5s infinite alternate ease-in-out;
+        opacity: 0.85; /* Locks in the static white glow */
     }
 
     @keyframes breathingFlare {
@@ -1577,7 +1576,7 @@ body.dark-mode #leaderboard-modal p {
         font-family: 'Fredoka', sans-serif;
         text-shadow: 0 4px 8px rgba(0,0,0,0.4), 0 0 10px rgba(255,255,255,0.5);
         pointer-events: none;
-        animation: floatUpFade 0.8s ease-out forwards;
+        animation: floatUpFade 1.5s ease-out forwards;
         z-index: 100;
     }
 
@@ -1652,7 +1651,7 @@ body.dark-mode #leaderboard-modal p {
         </div>
         
         <!-- Identity -->
-        <div id="tc-name" style="font-family: 'Fredoka', sans-serif; font-size: 32px; font-weight: 700; text-transform: uppercase; color: #045B43; line-height: 1.1; margin-bottom: 2px;">Name</div>
+        <div id="tc-name" style="font-family: 'Fredoka', sans-serif; font-size: 32px; font-weight: 700; text-transform: uppercase; color: #045B43; line-height: 1.1; margin-top: 20px; margin-bottom: 2px;">Name</div>
         <div id="tc-title" style="font-size: 14px; font-weight: 900; color: #10b981; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px;">Title</div>
 
         <!-- 3 Pill Row (Enlarged Badge & Transparent Rectangles) -->
@@ -2066,8 +2065,12 @@ body.dark-mode #leaderboard-modal p {
     <span id="display-xp" class="hidden"></span>
 </div>
 
-            <div id="daily-challenges-container" class="bento-box daily-challenges-container hidden">
-                <h3 style="margin: 0 0 15px 0; font-size: 18px; font-weight: 900; text-transform: uppercase; text-align: center; font-family: 'Fredoka', sans-serif; letter-spacing: 1px;">Daily Challenges</h3>
+                        <div id="daily-challenges-container" class="bento-box daily-challenges-container hidden">
+                <div style="text-align: center;">
+                    <div class="header-pill" style="margin-top: 0; margin-bottom: 20px;">
+                        Daily Challenges
+                    </div>
+                </div>
                 <div id="dc-list"></div>
             </div>
 
@@ -2681,7 +2684,7 @@ body.dark-mode #leaderboard-modal p {
                     if (plusOne.parentElement) {
                         plusOne.remove();
                     }
-                }, 800);
+                }, 1500);
             } else {
                 alert("Not enough PokéDollars! Keep answering questions to earn more.");
             }
@@ -4238,7 +4241,7 @@ imageContainer.innerHTML = shinyTagHtml + `<img id="pokemon-image" src="${qData.
     }
 }
 
-        function handleGuess(clickedBtn, isCorrect) {
+                function handleGuess(clickedBtn, isCorrect) {
             if (currentMode !== 'SURVIVAL') {
                 clearInterval(timerInterval);
             }
@@ -4254,7 +4257,7 @@ imageContainer.innerHTML = shinyTagHtml + `<img id="pokemon-image" src="${qData.
                 if(imgEl) imgEl.className = isShiny ? 'shiny-glow' : 'revealed'; 
             } else if (currentQuestionMode === 'EVOLUTIONS') {
                 let evImgEl = document.getElementById('evolved-pokemon-image');
-                        if(evImgEl) evImgEl.className = isShiny ? 'tcg-evolved-sprite shiny-glow' : 'tcg-evolved-sprite revealed';
+                if(evImgEl) evImgEl.className = isShiny ? 'tcg-evolved-sprite shiny-glow' : 'tcg-evolved-sprite revealed';
             }
 
             const allBtns = document.querySelectorAll('.option-btn');
@@ -4263,9 +4266,14 @@ imageContainer.innerHTML = shinyTagHtml + `<img id="pokemon-image" src="${qData.
             clickedBtn.style.transform = "translateY(6px)";
             clickedBtn.style.boxShadow = "0 0 0 transparent";
 
-            const delay = currentMode === 'SURVIVAL' ? 800 : (isCorrect ? 1000 : 1500);
+            let delay = currentMode === 'SURVIVAL' ? 800 : (isCorrect ? 1000 : 1500);
+            if (isCorrect && isShiny) {
+                delay += 1500;
+            }
+
             triggerFeedbackAnimation(isCorrect);
-triggerHaptic(isCorrect ? 'success' : 'error');
+            triggerHaptic(isCorrect ? 'success' : 'error');
+
             if (isCorrect) {
                 clickedBtn.classList.add('correct');
                 applyScore(true);
