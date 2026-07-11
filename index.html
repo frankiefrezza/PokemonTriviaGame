@@ -12,10 +12,11 @@
     
     <link rel="icon" href="app-icon.png?v=2" type="image/png">
     <link rel="apple-touch-icon" href="app-icon.png?v=2">
+    <!-- ADD THIS LINE: -->
+    <link rel="manifest" href="manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Kanit:wght@800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Kanit:wght@800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">    
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
@@ -1742,8 +1743,14 @@ body.dark-mode #leaderboard-modal p {
             
         </div>
 
-                <!-- Simplified CLOSE Button -->
-        <button class="primary-btn btn-green" id="tc-close-btn" style="width: 100%; margin: 0; border-radius: 25px;">CLOSE</button>
+                <!-- Split CLOSE & LOG OUT Buttons -->
+        <div style="display: flex; gap: 10px; width: 100%; margin-top: 10px;">
+            <button class="primary-btn btn-green" id="tc-close-btn" style="flex: 3; margin: 0; border-radius: 20px;">CLOSE</button>
+            
+            <button class="primary-btn btn-red" id="tc-logout-btn" onclick="logoutUser(); closeTrainerCard();" style="flex: 1; margin: 0; border-radius: 20px; padding: 10px;" title="Log Out">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            </button>
+        </div>
     </div>
 </div>
         </div>
@@ -1831,14 +1838,57 @@ body.dark-mode #leaderboard-modal p {
                 <button class="primary-btn btn-red" onclick="logoutUser(); toggleSettings();" style="width: 85%; margin: 0; margin-top: 15px;">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Logout Trainer
                 </button>
-                <button class="primary-btn btn-gray" onclick="toggleSettings()" style="width: 85%; margin: 0;">
+                               <button class="primary-btn btn-gray" onclick="toggleSettings()" style="width: 85%; margin: 0;">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg> Close
                 </button>
             </div>
         </div>
     </div>
 
-        <div id="leaderboard-modal" class="modal-overlay hidden">
+    <!-- INSERT TRAINER GUIDE MODAL HERE -->
+    <div id="trainer-guide-modal" class="modal-overlay hidden" style="z-index: 1050;">
+        <div class="modal-content light-glass-modal" style="padding: 25px; border-radius: 35px; max-height: 85vh; overflow-y: auto;">
+            <button class="close-x" onclick="closeTrainerGuide()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div style="text-align: center;">
+                <div class="header-pill" style="margin-top: 0; margin-bottom: 20px;">Trainer Guide</div>
+            </div>
+            
+            <div class="light-bento-box" style="margin-bottom: 15px; padding: 15px;">
+                <h4 style="margin: 0 0 10px 0; color: #059669; text-transform: uppercase; font-family: 'Fredoka', sans-serif;">Economy & XP</h4>
+                <p style="margin: 0 0 6px 0; font-size: 13px; color: #334155;"><strong>Base:</strong> +5 XP & +2 Coins per correct answer.</p>
+                <p style="margin: 0 0 6px 0; font-size: 13px; color: #334155;"><strong>Shiny:</strong> +10 XP & +2 Coins!</p>
+                <p style="margin: 0 0 0 0; font-size: 13px; color: #334155;"><strong>Streak (5+):</strong> Bonus +2 XP & +10 Coins per correct answer!</p>
+            </div>
+
+            <div class="light-bento-box" style="margin-bottom: 15px; padding: 15px;">
+                <h4 style="margin: 0 0 10px 0; color: #2563eb; text-transform: uppercase; font-family: 'Fredoka', sans-serif;">Items</h4>
+                <p style="margin: 0 0 6px 0; font-size: 13px; color: #334155;"><strong>Razz Berry:</strong> Adds +5s to the timer.</p>
+                <p style="margin: 0 0 6px 0; font-size: 13px; color: #334155;"><strong>Nanab Berry:</strong> Removes 2 wrong answers or flashes a hint.</p>
+                <p style="margin: 0 0 0 0; font-size: 13px; color: #334155;"><strong>Focus Sash:</strong> Passively saves your streak if you miss a question.</p>
+            </div>
+
+                        <div class="light-bento-box" style="margin-bottom: 15px; padding: 15px;">
+                <h4 style="margin: 0 0 10px 0; color: #8b5cf6; text-transform: uppercase; font-family: 'Fredoka', sans-serif;">Secret Interactions</h4>
+                <p style="margin: 0 0 6px 0; font-size: 13px; color: #334155;">• Tap your <strong>Avatar</strong> on the home screen to change it.</p>
+                <p style="margin: 0 0 6px 0; font-size: 13px; color: #334155;">• Tap your <strong>Trainer Card</strong> to view your detailed stats.</p>
+                <p style="margin: 0 0 0 0; font-size: 13px; color: #334155;">• To exit an active match and return home, tap the <strong>Settings</strong> icon in the bottom dock.</p>
+            </div>
+
+            <div class="light-bento-box" style="margin-bottom: 25px; padding: 15px;">
+                <h4 style="margin: 0 0 10px 0; color: #d97706; text-transform: uppercase; font-family: 'Fredoka', sans-serif;">Play in Full Screen</h4>
+                <p style="margin: 0 0 8px 0; font-size: 13px; color: #334155;">Install this app on your device for the best experience!</p>
+                <p style="margin: 0 0 6px 0; font-size: 13px; color: #334155;"><strong>iOS:</strong> Tap 'Share' <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin: 0 2px;"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg> then 'Add to Home Screen'.</p>
+                <p style="margin: 0 0 0 0; font-size: 13px; color: #334155;"><strong>Android:</strong> Tap the browser menu then 'Add to Home Screen'.</p>
+            </div>
+
+            <button class="primary-btn btn-blue" style="width: 100%; margin: 0; border-radius: 25px; background: linear-gradient(180deg, rgba(96, 165, 250, 0.6) 0%, rgba(59, 130, 246, 0.6) 100%);" onclick="closeTrainerGuide()">CLOSE GUIDE</button>
+        </div>
+    </div>
+    <!-- END TRAINER GUIDE MODAL -->
+
+    <div id="leaderboard-modal" class="modal-overlay hidden">
         <!-- Added light-glass-modal for the unified frosted background -->
         <div class="modal-content light-glass-modal" style="padding: 25px 20px; border-radius: 35px;">
             <button class="close-x" onclick="closeLeaderboard()">
@@ -2021,7 +2071,7 @@ body.dark-mode #leaderboard-modal p {
                 <div id="dc-list"></div>
             </div>
 
-            <div class="modes-master-bento bento-box" style="padding: 15px; margin-bottom: 20px;">
+                                    <div class="modes-master-bento bento-box" style="padding: 15px; margin-bottom: 20px;">
                 <div class="modes-grid" style="gap: 12px;">
                     <button class="image-mode-btn" onclick="startGame('GUESS')">
                         <img src="whosthatpokemon.png" alt="Who's That Pokémon">
@@ -2040,6 +2090,12 @@ body.dark-mode #leaderboard-modal p {
                     </button>
                 </div>
             </div>
+
+            <!-- TRAINER GUIDE BUTTON -->
+            <button class="primary-btn btn-green" onclick="openTrainerGuide()" style="width: 100%; margin: 0 auto 20px auto; border-radius: 20px; box-shadow: 0 8px 15px rgba(0,0,0,0.1); background: linear-gradient(135deg, rgba(16, 185, 129, 0.6) 0%, rgba(5, 150, 105, 0.6) 100%);">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> 
+                TRAINER GUIDE
+            </button>
 
             <div class="bento-box bottom-dock">
                 <button class="dock-btn" onclick="openPokedex()">
@@ -2578,7 +2634,7 @@ body.dark-mode #leaderboard-modal p {
             }
         }
 
-        function openShopModal() {
+                function openShopModal() {
             document.getElementById('shop-modal-wallet').innerText = pokeDollars;
             document.getElementById('shop-modal').classList.remove('hidden');
             isPaused = true;
@@ -2586,6 +2642,17 @@ body.dark-mode #leaderboard-modal p {
 
         function closeShopModal() {
             document.getElementById('shop-modal').classList.add('hidden');
+            isPaused = false;
+        }
+
+        // ADD THESE TWO FUNCTIONS:
+        function openTrainerGuide() {
+            document.getElementById('trainer-guide-modal').classList.remove('hidden');
+            isPaused = true;
+        }
+
+        function closeTrainerGuide() {
+            document.getElementById('trainer-guide-modal').classList.add('hidden');
             isPaused = false;
         }
 
@@ -2706,6 +2773,7 @@ body.dark-mode #leaderboard-modal p {
                 tcAvatarBtn.title = '';
 
                 document.getElementById('tc-close-btn').innerText = "Back to Leaderboard";
+                document.getElementById('tc-logout-btn').classList.add('hidden');
                 document.getElementById('tc-close-btn').onclick = () => {
                     closeTrainerCard();
                     openLeaderboard();
@@ -2729,6 +2797,7 @@ body.dark-mode #leaderboard-modal p {
                 tcAvatarBtn.title = 'Edit Avatar';
 
                 document.getElementById('tc-close-btn').innerText = "Close";
+                document.getElementById('tc-logout-btn').classList.remove('hidden');
                 document.getElementById('tc-close-btn').onclick = closeTrainerCard;
                 document.getElementById('tc-close-x').onclick = closeTrainerCard;
             }
