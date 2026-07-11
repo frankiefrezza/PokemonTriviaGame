@@ -118,9 +118,10 @@ body {
     }
 
     .spinning-pokeball {
-        width: 100px; /* Massive Pokeball */
-        height: 100px; 
-        object-fit: contain;
+    width: 100px; /* Massive Pokeball */
+    height: 100px; 
+    object-fit: contain;
+    will-change: transform; /* Smooths out the spinning */
         animation: spinPokeball 1.75s linear infinite;
         /* Changed from a black shadow to a white radial glow */
         filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.9)); 
@@ -134,23 +135,27 @@ body {
 }
 
                     #app { 
-            /* Changed the 0.85 to 0.4 to lower the opacity and let the background peek through! */
-            background: linear-gradient(135deg, rgba(209, 250, 229, 0.2) 0%, rgba(167, 243, 208, 0.2) 50%, rgba(110, 231, 183, 0.2) 100%); 
-            backdrop-filter: blur(15px); 
-            -webkit-backdrop-filter: blur(15px);
-            padding: 30px; 
-            border-radius: 35px; 
-            border: 2px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.25), inset 0 0 0 2px rgba(255,255,255,0.5); 
-            text-align: center; 
-            width: 440px; 
-            max-width: 100%; 
-            box-sizing: border-box; 
-            position: relative; 
-            margin-top: 35px;
-            margin-bottom: 35px;
-            transition: background 0.3s ease, border-color 0.3s ease;
-        }
+    background: linear-gradient(135deg, rgba(209, 250, 229, 0.2) 0%, rgba(167, 243, 208, 0.2) 50%, rgba(110, 231, 183, 0.2) 100%); 
+    backdrop-filter: blur(15px); 
+    -webkit-backdrop-filter: blur(15px);
+    
+    /* Hardware Acceleration Fixes */
+    transform: translateZ(0);
+    will-change: transform;
+    
+    padding: 30px; 
+    border-radius: 35px; 
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.25), inset 0 0 0 2px rgba(255,255,255,0.5); 
+    text-align: center; 
+    width: 440px; 
+    max-width: 100%; 
+    box-sizing: border-box; 
+    position: relative; 
+    margin-top: 35px;
+    margin-bottom: 35px;
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
         
         .hidden { display: none !important; }
 
@@ -185,23 +190,32 @@ body {
         }
 
                        /* --- VIBRANT BENTO BOXES & MODALS --- */
-        .bento-box, #login-card, .modal-content { 
-            /* Lowered the opacity to 0.4 and 0.3 for that perfect see-through glass effect! */
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(236, 253, 245, 0.35) 50%, rgba(209, 250, 229, 0.3) 100%); 
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 25px; 
-            /* Softened the border slightly so it looks like a real glass edge */
-            border: 2px solid rgba(255, 255, 255, 0.5); 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
-            padding: 20px; 
-            margin-bottom: 20px; 
-            position: relative; 
-            overflow: hidden; 
-            transition: background 0.3s ease, border-color 0.3s ease;
-            overscroll-behavior: contain; 
+        /* 1. The updated main glass containers (Hardware Acceleration added, Scroll restrictions removed) */
+.bento-box, #login-card, .modal-content { 
+    /* Lowered the opacity to 0.4 and 0.3 for that perfect see-through glass effect! */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(236, 253, 245, 0.35) 50%, rgba(209, 250, 229, 0.3) 100%); 
+    backdrop-filter: blur(12px); 
+    -webkit-backdrop-filter: blur(12px);
+    
+    /* Hardware Acceleration Fix */
+    transform: translateZ(0);
+    
+    border-radius: 25px; 
+    /* Softened the border slightly so it looks like a real glass edge */
+    border: 2px solid rgba(255, 255, 255, 0.5); 
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
+    padding: 20px; 
+    margin-bottom: 20px; 
+    position: relative; 
+    overflow: hidden; 
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+/* 2. Isolated scroll behavior specifically for Modals so they don't break the home screen */
+.modal-content {
+    overscroll-behavior: contain; 
     -webkit-overflow-scrolling: touch;
-        }
+}
 
                 /* --- TRAINER CARD STYLES --- */
 /* LIQUID GLASS CONTAINERS FOR STAT PILLS */
@@ -483,8 +497,7 @@ body.dark-mode .glass-pill {
         .mini-xp-box { margin-bottom: 15px; background: #f0f9ff; padding: 10px; border-radius: 12px; border: 2px solid #bae6fd; text-align: left; transition: background 0.3s, border-color 0.3s; }
         .stats { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 18px; font-weight: 800; color: #334155; background: #f1f5f9; padding: 10px 20px; border-radius: 15px; position: relative; transition: background 0.3s, color 0.3s; }
         
-        .streak-fire { color: #ef4444; font-weight: 900; background: #fee2e2; padding: 2px 8px; border-radius: 8px; font-size: 14px; border: 1px solid #fca5a5; display: inline-flex; align-items: center; gap: 4px; animation: pulse 1s infinite alternate; }
-
+.streak-fire { color: #ef4444; font-weight: 900; background: #fee2e2; padding: 2px 8px; border-radius: 8px; font-size: 14px; border: 1px solid #fca5a5; display: inline-flex; align-items: center; gap: 4px; animation: pulse 1s infinite alternate; will-change: opacity; }
         #timer-wrapper { margin-bottom: 15px; text-align: left; }
         .timer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
         .timer-label { font-size: 12px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -1410,10 +1423,12 @@ body.dark-mode #leaderboard-modal p {
         box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.4);
     }
     /* --- AVATAR WHITE FLARE EFFECT --- */
-    .widget-capsule-top .trainer-avatar-container::before, #tc-avatar-btn::before {        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
+    .widget-capsule-top .trainer-avatar-container::before, #tc-avatar-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    will-change: transform, opacity; /* Forces GPU rendering for the pulse */
         transform: translate(-50%, -50%);
         width: 150%;
         height: 150%;
