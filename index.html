@@ -12,7 +12,6 @@
     
     <link rel="icon" href="app-icon.png?v=2" type="image/png">
     <link rel="apple-touch-icon" href="app-icon.png?v=2">
-    <!-- ADD THIS LINE: -->
     <link rel="manifest" href="manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,41 +21,38 @@
 
     <style>
         /* --- iOS ROOT CANVAS FIX --- */
-html {
-    background-color: #74ebd5; /* Fallback color */
-    min-height: -webkit-fill-available;
-}
+        html {
+            background-color: #74ebd5; 
+            min-height: -webkit-fill-available;
+        }
 
-/* This creates a perfectly locked background that never jumps or zooms on mobile */
-html::before {
-    content: '';
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: url('loadingscreen.png') no-repeat center center;
-    background-size: cover;
-    z-index: -1;
-    pointer-events: none;
-}
+        html::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('loadingscreen.png') no-repeat center center;
+            background-size: cover;
+            z-index: -1;
+            pointer-events: none;
+        }
 
-body { 
-    font-family: 'Nunito', -apple-system, sans-serif; 
-    background: transparent; 
-    display: flex; 
-    justify-content: center; 
-    /* Changed from 'center' to 'flex-start' so the top of the UI doesn't get cut off when scrolling */
-    align-items: flex-start; 
-    min-height: 100vh; 
-    min-height: -webkit-fill-available; 
-    margin: 0; 
-    padding: env(safe-area-inset-top, 20px) 20px env(safe-area-inset-bottom, 20px) 20px; 
-    box-sizing: border-box; 
-    overflow-x: hidden;
-    overflow-y: auto; /* Enables natural scrolling */
-    -webkit-overflow-scrolling: touch; /* Brings back the satisfying rubber-band bounce */
-}
+        body { 
+            font-family: 'Nunito', -apple-system, sans-serif; 
+            background: transparent; 
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-start; 
+            min-height: 100vh; 
+            min-height: -webkit-fill-available; 
+            margin: 0; 
+            padding: env(safe-area-inset-top, 20px) 20px env(safe-area-inset-bottom, 20px) 20px; 
+            box-sizing: border-box; 
+            overflow-x: hidden;
+            overflow-y: auto; 
+            -webkit-overflow-scrolling: touch; 
+        }
 
-
-                /* --- STATIC SPLASH SCREEN --- */
+        /* --- STATIC SPLASH SCREEN --- */
         #splash-screen {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background-color: #74ebd5; 
@@ -75,88 +71,84 @@ body {
             filter: drop-shadow(0 15px 25px rgba(0,0,0,0.3)); 
             z-index: 2;
         }
+
         .loader-container {
-        position: relative;
-        width: 160px; /* Expanded for more breathing room */
-        height: 160px;
-        margin-top: 45px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 2;
-    }
+            position: relative;
+            width: 160px; 
+            height: 160px;
+            margin-top: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
 
-    .circular-loader {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        transform: rotate(-90deg); 
-        filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));
-    }
+        .circular-loader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg); 
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));
+        }
 
-    .loader-track {
-        fill: transparent;
-        stroke: rgba(255, 255, 255, 0.25);
-        stroke-width: 5;
-    }
+        .loader-track {
+            fill: transparent;
+            stroke: rgba(255, 255, 255, 0.25);
+            stroke-width: 5;
+        }
 
-    .loader-fill {
-        fill: transparent;
-        stroke: url(#loader-gradient); 
-        stroke-width: 8;               
-        stroke-linecap: round;
-        /* The new circumference for the wider circle is 440 */
-        stroke-dasharray: 440;
-        stroke-dashoffset: 440; 
-        animation: fillCircle 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
+        .loader-fill {
+            fill: transparent;
+            stroke: url(#loader-gradient); 
+            stroke-width: 8;               
+            stroke-linecap: round;
+            stroke-dasharray: 440;
+            stroke-dashoffset: 440; 
+            animation: fillCircle 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
 
-    @keyframes fillCircle {
-        0% { stroke-dashoffset: 440; }
-        100% { stroke-dashoffset: 0; }
-    }
+        @keyframes fillCircle {
+            0% { stroke-dashoffset: 440; }
+            100% { stroke-dashoffset: 0; }
+        }
 
-    .spinning-pokeball {
-    width: 100px; /* Massive Pokeball */
-    height: 100px; 
-    object-fit: contain;
-    will-change: transform; /* Smooths out the spinning */
-        animation: spinPokeball 1.75s linear infinite;
-        /* Changed from a black shadow to a white radial glow */
-        filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.9)); 
-        position: relative;
-        z-index: 5;
-    }
+        .spinning-pokeball {
+            width: 100px; 
+            height: 100px; 
+            object-fit: contain;
+            will-change: transform; 
+            animation: spinPokeball 1.75s linear infinite;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.9)); 
+            position: relative;
+            z-index: 5;
+        }
 
-@keyframes spinPokeball {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+        @keyframes spinPokeball {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
-                    #app { 
-    background: linear-gradient(135deg, rgba(209, 250, 229, 0.2) 0%, rgba(167, 243, 208, 0.2) 50%, rgba(110, 231, 183, 0.2) 100%); 
-    backdrop-filter: blur(15px); 
-    -webkit-backdrop-filter: blur(15px);
-    
-    /* Hardware Acceleration Fixes */
-    transform: translateZ(0);
-    will-change: transform;
-    
-    padding: 30px; 
-    border-radius: 35px; 
-    border: 2px solid rgba(255, 255, 255, 0.8);
-    box-shadow: 0 30px 60px rgba(0,0,0,0.25), inset 0 0 0 2px rgba(255,255,255,0.5); 
-    text-align: center; 
-    width: 440px; 
-    max-width: 100%; 
-    box-sizing: border-box; 
-    position: relative; 
-    margin-top: 35px;
-    margin-bottom: 35px;
-    transition: background 0.3s ease, border-color 0.3s ease;
-}
+        #app { 
+            background: linear-gradient(135deg, rgba(209, 250, 229, 0.2) 0%, rgba(167, 243, 208, 0.2) 50%, rgba(110, 231, 183, 0.2) 100%); 
+            backdrop-filter: blur(15px); 
+            -webkit-backdrop-filter: blur(15px);
+            transform: translateZ(0);
+            will-change: transform;
+            padding: 30px; 
+            border-radius: 35px; 
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.25), inset 0 0 0 2px rgba(255,255,255,0.5); 
+            text-align: center; 
+            width: 440px; 
+            max-width: 100%; 
+            box-sizing: border-box; 
+            position: relative; 
+            margin-top: 35px;
+            margin-bottom: 35px;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
         
         .hidden { display: none !important; }
 
@@ -167,7 +159,6 @@ body {
         #game-screen { position: relative; }
         #game-content { transition: opacity 0.4s ease-in-out; opacity: 1; min-height: 350px; }
 
-        /* --- DYNAMIC LOGO STYLES --- */
         .logo-wrapper { 
             position: relative; 
             margin: -60px auto 25px auto;
@@ -190,122 +181,103 @@ body {
             filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
         }
 
-                       /* --- VIBRANT BENTO BOXES & MODALS --- */
-        /* 1. The updated main glass containers (Hardware Acceleration added, Scroll restrictions removed) */
-.bento-box, #login-card, .modal-content { 
-    /* Lowered the opacity to 0.4 and 0.3 for that perfect see-through glass effect! */
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(236, 253, 245, 0.35) 50%, rgba(209, 250, 229, 0.3) 100%); 
-    backdrop-filter: blur(12px); 
-    -webkit-backdrop-filter: blur(12px);
-    
-    /* Hardware Acceleration Fix */
-    transform: translateZ(0);
-    
-    border-radius: 25px; 
-    /* Softened the border slightly so it looks like a real glass edge */
-    border: 2px solid rgba(255, 255, 255, 0.5); 
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
-    padding: 20px; 
-    margin-bottom: 20px; 
-    position: relative; 
-    overflow: hidden; 
-    transition: background 0.3s ease, border-color 0.3s ease;
-}
+        .bento-box, #login-card, .modal-content { 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(236, 253, 245, 0.35) 50%, rgba(209, 250, 229, 0.3) 100%); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            transform: translateZ(0);
+            border-radius: 25px; 
+            border: 2px solid rgba(255, 255, 255, 0.5); 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
+            padding: 20px; 
+            margin-bottom: 20px; 
+            position: relative; 
+            overflow: hidden; 
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
 
-/* 2. Isolated scroll behavior specifically for Modals so they don't break the home screen */
-.modal-content {
-    overscroll-behavior: contain; 
-    -webkit-overflow-scrolling: touch;
-}
+        .modal-content {
+            overscroll-behavior: contain; 
+            -webkit-overflow-scrolling: touch;
+        }
 
-                /* --- TRAINER CARD STYLES --- */
-/* LIQUID GLASS CONTAINERS FOR STAT PILLS */
-.glass-pill {
-    background: rgba(255, 255, 255, 0.12); /* Lowered opacity for more transparency */
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    padding: 6px 14px;
-    border-radius: 12px; /* Changed from 30px to make them more rectangular */
-    font-weight: 800;
-    border: 1px solid rgba(255, 255, 255, 0.2); /* Softened the border */
-    box-shadow: inset 0 1px 2px rgba(255,255,255,0.2), 0 4px 8px rgba(0,0,0,0.05);
-    color: #334155;
-}
-/* --- NEW MODAL HEADER PILLS --- */
-.header-pill {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    padding: 10px 28px;
-    /* ADD THIS LINE BELOW: */
-    margin-left: 40px; 
-    /* ... keep the rest of your existing lines ... */
-    background: rgba(255, 255, 255, 0.15); /* More transparent */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 2px solid rgba(255, 255, 255, 0.4); /* Softer border */
-    border-radius: 40px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1), inset 0 2px 6px rgba(255,255,255,0.3);
-    font-family: 'Fredoka', sans-serif;
-    font-size: 20px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: #334155;
-    margin: -10px auto 25px auto;
-}
+        .glass-pill {
+            background: rgba(255, 255, 255, 0.12); 
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 6px 14px;
+            border-radius: 12px; 
+            font-weight: 800;
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            box-shadow: inset 0 1px 2px rgba(255,255,255,0.2), 0 4px 8px rgba(0,0,0,0.05);
+            color: #334155;
+        }
 
-body.dark-mode .header-pill {
-    background: rgba(30, 41, 59, 0.25); /* More transparent for dark mode */
-    border-color: rgba(255, 255, 255, 0.15);
-    color: #f1f5f9;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.3), inset 0 2px 4px rgba(255,255,255,0.1);
-}
-body.dark-mode .glass-pill {
-    background: rgba(15, 23, 42, 0.25); /* Adjusted dark mode transparency */
-    border-color: rgba(255,255,255,0.05);
-    color: #f1f5f9;
-}body.dark-mode .glass-pill {
-    background: rgba(15, 23, 42, 0.5);
-    border-color: rgba(255,255,255,0.1);
-    color: #f1f5f9;
-}
-        /* --- APPLE LIQUID GLASS TRAINER CARD --- */
-.trainer-card { 
-    position: relative; 
-    border-radius: 28px; 
-    padding: 25px; 
-    margin-bottom: 20px; 
-    color: #334155; 
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-    text-align: left; 
-    
-    /* Liquid Glass Core */
-    backdrop-filter: blur(25px) saturate(180%);
-    -webkit-backdrop-filter: blur(25px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-top: 1px solid rgba(255, 255, 255, 0.8);
-    border-left: 1px solid rgba(255, 255, 255, 0.6);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
-    overflow: hidden; 
-}
+        .header-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 10px 28px;
+            margin-left: 40px; 
+            background: rgba(255, 255, 255, 0.15); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.4); 
+            border-radius: 40px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1), inset 0 2px 6px rgba(255,255,255,0.3);
+            font-family: 'Fredoka', sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #334155;
+            margin: -10px auto 25px auto;
+        }
+
+        body.dark-mode .header-pill {
+            background: rgba(30, 41, 59, 0.25); 
+            border-color: rgba(255, 255, 255, 0.15);
+            color: #f1f5f9;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3), inset 0 2px 4px rgba(255,255,255,0.1);
+        }
+        body.dark-mode .glass-pill {
+            background: rgba(15, 23, 42, 0.5);
+            border-color: rgba(255,255,255,0.1);
+            color: #f1f5f9;
+        }
+
+        .trainer-card { 
+            position: relative; 
+            border-radius: 28px; 
+            padding: 25px; 
+            margin-bottom: 20px; 
+            color: #334155; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            text-align: left; 
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.8);
+            border-left: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            overflow: hidden; 
+        }
         
         .card-bg-watermark { position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 25px; overflow: hidden; z-index: 0; pointer-events: none; }
         .watermark-pokeball { position: absolute; bottom: -30px; right: -20px; width: 180px; height: 180px; opacity: 0.12; transform: rotate(-15deg); color: #ffffff; }
         .rank-rookie .watermark-pokeball { color: #64748b; opacity: 0.08; } 
 
-       /* --- GLASSMORPHIC RANK TINTS --- */
-.rank-rookie { background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(226,232,240,0.15) 100%); }
-.rank-ace { background: linear-gradient(135deg, rgba(239,246,255,0.3) 0%, rgba(191,219,254,0.15) 100%); color: #1e3a8a; }
-.rank-gym { background: linear-gradient(135deg, rgba(254,252,232,0.3) 0%, rgba(253,224,71,0.15) 100%); color: #713f12; }
-.rank-veteran { background: linear-gradient(135deg, rgba(236,253,245,0.3) 0%, rgba(167,243,208,0.15) 100%); color: #064e3b; }
-.rank-elite { background: linear-gradient(135deg, rgba(243,232,255,0.3) 0%, rgba(216,180,254,0.15) 100%); color: #4c1d95; }
-.rank-champion { background: linear-gradient(135deg, rgba(236,254,255,0.3) 0%, rgba(186,230,253,0.15) 100%); color: #075985; }
-.rank-legend { background: linear-gradient(135deg, rgba(254,242,242,0.3) 0%, rgba(254,202,202,0.15) 100%); color: #7f1d1d; }
-.rank-legendary { background: linear-gradient(135deg, rgba(24,24,27,0.3) 0%, rgba(63,63,70,0.15) 100%); color: #fbbf24; border-color: rgba(255,255,255,0.2); border-top-color: rgba(255,255,255,0.4); }
-.rank-master { background: linear-gradient(135deg, rgba(15,23,42,0.3) 0%, rgba(51,65,85,0.15) 100%); color: #f8fafc; border-color: rgba(255,255,255,0.2); border-top-color: rgba(255,255,255,0.4); }
-        /* --- INTEGRATED BADGE SOCKET --- */
+        .rank-rookie { background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(226,232,240,0.15) 100%); }
+        .rank-ace { background: linear-gradient(135deg, rgba(239,246,255,0.3) 0%, rgba(191,219,254,0.15) 100%); color: #1e3a8a; }
+        .rank-gym { background: linear-gradient(135deg, rgba(254,252,232,0.3) 0%, rgba(253,224,71,0.15) 100%); color: #713f12; }
+        .rank-veteran { background: linear-gradient(135deg, rgba(236,253,245,0.3) 0%, rgba(167,243,208,0.15) 100%); color: #064e3b; }
+        .rank-elite { background: linear-gradient(135deg, rgba(243,232,255,0.3) 0%, rgba(216,180,254,0.15) 100%); color: #4c1d95; }
+        .rank-champion { background: linear-gradient(135deg, rgba(236,254,255,0.3) 0%, rgba(186,230,253,0.15) 100%); color: #075985; }
+        .rank-legend { background: linear-gradient(135deg, rgba(254,242,242,0.3) 0%, rgba(254,202,202,0.15) 100%); color: #7f1d1d; }
+        .rank-legendary { background: linear-gradient(135deg, rgba(24,24,27,0.3) 0%, rgba(63,63,70,0.15) 100%); color: #fbbf24; border-color: rgba(255,255,255,0.2); border-top-color: rgba(255,255,255,0.4); }
+        .rank-master { background: linear-gradient(135deg, rgba(15,23,42,0.3) 0%, rgba(51,65,85,0.15) 100%); color: #f8fafc; border-color: rgba(255,255,255,0.2); border-top-color: rgba(255,255,255,0.4); }
+        
         .badge-socket-container { position: absolute; right: 20px; top: 20px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
         .badge-socket { width: 68px; height: 68px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); border: 2px solid rgba(255,255,255,0.5); box-shadow: inset 0 3px 6px rgba(0,0,0,0.1), 0 4px 10px rgba(0,0,0,0.05); display: flex; justify-content: center; align-items: center; transition: transform 0.3s ease; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
         .badge-socket img { width: 48px; height: 48px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25)); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; z-index: 2;}
@@ -323,19 +295,19 @@ body.dark-mode .glass-pill {
         
         .trainer-avatar-container { position: relative; width: 90px; height: 90px; flex-shrink: 0; }
         .trainer-avatar-circle { 
-    width: 100%; 
-    height: 100%; 
-    border-radius: 50%; 
-    background: url('avatar-frame.png') no-repeat center center !important; 
-    background-size: contain !important; 
-    display: flex; 
-    justify-content: center; 
-    align-items: flex-end; 
-    position: relative; 
-    z-index: 2; 
-    box-sizing: border-box; 
-    border: none !important; 
-}
+            width: 100%; 
+            height: 100%; 
+            border-radius: 50%; 
+            background: url('avatar-frame.png') no-repeat center center !important; 
+            background-size: contain !important; 
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-end; 
+            position: relative; 
+            z-index: 2; 
+            box-sizing: border-box; 
+            border: none !important; 
+        }
         
         .rank-rookie .trainer-avatar-circle { box-shadow: 0 0 15px rgba(100, 116, 139, 0.2); border: 3px solid #cbd5e1; }
         .rank-ace .trainer-avatar-circle { box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); border: 3px solid #60a5fa; }
@@ -360,7 +332,6 @@ body.dark-mode .glass-pill {
         }
         .trainer-avatar-container:hover .trainer-avatar-circle::after { opacity: 1; }
 
-        /* CENTERED INFO BLOCK */
         .trainer-info { display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1; flex-grow: 1; overflow: hidden; padding-right: 75px; text-align: center; }
         
         .trainer-name-display { font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 32px; line-height: 1; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; transition: color 0.3s, text-shadow 0.3s; text-align: center; color: #334155;}
@@ -409,21 +380,20 @@ body.dark-mode .glass-pill {
         .item-popup { position: absolute; font-weight: 900; font-size: 24px; pointer-events: none; text-shadow: 0px 2px 0px #fff, 0px -2px 0px #fff, 2px 0px 0px #fff, -2px 0px 0px #fff, 0 4px 6px rgba(0,0,0,0.2); z-index: 100; font-family: 'Fredoka', sans-serif; bottom: 110%; left: 50%; white-space: nowrap; animation: floatUpItem 3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         @keyframes floatUpItem { 0% { opacity: 0; transform: translateX(-50%) translateY(10px) scale(0.5); } 15% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1.2); } 25% { transform: translateX(-50%) translateY(0) scale(1); } 80% { opacity: 1; transform: translateX(-50%) translateY(-15px) scale(1); } 100% { opacity: 0; transform: translateX(-50%) translateY(-25px) scale(1); } }
 
-        /* --- STAT BOXES --- */
-/* --- INSET GLASS STAT BOXES --- */
-.stat-box { 
-    background: rgba(255,255,255,0.15); 
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 12px; 
-    border-radius: 16px; 
-    border: 1px solid rgba(255,255,255,0.4); 
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    border-right: 1px solid rgba(255,255,255,0.1);
-    text-align: center; 
-    box-shadow: inset 0 2px 4px rgba(255,255,255,0.3), 0 4px 10px rgba(0,0,0,0.05);
-    transition: background 0.3s, border-color 0.3s; 
-}        .stat-label { font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; transition: color 0.3s; }
+        .stat-box { 
+            background: rgba(255,255,255,0.15); 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 12px; 
+            border-radius: 16px; 
+            border: 1px solid rgba(255,255,255,0.4); 
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-right: 1px solid rgba(255,255,255,0.1);
+            text-align: center; 
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.3), 0 4px 10px rgba(0,0,0,0.05);
+            transition: background 0.3s, border-color 0.3s; 
+        }        
+        .stat-label { font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; transition: color 0.3s; }
         .stat-value { font-family: 'Fredoka', sans-serif; font-size: 20px; font-weight: 700; transition: color 0.3s; }
         
         .stat-value.blue { color: #3b82f6; }
@@ -431,7 +401,6 @@ body.dark-mode .glass-pill {
         .stat-value.red { color: #ef4444; }
         .stat-value.purple { color: #8b5cf6; }
 
-        /* --- VIBRANT DAILY CHALLENGES --- */
         .daily-challenges-container { text-align: left; transition: background 0.3s ease; }
         .dc-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.6); padding: 12px 15px; border-radius: 16px; margin-bottom: 10px; border: 2px solid rgba(255, 255, 255, 0.8); transition: all 0.2s ease; }
         @media (hover: hover) {
@@ -447,7 +416,6 @@ body.dark-mode .glass-pill {
         
         .modes-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
 
-                        /* --- NEW IMAGE BUTTON STYLES --- */
         .image-mode-btn {
             background: transparent;
             border: none;
@@ -470,13 +438,11 @@ body.dark-mode .glass-pill {
             filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15));
         }
 
-        /* FORCES THE TOP 4 ICONS INTO PERFECT, IDENTICAL SQUARES */
         .modes-grid .image-mode-btn:not(:last-child) img {
             aspect-ratio: 1 / 1;
             height: 100%;
         }
 
-        /* LETS THE SURVIVAL BANNER KEEP ITS NATURAL WIDE SHAPE */
         .modes-grid .image-mode-btn:last-child img {
             height: auto;
         }
@@ -498,7 +464,7 @@ body.dark-mode .glass-pill {
         .mini-xp-box { margin-bottom: 15px; background: #f0f9ff; padding: 10px; border-radius: 12px; border: 2px solid #bae6fd; text-align: left; transition: background 0.3s, border-color 0.3s; }
         .stats { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 18px; font-weight: 800; color: #334155; background: #f1f5f9; padding: 10px 20px; border-radius: 15px; position: relative; transition: background 0.3s, color 0.3s; }
         
-.streak-fire { color: #ef4444; font-weight: 900; background: #fee2e2; padding: 2px 8px; border-radius: 8px; font-size: 14px; border: 1px solid #fca5a5; display: inline-flex; align-items: center; gap: 4px; animation: pulse 1s infinite alternate; will-change: opacity; }
+        .streak-fire { color: #ef4444; font-weight: 900; background: #fee2e2; padding: 2px 8px; border-radius: 8px; font-size: 14px; border: 1px solid #fca5a5; display: inline-flex; align-items: center; gap: 4px; animation: pulse 1s infinite alternate; will-change: opacity; }
         #timer-wrapper { margin-bottom: 15px; text-align: left; }
         .timer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
         .timer-label { font-size: 12px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -506,7 +472,6 @@ body.dark-mode .glass-pill {
         #timer-container { width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; position: relative; }
         #timer-bar { height: 100%; width: 100%; background: #10b981; position: absolute; right: 0; transition: width 1s linear, background-color 0.3s ease; border-radius: 4px; }
         .timer-warning { background: #f59e0b !important; }
-        /* --- HEARTBEAT ALARM TIMER --- */
         .timer-danger { 
             background: #ef4444 !important; 
             animation: heartbeatTimer 0.5s infinite alternate ease-in-out !important;
@@ -522,16 +487,11 @@ body.dark-mode .glass-pill {
         #pin-input { flex: 1; width: 100%; min-width: 0; padding: 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.4); border-top: 2px solid rgba(255,255,255,0.8); border-left: 1px solid rgba(255,255,255,0.6); font-size: 18px; font-family: 'Nunito', sans-serif; box-sizing: border-box; text-align: center; font-weight: 800; letter-spacing: 4px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); box-shadow: 0 8px 16px rgba(0,0,0,0.1), inset 0 2px 4px rgba(255,255,255,0.4); color: #ffffff; transition: all 0.3s; }
         #pin-input:focus { outline: none; border-color: #8b5cf6; background: rgba(255, 255, 255, 0.35); }
         #username-input::placeholder, #pin-input::placeholder { color: rgba(255, 255, 255, 0.8); }
-        
-        #pin-input:focus { outline: none; border-color: #8b5cf6; background: rgba(255, 255, 255, 0.35); }
-        #username-input::placeholder, #pin-input::placeholder { color: rgba(255, 255, 255, 0.8); }
 
-        /* --- CUSTOM IMAGE LOGIN BUTTON --- */
         .login-img-btn {
             background: transparent;
             border: none;
             padding: 0;
-            /* Changed margin to add 15px of space above the button */
             margin: 15px auto 0 auto; 
             display: block;
             width: 100%;
@@ -541,10 +501,9 @@ body.dark-mode .glass-pill {
             outline: none;
             -webkit-tap-highlight-color: transparent;
             position: relative;
-            /* Bumped z-index up to 10 so it's always the top clickable layer */
             z-index: 10; 
         }
-               .login-img-btn img {
+        .login-img-btn img {
             width: 100%;
             display: block;
             object-fit: contain;
@@ -553,7 +512,8 @@ body.dark-mode .glass-pill {
         }
         .login-img-btn:active {
             transform: scale(0.95); 
-        }        /* --- NEW CONTINUE YOUR JOURNEY CARDS --- */
+        }        
+
         .history-card {
             display: flex;
             align-items: center;
@@ -566,7 +526,6 @@ body.dark-mode .glass-pill {
             border-left: 1px solid rgba(255, 255, 255, 0.6);
             box-shadow: 0 10px 20px rgba(0,0,0,0.1), inset 0 2px 4px rgba(255,255,255,0.3);
             border-radius: 20px;
-            /* Increased the right padding to 40px to safely make room for the 'x' button */
             padding: 8px 40px 8px 10px; 
             position: relative;
             cursor: pointer;
@@ -575,7 +534,8 @@ body.dark-mode .glass-pill {
             flex-shrink: 0;
             outline: none;
             -webkit-tap-highlight-color: transparent;
-        }        .history-card:active {
+        }        
+        .history-card:active {
             transform: scale(0.96);
         }
         .history-card-avatar-wrapper {
@@ -655,55 +615,54 @@ body.dark-mode .glass-pill {
             border-color: #dc2626;
             transform: scale(0.9);
         }
-        /* --- TRANSPARENT AVATAR BOXES & RESTORED GRID --- */
+        
         .avatar-preview-box { 
             width: 80px; height: 80px;  
-    background: rgba(255, 255, 255, 0.15) !important; 
-    border: 2px solid rgba(255,255,255,0.4) !important; 
-    border-radius: 20px; 
-    display: flex; justify-content: center; align-items: center; 
-    margin: 0 auto 15px auto; 
-    overflow: hidden; 
-    transition: background 0.3s, border-color 0.3s; 
-}
-.avatar-preview-box img { width: 100%; height: 100%; object-fit: contain; padding: 5px; }
+            background: rgba(255, 255, 255, 0.15) !important; 
+            border: 2px solid rgba(255,255,255,0.4) !important; 
+            border-radius: 20px; 
+            display: flex; justify-content: center; align-items: center; 
+            margin: 0 auto 15px auto; 
+            overflow: hidden; 
+            transition: background 0.3s, border-color 0.3s; 
+        }
+        .avatar-preview-box img { width: 100%; height: 100%; object-fit: contain; padding: 5px; }
 
-/* Restored and Glassified Region Tabs */
-.region-tabs-container { display: flex; overflow-x: auto; gap: 8px; padding-bottom: 10px; margin-bottom: 10px; -webkit-overflow-scrolling: touch; }
-.region-tabs-container::-webkit-scrollbar { height: 4px; }
-.region-tabs-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.5); border-radius: 2px; }
-.region-tab { padding: 8px 14px; border-radius: 14px; background: rgba(255,255,255,0.15); font-weight: 800; font-size: 13px; color: #334155; white-space: nowrap; border: 1px solid rgba(255,255,255,0.3); cursor: pointer; transition: all 0.2s; font-family: 'Nunito', sans-serif; outline: none; -webkit-tap-highlight-color: transparent;}
-.region-tab.active { background: rgba(59, 130, 246, 0.8); color: white; border-color: #3b82f6; }
+        .region-tabs-container { display: flex; overflow-x: auto; gap: 8px; padding-bottom: 10px; margin-bottom: 10px; -webkit-overflow-scrolling: touch; }
+        .region-tabs-container::-webkit-scrollbar { height: 4px; }
+        .region-tabs-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.5); border-radius: 2px; }
+        .region-tab { padding: 8px 14px; border-radius: 14px; background: rgba(255,255,255,0.15); font-weight: 800; font-size: 13px; color: #334155; white-space: nowrap; border: 1px solid rgba(255,255,255,0.3); cursor: pointer; transition: all 0.2s; font-family: 'Nunito', sans-serif; outline: none; -webkit-tap-highlight-color: transparent;}
+        .region-tab.active { background: rgba(59, 130, 246, 0.8); color: white; border-color: #3b82f6; }
 
-/* Restored Avatar Grid */
-.avatar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 10px; max-height: 280px; overflow-y: auto; padding: 5px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; background: transparent; transition: background 0.3s, border-color 0.3s; }
+        .avatar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 10px; max-height: 280px; overflow-y: auto; padding: 5px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; background: transparent; transition: background 0.3s, border-color 0.3s; }
 
-.avatar-item { 
-    background: rgba(255, 255, 255, 0.15);     
-    border: 2px solid rgba(255,255,255,0.3); 
-    border-radius: 12px; 
-    padding: 5px; 
-    text-align: center; 
-    cursor: pointer; 
-    position: relative; 
-    transition: all 0.2s ease; 
-    height: 60px; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    outline: none; 
-    -webkit-tap-highlight-color: transparent;
-}
+        .avatar-item { 
+            background: rgba(255, 255, 255, 0.15);     
+            border: 2px solid rgba(255,255,255,0.3); 
+            border-radius: 12px; 
+            padding: 5px; 
+            text-align: center; 
+            cursor: pointer; 
+            position: relative; 
+            transition: all 0.2s ease; 
+            height: 60px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            outline: none; 
+            -webkit-tap-highlight-color: transparent;
+        }
 
-@media (hover: hover) {
-    .avatar-item:hover { border-color: #3b82f6; transform: scale(1.05); }
-}
+        @media (hover: hover) {
+            .avatar-item:hover { border-color: #3b82f6; transform: scale(1.05); }
+        }
 
-.avatar-item.selected { 
-    border-color: #10b981; 
-    background: rgba(16, 185, 129, 0.15); 
-}
-.avatar-item img { width: 100%; height: 100%; object-fit: contain; }
+        .avatar-item.selected { 
+            border-color: #10b981; 
+            background: rgba(16, 185, 129, 0.15); 
+        }
+        .avatar-item img { width: 100%; height: 100%; object-fit: contain; }
+        
         .history-chip { display: inline-flex; align-items: center; background: rgba(255,255,255,0.6); border: 2px solid rgba(255,255,255,0.8); border-radius: 30px; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); padding: 4px 6px 4px 4px; gap: 2px; }
         @media (hover: hover) {
             .history-chip:hover { border-color: #cbd5e1; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
@@ -718,27 +677,25 @@ body.dark-mode .glass-pill {
             .delete-btn:hover { background: #fee2e2; color: #ef4444; }
         }
 
-#question-text { font-size: 16px; font-weight: 700; color: #1e293b; margin: 10px 0 30px 0; min-height: 28px; line-height: 1.3; text-transform: uppercase !important; letter-spacing: 1px; text-shadow: 0 2px 6px rgba(255,255,255,0.9); transition: color 0.3s; }
-#question-text strong { text-transform: uppercase !important; font-weight: 900 !important; }        
-                /* --- DYNAMIC GAME IMAGES --- */
-#pokemon-image { 
-    width: 240px; 
-    height: 240px; 
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    margin: 10px auto 20px auto; 
-    display: block; 
-    transition: filter 0.3s; 
-    
-    /* Anti-Cheat Protections */
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
-    pointer-events: none;
-    -webkit-user-drag: none;
-}
-on-image { width: 240px; height: 240px; margin: 10px auto 20px auto; display: block; transition: filter 0.3s; }
+        #question-text { font-size: 16px; font-weight: 700; color: #1e293b; margin: 10px 0 30px 0; min-height: 28px; line-height: 1.3; text-transform: uppercase !important; letter-spacing: 1px; text-shadow: 0 2px 6px rgba(255,255,255,0.9); transition: color 0.3s; }
+        #question-text strong { text-transform: uppercase !important; font-weight: 900 !important; }        
+        
+        #pokemon-image { 
+            width: 240px; 
+            height: 240px; 
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            margin: 10px auto 20px auto; 
+            display: block; 
+            transition: filter 0.3s; 
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            pointer-events: none;
+            -webkit-user-drag: none;
+        }
+
         .dual-image-container { display: flex; align-items: center; justify-content: center; gap: 20px; margin: 10px auto 25px auto; width: 100%; }
         .dual-image-sprite { width: 130px; height: 130px; object-fit: contain; transition: filter 0.5s ease; }
         .evolution-arrow { width: 36px; height: 36px; color: #94a3b8; animation: pulseArrow 1.5s infinite ease-in-out; }
@@ -752,13 +709,10 @@ on-image { width: 240px; height: 240px; margin: 10px auto 20px auto; display: bl
         .revealed { filter: brightness(1) !important; transition: filter 0.5s ease; }
         .shiny-glow { filter: brightness(1) drop-shadow(0 0 25px rgba(250, 204, 21, 0.8)) !important; }
 
-                        /* --- INSTANT FEEDBACK BUTTONS (LIQUID GLASS) --- */
         .option-btn { 
             display: block; width: 100%; padding: 15px; margin: 12px 0 16px 0; 
             font-size: 18px; font-family: 'Fredoka', sans-serif; font-weight: 700; 
             color: #334155; letter-spacing: 1.5px; text-transform: uppercase;
-            
-            /* Liquid Glass Core */
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.1) 100%);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
@@ -767,10 +721,7 @@ on-image { width: 240px; height: 240px; margin: 10px auto 20px auto; display: bl
             border-left: 1px solid rgba(255, 255, 255, 0.6);
             border-radius: 20px; 
             cursor: pointer; 
-            
-            /* Floating glass shadow */
             box-shadow: 0 10px 20px rgba(0,0,0,0.1), inset 0 2px 4px rgba(255,255,255,0.6); 
-            
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); 
             position: relative; overflow: hidden;
             outline: none; -webkit-tap-highlight-color: transparent;
@@ -796,7 +747,7 @@ on-image { width: 240px; height: 240px; margin: 10px auto 20px auto; display: bl
             text-shadow: 0 2px 4px rgba(0,0,0,0.3); 
             transform: scale(1.02) !important;
         }
-                .option-btn.wrong { 
+        .option-btn.wrong { 
             background: linear-gradient(135deg, rgba(239, 68, 68, 0.85) 0%, rgba(220, 38, 38, 0.85) 100%) !important;
             border-color: rgba(255, 255, 255, 0.6) !important;
             border-top-color: rgba(255, 255, 255, 0.9) !important;
@@ -812,7 +763,6 @@ on-image { width: 240px; height: 240px; margin: 10px auto 20px auto; display: bl
             40%, 80% { transform: scale(0.96) translateX(6px); }
         }
 
-        /* --- ITEM BAG BUTTONS --- */
         .item-btn {
             background: rgba(255,255,255,0.8); border: 2px solid rgba(255,255,255,0.8); border-radius: 12px; 
             padding: 4px; position: relative; cursor: pointer; outline: none;
@@ -841,48 +791,39 @@ on-image { width: 240px; height: 240px; margin: 10px auto 20px auto; display: bl
             100% { box-shadow: 0 0 20px rgba(250,204,21,1), 0 4px 0 rgba(245,158,11,0.5); } 
         }
 
-                        /* --- ENHANCED PRIMARY BUTTONS --- */
         .primary-btn { 
-    display: flex; align-items: center; justify-content: center; gap: 8px; 
-    padding: 16px 20px; 
-    font-size: 18px; font-family: 'Fredoka', sans-serif; font-weight: 700; 
-    width: 100%; text-transform: uppercase; letter-spacing: 1.5px; 
-    border-radius: 20px; 
-    cursor: pointer; 
-    /* Removed movement-based transitions */
-    transition: background 0.15s ease; 
-    outline: none; 
-    -webkit-tap-highlight-color: transparent;
-    border: none; 
-    color: white;
-}
+            display: flex; align-items: center; justify-content: center; gap: 8px; 
+            padding: 16px 20px; 
+            font-size: 18px; font-family: 'Fredoka', sans-serif; font-weight: 700; 
+            width: 100%; text-transform: uppercase; letter-spacing: 1.5px; 
+            border-radius: 20px; 
+            cursor: pointer; 
+            transition: background 0.15s ease; 
+            outline: none; 
+            -webkit-tap-highlight-color: transparent;
+            border: none; 
+            color: white;
+        }
 
-/* This targets the button when you are actively clicking/tapping it */
-.primary-btn:active { 
-    filter: brightness(0.7); /* Darkens the button color immediately */
-    transform: none !important; /* Forces the button to stay exactly where it is */
-    box-shadow: none !important; /* Removes any shadow that might appear */
-}
-
-/* Remove the jump on hover */
-@media (hover: hover) {
-    .primary-btn:hover { 
-        filter: brightness(1.1); 
-        transform: none; /* Removed the -2px jump */
-    }
-}
         .primary-btn:active { 
-            transform: translateY(6px); 
-            box-shadow: inset 0 3px 6px rgba(0,0,0,0.2) !important; 
+            filter: brightness(0.7); 
+            transform: none !important; 
+            box-shadow: none !important; 
+        }
+
+        @media (hover: hover) {
+            .primary-btn:hover { 
+                filter: brightness(1.1); 
+                transform: none; 
+            }
         }
         
-                /* Update these to use flat background colors with low opacity */
-.btn-blue { background: rgba(59, 130, 246, 0.6); } 
-.btn-green { background: rgba(16, 185, 129, 0.6); } 
-.btn-orange { background: rgba(245, 158, 11, 0.6); } 
-.btn-purple { background: rgba(139, 92, 246, 0.6); }
-.btn-red { background: rgba(239, 68, 68, 0.6); }
-.btn-gray { background: rgba(148, 163, 184, 0.4); color: #f1f5f9; }
+        .btn-blue { background: rgba(59, 130, 246, 0.6); } 
+        .btn-green { background: rgba(16, 185, 129, 0.6); } 
+        .btn-orange { background: rgba(245, 158, 11, 0.6); } 
+        .btn-purple { background: rgba(139, 92, 246, 0.6); }
+        .btn-red { background: rgba(239, 68, 68, 0.6); }
+        .btn-gray { background: rgba(148, 163, 184, 0.4); color: #f1f5f9; }
 
         .bottom-dock { display: flex; justify-content: space-around; align-items: center; gap: 10px; margin-top: 5px; margin-bottom: 0; }
         .game-dock { margin-top: 40px; } 
@@ -894,55 +835,52 @@ on-image { width: 240px; height: 240px; margin: 10px auto 20px auto; display: bl
         .dock-btn:active { transform: translateY(0) scale(0.95); }
         .dock-btn img { height: 68px; width: 100%; object-fit: contain; display: block; margin-bottom: 6px; }
         .dock-btn span { font-size: 11px; font-weight: 800; color: #64748b; font-family: 'Nunito', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; transition: color 0.3s; }
-/* --- NEW LIGHT TRAINER ID MODAL STYLES --- */
-#trainer-modal .light-glass-modal {
-    /* Matches the main app container's exact transparency */
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(236, 253, 245, 0.35) 50%, rgba(209, 250, 229, 0.3) 100%) !important;
-    backdrop-filter: blur(15px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
-    border: 2px solid rgba(255, 255, 255, 0.5) !important;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), inset 0 2px 4px rgba(255, 255, 255, 0.6) !important;
-}
 
-body.dark-mode #trainer-modal .light-glass-modal {
-    background: rgba(30, 41, 59, 0.65) !important;
-    border-color: rgba(255, 255, 255, 0.2) !important;
-}
-body.dark-mode #trainer-modal .light-glass-modal #tc-name { color: #f8fafc !important; }
+        #trainer-modal .light-glass-modal {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(236, 253, 245, 0.35) 50%, rgba(209, 250, 229, 0.3) 100%) !important;
+            backdrop-filter: blur(15px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
+            border: 2px solid rgba(255, 255, 255, 0.5) !important;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), inset 0 2px 4px rgba(255, 255, 255, 0.6) !important;
+        }
 
-/* Matches the home screen glass pills */
-.light-pill {
-    background: rgba(255, 255, 255, 0.05); /* Dropped opacity for maximum glass effect */
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.15); /* Softened border */
-    box-shadow: inset 0 1px 2px rgba(255,255,255,0.1), 0 4px 8px rgba(0,0,0,0.02);
-    border-radius: 12px;
-    color: #118a6e;
-    font-family: 'Fredoka', sans-serif;
-}
-body.dark-mode .light-pill { background: rgba(15, 23, 42, 0.5); border-color: rgba(255,255,255,0.1); color: #e2e8f0 !important; }
+        body.dark-mode #trainer-modal .light-glass-modal {
+            background: rgba(30, 41, 59, 0.65) !important;
+            border-color: rgba(255, 255, 255, 0.2) !important;
+        }
+        body.dark-mode #trainer-modal .light-glass-modal #tc-name { color: #f8fafc !important; }
 
-/* Matches the home screen inset stat boxes */
-.light-bento-box {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    padding: 15px;
-    box-shadow: inset 0 2px 4px rgba(255,255,255,0.3), 0 4px 10px rgba(0,0,0,0.05);
-    text-align: left;
-}
-body.dark-mode .light-bento-box { background: rgba(15, 23, 42, 0.4); border-color: rgba(255,255,255,0.1); }
+        .light-pill {
+            background: rgba(255, 255, 255, 0.05); 
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15); 
+            box-shadow: inset 0 1px 2px rgba(255,255,255,0.1), 0 4px 8px rgba(0,0,0,0.02);
+            border-radius: 12px;
+            color: #118a6e;
+            font-family: 'Fredoka', sans-serif;
+        }
+        body.dark-mode .light-pill { background: rgba(15, 23, 42, 0.5); border-color: rgba(255,255,255,0.1); color: #e2e8f0 !important; }
 
-.stat-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 13px; }
-.stat-row:last-child { margin-bottom: 0; }
-.stat-lbl { font-weight: 800; color: #64748b; font-family: 'Nunito', sans-serif; text-transform: uppercase; }
-.stat-val { font-weight: 900; font-family: 'Fredoka', sans-serif; font-size: 16px; }
-        /* --- UNIFIED MODAL STYLES --- */
+        .light-bento-box {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 15px;
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.3), 0 4px 10px rgba(0,0,0,0.05);
+            text-align: left;
+        }
+        body.dark-mode .light-bento-box { background: rgba(15, 23, 42, 0.4); border-color: rgba(255,255,255,0.1); }
+
+        .stat-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 13px; }
+        .stat-row:last-child { margin-bottom: 0; }
+        .stat-lbl { font-weight: 800; color: #64748b; font-family: 'Nunito', sans-serif; text-transform: uppercase; }
+        .stat-val { font-weight: 900; font-family: 'Fredoka', sans-serif; font-size: 16px; }
+        
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 1000; }
         
         .modal-content { 
@@ -968,44 +906,39 @@ body.dark-mode .light-bento-box { background: rgba(15, 23, 42, 0.4); border-colo
             border: 6px solid transparent; 
             background-clip: padding-box; 
             overscroll-behavior: contain;
--webkit-overflow-scrolling: touch;
+            -webkit-overflow-scrolling: touch;
         }
         
         .close-x {
-    position: absolute;
-    top: 15px; 
-    left: 15px;
-    background: rgba(255, 255, 255, 0.2); 
-    border: none;
-    color: rgba(255, 255, 255, 0.8);
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    transition: all 0.2s;
-    outline: none;
-    -webkit-tap-highlight-color: transparent;
-    z-index: 100;
-}
+            position: absolute;
+            top: 15px; 
+            left: 15px;
+            background: rgba(255, 255, 255, 0.2); 
+            border: none;
+            color: rgba(255, 255, 255, 0.8);
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            transition: all 0.2s;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+            z-index: 100;
+        }
 
-.close-x:active {
-    filter: brightness(0.7);
-}
+        .close-x:active {
+            filter: brightness(0.7);
+            transform: none;
+        }
 
-/* Hover/Tap effect to match your new flat buttons */
-@media (hover: hover) {
-    .close-x:hover { 
-        background: rgba(255, 255, 255, 0.4); 
-    }
-}
-
-.close-x:active {
-    filter: brightness(0.7); /* Darkens slightly on tap */
-    transform: none; /* Keeps it flat */
-}
+        @media (hover: hover) {
+            .close-x:hover { 
+                background: rgba(255, 255, 255, 0.4); 
+            }
+        }
 
         .toggle-container { display: flex; justify-content: space-between; align-items: center; margin: 25px 0; font-weight: 800; color: #475569; font-size: 16px; }
 
@@ -1014,54 +947,49 @@ body.dark-mode .light-bento-box { background: rgba(15, 23, 42, 0.4); border-colo
             .lb-row:hover { transform: scale(1.02); border-color: #3b82f6; box-shadow: 0 4px 6px rgba(59, 130, 246, 0.1); }
         }
         .lb-rank { font-size: 18px; font-weight: 900; color: #334155; width: 30px; text-align: center; }
-.lb-xp { font-weight: 700; color: #41628f; font-size: 12px; }
+        .lb-xp { font-weight: 700; color: #41628f; font-size: 12px; }
         .lb-avatar { width: 40px; height: 40px; border-radius: 10px; background: rgba(255,255,255,0.8); border: 2px solid rgba(255,255,255,0.8); object-fit: contain; margin: 0 12px; }
         .lb-details { flex-grow: 1; display: flex; flex-direction: column; }
         .lb-name { font-weight: 800; color: #143140; font-size: 16px; text-transform: uppercase; transition: color 0.3s; }
-        .lb-xp { font-weight: 700; color: #49bcb4; font-size: 12px; }
         .lb-level { background: #ede9fe; color: #7c3aed; padding: 4px 10px; border-radius: 8px; font-size: 13px; font-weight: 900; }
 
-        /* --- POKÉDEX GLASSMORPHIC CARDS --- */
-.dex-total-header { 
-    display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
-    padding: 15px; border-radius: 16px; 
-    
-    /* Glass Effect */
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.05) 100%);
-    backdrop-filter: blur(15px) saturate(150%);
-    -webkit-backdrop-filter: blur(15px) saturate(150%);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-top: 1px solid rgba(255, 255, 255, 0.8);
-    border-left: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.4);
-    transition: background 0.3s, border-color 0.3s; 
-}
-.dex-total-text { font-weight: 900; color: #1e3a8a; font-size: 18px; }
+        .dex-total-header { 
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+            padding: 15px; border-radius: 16px; 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(15px) saturate(150%);
+            -webkit-backdrop-filter: blur(15px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.8);
+            border-left: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.4);
+            transition: background 0.3s, border-color 0.3s; 
+        }
+        .dex-total-text { font-weight: 900; color: #1e3a8a; font-size: 18px; }
 
-.dex-region-card { 
-    padding: 15px; border-radius: 16px; margin-bottom: 15px; cursor: pointer; 
-    
-    /* Glass Effect */
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%);
-    backdrop-filter: blur(15px) saturate(150%);
-    -webkit-backdrop-filter: blur(15px) saturate(150%);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-top: 1px solid rgba(255, 255, 255, 0.8);
-    border-left: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.4);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    -webkit-tap-highlight-color: transparent;
-}
+        .dex-region-card { 
+            padding: 15px; border-radius: 16px; margin-bottom: 15px; cursor: pointer; 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(15px) saturate(150%);
+            -webkit-backdrop-filter: blur(15px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.8);
+            border-left: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            -webkit-tap-highlight-color: transparent;
+        }
 
-@media (hover: hover) {
-    .dex-region-card:hover { 
-        border-color: rgba(59, 130, 246, 0.5);
-        border-top-color: rgba(59, 130, 246, 0.8);
-        border-left-color: rgba(59, 130, 246, 0.6);
-        box-shadow: 0 12px 24px rgba(59, 130, 246, 0.15), inset 0 1px 0 rgba(255,255,255,0.4);
-        transform: translateY(-2px); 
-    }
-}
+        @media (hover: hover) {
+            .dex-region-card:hover { 
+                border-color: rgba(59, 130, 246, 0.5);
+                border-top-color: rgba(59, 130, 246, 0.8);
+                border-left-color: rgba(59, 130, 246, 0.6);
+                box-shadow: 0 12px 24px rgba(59, 130, 246, 0.15), inset 0 1px 0 rgba(255,255,255,0.4);
+                transform: translateY(-2px); 
+            }
+        }
+        
         .dex-region-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .dex-region-name { font-weight: 800; color: #334155; font-size: 16px; text-transform: uppercase; letter-spacing: 0.5px; transition: color 0.3s; }
         .dex-region-count { font-weight: 800; color: #64748b; font-size: 14px; display: flex; align-items: center; gap: 5px; }
@@ -1082,22 +1010,21 @@ body.dark-mode .light-bento-box { background: rgba(15, 23, 42, 0.4); border-colo
         .coin-icon-small { width: 22px; height: 22px; vertical-align: middle; margin-right: 6px; }
         
         .shop-item-card { 
-    display: flex; align-items: center; gap: 15px; 
-    background: rgba(255, 255, 255, 0.25); 
-    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-    border: 2px solid rgba(255, 255, 255, 0.4); 
-    border-radius: 20px; padding: 15px; margin-bottom: 15px; 
-}
-.shop-item-icon { 
-    width: 50px; height: 50px; object-fit: contain; 
-    background: rgba(255, 255, 255, 0.3); 
-    border-radius: 12px; border: 2px solid rgba(255, 255, 255, 0.4); 
-}
+            display: flex; align-items: center; gap: 15px; 
+            background: rgba(255, 255, 255, 0.25); 
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            border: 2px solid rgba(255, 255, 255, 0.4); 
+            border-radius: 20px; padding: 15px; margin-bottom: 15px; 
+        }
+        .shop-item-icon { 
+            width: 50px; height: 50px; object-fit: contain; 
+            background: rgba(255, 255, 255, 0.3); 
+            border-radius: 12px; border: 2px solid rgba(255, 255, 255, 0.4); 
+        }
         .shop-item-details { flex-grow: 1; display: flex; flex-direction: column; }
         .shop-item-name { font-weight: 800; color: #334155; font-size: 16px; text-transform: uppercase; transition: color 0.3s; }
         .shop-item-desc { font-weight: 700; color: #64748b; font-size: 11px; margin-bottom: 5px; line-height: 1.2; }
         
-        /* --- NEW POLISHED SHOP BUY BUTTON --- */
         .shop-buy-btn { 
             background: linear-gradient(180deg, #fcd34d 0%, #f59e0b 100%); 
             border: 2px solid #d97706; 
@@ -1137,7 +1064,7 @@ body.dark-mode .light-bento-box { background: rgba(15, 23, 42, 0.4); border-colo
         @keyframes pulseAvatar { 0% { transform: scale(1); box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); } 100% { transform: scale(1.05); box-shadow: 0 0 25px rgba(59, 130, 246, 0.7); } }
         
         @keyframes slideLoader { 0% { transform: translateX(-100%); } 100% { transform: translateX(200%); } }
-        /* --- END SCREEN VICTORY GLOW --- */
+        
         #end-title {
             position: relative;
             z-index: 1;
@@ -1160,9 +1087,10 @@ body.dark-mode .light-bento-box { background: rgba(15, 23, 42, 0.4); border-colo
             z-index: -1;
             pointer-events: none;
         }
+
         body.dark-mode {
-    background: rgba(15, 23, 42, 0.75);
-}
+            background: rgba(15, 23, 42, 0.75);
+        }
         body.dark-mode #app {
             background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%);
             border-color: rgba(255,255,255,0.1);
@@ -1188,12 +1116,12 @@ body.dark-mode .light-bento-box { background: rgba(15, 23, 42, 0.4); border-colo
         }
         
         body.dark-mode .lb-rank:not(.gold), 
-body.dark-mode .lb-xp { 
-    color: #cbd5e1; 
-}
-body.dark-mode #leaderboard-modal p {
-    color: #cbd5e1 !important;
-}
+        body.dark-mode .lb-xp { 
+            color: #cbd5e1; 
+        }
+        body.dark-mode #leaderboard-modal p {
+            color: #cbd5e1 !important;
+        }
         body.dark-mode .stats, body.dark-mode .mini-xp-box {
             background: rgba(15, 23, 42, 0.6); border-color: rgba(255,255,255,0.1); color: #f1f5f9;
         }
@@ -1208,7 +1136,7 @@ body.dark-mode #leaderboard-modal p {
         }
         body.dark-mode .lb-name, body.dark-mode .dex-region-name, body.dark-mode .shop-item-name, body.dark-mode .history-btn { color: #f1f5f9; }
         
-                body.dark-mode .option-btn {
+        body.dark-mode .option-btn {
             background: linear-gradient(135deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.4) 100%); 
             color: #f1f5f9; 
             border-color: rgba(255,255,255,0.2);
@@ -1252,14 +1180,12 @@ body.dark-mode #leaderboard-modal p {
         body.dark-mode .trainer-card .xp-text-label { color: #f1f5f9 !important; }
         body.dark-mode #loading-text { color: #f1f5f9 !important; }
         
-        /* Dark Mode fixes for Trainer Card Stat Boxes */
         body.dark-mode .stat-box { background: rgba(15, 23, 42, 0.6); border-color: rgba(255,255,255,0.1); }
         body.dark-mode .stat-label { color: #94a3b8; }
         body.dark-mode #tc-name { color: #f8fafc !important; }
         body.dark-mode #tc-title { color: #60a5fa !important; }
         body.dark-mode #tc-badge ~ span { color: #cbd5e1 !important; }
 
-        /* Dark Mode fix for the silhouette visibility */
         body.dark-mode .silhouette {
             filter: brightness(0) invert(1) !important;
         }
@@ -1307,8 +1233,8 @@ body.dark-mode #leaderboard-modal p {
             .mini-xp-box { margin-bottom: 10px !important; padding: 8px !important; }
             .stats { padding: 8px 15px !important; font-size: 15px !important; margin-bottom: 10px !important; }
             #timer-wrapper { margin-bottom: 5px !important; }
-#timer-container { height: 4px !important; } 
-#question-text { font-size: 17px !important; margin: 5px 0 30px 0 !important; min-height: 22px !important; }
+            #timer-container { height: 4px !important; } 
+            #question-text { font-size: 17px !important; margin: 5px 0 30px 0 !important; min-height: 22px !important; }
             
             #pokemon-image { width: 180px !important; height: 180px !important; margin: 0 auto 15px auto !important; }
             .dual-image-container { gap: 15px; margin: 5px auto 15px auto; }
@@ -1327,7 +1253,7 @@ body.dark-mode #leaderboard-modal p {
             .dock-btn img { height: 50px; } 
             .dock-btn span { font-size: 10px; }
         }
-            /* --- TCG EVOLUTION LAYOUT --- */
+
     .tcg-base-box {
         position: absolute;
         top: -25px; 
@@ -1356,25 +1282,22 @@ body.dark-mode #leaderboard-modal p {
     }
 
     .tcg-evolved-sprite {
-    width: 220px;
-    height: 220px;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    margin: 5px auto;
-    display: block;
-    position: relative;
-    z-index: 1;
-
-    /* Anti-Cheat Protections */
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
-    pointer-events: none;
-    -webkit-user-drag: none;
-}
+        width: 220px;
+        height: 220px;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        margin: 5px auto;
+        display: block;
+        position: relative;
+        z-index: 1;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
+        pointer-events: none;
+        -webkit-user-drag: none;
+    }
     
-    /* Dark mode support for the small floating box */
     body.dark-mode .tcg-base-box {
         background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.2) 100%);
         border-color: rgba(255, 255, 255, 0.15);
@@ -1382,15 +1305,14 @@ body.dark-mode #leaderboard-modal p {
         border-left-color: rgba(255, 255, 255, 0.25);
         box-shadow: 0 15px 25px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
     }
-        /* --- MAIN GLASS IMAGE CONTAINER --- */
+
     #image-container {
-        position: relative; /* This is what makes the small TCG box anchor to its corner! */
+        position: relative; 
         width: 100% !important;
         max-width: 320px; 
         padding: 15px; 
         margin: 0 auto;
         box-sizing: border-box; 
-        
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.0) 100%);
         backdrop-filter: blur(15px) saturate(150%);
         -webkit-backdrop-filter: blur(15px) saturate(150%);
@@ -1399,20 +1321,18 @@ body.dark-mode #leaderboard-modal p {
         border-left: 1px solid rgba(255, 255, 255, 0.5);
         box-shadow: 0 15px 35px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.4);
         border-radius: 30px;
-        
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
-        body.dark-mode #image-container {
+    body.dark-mode #image-container {
         background: linear-gradient(135deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.1) 100%);
         border-color: rgba(255, 255, 255, 0.1);
         border-top-color: rgba(255, 255, 255, 0.2);
         border-left-color: rgba(255, 255, 255, 0.15);
     }
 
-    /* --- NEW WIDGET TRAINER CARD STYLES --- */
     .widget-capsule-top {
         background: rgba(255, 255, 255, 0.25);
         backdrop-filter: blur(15px);
@@ -1423,7 +1343,7 @@ body.dark-mode #leaderboard-modal p {
         padding: 25px 20px 40px 20px; 
         box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.4);
     }
-        /* --- AVATAR WHITE FLARE EFFECT --- */
+
     .widget-capsule-top .trainer-avatar-container::before, #tc-avatar-btn::before {
         content: '';
         position: absolute;
@@ -1435,13 +1355,14 @@ body.dark-mode #leaderboard-modal p {
         background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.5) 40%, rgba(255, 255, 255, 0) 70%);
         z-index: 1;
         pointer-events: none;
-        opacity: 0.85; /* Locks in the static white glow */
+        opacity: 0.85; 
     }
 
     @keyframes breathingFlare {
         0% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); }
         100% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
     }
+
     .widget-capsule-middle {
         background: rgba(255, 255, 255, 0.55);
         backdrop-filter: blur(25px);
@@ -1449,7 +1370,7 @@ body.dark-mode #leaderboard-modal p {
         border: 4px solid rgba(255, 255, 255, 0.95);
         border-radius: 35px;
         padding: 15px 20px;
-        margin: -35px 15px -35px 15px; /* This creates the perfect overlap */
+        margin: -35px 15px -35px 15px; 
         position: relative;
         z-index: 5; 
         box-shadow: 0 10px 20px rgba(0,0,0,0.15), inset 0 2px 4px rgba(255,255,255,0.6);
@@ -1478,19 +1399,18 @@ body.dark-mode #leaderboard-modal p {
     }
 
     .widget-capsule-bottom {
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 2px solid rgba(255, 255, 255, 0.5);
-    border-top: none;
-    border-radius: 0 0 45px 45px;
-    /* Increased top padding from 45px to 65px to push elements down */
-    padding: 65px 20px 25px 20px; 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 15px 25px rgba(0,0,0,0.1), inset 0 -2px 6px rgba(255,255,255,0.4);
-}
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        border-top: none;
+        border-radius: 0 0 45px 45px;
+        padding: 65px 20px 25px 20px; 
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 15px 25px rgba(0,0,0,0.1), inset 0 -2px 6px rgba(255,255,255,0.4);
+    }
 
     .widget-stat-pill {
         background: rgba(255, 255, 255, 0.6);
@@ -1528,7 +1448,6 @@ body.dark-mode #leaderboard-modal p {
         filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
     }
 
-    /* Dark mode overrides for the new widget */
     body.dark-mode .widget-capsule-top,
     body.dark-mode .widget-capsule-bottom {
         background: rgba(30, 41, 59, 0.4);
@@ -1546,25 +1465,19 @@ body.dark-mode #leaderboard-modal p {
         border-color: rgba(255, 255, 255, 0.15);
         color: #f1f5f9;
     }
-        body.dark-mode .widget-badge-container {
+    body.dark-mode .widget-badge-container {
         background: rgba(15, 23, 42, 0.4);
         border-color: rgba(255, 255, 255, 0.15);
     }
 
-    /* --- CUSTOM PILL SHAPES --- */
-    /* This targets the FIRST pill (Level) and makes the right side flat */
     .widget-capsule-bottom .widget-stat-pill:first-child {
-        /* Top-Left: 20px, Top-Right: 0, Bottom-Right: 0, Bottom-Left: 20px */
         border-radius: 20px 0 0 20px !important; 
     }
 
-        /* This targets the LAST pill (Coins) and makes the left side flat */
     .widget-capsule-bottom .widget-stat-pill:last-child {
-        /* Top-Left: 0, Top-Right: 20px, Bottom-Right: 20px, Bottom-Left: 0 */
         border-radius: 0 20px 20px 0 !important; 
     }
 
-    /* --- SHOP +1 FLOATING ANIMATION --- */
     .shop-plus-one {
         position: absolute;
         top: -10px;
@@ -1585,33 +1498,53 @@ body.dark-mode #leaderboard-modal p {
         20% { transform: translate(-50%, -15px) scale(1.1); }
         100% { opacity: 0; transform: translate(-50%, -40px) scale(1); }
     }
-
-    /* --- CUSTOM DIALOG DARK MODE --- */
+    
     body.dark-mode #custom-dialog-message { color: #f8fafc !important; }
+        /* --- PKMN CARD WAR ANIMATIONS & CUES --- */
+    .card-flip-out { animation: flipOut 0.3s ease-in forwards; }
+    .card-flip-in { animation: flipIn 0.3s ease-out forwards; }
+    
+    @keyframes flipOut { 
+        0% { transform: rotateY(0deg) scale(1); } 
+        100% { transform: rotateY(90deg) scale(1.05); } 
+    }
+    @keyframes flipIn { 
+        0% { transform: rotateY(-90deg) scale(1.05); } 
+        100% { transform: rotateY(0deg) scale(1); } 
+    }
+
+    .card-winner { 
+        transform: scale(1.1); 
+        filter: drop-shadow(0 15px 25px rgba(0,0,0,0.2)) !important;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+        z-index: 10;
+    }
+    .card-loser { 
+        transform: scale(0.9); 
+        filter: grayscale(100%) opacity(0.6) drop-shadow(0 4px 6px rgba(0,0,0,0.1)) !important; 
+        transition: all 0.4s ease-out; 
+    }
     body.dark-mode #delete-pin-input { color: #f1f5f9 !important; background: rgba(15,23,42,0.8) !important; border-color: #ef4444 !important; }
 
     </style> 
 </head>
 <body>
 
-            <div id="splash-screen">
-    <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="splash-logo">
-    
+    <div id="splash-screen">
+        <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="splash-logo">
         <div class="loader-container">
-        <!-- Circular Progress Ring (Expanded to 140px) -->
-      <svg class="circular-loader" width="160" height="160" viewBox="0 0 160 160">
-            <defs>
-                                    <linearGradient id="loader-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="#f59e0b" /> <stop offset="100%" stop-color="#fde047" /> </linearGradient>
-            </defs>
-            <circle class="loader-track" cx="80" cy="80" r="70"></circle>
-            <circle class="loader-fill" cx="80" cy="80" r="70"></circle>
-        </svg>
-        
-        <!-- Spinning Pokeball (Expanded to 80px) -->
-        <img src="pokeball.png" class="spinning-pokeball" alt="Loading...">
+            <svg class="circular-loader" width="160" height="160" viewBox="0 0 160 160">
+                <defs>
+                    <linearGradient id="loader-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#f59e0b" /> <stop offset="100%" stop-color="#fde047" /> 
+                    </linearGradient>
+                </defs>
+                <circle class="loader-track" cx="80" cy="80" r="70"></circle>
+                <circle class="loader-fill" cx="80" cy="80" r="70"></circle>
+            </svg>
+            <img src="pokeball.png" class="spinning-pokeball" alt="Loading...">
+        </div>
     </div>
-</div>
 
     <div id="daily-reward-modal" class="modal-overlay hidden" style="z-index: 1060;">
         <div class="modal-content" style="text-align: center; padding: 30px;">
@@ -1636,140 +1569,116 @@ body.dark-mode #leaderboard-modal p {
     </div>
 
     <!-- LIGHT BENTO TRAINER ID MODAL -->
-<div id="trainer-modal" class="modal-overlay hidden">
-    <div class="modal-content light-glass-modal" style="padding: 25px; border-radius: 35px; text-align: center;">
-        <button class="close-x" id="tc-close-x">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
-        
-        <div style="text-align: center;">
-            <div class="header-pill" style="margin-top: 0; margin-bottom: 20px;">
-                Trainer ID Card
-            </div>
-        </div>        
-        <!-- Avatar -->
-        <div id="tc-avatar-btn" class="trainer-avatar-container" style="cursor: pointer; width: 110px; height: 110px; margin: 0 auto 10px auto;" onclick="handleTcAvatarClick()" title="Edit Avatar">
-                    <div id="tc-avatar-circle" class="trainer-avatar-circle" style="background: rgba(255, 255, 255, 0.2); border: 3px solid rgba(255, 255, 255, 0.4); box-shadow: 0 8px 16px rgba(0,0,0,0.1);">
-            <img id="tc-avatar" src="" style="width: 125%; height: 125%; object-fit: contain; position: absolute; bottom: -10px; filter: drop-shadow(0 6px 8px rgba(0,0,0,0.2)); text-align: center;">
-        </div>
-        </div>
-        
-        <!-- Identity -->
-        <div id="tc-name" style="font-family: 'Fredoka', sans-serif; font-size: 32px; font-weight: 700; text-transform: uppercase; color: #045B43; line-height: 1.1; margin-top: 20px; margin-bottom: 2px;">Name</div>
-        <div id="tc-title" style="font-size: 14px; font-weight: 900; color: #10b981; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px;">Title</div>
-
-        <!-- 3 Pill Row (Enlarged Badge & Transparent Rectangles) -->
-        <div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 20px; width: 100%;">
-            
-            <!-- LEFT PILL (Level) -->
-            <div class="light-pill" style="flex: 1; font-size: 16px; display: flex; justify-content: center; align-items: center; padding: 12px; border-radius: 20px 0 0 20px;">
-                <span style="font-weight: 900;">LVL: <span id="tc-level">1</span></span>
-            </div>
-            
-            <!-- CENTER BADGE -->
-            <div class="light-pill" style="width: 100px; height: 100px; flex-shrink: 0; display: flex; justify-content: center; align-items: center; padding: 0; border-radius: 22px;">
-                <img id="tc-badge" src="" style="width: 80px; height: 80px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));">
-            </div>
-            
-            <!-- RIGHT PILL (Coins) -->
-            <div class="light-pill" style="flex: 1; font-size: 16px; color: #118a6e; display: flex; justify-content: center; align-items: center; padding: 12px; border-radius: 0 20px 20px 0;">
-                <img src="coin.png" style="width: 20px; height: 20px; margin-right: 4px;"> <span id="tc-modal-wallet" style="font-weight: 900;">0</span>
-            </div>
-            
-        </div>
-                <!-- XP Progress Track -->
-        <div style="width: 100%; margin-bottom: 25px; background: rgba(255, 255, 255, 0.12); border-radius: 20px; box-sizing: border-box; border: 1px solid rgba(255, 255, 255, 0.3); position: relative; height: 24px; box-shadow: inset 0 1px 2px rgba(255,255,255,0.3), 0 4px 8px rgba(0,0,0,0.05); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
-<div id="xp-progress-bar-modal" style="height: 100%; background: linear-gradient(90deg, rgba(52, 211, 153, 0.65), rgba(16, 185, 129, 0.65)); width: 0%; min-width: 4%; border-radius: 20px; transition: width 0.4s ease; box-shadow: inset 0 2px 4px rgba(255,255,255,0.4);"></div>            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; font-weight: 800; font-size: 13px; color: #ffffff; text-shadow: 0 1px 3px rgba(0,0,0,0.6); font-family: 'Fredoka', sans-serif;">
-                <span id="modal-xp-text-counter">0 / 100 XP</span>
-            </div>
-        </div>
-
-                <!-- 2-Column Bento Stats -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px;">
-            
-            <!-- Left Box: Trainer Stats -->
-            <div class="light-bento-box" style="padding: 15px 12px; display: flex; flex-direction: column; gap: 15px;">
-                <!-- Inner Bento Pill Header -->
-                <div style="background: rgba(255, 255, 255, 0.45); border: 2px solid rgba(255, 255, 255, 0.8); border-radius: 12px; padding: 8px 4px; text-align: center; font-family: 'Fredoka', sans-serif; font-size: 12px; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 6px rgba(0,0,0,0.05), inset 0 2px 4px rgba(255,255,255,0.4);">
-                    Trainer Stats
-                </div>
-                
-                <div style="display: flex; flex-direction: column; gap: 12px;">
-                    <div style="display: flex; align-items: center; justify-content: space-between;">
-                        <span style="font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Total XP</span>
-                        <div style="flex-grow: 1; border-bottom: 2px dotted rgba(100, 116, 139, 0.4); margin: 0 8px; transform: translateY(-2px);"></div>
-                        <span id="tc-xp" style="font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #047857;">0</span>
-                    </div>
-                    <div style="display: flex; align-items: center; justify-content: space-between;">
-                        <span style="font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Pkmn Seen</span>
-                        <div style="flex-grow: 1; border-bottom: 2px dotted rgba(100, 116, 139, 0.4); margin: 0 8px; transform: translateY(-2px);"></div>
-                        <span id="tc-seen" style="font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #047857;">0</span>
-                    </div>
-                    <div style="display: flex; align-items: center; justify-content: space-between;">
-                        <span style="font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Correct</span>
-                        <div style="flex-grow: 1; border-bottom: 2px dotted rgba(100, 116, 139, 0.4); margin: 0 8px; transform: translateY(-2px);"></div>
-                        <span id="tc-right" style="font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #16a34a;">0</span>
-                    </div>
-                    <div style="display: flex; align-items: center; justify-content: space-between;">
-                        <span style="font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Incorrect</span>
-                        <div style="flex-grow: 1; border-bottom: 2px dotted rgba(100, 116, 139, 0.4); margin: 0 8px; transform: translateY(-2px);"></div>
-                        <span id="tc-wrong" style="font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #dc2626;">0</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Right Box: Survival Records -->
-            <div class="light-bento-box" style="padding: 15px 12px; display: flex; flex-direction: column; justify-content: flex-start; gap: 15px;">
-                <!-- Inner Bento Pill Header -->
-                <div style="background: rgba(255, 255, 255, 0.45); border: 2px solid rgba(255, 255, 255, 0.8); border-radius: 12px; padding: 8px 4px; text-align: center; font-family: 'Fredoka', sans-serif; font-size: 12px; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 6px rgba(0,0,0,0.05), inset 0 2px 4px rgba(255,255,255,0.4);">
-                    Survival Records
-                </div>
-                
-                <div style="display: flex; flex-direction: column; gap: 12px;">
-                    <div style="display: flex; align-items: center; justify-content: space-between;">
-                        <span style="font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Best Run</span>
-                        <div style="flex-grow: 1; border-bottom: 2px dotted rgba(100, 116, 139, 0.4); margin: 0 8px; transform: translateY(-2px);"></div>
-                        <span id="tc-surv-best" style="font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #047857;">0</span>
-                    </div>
-                    <div style="display: flex; align-items: center; justify-content: space-between;">
-                        <span style="font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Avg/Run</span>
-                        <div style="flex-grow: 1; border-bottom: 2px dotted rgba(100, 116, 139, 0.4); margin: 0 8px; transform: translateY(-2px);"></div>
-                        <span id="tc-surv-avg" style="font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #047857;">0.0</span>
-                    </div>
-                    <div style="display: flex; align-items: center; justify-content: space-between;">
-                        <span style="font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Runs</span>
-                        <div style="flex-grow: 1; border-bottom: 2px dotted rgba(100, 116, 139, 0.4); margin: 0 8px; transform: translateY(-2px);"></div>
-                        <span id="tc-surv-runs" style="font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #047857;">0</span>
-                    </div>
-                </div>
-            </div>
-            
-        </div>
-
-                <!-- Split CLOSE & LOG OUT Buttons -->
-        <div style="display: flex; gap: 10px; width: 100%; margin-top: 10px;">
-            <button class="primary-btn btn-green" id="tc-close-btn" style="flex: 3; margin: 0; border-radius: 20px;">CLOSE</button>
-            
-            <button class="primary-btn btn-red" id="tc-logout-btn" onclick="logoutUser(); closeTrainerCard();" style="flex: 1; margin: 0; border-radius: 20px; padding: 10px;" title="Log Out">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+    <div id="trainer-modal" class="modal-overlay hidden">
+        <div class="modal-content light-glass-modal" style="padding: 25px; border-radius: 35px; text-align: center;">
+            <button class="close-x" id="tc-close-x">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
+            
+            <div style="text-align: center;">
+                <div class="header-pill" style="margin-top: 0; margin-bottom: 20px;">Trainer ID Card</div>
+            </div>        
+            
+            <div id="tc-avatar-btn" class="trainer-avatar-container" style="cursor: pointer; width: 110px; height: 110px; margin: 0 auto 10px auto;" onclick="handleTcAvatarClick()" title="Edit Avatar">
+                <div id="tc-avatar-circle" class="trainer-avatar-circle" style="background: rgba(255, 255, 255, 0.2); border: 3px solid rgba(255, 255, 255, 0.4); box-shadow: 0 8px 16px rgba(0,0,0,0.1);">
+                    <img id="tc-avatar" src="" style="width: 125%; height: 125%; object-fit: contain; position: absolute; bottom: -10px; filter: drop-shadow(0 6px 8px rgba(0,0,0,0.2)); text-align: center;">
+                </div>
+            </div>
+            
+            <div id="tc-name" style="font-family: 'Fredoka', sans-serif; font-size: 32px; font-weight: 700; text-transform: uppercase; color: #045B43; line-height: 1.1; margin-top: 20px; margin-bottom: 2px;">Name</div>
+            <div id="tc-title" style="font-size: 14px; font-weight: 900; color: #10b981; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px;">Title</div>
+
+            <div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 20px; width: 100%;">
+                <div class="light-pill" style="flex: 1; font-size: 16px; display: flex; justify-content: center; align-items: center; padding: 12px; border-radius: 20px 0 0 20px;">
+                    <span style="font-weight: 900;">LVL: <span id="tc-level">1</span></span>
+                </div>
+                <div class="light-pill" style="width: 100px; height: 100px; flex-shrink: 0; display: flex; justify-content: center; align-items: center; padding: 0; border-radius: 22px;">
+                    <img id="tc-badge" src="" style="width: 80px; height: 80px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));">
+                </div>
+                <div class="light-pill" style="flex: 1; font-size: 16px; color: #118a6e; display: flex; justify-content: center; align-items: center; padding: 12px; border-radius: 0 20px 20px 0;">
+                    <img src="coin.png" style="width: 20px; height: 20px; margin-right: 4px;"> <span id="tc-modal-wallet" style="font-weight: 900;">0</span>
+                </div>
+            </div>
+            
+            <div style="width: 100%; margin-bottom: 25px; background: rgba(255, 255, 255, 0.12); border-radius: 20px; box-sizing: border-box; border: 1px solid rgba(255, 255, 255, 0.3); position: relative; height: 24px; box-shadow: inset 0 1px 2px rgba(255,255,255,0.3), 0 4px 8px rgba(0,0,0,0.05); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
+                <div id="xp-progress-bar-modal" style="height: 100%; background: linear-gradient(90deg, rgba(52, 211, 153, 0.65), rgba(16, 185, 129, 0.65)); width: 0%; min-width: 4%; border-radius: 20px; transition: width 0.4s ease; box-shadow: inset 0 2px 4px rgba(255,255,255,0.4);"></div>            
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; font-weight: 800; font-size: 13px; color: #ffffff; text-shadow: 0 1px 3px rgba(0,0,0,0.6); font-family: 'Fredoka', sans-serif;">
+                    <span id="modal-xp-text-counter">0 / 100 XP</span>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px;">
+                <div class="light-bento-box" style="padding: 15px 12px; display: flex; flex-direction: column; gap: 15px;">
+                    <div style="background: rgba(255, 255, 255, 0.45); border: 2px solid rgba(255, 255, 255, 0.8); border-radius: 12px; padding: 8px 4px; text-align: center; font-family: 'Fredoka', sans-serif; font-size: 12px; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 6px rgba(0,0,0,0.05), inset 0 2px 4px rgba(255,255,255,0.4);">
+                        Trainer Stats
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <span style="font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Total XP</span>
+                            <div style="flex-grow: 1; border-bottom: 2px dotted rgba(100, 116, 139, 0.4); margin: 0 8px; transform: translateY(-2px);"></div>
+                            <span id="tc-xp" style="font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #047857;">0</span>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <span style="font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Pkmn Seen</span>
+                            <div style="flex-grow: 1; border-bottom: 2px dotted rgba(100, 116, 139, 0.4); margin: 0 8px; transform: translateY(-2px);"></div>
+                            <span id="tc-seen" style="font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #047857;">0</span>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <span style="font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Correct</span>
+                            <div style="flex-grow: 1; border-bottom: 2px dotted rgba(100, 116, 139, 0.4); margin: 0 8px; transform: translateY(-2px);"></div>
+                            <span id="tc-right" style="font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #16a34a;">0</span>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <span style="font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Incorrect</span>
+                            <div style="flex-grow: 1; border-bottom: 2px dotted rgba(100, 116, 139, 0.4); margin: 0 8px; transform: translateY(-2px);"></div>
+                            <span id="tc-wrong" style="font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #dc2626;">0</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="light-bento-box" style="padding: 15px 12px; display: flex; flex-direction: column; justify-content: flex-start; gap: 15px;">
+                    <div style="background: rgba(255, 255, 255, 0.45); border: 2px solid rgba(255, 255, 255, 0.8); border-radius: 12px; padding: 8px 4px; text-align: center; font-family: 'Fredoka', sans-serif; font-size: 12px; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 6px rgba(0,0,0,0.05), inset 0 2px 4px rgba(255,255,255,0.4);">
+                        Survival Records
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <span style="font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Best Run</span>
+                            <div style="flex-grow: 1; border-bottom: 2px dotted rgba(100, 116, 139, 0.4); margin: 0 8px; transform: translateY(-2px);"></div>
+                            <span id="tc-surv-best" style="font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #047857;">0</span>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <span style="font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Avg/Run</span>
+                            <div style="flex-grow: 1; border-bottom: 2px dotted rgba(100, 116, 139, 0.4); margin: 0 8px; transform: translateY(-2px);"></div>
+                            <span id="tc-surv-avg" style="font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #047857;">0.0</span>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <span style="font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Runs</span>
+                            <div style="flex-grow: 1; border-bottom: 2px dotted rgba(100, 116, 139, 0.4); margin: 0 8px; transform: translateY(-2px);"></div>
+                            <span id="tc-surv-runs" style="font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #047857;">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px; width: 100%; margin-top: 10px;">
+                <button class="primary-btn btn-green" id="tc-close-btn" style="flex: 3; margin: 0; border-radius: 20px;">CLOSE</button>
+                <button class="primary-btn btn-red" id="tc-logout-btn" onclick="logoutUser(); closeTrainerCard();" style="flex: 1; margin: 0; border-radius: 20px; padding: 10px;" title="Log Out">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                </button>
+            </div>
         </div>
     </div>
-</div>
-        </div>
-    </div>
-</div>
+
     <div id="shop-modal" class="modal-overlay hidden">
         <div class="modal-content light-glass-modal" style="padding: 0; overflow: hidden; border-radius: 35px;">
-            
             <button class="close-x" onclick="closeShopModal()">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
             
             <div style="background: rgba(255, 255, 255, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.2); padding: 25px 20px 20px 20px; text-align: center;">
-                 <div class="header-pill" style="margin-top: 0; margin-bottom: 10px;">
-    PokéMart
-</div>
+                 <div class="header-pill" style="margin-top: 0; margin-bottom: 10px;">PokéMart</div>
                  <div style="font-size: 28px; font-weight: 900; margin-top: 10px; display: flex; align-items: center; justify-content: center;">
                     <img src="coin.png" class="coin-icon-large" alt="PokéDollars"> <span id="shop-modal-wallet" style="font-family: 'Fredoka', sans-serif; color: #d97706;">0</span>
                  </div>
@@ -1815,15 +1724,14 @@ body.dark-mode #leaderboard-modal p {
             </div>
         </div>
     </div>
-        <div id="settings-modal" class="modal-overlay hidden">
+
+    <div id="settings-modal" class="modal-overlay hidden">
         <div class="modal-content" style="text-align: center;">
             <button class="close-x" onclick="toggleSettings()">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
             <div style="text-align: center;">
-                <div class="header-pill" style="margin-top: 0; margin-bottom: 25px;">
-                    Settings
-                </div>
+                <div class="header-pill" style="margin-top: 0; margin-bottom: 25px;">Settings</div>
             </div>
             
             <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
@@ -1849,7 +1757,6 @@ body.dark-mode #leaderboard-modal p {
         </div>
     </div>
 
-    <!-- INSERT TRAINER GUIDE MODAL HERE -->
     <div id="trainer-guide-modal" class="modal-overlay hidden" style="z-index: 1050;">
         <div class="modal-content light-glass-modal" style="padding: 25px; border-radius: 35px; max-height: 85vh; overflow-y: auto;">
             <button class="close-x" onclick="closeTrainerGuide()">
@@ -1873,7 +1780,7 @@ body.dark-mode #leaderboard-modal p {
                 <p style="margin: 0 0 0 0; font-size: 13px; color: #334155;"><strong>Focus Sash:</strong> Passively saves your streak if you miss a question.</p>
             </div>
 
-                        <div class="light-bento-box" style="margin-bottom: 15px; padding: 15px;">
+            <div class="light-bento-box" style="margin-bottom: 15px; padding: 15px;">
                 <h4 style="margin: 0 0 10px 0; color: #8b5cf6; text-transform: uppercase; font-family: 'Fredoka', sans-serif;">Secret Interactions</h4>
                 <p style="margin: 0 0 6px 0; font-size: 13px; color: #334155;">• Tap your <strong>Avatar</strong> on the home screen to change it.</p>
                 <p style="margin: 0 0 6px 0; font-size: 13px; color: #334155;">• Tap your <strong>Trainer Card</strong> to view your detailed stats.</p>
@@ -1890,26 +1797,20 @@ body.dark-mode #leaderboard-modal p {
             <button class="primary-btn btn-blue" style="width: 100%; margin: 0; border-radius: 25px; background: linear-gradient(180deg, rgba(96, 165, 250, 0.6) 0%, rgba(59, 130, 246, 0.6) 100%);" onclick="closeTrainerGuide()">CLOSE GUIDE</button>
         </div>
     </div>
-    <!-- END TRAINER GUIDE MODAL -->
 
     <div id="leaderboard-modal" class="modal-overlay hidden">
-        <!-- Added light-glass-modal for the unified frosted background -->
         <div class="modal-content light-glass-modal" style="padding: 25px 20px; border-radius: 35px;">
             <button class="close-x" onclick="closeLeaderboard()">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
             
             <div style="text-align: center;">
-    <div class="header-pill">
-        Global Rank
-    </div>
-</div>
+                <div class="header-pill">Global Rank</div>
+            </div>
             <p style="font-size: 13px; margin-bottom: 20px; font-weight: 800; color: #475569; text-transform: uppercase;">Top trainers worldwide.</p>
             
-            <!-- This is where the JS injects the rows -->
             <div id="leaderboard-list"></div>
 
-            <!-- Transparent CLOSE button to match the shop -->
             <div style="display: flex; justify-content: center; margin-top: 25px;">
                 <button class="primary-btn btn-blue" style="width: 100%; margin: 0; border-radius: 25px; background: linear-gradient(180deg, rgba(96, 165, 250, 0.45) 0%, rgba(59, 130, 246, 0.45) 100%);" onclick="closeLeaderboard()">CLOSE</button>
             </div>
@@ -1922,10 +1823,8 @@ body.dark-mode #leaderboard-modal p {
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
             <div style="text-align: center;">
-    <div class="header-pill" style="margin-top: 0; margin-bottom: 20px;">
-        Pokédex
-    </div>
-</div>
+                <div class="header-pill" style="margin-top: 0; margin-bottom: 20px;">Pokédex</div>
+            </div>
             
             <div class="dex-total-header">
                 <span style="font-size: 14px; font-weight: 800; color: #3b82f6; text-transform: uppercase;">TOTAL CAUGHT</span>
@@ -1940,7 +1839,7 @@ body.dark-mode #leaderboard-modal p {
         </div>
     </div>
 
-    <div id="pokemon-detail-modal" class="modal-overlay hidden" style="z-index: 1050;">
+        <div id="pokemon-detail-modal" class="modal-overlay hidden" style="z-index: 1050;">
         <div class="modal-content" style="text-align: center; padding: 40px 20px;">
             <button class="close-x" onclick="closePokemonDetail()">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -1965,13 +1864,12 @@ body.dark-mode #leaderboard-modal p {
     </div>
 
     <div id="avatar-modal" class="modal-overlay hidden" style="z-index: 1060;">
-        <div class="modal-content" style="max-height: 75vh; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;">            <button class="close-x" onclick="closeAvatarModal()">
+        <div class="modal-content" style="max-height: 75vh; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;">            
+            <button class="close-x" onclick="closeAvatarModal()">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
             <div style="text-align: center;">
-                <div class="header-pill" style="margin-top: 0; margin-bottom: 10px;">
-                    Choose Avatar
-                </div>
+                <div class="header-pill" style="margin-top: 0; margin-bottom: 10px;">Choose Avatar</div>
             </div>
             <p style="font-size: 12px; font-weight: 900; color: #FFD700; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 0; margin-bottom: 20px; text-align: center; font-family: 'Nunito', sans-serif;">Unlock new generations by leveling up!</p>
             
@@ -1991,7 +1889,9 @@ body.dark-mode #leaderboard-modal p {
         </div>
     </div>
 
+    <!-- MAIN APP CONTAINER -->
     <div id="app">
+        
         <div id="login-screen" class="screen">
             <div class="logo-wrapper">
                 <div class="logo-spotlight"></div>
@@ -2006,13 +1906,13 @@ body.dark-mode #leaderboard-modal p {
                     </svg>
                 </div>
                 <div style="position: relative; z-index: 1; margin-bottom: 25px;">
-    <div class="trainer-avatar-container" style="margin: 0 auto 8px auto; cursor: pointer; width: 130px; height: 130px;" onclick="openAvatarModal()" title="Tap to choose starter">
-        <div class="trainer-avatar-circle" style="background: transparent; border: none; box-shadow: none; animation: pulseAvatar 2s infinite alternate;">
-            <img id="login-avatar-preview" src="pokeball.png" style="width: 100%; height: 100%; object-fit: contain; position: relative; bottom: 0; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));">
-        </div>
-    </div>
-    <div style="font-size: 11px; font-weight: 900; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.8; margin-top: 20px;">Tap the Poké Ball to choose your starter</div>
-</div>
+                    <div class="trainer-avatar-container" style="margin: 0 auto 8px auto; cursor: pointer; width: 130px; height: 130px;" onclick="openAvatarModal()" title="Tap to choose starter">
+                        <div class="trainer-avatar-circle" style="background: transparent; border: none; box-shadow: none; animation: pulseAvatar 2s infinite alternate;">
+                            <img id="login-avatar-preview" src="pokeball.png" style="width: 100%; height: 100%; object-fit: contain; position: relative; bottom: 0; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));">
+                        </div>
+                    </div>
+                    <div style="font-size: 11px; font-weight: 900; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.8; margin-top: 20px;">Tap the Poké Ball to choose your starter</div>
+                </div>
                 
                 <div class="input-group" style="position: relative; z-index: 1; flex-direction: column;">
                     <input type="text" id="username-input" placeholder="TRAINER NAME">
@@ -2020,66 +1920,62 @@ body.dark-mode #leaderboard-modal p {
                 </div>
 
                 <button class="login-img-btn" onclick="loginUser()">
-    <img src="trainerlogin.png" alt="Trainer Log In">
-</button>
+                    <img src="trainerlogin.png" alt="Trainer Log In">
+                </button>
             </div>
 
-                        <div id="user-history-container" class="bento-box hidden" style="padding: 10px 15px 5px 15px; text-align: center; max-width: 100%; box-sizing: border-box;">
+            <div id="user-history-container" class="bento-box hidden" style="padding: 10px 15px 5px 15px; text-align: center; max-width: 100%; box-sizing: border-box;">
                 <h3 style="margin: 0 0 8px 0; font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: 1.5px; color: inherit;">
                     — Continue Your Journey —
                 </h3>
                 <div id="user-history-list" style="display: flex; flex-wrap: nowrap; gap: 15px; justify-content: flex-start; overflow-x: auto; padding-bottom: 10px; -webkit-overflow-scrolling: touch;"></div>
-            </div>        </div>
+            </div>        
+        </div>
 
-                <div id="home-screen" class="screen">
+        <div id="home-screen" class="screen">
             <div class="logo-wrapper">
                 <div class="logo-spotlight"></div>
                 <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="main-logo">
             </div>
             
-            <!-- CONDENSED GLASS MAIN PAGE CARD -->
-<div id="main-trainer-card" onclick="openTrainerCard()" style="cursor: pointer; position: relative; width: 100%; max-width: 400px; margin: 0 auto 25px auto; z-index: 10; -webkit-tap-highlight-color: transparent;">
-
-    <div class="widget-capsule-top">
-        <div class="trainer-avatar-container" onclick="event.stopPropagation(); openAvatarModal();" title="Change Avatar" style="width: 110px; height: 110px; margin: 0 auto;">
-            <div class="trainer-avatar-circle">
-                <img id="trainer-display-avatar" src="">
-            </div>
-        </div>
-    </div>
-
-    <div class="widget-capsule-middle">
-        <span id="display-name" class="widget-name-display"></span>
-        <span id="trainer-dynamic-title" class="widget-title-display">Rookie Trainer</span>
-    </div>
-
-    <div class="widget-capsule-bottom">
-        <div class="widget-stat-pill">
-            <span style="margin-right: 6px;">LVL:</span> <span id="display-level">1</span>
-        </div>
-        
-        <div class="widget-badge-container">
-            <img id="current-badge" src="LV1-10.png" alt="Current Badge">
-        </div>
-        
-            <div class="widget-stat-pill">
-        <img src="coin.png" style="width: 20px; height: 20px; margin-right: 6px;"> <span id="home-display-wallet">0</span>
-    </div>
-    </div>
-
-    <span id="display-xp" class="hidden"></span>
-</div>
-
-                        <div id="daily-challenges-container" class="bento-box daily-challenges-container hidden">
-                <div style="text-align: center;">
-                    <div class="header-pill" style="margin-top: 0; margin-bottom: 20px;">
-                        Daily Challenges
+            <div id="main-trainer-card" onclick="openTrainerCard()" style="cursor: pointer; position: relative; width: 100%; max-width: 400px; margin: 0 auto 25px auto; z-index: 10; -webkit-tap-highlight-color: transparent;">
+                <div class="widget-capsule-top">
+                    <div class="trainer-avatar-container" onclick="event.stopPropagation(); openAvatarModal();" title="Change Avatar" style="width: 110px; height: 110px; margin: 0 auto;">
+                        <div class="trainer-avatar-circle">
+                            <img id="trainer-display-avatar" src="">
+                        </div>
                     </div>
+                </div>
+
+                <div class="widget-capsule-middle">
+                    <span id="display-name" class="widget-name-display"></span>
+                    <span id="trainer-dynamic-title" class="widget-title-display">Rookie Trainer</span>
+                </div>
+
+                <div class="widget-capsule-bottom">
+                    <div class="widget-stat-pill">
+                        <span style="margin-right: 6px;">LVL:</span> <span id="display-level">1</span>
+                    </div>
+                    
+                    <div class="widget-badge-container">
+                        <img id="current-badge" src="LV1-10.png" alt="Current Badge">
+                    </div>
+                    
+                    <div class="widget-stat-pill">
+                        <img src="coin.png" style="width: 20px; height: 20px; margin-right: 6px;"> <span id="home-display-wallet">0</span>
+                    </div>
+                </div>
+                <span id="display-xp" class="hidden"></span>
+            </div>
+
+            <div id="daily-challenges-container" class="bento-box daily-challenges-container hidden">
+                <div style="text-align: center;">
+                    <div class="header-pill" style="margin-top: 0; margin-bottom: 20px;">Daily Challenges</div>
                 </div>
                 <div id="dc-list"></div>
             </div>
 
-                                    <div class="modes-master-bento bento-box" style="padding: 15px; margin-bottom: 20px;">
+            <div class="modes-master-bento bento-box" style="padding: 15px; margin-bottom: 20px;">
                 <div class="modes-grid" style="gap: 12px;">
                     <button class="image-mode-btn" onclick="startGame('GUESS')">
                         <img src="whosthatpokemon.png" alt="Who's That Pokémon">
@@ -2093,13 +1989,18 @@ body.dark-mode #leaderboard-modal p {
                     <button class="image-mode-btn" onclick="startGame('TRIVIA')">
                         <img src="triviamode.png" alt="Trivia Mode">
                     </button>
+                    
                     <button class="image-mode-btn" onclick="startGame('SURVIVAL')" style="grid-column: 1 / -1;">
-                        <img src="survivalmode.png" alt="Survival Mode">
+                        <img src="survivalmode.png" alt="Survival Mode" style="aspect-ratio: auto; height: auto;">
+                    </button>
+
+                    <!-- PKMN Card War Menu Button -->
+                    <button class="image-mode-btn" onclick="startPkmnCardWar()" style="grid-column: 1 / -1;">
+                        <img src="pkmncardwar.png" alt="PKMN Card War" style="aspect-ratio: auto; height: auto;">
                     </button>
                 </div>
             </div>
 
-            <!-- TRAINER GUIDE BUTTON -->
             <button class="primary-btn btn-green" onclick="openTrainerGuide()" style="width: 100%; margin: 0 auto 20px auto; border-radius: 20px; box-shadow: 0 8px 15px rgba(0,0,0,0.1); background: linear-gradient(135deg, rgba(16, 185, 129, 0.6) 0%, rgba(5, 150, 105, 0.6) 100%);">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> 
                 TRAINER GUIDE
@@ -2256,7 +2157,51 @@ body.dark-mode #leaderboard-modal p {
                 <button class="primary-btn btn-blue" onclick="goHome()" style="width: 85%; margin: 0;">Home Screen</button>
             </div>
         </div>
-    </div>
+
+        <!-- NEW PKMN CARD WAR SCREEN -->
+        <div id="pkmn-card-war-screen" class="screen">
+            <div class="logo-wrapper">
+                <div class="logo-spotlight"></div>
+                <img src="pkmntrivialogo.png" alt="PKMN Trivia Game" class="main-logo">
+            </div>
+            
+            <div class="bento-box" style="text-align: center;">
+                <div class="header-pill" style="margin-top: 0; margin-bottom: 20px;">PKMN Card War</div>
+                
+                <div style="display: flex; justify-content: space-around; font-size: 18px; font-weight: 800; color: #334155; margin-bottom: 20px; background: rgba(255,255,255,0.4); padding: 10px; border-radius: 15px;">
+                    <span>You: <span id="player-score" style="color: #3b82f6;">0</span></span>
+                    <span>CPU: <span id="comp-score" style="color: #ef4444;">0</span></span>
+                </div>
+                
+                <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
+                    <div style="flex: 1; text-align: center;">
+                        <p style="font-weight: 900; font-size: 14px; text-transform: uppercase; color: #64748b; margin-bottom: 8px;">Player</p>
+                        <div style="position: relative; display: inline-block; width: 100%; max-width: 160px;">
+                            <img id="player-card-img" src="backcard.png" style="width: 100%; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15)); border-radius: 10px;">
+                            <div id="player-feedback" class="hidden" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 20; pointer-events: none;">
+                                <div id="player-feedback-icon"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="flex: 1; text-align: center;">
+                        <p style="font-weight: 900; font-size: 14px; text-transform: uppercase; color: #64748b; margin-bottom: 8px;">Computer</p>
+                        <div style="position: relative; display: inline-block; width: 100%; max-width: 160px;">
+                            <img id="comp-card-img" src="backcard.png" style="width: 100%; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15)); border-radius: 10px;">
+                            <div id="comp-feedback" class="hidden" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 20; pointer-events: none;">
+                                <div id="comp-feedback-icon"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 id="round-result-text" style="font-family: 'Fredoka', sans-serif; font-size: 18px; color: #334155; min-height: 25px; margin-bottom: 20px;">Draw a card to begin!</h3>
+
+                <button id="draw-btn" class="primary-btn btn-green" onclick="drawCards()" style="margin-bottom: 15px;">DRAW CARD</button>
+                <button class="primary-btn btn-gray" onclick="goHome()" style="padding: 10px;">Exit War Mode</button>
+            </div>
+        </div>
+
+    </div> <!-- END OF APP CONTAINER -->
 
     <!-- CUSTOM DIALOG MODAL -->
     <div id="custom-dialog-modal" class="modal-overlay hidden" style="z-index: 9999;">
@@ -2296,7 +2241,6 @@ body.dark-mode #leaderboard-modal p {
             return url;
         }
 
-        /* --- INDEXED DB NATIVE WRAPPER --- */
         const dbPromise = new Promise((resolve, reject) => {
             const request = indexedDB.open('PKMNTriviaDB', 1);
             request.onupgradeneeded = (e) => { e.target.result.createObjectStore('trainerData'); };
@@ -2409,7 +2353,6 @@ body.dark-mode #leaderboard-modal p {
             { name: 'Paldea', start: 906, end: 1025 }
         ];
 
-        /* --- MEMORY ARRAYS --- */
         let memPokedex = [];
         let memShinyDex = [];
         let memSeen = [];
@@ -2436,13 +2379,15 @@ body.dark-mode #leaderboard-modal p {
         
         let isShiny = false;
         let currentStreak = 0;
-        let razzUsedThisQuestion = false;  // NEW
-        let nanabUsedThisQuestion = false; // NEW
+        let razzUsedThisQuestion = false;  
+        let nanabUsedThisQuestion = false; 
+
         function triggerHaptic(type) {
-            if (!navigator.vibrate) return; // Fails safely on iOS/unsupported browsers
-            if (type === 'success') navigator.vibrate([30, 50, 30]); // Double light tap
-            if (type === 'error') navigator.vibrate([50, 100, 50]);  // Heavy double buzz
+            if (!navigator.vibrate) return; 
+            if (type === 'success') navigator.vibrate([30, 50, 30]); 
+            if (type === 'error') navigator.vibrate([50, 100, 50]);  
         }
+
         const loginScreen = document.getElementById('login-screen'), homeScreen = document.getElementById('home-screen'), gameScreen = document.getElementById('game-screen'), endScreen = document.getElementById('end-screen'), gameContent = document.getElementById('game-content'), questionCountEl = document.getElementById('question-count'), questionTextEl = document.getElementById('question-text'), optionsEl = document.getElementById('options');
         const endTitleEl = document.getElementById('end-title'), endMessageEl = document.getElementById('end-message');
         const timerWrapper = document.getElementById('timer-wrapper'), timerBar = document.getElementById('timer-bar'), timerText = document.getElementById('timer-text');
@@ -2458,7 +2403,6 @@ body.dark-mode #leaderboard-modal p {
                 console.error("Failed to load master list", e);
             }
 
-            // --- INACTIVITY & SESSION TRACKER ---
             const updateActivity = () => { if (currentUser) localStorage.setItem('lastActiveTime', Date.now()); };
             document.addEventListener('click', updateActivity, { passive: true });
             document.addEventListener('touchstart', updateActivity, { passive: true });
@@ -2467,18 +2411,15 @@ body.dark-mode #leaderboard-modal p {
             const lastActive = localStorage.getItem('lastActiveTime');
             const isSessionActive = sessionStorage.getItem('sessionActive');
             
-            // Check if inactive for more than 2 hours (7,200,000 milliseconds)
             const isIdle = lastActive && (Date.now() - parseInt(lastActive) > 7200000);
             
             setTimeout(async () => {
-                // Require all 3: A saved user, an active app session, and recent activity
                 if (savedUser && isSessionActive && !isIdle) {
                     currentUser = savedUser;
                     await loadUserData(currentUser);
                     showScreen(homeScreen);
                     checkDailyReward(currentUser);
                 } else {
-                    // Force Wipe & Logout
                     localStorage.removeItem('pokeUser');
                     sessionStorage.removeItem('sessionActive');
                     currentUser = null;
@@ -2486,7 +2427,6 @@ body.dark-mode #leaderboard-modal p {
                     showScreen(loginScreen);
                 }
 
-                // THIS HIDES THE SPLASH SCREEN
                 const splash = document.getElementById('splash-screen');
                 if (splash) {
                     splash.style.opacity = '0';
@@ -2496,6 +2436,7 @@ body.dark-mode #leaderboard-modal p {
                 }
             }, 3500); 
         };
+
         async function checkDailyReward(username) {
             const today = new Date().toDateString();
             const lastLogin = localStorage.getItem(`lastLogin_${username}`);
@@ -2658,7 +2599,7 @@ body.dark-mode #leaderboard-modal p {
             }
         }
 
-                function openShopModal() {
+        function openShopModal() {
             document.getElementById('shop-modal-wallet').innerText = pokeDollars;
             document.getElementById('shop-modal').classList.remove('hidden');
             isPaused = true;
@@ -2669,7 +2610,6 @@ body.dark-mode #leaderboard-modal p {
             isPaused = false;
         }
 
-        // ADD THESE TWO FUNCTIONS:
         function openTrainerGuide() {
             document.getElementById('trainer-guide-modal').classList.remove('hidden');
             isPaused = true;
@@ -2688,19 +2628,12 @@ body.dark-mode #leaderboard-modal p {
                 updateItemUI();
                 document.getElementById('shop-modal-wallet').innerText = pokeDollars;
                 
-                                // --- NEW +1 FLOATING ANIMATION ---
-                // Ensure the button can anchor the floating text
                 btnElement.style.position = 'relative'; 
-
-                // Create the +1 element
                 const plusOne = document.createElement('span');
                 plusOne.className = 'shop-plus-one';
                 plusOne.innerText = '+1';
-                
-                // Append it to the button
                 btnElement.appendChild(plusOne);
 
-                // Clean it up from the DOM after the animation finishes
                 setTimeout(() => {
                     if (plusOne.parentElement) {
                         plusOne.remove();
@@ -2711,10 +2644,9 @@ body.dark-mode #leaderboard-modal p {
             }
         }
 
-                        function useRazzBerry() {
+        function useRazzBerry() {
             if (inventory.razz <= 0 || isPaused) return;
 
-            // Enforces the 6-berry limit per match (allows stacking on a single question)
             if (razzUsesThisRun >= 6) {
                 alert("You have reached the maximum of 6 Razz Berries per match!");
                 return;
@@ -2738,18 +2670,16 @@ body.dark-mode #leaderboard-modal p {
             setTimeout(() => { popup.remove(); }, 3000);
         }
 
-
-                function useNanabBerry() {
+        function useNanabBerry() {
             if (inventory.nanab <= 0 || isPaused) return;
             
-            // NEW: Stop players from stacking Nanab berries
             if (nanabUsedThisQuestion) {
                 alert("You can only use one Nanab Berry per question!");
                 return;
             }
 
             inventory.nanab--;
-            nanabUsedThisQuestion = true; // Locks the berry for this question
+            nanabUsedThisQuestion = true; 
             saveInventory();
             updateItemUI();
 
@@ -2843,22 +2773,20 @@ body.dark-mode #leaderboard-modal p {
             const level = Math.floor(pXP / 100) + 1;
             
             let title = "Rookie Trainer";
-            let rankClass = "rank-rookie";
-            let borderColor = 'rgba(255,255,255,0.8)'; let shadowColor = 'rgba(100, 116, 139, 0.2)';
             
-            if (level >= 200) { title = "Pokémon Master"; rankClass = "rank-master"; shadowColor = 'rgba(255, 255, 255, 0.3)'; }
-            else if (level >= 175) { title = "Legendary Trainer"; rankClass = "rank-legendary"; shadowColor = 'rgba(251, 191, 36, 0.6)'; }
-            else if (level >= 150) { title = "Battle Legend"; rankClass = "rank-legend"; shadowColor = 'rgba(239, 68, 68, 0.4)'; }
-            else if (level >= 125) { title = "League Champion"; rankClass = "rank-champion"; shadowColor = 'rgba(56, 189, 248, 0.6)'; }
-            else if (level >= 100) { title = "Elite Four"; rankClass = "rank-elite"; shadowColor = 'rgba(168, 85, 247, 0.6)'; }
-            else if (level >= 75) { title = "Veteran Trainer"; rankClass = "veteran-trainer"; shadowColor = 'rgba(16, 185, 129, 0.4)'; }
-            else if (level >= 50) { title = "Gym Leader"; rankClass = "rank-gym"; shadowColor = 'rgba(234, 179, 8, 0.4)'; }
-            else if (level >= 25) { title = "Ace Trainer"; rankClass = "rank-ace"; shadowColor = 'rgba(59, 130, 246, 0.4)'; }
+            if (level >= 200) { title = "Pokémon Master";  }
+            else if (level >= 175) { title = "Legendary Trainer";  }
+            else if (level >= 150) { title = "Battle Legend";  }
+            else if (level >= 125) { title = "League Champion";  }
+            else if (level >= 100) { title = "Elite Four";  }
+            else if (level >= 75) { title = "Veteran Trainer";  }
+            else if (level >= 50) { title = "Gym Leader";  }
+            else if (level >= 25) { title = "Ace Trainer";  }
             
             document.getElementById('tc-title').innerText = title;
             document.getElementById('tc-level').innerText = level;
             
-                        updateBadgeDisplay(level);
+            updateBadgeDisplay(level);
             
             document.getElementById('tc-xp').innerText = pXP;
             document.getElementById('tc-seen').innerText = pSeen;
@@ -2870,9 +2798,6 @@ body.dark-mode #leaderboard-modal p {
             let avg = pSurvGames > 0 ? (pSurvTotal / pSurvGames).toFixed(1) : "0.0";
             document.getElementById('tc-surv-avg').innerText = avg;
             
-            const tcCircle = document.getElementById('tc-avatar-circle');
-/* tcCircle.style.border = `3px solid ${borderColor}`; */
-            // tcCircle.style.boxShadow = `0 0 15px ${shadowColor}`;
             document.getElementById('trainer-modal').classList.remove('hidden');
             isPaused = true;
         }
@@ -2889,7 +2814,7 @@ body.dark-mode #leaderboard-modal p {
             isPaused = false;
         }
 
-                function initSettingsUI() {
+        function initSettingsUI() {
             const darkBtn = document.getElementById('dark-mode-btn');
             if (isDarkMode) {
                 document.body.classList.add('dark-mode');
@@ -2920,9 +2845,6 @@ body.dark-mode #leaderboard-modal p {
                 isPaused = false;
             }
         }
-        
-
-        
 
         function toggleDarkMode() {
             isDarkMode = !isDarkMode;
@@ -2997,13 +2919,13 @@ body.dark-mode #leaderboard-modal p {
 
             let shinyHtml = `
                 <div class="dex-region-card" onclick="toggleShinyGrid()" style="border-color: rgba(253,224,71,0.8); background: rgba(254, 252, 232, 0.6);">
-                                    <div class="dex-region-header" style="margin-bottom: 0;">
-                    <span class="dex-region-name" style="color: #b45309; display: flex; align-items: center; gap: 6px;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l2.4 7.6 8.6 1-6.6 5.4 2 8-7.4-4.6-7.4 4.6 2-8-6.6-5.4 8.6-1z"/></svg>
-                        SHINY DEX
-                    </span>
-                    <span class="dex-region-count">${shinyCount} <span class="dex-trophy ${shinyCount > 0 ? 'earned' : ''}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg></span></span>
-                </div>
+                    <div class="dex-region-header" style="margin-bottom: 0;">
+                        <span class="dex-region-name" style="color: #b45309; display: flex; align-items: center; gap: 6px;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l2.4 7.6 8.6 1-6.6 5.4 2 8-7.4-4.6-7.4 4.6 2-8-6.6-5.4 8.6-1z"/></svg>
+                            SHINY DEX
+                        </span>
+                        <span class="dex-region-count">${shinyCount} <span class="dex-trophy ${shinyCount > 0 ? 'earned' : ''}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg></span></span>
+                    </div>
                     <div id="dex-grid-shiny" class="dex-grid hidden"></div>
                 </div>
             `;
@@ -3142,7 +3064,7 @@ body.dark-mode #leaderboard-modal p {
             }
         }
 
-                function startTimer() {
+        function startTimer() {
             clearInterval(timerInterval);
             isPaused = false;
             
@@ -3150,16 +3072,13 @@ body.dark-mode #leaderboard-modal p {
                 timeLeft = 10;
             }
             
-            // 1. Disable transition for an instant snap
             timerBar.style.transition = 'none';
             
             timerWrapper.classList.remove('hidden');
             updateTimerUI();
             
-            // 2. Force browser reflow to apply the instant width change
             void timerBar.offsetWidth;
             
-            // 3. Restore smooth ticking animation
             timerBar.style.transition = 'width 1s linear, background-color 0.3s ease';
             
             timerInterval = setInterval(() => {
@@ -3306,7 +3225,6 @@ body.dark-mode #leaderboard-modal p {
                     const userXP = parseInt(localStorage.getItem('xp_' + user)) || 0;
                     const level = Math.floor(userXP / 100) + 1;
                     
-                    // Determine Title and Colors based on Level
                     let title = "Rookie Trainer";
                     let titleColor = "#cbd5e1"; 
                     let borderColor = "#cbd5e1";
@@ -3349,6 +3267,7 @@ body.dark-mode #leaderboard-modal p {
                 container.classList.add('hidden');
             }
         }
+
         async function loginUser() {
             const rawName = document.getElementById('username-input').value.trim();
             const pinCode = document.getElementById('pin-input').value.trim();
@@ -3492,7 +3411,9 @@ body.dark-mode #leaderboard-modal p {
 
                 localStorage.setItem('pokeUser', currentUser);
                 sessionStorage.setItem('sessionActive', 'true');
-                localStorage.setItem('lastActiveTime', Date.now());                if (!knownUsers.includes(currentUser)) {
+                localStorage.setItem('lastActiveTime', Date.now());                
+                
+                if (!knownUsers.includes(currentUser)) {
                     knownUsers.push(currentUser);
                     localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
                 }
@@ -3585,10 +3506,9 @@ body.dark-mode #leaderboard-modal p {
             );
         }
 
-                async function loadUserData(username) {
+        async function loadUserData(username) {
             document.getElementById('display-name').innerText = username;
             
-            // --- NEW FIREBASE CLOUD SYNC ---
             try {
                 const docSnap = await db.collection("trainers").doc(username).get();
                 if (docSnap.exists) {
@@ -3626,73 +3546,67 @@ body.dark-mode #leaderboard-modal p {
             updateXPUI();
         }
 
-function updateXPUI() {
-    const level = Math.floor(currentXP / 100) + 1;
-    const progressXP = currentXP % 100;
-    
-    // Main Panel Pill updates
-    document.getElementById('display-level').innerText = level;
+        function updateXPUI() {
+            const level = Math.floor(currentXP / 100) + 1;
+            const progressXP = currentXP % 100;
+            
+            document.getElementById('display-level').innerText = level;
 
-    // Detailed Modal Progress Track Sync
-    const modalXpBar = document.getElementById('xp-progress-bar-modal');
-    const modalXpText = document.getElementById('modal-xp-text-counter');
-    if (modalXpBar) modalXpBar.style.width = `${progressXP}%`;
-    if (modalXpText) modalXpText.innerText = `${progressXP} / 100 XP`;
+            const modalXpBar = document.getElementById('xp-progress-bar-modal');
+            const modalXpText = document.getElementById('modal-xp-text-counter');
+            if (modalXpBar) modalXpBar.style.width = `${progressXP}%`;
+            if (modalXpText) modalXpText.innerText = `${progressXP} / 100 XP`;
 
-    // Mini Track In-Game Updates
-    document.getElementById('mini-display-level').innerText = level;
-    document.getElementById('mini-display-xp').innerText = progressXP + "/100 XP";
-    document.getElementById('mini-xp-progress-bar').style.width = `${progressXP}%`;
+            document.getElementById('mini-display-level').innerText = level;
+            document.getElementById('mini-display-xp').innerText = progressXP + "/100 XP";
+            document.getElementById('mini-xp-progress-bar').style.width = `${progressXP}%`;
 
-    let title = "Rookie Trainer";
-    let rankClass = "rank-rookie";
-    
-    if (level >= 200) { title = "Pokémon Master"; rankClass = "rank-master"; }
-    else if (level >= 175) { title = "Legendary Trainer"; rankClass = "rank-legendary"; }
-    else if (level >= 150) { title = "Battle Legend"; rankClass = "rank-legend"; }
-    else if (level >= 125) { title = "League Champion"; rankClass = "rank-champion"; }
-    else if (level >= 100) { title = "Elite Four"; rankClass = "rank-elite"; }
-    else if (level >= 75) { title = "Veteran Trainer"; rankClass = "rank-veteran"; }
-    else if (level >= 50) { title = "Gym Leader"; rankClass = "rank-gym"; }
-    else if (level >= 25) { title = "Ace Trainer"; rankClass = "rank-ace"; }
-    
-    const titleElement = document.getElementById('trainer-dynamic-title');
-    if(titleElement) titleElement.innerText = title;
+            let title = "Rookie Trainer";
+            
+            if (level >= 200) { title = "Pokémon Master"; }
+            else if (level >= 175) { title = "Legendary Trainer"; }
+            else if (level >= 150) { title = "Battle Legend"; }
+            else if (level >= 125) { title = "League Champion"; }
+            else if (level >= 100) { title = "Elite Four"; }
+            else if (level >= 75) { title = "Veteran Trainer"; }
+            else if (level >= 50) { title = "Gym Leader"; }
+            else if (level >= 25) { title = "Ace Trainer"; }
+            
+            const titleElement = document.getElementById('trainer-dynamic-title');
+            if(titleElement) titleElement.innerText = title;
 
+            updateBadgeDisplay(level);
+        }
 
-    updateBadgeDisplay(level);
-}
+        function updateBadgeDisplay(level) {
+            const currentBadge = document.getElementById('current-badge');
+            const tcBadge = document.getElementById('tc-badge');
+            
+            let targetBadgeFile = "LV1-10.png";
 
-function updateBadgeDisplay(level) {
-    const currentBadge = document.getElementById('current-badge');
-    const tcBadge = document.getElementById('tc-badge');
-    
-    let targetBadgeFile = "LV1-10.png";
+            if (level >= 500) {
+                targetBadgeFile = "level500.png";
+            } else if (level >= 400) {
+                targetBadgeFile = "level400.png";
+            } else if (level >= 300) {
+                targetBadgeFile = "level300.png";
+            } else if (level >= 200) {
+                targetBadgeFile = "level200.png";
+            } else if (level >= 100) {
+                targetBadgeFile = "level100.png";
+            } else {
+                const badgeIndex = Math.min(Math.floor((level - 1) / 10), 9);
+                const badgeFiles = [
+                    "LV1-10.png", "LV10-20.png", "LV20-30.png", "LV30-40.png", "LV40-50.png", 
+                    "LV50-60.png", "LV60-70.png", "LV70-80.png", "LV80-90.png", "LV90-100.png"
+                ];
+                targetBadgeFile = badgeFiles[badgeIndex];
+            }
 
-    // Level 100+ Prestige System Checks
-    if (level >= 500) {
-        targetBadgeFile = "level500.png";
-    } else if (level >= 400) {
-        targetBadgeFile = "level400.png";
-    } else if (level >= 300) {
-        targetBadgeFile = "level300.png";
-    } else if (level >= 200) {
-        targetBadgeFile = "level200.png";
-    } else if (level >= 100) {
-        targetBadgeFile = "level100.png";
-    } else {
-        // Standard progression ladder for early tiers (Levels 1 - 99)
-        const badgeIndex = Math.min(Math.floor((level - 1) / 10), 9);
-        const badgeFiles = [
-            "LV1-10.png", "LV10-20.png", "LV20-30.png", "LV30-40.png", "LV40-50.png", 
-            "LV50-60.png", "LV60-70.png", "LV70-80.png", "LV80-90.png", "LV90-100.png"
-        ];
-        targetBadgeFile = badgeFiles[badgeIndex];
-    }
+            if (currentBadge) currentBadge.src = targetBadgeFile;
+            if (tcBadge) tcBadge.src = targetBadgeFile;
+        }
 
-    if (currentBadge) currentBadge.src = targetBadgeFile;
-    if (tcBadge) tcBadge.src = targetBadgeFile;
-}
         function startGame(mode) {
             clearInterval(timerInterval);
             isPaused = false;
@@ -3727,7 +3641,13 @@ function updateBadgeDisplay(level) {
             prefetchAllQuestions(mode);
         }
 
-        function restartGame() { startGame(currentMode); }
+        function restartGame() { 
+            if (currentMode === 'WAR') {
+                startPkmnCardWar();
+            } else {
+                startGame(currentMode); 
+            }
+        }
         function goHome() { 
             clearInterval(timerInterval);
             isPaused = false;
@@ -3948,7 +3868,6 @@ function updateBadgeDisplay(level) {
                 try {
                     const firstQ = await generateQuestionData(mode);
                     
-                    // PRELOAD IMAGES TO BROWSER CACHE
                     const preloadImg1 = new Image();
                     preloadImg1.src = firstQ.spriteUrl;
                     if (firstQ.evolveToSpriteUrl) {
@@ -3985,7 +3904,6 @@ function updateBadgeDisplay(level) {
                     try {
                         const nextQuestion = await generateQuestionData(mode);
                         
-                        // PRELOAD IMAGES TO BROWSER CACHE
                         const preloadImg1 = new Image();
                         preloadImg1.src = nextQuestion.spriteUrl;
                         if (nextQuestion.evolveToSpriteUrl) {
@@ -4051,14 +3969,16 @@ function updateBadgeDisplay(level) {
             
             let shinyTagHtml = `<div id="shiny-tag" class="hidden" style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #fbbf24, #f59e0b); color: white; padding: 4px 16px; border-radius: 12px; font-weight: 900; font-size: 14px; letter-spacing: 2px; text-shadow: 0 1px 2px rgba(0,0,0,0.2); box-shadow: 0 4px 10px rgba(245,158,11,0.4); z-index: 20; border: 2px solid white; animation: pulseGlow 1.5s infinite alternate; display: flex; align-items: center; gap: 6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l2.4 7.6 8.6 1-6.6 5.4 2 8-7.4-4.6-7.4 4.6 2-8-6.6-5.4 8.6-1z"/></svg> SHINY <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l2.4 7.6 8.6 1-6.6 5.4 2 8-7.4-4.6-7.4 4.6 2-8-6.6-5.4 8.6-1z"/></svg></div>`;
             
-                        if (currentQuestionMode === 'EVOLUTIONS') {
+            if (currentQuestionMode === 'EVOLUTIONS') {
                 imageContainer.innerHTML = shinyTagHtml + `
                     <div class="tcg-base-box">
                         <img src="${qData.spriteUrl}" class="tcg-base-sprite ${isShiny ? 'shiny-glow' : 'revealed'}">
                     </div>
-<img id="evolved-pokemon-image" src="${qData.evolveToSpriteUrl}" class="tcg-evolved-sprite silhouette" draggable="false" oncontextmenu="return false;">                `;
+                    <img id="evolved-pokemon-image" src="${qData.evolveToSpriteUrl}" class="tcg-evolved-sprite silhouette" draggable="false" oncontextmenu="return false;">                
+                `;
             } else {
-imageContainer.innerHTML = shinyTagHtml + `<img id="pokemon-image" src="${qData.spriteUrl}" class="${qData.imageClass}" alt="Pokemon" draggable="false" oncontextmenu="return false;">`;            }
+                imageContainer.innerHTML = shinyTagHtml + `<img id="pokemon-image" src="${qData.spriteUrl}" class="${qData.imageClass}" alt="Pokemon" draggable="false" oncontextmenu="return false;">`;            
+            }
 
             if (currentQuestionMode === 'SCRAMBLE') {
                 const correctStr = correctAnswersAttribute.replace(/[\s\.\-']/g, '').toUpperCase();
@@ -4210,100 +4130,100 @@ imageContainer.innerHTML = shinyTagHtml + `<img id="pokemon-image" src="${qData.
         }
 
         function applyScore(isCorrect) {
-    if (isCorrect) {
-        if (!memPokedex.includes(currentPokemonId)) {
-            memPokedex.push(currentPokemonId);
-            idbSet(`pokedex_${currentUser}`, memPokedex);
-        }
-        
-        if (isShiny && !memShinyDex.includes(currentPokemonId)) {
-            memShinyDex.push(currentPokemonId);
-            idbSet(`shiny_dex_${currentUser}`, memShinyDex);
-        }
+            if (isCorrect) {
+                if (!memPokedex.includes(currentPokemonId)) {
+                    memPokedex.push(currentPokemonId);
+                    idbSet(`pokedex_${currentUser}`, memPokedex);
+                }
+                
+                if (isShiny && !memShinyDex.includes(currentPokemonId)) {
+                    memShinyDex.push(currentPokemonId);
+                    idbSet(`shiny_dex_${currentUser}`, memShinyDex);
+                }
 
-        sessionRight++;
-        currentStreak++;
-        pokeDollars += 2; 
-        sessionMoney += 2;
-        
-        let totalRight = parseInt(localStorage.getItem(`stats_right_${currentUser}`)) || 0;
-        totalRight++;
-        localStorage.setItem(`stats_right_${currentUser}`, totalRight);
+                sessionRight++;
+                currentStreak++;
+                pokeDollars += 2; 
+                sessionMoney += 2;
+                
+                let totalRight = parseInt(localStorage.getItem(`stats_right_${currentUser}`)) || 0;
+                totalRight++;
+                localStorage.setItem(`stats_right_${currentUser}`, totalRight);
 
-        let xpGain = 5; 
-        let floatText = "<img src='coin.png' style='width: 20px; height: 20px; vertical-align: middle; margin-top: -4px;'> +2";
-        
-        if (isShiny) {
-            xpGain *= 2;
-            floatText = "<svg width='16' height='16' viewBox='0 0 24 24' fill='currentColor' stroke='none' style='vertical-align: middle; margin-top: -4px; margin-right: 4px;'><path d='M12 2l2.4 7.6 8.6 1-6.6 5.4 2 8-7.4-4.6-7.4 4.6 2-8-6.6-5.4 8.6-1z'/></svg> SHINY! +10 XP";
-        }
-        
-        if (currentStreak >= 5) {
-            xpGain += 2;
-            pokeDollars += 10; 
-            sessionMoney += 10;
-            updateDailyTaskProgress('streak');
-            const streakEl = document.getElementById('streak-display');
-            streakEl.classList.remove('hidden');
-            document.getElementById('streak-count').innerText = currentStreak;
-            
-            if(!isShiny) {
-                floatText = "<img src='coin.png' style='width: 20px; height: 20px; vertical-align: middle; margin-top: -4px;'> +10";
+                let xpGain = 5; 
+                let floatText = "<img src='coin.png' style='width: 20px; height: 20px; vertical-align: middle; margin-top: -4px;'> +2";
+                
+                if (isShiny) {
+                    xpGain *= 2;
+                    floatText = "<svg width='16' height='16' viewBox='0 0 24 24' fill='currentColor' stroke='none' style='vertical-align: middle; margin-top: -4px; margin-right: 4px;'><path d='M12 2l2.4 7.6 8.6 1-6.6 5.4 2 8-7.4-4.6-7.4 4.6 2-8-6.6-5.4 8.6-1z'/></svg> SHINY! +10 XP";
+                }
+                
+                if (currentStreak >= 5) {
+                    xpGain += 2;
+                    pokeDollars += 10; 
+                    sessionMoney += 10;
+                    updateDailyTaskProgress('streak');
+                    const streakEl = document.getElementById('streak-display');
+                    streakEl.classList.remove('hidden');
+                    document.getElementById('streak-count').innerText = currentStreak;
+                    
+                    if(!isShiny) {
+                        floatText = "<img src='coin.png' style='width: 20px; height: 20px; vertical-align: middle; margin-top: -4px;'> +10";
+                    } else {
+                        floatText = "<svg width='16' height='16' viewBox='0 0 24 24' fill='currentColor' stroke='none' style='vertical-align: middle; margin-top: -4px; margin-right: 4px;'><path d='M12 2l2.4 7.6 8.6 1-6.6 5.4 2 8-7.4-4.6-7.4 4.6 2-8-6.6-5.4 8.6-1z'/></svg> SHINY STREAK! +12 XP";
+                    }
+                }
+                
+                showXPFloatingText(floatText, isShiny ? "#f59e0b" : "#fbbf24", 2000);
+                
+                updateDailyTaskProgress('correct');
+                
+                sessionXP += xpGain;
+                sessionXPDisplay.innerText = sessionXP;
+
+                currentXP += xpGain;
+                
+                saveInventory();
+                updateXPUI();
+                
+                db.collection("trainers").doc(currentUser).set({
+                    user: currentUser,
+                    xp: currentXP,
+                    level: Math.floor(currentXP / 100) + 1,
+                    avatar: selectedAvatarUrl,
+                    pokedex: memPokedex,
+                    shiny_dex: memShinyDex,
+                    stats_right: totalRight
+                }, { merge: true }).catch(e => console.error("Firebase sync error:", e));
             } else {
-                floatText = "<svg width='16' height='16' viewBox='0 0 24 24' fill='currentColor' stroke='none' style='vertical-align: middle; margin-top: -4px; margin-right: 4px;'><path d='M12 2l2.4 7.6 8.6 1-6.6 5.4 2 8-7.4-4.6-7.4 4.6 2-8-6.6-5.4 8.6-1z'/></svg> SHINY STREAK! +12 XP";
+                if (inventory.sash > 0) {
+                    inventory.sash--;
+                    saveInventory();
+                    updateItemUI();
+                    
+                    const statsContainer = document.querySelector('.stats');
+                    const popup = document.createElement('div');
+                    popup.className = 'xp-popup';
+                    popup.innerHTML = "STREAK SAVED!";
+                    popup.style.color = "#f59e0b"; 
+                    popup.style.animationDuration = "3s";
+                    statsContainer.appendChild(popup);
+                    setTimeout(() => { popup.remove(); }, 3000);
+                } else {
+                    sessionWrong++;
+                    currentStreak = 0;
+                    document.getElementById('streak-display').classList.add('hidden');
+                    
+                    let totalWrong = parseInt(localStorage.getItem(`stats_wrong_${currentUser}`)) || 0;
+                    totalWrong++;
+                    localStorage.setItem(`stats_wrong_${currentUser}`, totalWrong);
+                    
+                    db.collection("trainers").doc(currentUser).set({ stats_wrong: totalWrong }, { merge: true }).catch(e => console.error("Firebase sync error:", e));
+                }
             }
         }
-        
-        showXPFloatingText(floatText, isShiny ? "#f59e0b" : "#fbbf24", 2000);
-        
-        updateDailyTaskProgress('correct');
-        
-        sessionXP += xpGain;
-        sessionXPDisplay.innerText = sessionXP;
 
-        currentXP += xpGain;
-        
-        saveInventory();
-        updateXPUI();
-        
-        db.collection("trainers").doc(currentUser).set({
-            user: currentUser,
-            xp: currentXP,
-            level: Math.floor(currentXP / 100) + 1,
-            avatar: selectedAvatarUrl,
-            pokedex: memPokedex,
-            shiny_dex: memShinyDex,
-            stats_right: totalRight
-        }, { merge: true }).catch(e => console.error("Firebase sync error:", e));
-    } else {
-        if (inventory.sash > 0) {
-            inventory.sash--;
-            saveInventory();
-            updateItemUI();
-            
-            const statsContainer = document.querySelector('.stats');
-            const popup = document.createElement('div');
-            popup.className = 'xp-popup';
-            popup.innerHTML = "STREAK SAVED!";
-            popup.style.color = "#f59e0b"; 
-            popup.style.animationDuration = "3s";
-            statsContainer.appendChild(popup);
-            setTimeout(() => { popup.remove(); }, 3000);
-        } else {
-            sessionWrong++;
-            currentStreak = 0;
-            document.getElementById('streak-display').classList.add('hidden');
-            
-            let totalWrong = parseInt(localStorage.getItem(`stats_wrong_${currentUser}`)) || 0;
-            totalWrong++;
-            localStorage.setItem(`stats_wrong_${currentUser}`, totalWrong);
-            
-            db.collection("trainers").doc(currentUser).set({ stats_wrong: totalWrong }, { merge: true }).catch(e => console.error("Firebase sync error:", e));
-        }
-    }
-}
-
-                function handleGuess(clickedBtn, isCorrect) {
+        function handleGuess(clickedBtn, isCorrect) {
             if (currentMode !== 'SURVIVAL') {
                 clearInterval(timerInterval);
             }
@@ -4358,10 +4278,9 @@ imageContainer.innerHTML = shinyTagHtml + `<img id="pokemon-image" src="${qData.
             }, delay);
         }
 
-                function handleTimeOut() {
+        function handleTimeOut() {
             clearInterval(timerInterval);
             
-            // Instantly kill the animation so the bar doesn't trail behind the clock
             timerBar.style.transition = 'none'; 
             timerBar.style.width = '0%';
             timerText.innerText = '0s';
@@ -4402,7 +4321,7 @@ imageContainer.innerHTML = shinyTagHtml + `<img id="pokemon-image" src="${qData.
             }
 
             triggerFeedbackAnimation(false);
-triggerHaptic('error');
+            triggerHaptic('error');
             const allBtns = document.querySelectorAll('.option-btn');
             allBtns.forEach(btn => btn.disabled = true);
             
@@ -4422,6 +4341,10 @@ triggerHaptic('error');
             clearInterval(timerInterval);
             isPaused = false;
             showScreen(endScreen);
+            
+            // Revert labels for standard game modes
+            document.getElementById('end-right').previousElementSibling.innerText = "Right";
+            document.getElementById('end-wrong').previousElementSibling.innerText = "Missed";
             
             document.getElementById('end-right').innerText = sessionRight;
             document.getElementById('end-wrong').innerText = sessionWrong;
@@ -4455,7 +4378,7 @@ triggerHaptic('error');
                     survival_games: survGames
                 }, { merge: true }).catch(e => console.error("Firebase sync error:", e));
 
-                                    if (isNewHigh && sessionRight > 0) {
+                if (isNewHigh && sessionRight > 0) {
                     endTitleEl.innerHTML = '<img src="newpersonalbest.png" style="width: 100%; max-width: 320px; filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9));">'; 
                     endMessageEl.innerText = `Incredible! You set a new record of ${sessionRight} answers!`;
                 } else {
@@ -4484,6 +4407,205 @@ triggerHaptic('error');
                     endMessageEl.innerText = "Keep practicing to catch 'em all!"; 
                 }
             }
+        }
+
+        let playerScore = 0;
+        let compScore = 0;
+        const winTarget = 20;
+
+        const cards = ["fire", "water", "grass", "electric", "ground"];
+
+        const winMatrix = {
+            "fire": ["grass", "electric"],
+            "water": ["fire", "ground"],
+            "grass": ["water", "ground"],
+            "electric": ["water", "grass"],
+            "ground": ["fire", "electric"]
+        };
+
+        function startPkmnCardWar() {
+            currentMode = 'WAR';
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById("pkmn-card-war-screen").classList.add('active');
+            resetCardWarGame();
+        }
+
+        function triggerCardFeedback(side, isCorrect) {
+            const overlay = document.getElementById(`${side}-feedback`);
+            const icon = document.getElementById(`${side}-feedback-icon`);
+            overlay.classList.remove('hidden');
+            
+            if (isCorrect) {
+                icon.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                icon.className = 'feedback-pop pop-correct';
+            } else {
+                icon.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+                icon.className = 'feedback-pop pop-wrong';
+            }
+            setTimeout(() => { overlay.classList.add('hidden'); icon.className = ''; }, 1000);
+        }
+
+        function drawCards() {
+            const drawBtn = document.getElementById("draw-btn");
+            drawBtn.disabled = true; 
+
+            const playerImg = document.getElementById("player-card-img");
+            const compImg = document.getElementById("comp-card-img");
+            const roundResultText = document.getElementById("round-result-text");
+
+            roundResultText.innerText = "Drawing...";
+            
+            // Check if the cards are already facing down (Round 1)
+            const isFirstRound = playerImg.src.includes("backcard.png");
+
+            // We put the reveal logic inside its own const so we don't have to write it twice
+            const performDrawReveal = () => {
+                playerImg.className = "card-flip-out";
+                compImg.className = "card-flip-out";
+
+                setTimeout(() => {
+                    const playerDraw = cards[Math.floor(Math.random() * cards.length)];
+                    const compDraw = cards[Math.floor(Math.random() * cards.length)];
+
+                    playerImg.src = `${playerDraw}.png`;
+                    compImg.src = `${compDraw}.png`;
+                    
+                    playerImg.className = "card-flip-in";
+                    compImg.className = "card-flip-in";
+
+                    setTimeout(() => {
+                        if (playerDraw === compDraw) {
+                            roundResultText.innerText = "Draw! No points awarded.";
+                            playerImg.className = "";
+                            compImg.className = "";
+                        } else if (winMatrix[playerDraw].includes(compDraw)) {
+                            roundResultText.innerText = `Your ${playerDraw.toUpperCase()} beats ${compDraw.toUpperCase()}!`;
+                            playerScore++;
+                            playerImg.className = "card-winner";
+                            compImg.className = "card-loser";
+                            triggerCardFeedback("player", true);
+                            triggerCardFeedback("comp", false);
+                        } else {
+                            roundResultText.innerText = `Computer's ${compDraw.toUpperCase()} beats ${playerDraw.toUpperCase()}!`;
+                            compScore++;
+                            compImg.className = "card-winner";
+                            playerImg.className = "card-loser";
+                            triggerCardFeedback("comp", true);
+                            triggerCardFeedback("player", false);
+                        }
+
+                        document.getElementById("player-score").innerText = playerScore;
+                        document.getElementById("comp-score").innerText = compScore;
+
+                        checkWinCondition();
+                        
+                        if(playerScore < winTarget && compScore < winTarget) {
+                            drawBtn.disabled = false;
+                            drawBtn.innerText = "NEXT ROUND";
+                        }
+                    }, 300); 
+                }, 300); 
+            };
+
+            // Now we route the logic based on the round
+            if (isFirstRound) {
+                // Skip the reset animation and jump straight to the reveal
+                performDrawReveal();
+            } else {
+                // Do the full reset sequence for round 2 and beyond
+                playerImg.className = "card-flip-out";
+                compImg.className = "card-flip-out";
+
+                setTimeout(() => {
+                    playerImg.src = "backcard.png";
+                    compImg.src = "backcard.png";
+                    playerImg.className = "card-flip-in";
+                    compImg.className = "card-flip-in";
+
+                    setTimeout(() => {
+                        performDrawReveal();
+                    }, 500); 
+                }, 300); 
+            }
+        }
+
+                function checkWinCondition() {
+            const roundResultText = document.getElementById("round-result-text");
+            if (playerScore >= winTarget) {
+                roundResultText.innerText = " YOU WIN THE WAR! ";
+                endGameWar(true);
+            } else if (compScore >= winTarget) {
+                roundResultText.innerText = " COMPUTER WINS THE WAR! ";
+                endGameWar(false);
+            }
+        }
+
+        function endGameWar(isWin) {
+            document.getElementById("draw-btn").disabled = true;
+            
+            const xpReward = isWin ? 250 : 100;
+            const coinReward = isWin ? 250 : 100; // Set the coin payout for War Mode
+
+            if (currentUser) {
+                currentXP += xpReward;
+                pokeDollars += coinReward; // Add coins to the active wallet
+                
+                localStorage.setItem(`xp_${currentUser}`, currentXP);
+                localStorage.setItem(`pokeDollars_${currentUser}`, pokeDollars);
+                
+                db.collection("trainers").doc(currentUser).set({
+                    xp: currentXP,
+                    level: Math.floor(currentXP / 100) + 1,
+                    pokeDollars: pokeDollars // Sync the new wallet total to the cloud
+                }, { merge: true }).catch(e => console.error("Firebase sync error:", e));
+                
+                updateXPUI();
+                document.getElementById('home-display-wallet').innerText = pokeDollars; // Update top-right home UI
+            }
+
+            // Transition to the End Screen after a brief pause so they see the final cards
+            setTimeout(() => {
+                showScreen(endScreen);
+                
+                // Reuse the end screen but change labels for War Mode
+                document.getElementById('end-right').previousElementSibling.innerText = "Player";
+                document.getElementById('end-wrong').previousElementSibling.innerText = "CPU";
+                
+                document.getElementById('end-right').innerText = playerScore;
+                document.getElementById('end-wrong').innerText = compScore;
+                document.getElementById('end-session-xp').innerText = xpReward;
+                document.getElementById('end-session-money').innerText = coinReward; // Display the earned coins
+
+                const endTitleEl = document.getElementById('end-title');
+                const endMessageEl = document.getElementById('end-message');
+
+                if (isWin) {
+                    endTitleEl.innerHTML = '<img src="amazingjob.png" style="width: 100%; max-width: 320px; filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9));">'; 
+                    endMessageEl.innerText = "You won the PKMN Card War!";
+                } else {
+                    endTitleEl.innerHTML = '<img src="nicetry.png" style="width: 100%; max-width: 320px; filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9));">'; 
+                    endMessageEl.innerText = "The Computer won the PKMN Card War!";
+                }
+            }, 1500);
+        }
+
+        function resetCardWarGame() {
+            playerScore = 0;
+            compScore = 0;
+            document.getElementById("player-score").innerText = playerScore;
+            document.getElementById("comp-score").innerText = compScore;
+            
+            const playerImg = document.getElementById("player-card-img");
+            const compImg = document.getElementById("comp-card-img");
+            playerImg.className = "";
+            compImg.className = "";
+            playerImg.src = "backcard.png";
+            compImg.src = "backcard.png";
+            
+            document.getElementById("round-result-text").innerText = "Draw a card to begin!";
+            const drawBtn = document.getElementById("draw-btn");
+            drawBtn.disabled = false;
+            drawBtn.innerText = "DRAW CARD";
         }
     </script>
 </body>
