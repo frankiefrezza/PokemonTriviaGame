@@ -1586,6 +1586,9 @@ body.dark-mode #leaderboard-modal p {
         100% { opacity: 0; transform: translate(-50%, -40px) scale(1); }
     }
 
+    /* --- CUSTOM DIALOG DARK MODE --- */
+    body.dark-mode #custom-dialog-message { color: #f8fafc !important; }
+
     </style> 
 </head>
 <body>
@@ -2253,6 +2256,17 @@ body.dark-mode #leaderboard-modal p {
         </div>
     </div>
 
+    <!-- CUSTOM DIALOG MODAL -->
+    <div id="custom-dialog-modal" class="modal-overlay hidden" style="z-index: 9999;">
+        <div class="modal-content light-glass-modal" style="padding: 25px; border-radius: 35px; text-align: center; width: 340px;">
+            <div id="custom-dialog-title" class="header-pill" style="margin-top: 0; margin-bottom: 15px;">Notice</div>
+            <p id="custom-dialog-message" style="font-weight: 800; color: #334155; margin-bottom: 25px; font-size: 15px; line-height: 1.4;"></p>
+            <div style="display: flex; gap: 10px; justify-content: center;" id="custom-dialog-buttons">
+                <!-- Buttons injected via JavaScript -->
+            </div>
+        </div>
+    </div>
+
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyCApJuWvOlObz_wf4EKyUmhPFWc5YWdG7Y",
@@ -2420,6 +2434,8 @@ body.dark-mode #leaderboard-modal p {
         
         let isShiny = false;
         let currentStreak = 0;
+        let razzUsedThisQuestion = false;  // NEW
+        let nanabUsedThisQuestion = false; // NEW
         function triggerHaptic(type) {
             if (!navigator.vibrate) return; // Fails safely on iOS/unsupported browsers
             if (type === 'success') navigator.vibrate([30, 50, 30]); // Double light tap
@@ -2620,6 +2636,9 @@ body.dark-mode #leaderboard-modal p {
         }
 
         function updateItemUI() {
+            inventory.razz = parseInt(inventory.razz) || 0;
+            inventory.nanab = parseInt(inventory.nanab) || 0;
+            inventory.sash = parseInt(inventory.sash) || 0;
             document.getElementById('count-razz').innerText = inventory.razz;
             document.getElementById('count-nanab').innerText = inventory.nanab;
             document.getElementById('count-sash').innerText = inventory.sash;
@@ -2690,16 +2709,17 @@ body.dark-mode #leaderboard-modal p {
             }
         }
 
-        function useRazzBerry() {
+                        function useRazzBerry() {
             if (inventory.razz <= 0 || isPaused) return;
 
-            if (currentMode === 'SURVIVAL' && razzUsesThisRun >= 6) {
-                alert("You have reached the maximum of 6 Razz Berries for this run!");
+            // Enforces the 6-berry limit per match (allows stacking on a single question)
+            if (razzUsesThisRun >= 6) {
+                alert("You have reached the maximum of 6 Razz Berries per match!");
                 return;
             }
 
             inventory.razz--;
-            if (currentMode === 'SURVIVAL') razzUsesThisRun++; 
+            razzUsesThisRun++; 
             
             saveInventory();
             updateItemUI();
@@ -2715,6 +2735,7 @@ body.dark-mode #leaderboard-modal p {
             btn.appendChild(popup);
             setTimeout(() => { popup.remove(); }, 3000);
         }
+
 
         function useNanabBerry() {
             if (inventory.nanab <= 0 || isPaused) return;
@@ -3496,38 +3517,58 @@ body.dark-mode #leaderboard-modal p {
             showScreen(loginScreen);
         }
 
-                function deleteUser(userToDelete) {
-            // Updated the warning message to reflect the new local-only behavior
-            const confirmDelete = confirm(`Are you sure you want to remove ${userToDelete} from this device? Their progress will remain safe in the cloud.`);
+        function showCustomConfirm(title, message, onConfirm) {
+            const modal = document.getElementById('custom-dialog-modal');
+            document.getElementById('custom-dialog-title').innerText = title;
+            document.getElementById('custom-dialog-message').innerText = message;
             
-            if (confirmDelete) {
-                knownUsers = knownUsers.filter(u => u !== userToDelete);
-                localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
-                
-                // Clear local cache for this user
-                localStorage.removeItem(`xp_${userToDelete}`);
-                localStorage.removeItem(`avatar_${userToDelete}`);
-                localStorage.removeItem(`pokedex_${userToDelete}`); 
-                localStorage.removeItem(`seen_${userToDelete}`);
-                localStorage.removeItem(`shiny_dex_${userToDelete}`);
-                localStorage.removeItem(`stats_right_${userToDelete}`);
-                localStorage.removeItem(`stats_wrong_${userToDelete}`);
-                localStorage.removeItem(`survival_high_${userToDelete}`);
-                localStorage.removeItem(`survival_total_correct_${userToDelete}`);
-                localStorage.removeItem(`survival_games_${userToDelete}`);
-                localStorage.removeItem(`pokeDollars_${userToDelete}`);
-                localStorage.removeItem(`inventory_${userToDelete}`);
-                localStorage.removeItem(`lastLogin_${userToDelete}`);
-                
-                // Clear IndexedDB for this user
-                idbDelete(`pokedex_${userToDelete}`);
-                idbDelete(`shiny_dex_${userToDelete}`);
-                idbDelete(`seen_${userToDelete}`);
+            const btnContainer = document.getElementById('custom-dialog-buttons');
+            btnContainer.innerHTML = `
+                <button class="primary-btn btn-gray" id="dialog-btn-cancel" style="flex: 1; margin: 0; padding: 12px; font-size: 14px;">Cancel</button>
+                <button class="primary-btn btn-red" id="dialog-btn-confirm" style="flex: 1; margin: 0; padding: 12px; font-size: 14px;">Remove</button>
+            `;
+            
+            document.getElementById('dialog-btn-cancel').onclick = () => {
+                modal.classList.add('hidden');
+            };
+            
+            document.getElementById('dialog-btn-confirm').onclick = () => {
+                modal.classList.add('hidden');
+                onConfirm(); 
+            };
+            
+            modal.classList.remove('hidden');
+        }
 
-                // FIREBASE CLOUD DELETE HAS BEEN REMOVED
+        function deleteUser(userToDelete) {
+            showCustomConfirm(
+                "Remove Trainer",
+                `Are you sure you want to remove ${userToDelete} from this device? Their progress will remain safe in the cloud.`,
+                () => {
+                    knownUsers = knownUsers.filter(u => u !== userToDelete);
+                    localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
+                    
+                    localStorage.removeItem(`xp_${userToDelete}`);
+                    localStorage.removeItem(`avatar_${userToDelete}`);
+                    localStorage.removeItem(`pokedex_${userToDelete}`); 
+                    localStorage.removeItem(`seen_${userToDelete}`);
+                    localStorage.removeItem(`shiny_dex_${userToDelete}`);
+                    localStorage.removeItem(`stats_right_${userToDelete}`);
+                    localStorage.removeItem(`stats_wrong_${userToDelete}`);
+                    localStorage.removeItem(`survival_high_${userToDelete}`);
+                    localStorage.removeItem(`survival_total_correct_${userToDelete}`);
+                    localStorage.removeItem(`survival_games_${userToDelete}`);
+                    localStorage.removeItem(`pokeDollars_${userToDelete}`);
+                    localStorage.removeItem(`inventory_${userToDelete}`);
+                    localStorage.removeItem(`lastLogin_${userToDelete}`);
+                    
+                    idbDelete(`pokedex_${userToDelete}`);
+                    idbDelete(`shiny_dex_${userToDelete}`);
+                    idbDelete(`seen_${userToDelete}`);
 
-                renderUserHistory();
-            }
+                    renderUserHistory();
+                }
+            );
         }
 
                 async function loadUserData(username) {
@@ -3970,6 +4011,8 @@ function updateBadgeDisplay(level) {
 
             clearInterval(timerInterval);
             isPaused = false;
+            razzUsedThisQuestion = false;
+            nanabUsedThisQuestion = false;
             updateItemUI();
             
             gameContent.style.opacity = 0;
