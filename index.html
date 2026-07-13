@@ -1588,6 +1588,7 @@ body.dark-mode #leaderboard-modal p {
 
     /* --- CUSTOM DIALOG DARK MODE --- */
     body.dark-mode #custom-dialog-message { color: #f8fafc !important; }
+    body.dark-mode #delete-pin-input { color: #f1f5f9 !important; background: rgba(15,23,42,0.8) !important; border-color: #ef4444 !important; }
 
     </style> 
 </head>
@@ -1814,16 +1815,16 @@ body.dark-mode #leaderboard-modal p {
             </div>
         </div>
     </div>
-    <div id="settings-modal" class="modal-overlay hidden">
+        <div id="settings-modal" class="modal-overlay hidden">
         <div class="modal-content" style="text-align: center;">
             <button class="close-x" onclick="toggleSettings()">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
             <div style="text-align: center;">
-    <div class="header-pill" style="margin-top: 0; margin-bottom: 25px;">
-        Settings
-    </div>
-</div>
+                <div class="header-pill" style="margin-top: 0; margin-bottom: 25px;">
+                    Settings
+                </div>
+            </div>
             
             <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
                 <button id="dark-mode-btn" class="primary-btn btn-gray" onclick="toggleDarkMode()" style="width: 85%; margin: 0;">Dark Mode: OFF</button>
@@ -1840,7 +1841,8 @@ body.dark-mode #leaderboard-modal p {
                 <button class="primary-btn btn-red" onclick="logoutUser(); toggleSettings();" style="width: 85%; margin: 0; margin-top: 15px;">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Logout Trainer
                 </button>
-                               <button class="primary-btn btn-gray" onclick="toggleSettings()" style="width: 85%; margin: 0;">
+
+                <button class="primary-btn btn-gray" onclick="toggleSettings()" style="width: 85%; margin: 0; margin-top: 15px;">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg> Close
                 </button>
             </div>
@@ -2737,9 +2739,17 @@ body.dark-mode #leaderboard-modal p {
         }
 
 
-        function useNanabBerry() {
+                function useNanabBerry() {
             if (inventory.nanab <= 0 || isPaused) return;
+            
+            // NEW: Stop players from stacking Nanab berries
+            if (nanabUsedThisQuestion) {
+                alert("You can only use one Nanab Berry per question!");
+                return;
+            }
+
             inventory.nanab--;
+            nanabUsedThisQuestion = true; // Locks the berry for this question
             saveInventory();
             updateItemUI();
 
@@ -2879,7 +2889,7 @@ body.dark-mode #leaderboard-modal p {
             isPaused = false;
         }
 
-        function initSettingsUI() {
+                function initSettingsUI() {
             const darkBtn = document.getElementById('dark-mode-btn');
             if (isDarkMode) {
                 document.body.classList.add('dark-mode');
@@ -2910,6 +2920,9 @@ body.dark-mode #leaderboard-modal p {
                 isPaused = false;
             }
         }
+        
+
+        
 
         function toggleDarkMode() {
             isDarkMode = !isDarkMode;
@@ -3561,6 +3574,7 @@ body.dark-mode #leaderboard-modal p {
                     localStorage.removeItem(`pokeDollars_${userToDelete}`);
                     localStorage.removeItem(`inventory_${userToDelete}`);
                     localStorage.removeItem(`lastLogin_${userToDelete}`);
+                    localStorage.removeItem(`dailyTasks_${userToDelete}`);
                     
                     idbDelete(`pokedex_${userToDelete}`);
                     idbDelete(`shiny_dex_${userToDelete}`);
