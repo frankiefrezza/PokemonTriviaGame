@@ -3496,12 +3496,15 @@ body.dark-mode #leaderboard-modal p {
             showScreen(loginScreen);
         }
 
-        function deleteUser(userToDelete) {
-            const confirmDelete = confirm(`Are you sure you want to delete ${userToDelete}? This will permanently erase their XP, Level, and Pokédex locally AND from the global leaderboard.`);
+                function deleteUser(userToDelete) {
+            // Updated the warning message to reflect the new local-only behavior
+            const confirmDelete = confirm(`Are you sure you want to remove ${userToDelete} from this device? Their progress will remain safe in the cloud.`);
             
             if (confirmDelete) {
                 knownUsers = knownUsers.filter(u => u !== userToDelete);
                 localStorage.setItem('knownPokeUsers', JSON.stringify(knownUsers));
+                
+                // Clear local cache for this user
                 localStorage.removeItem(`xp_${userToDelete}`);
                 localStorage.removeItem(`avatar_${userToDelete}`);
                 localStorage.removeItem(`pokedex_${userToDelete}`); 
@@ -3516,11 +3519,13 @@ body.dark-mode #leaderboard-modal p {
                 localStorage.removeItem(`inventory_${userToDelete}`);
                 localStorage.removeItem(`lastLogin_${userToDelete}`);
                 
+                // Clear IndexedDB for this user
                 idbDelete(`pokedex_${userToDelete}`);
                 idbDelete(`shiny_dex_${userToDelete}`);
                 idbDelete(`seen_${userToDelete}`);
 
-                db.collection("trainers").doc(userToDelete).delete().catch((error) => {});
+                // FIREBASE CLOUD DELETE HAS BEEN REMOVED
+
                 renderUserHistory();
             }
         }
