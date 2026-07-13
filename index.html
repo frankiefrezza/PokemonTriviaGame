@@ -4422,20 +4422,22 @@
 
 
 
-        function drawCards() {
+                function drawCards() {
             const drawBtn = document.getElementById("draw-btn");
-            drawBtn.disabled = true; 
+            drawBtn.disabled = true;
 
             const playerImg = document.getElementById("player-card-img");
             const compImg = document.getElementById("comp-card-img");
             const roundResultText = document.getElementById("round-result-text");
 
             roundResultText.innerText = "Drawing...";
-            
-            // Check if the cards are already facing down (Round 1)
+
+            // Force a smooth transition back to the default state so they don't snap
+            playerImg.style.transition = "all 0.5s ease";
+            compImg.style.transition = "all 0.5s ease";
+
             const isFirstRound = playerImg.src.includes("backcard.png");
 
-            // We put the reveal logic inside its own const so we don't have to write it twice
             const performDrawReveal = () => {
                 playerImg.className = "card-flip-out";
                 compImg.className = "card-flip-out";
@@ -4446,59 +4448,68 @@
 
                     playerImg.src = `${playerDraw}.png`;
                     compImg.src = `${compDraw}.png`;
-                    
+
                     playerImg.className = "card-flip-in";
                     compImg.className = "card-flip-in";
 
-                                            setTimeout(() => {
-                            if (playerDraw === compDraw) {
-                                roundResultText.innerText = "Draw! No points awarded.";
-                                playerImg.className = "";
-                                compImg.className = "";
-                            } else if (winMatrix[playerDraw].includes(compDraw)) {
-                                roundResultText.innerText = `Your ${playerDraw.toUpperCase()} beats ${compDraw.toUpperCase()}!`;
-                                playerScore++;
-                                playerImg.className = "card-winner";
-                                compImg.className = "card-loser";
-                            } else {
-                                roundResultText.innerText = `Computer's ${compDraw.toUpperCase()} beats ${playerDraw.toUpperCase()}!`;
-                                compScore++;
-                                compImg.className = "card-winner";
-                                playerImg.className = "card-loser";
-                            }
+                    setTimeout(() => {
+                        // Clear the inline transition so the CSS classes can take over
+                        playerImg.style.transition = "";
+                        compImg.style.transition = "";
+
+                        if (playerDraw === compDraw) {
+                            roundResultText.innerText = "Draw! No points awarded.";
+                            playerImg.className = "";
+                            compImg.className = "";
+                        } else if (winMatrix[playerDraw].includes(compDraw)) {
+                            roundResultText.innerText = `Your ${playerDraw.toUpperCase()} beats ${compDraw.toUpperCase()}!`;
+                            playerScore++;
+                            playerImg.className = "card-winner";
+                            compImg.className = "card-loser";
+                        } else {
+                            roundResultText.innerText = `Computer's ${compDraw.toUpperCase()} beats ${playerDraw.toUpperCase()}!`;
+                            compScore++;
+                            compImg.className = "card-winner";
+                            playerImg.className = "card-loser";
+                        }
 
                         document.getElementById("player-score").innerText = playerScore;
                         document.getElementById("comp-score").innerText = compScore;
 
                         checkWinCondition();
-                        
+
                         if(playerScore < winTarget && compScore < winTarget) {
                             drawBtn.disabled = false;
                             drawBtn.innerText = "NEXT ROUND";
                         }
-                    }, 300); 
+                    }, 350); 
                 }, 300); 
             };
 
-            // Now we route the logic based on the round
             if (isFirstRound) {
-                // Skip the reset animation and jump straight to the reveal
                 performDrawReveal();
             } else {
-                // Do the full reset sequence for round 2 and beyond
-                playerImg.className = "card-flip-out";
-                compImg.className = "card-flip-out";
+                // Clear the winner/loser classes. The inline transition added above will smooth out the shrink.
+                playerImg.className = "";
+                compImg.className = "";
 
+                // Give the cards a generous 600ms to physically settle back to normal
                 setTimeout(() => {
-                    playerImg.src = "backcard.png";
-                    compImg.src = "backcard.png";
-                    playerImg.className = "card-flip-in";
-                    compImg.className = "card-flip-in";
+                    playerImg.className = "card-flip-out";
+                    compImg.className = "card-flip-out";
 
                     setTimeout(() => {
-                        performDrawReveal();
-                    }, 500); 
-                }, 300); 
+                        playerImg.src = "backcard.png";
+                        compImg.src = "backcard.png";
+                        playerImg.className = "card-flip-in";
+                        compImg.className = "card-flip-in";
+
+                        // Let the back of the card rest for a half-second
+                        setTimeout(() => {
+                            performDrawReveal();
+                        }, 500); 
+                    }, 300);
+                }, 600); 
             }
         }
 
@@ -4572,6 +4583,8 @@
             const compImg = document.getElementById("comp-card-img");
             playerImg.className = "";
             compImg.className = "";
+            playerImg.style.transition = "";
+            compImg.style.transition = "";
             playerImg.src = "backcard.png";
             compImg.src = "backcard.png";
             
