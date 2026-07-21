@@ -4543,57 +4543,53 @@ function playCard(playerDraw) {
         }
 
 function endGameWar(isWin) {
-    // Remove this line: document.getElementById("draw-btn").disabled = true;
-    
-    // Optionally ensure buttons stay locked during the end-screen transition
     toggleElementButtons(true); 
 
     const xpReward = isWin ? 250 : 100;
-    // ... [Rest of your endGameWar function remains exactly the same] ...            const coinReward = isWin ? 250 : 100; // Set the coin payout for War Mode
+    const coinReward = isWin ? 250 : 100; // Set the coin payout for War Mode
 
-            if (currentUser) {
-                currentXP += xpReward;
-                pokeDollars += coinReward; // Add coins to the active wallet
-                
-                localStorage.setItem(`xp_${currentUser}`, currentXP);
-                localStorage.setItem(`pokeDollars_${currentUser}`, pokeDollars);
-                
-                db.collection("trainers").doc(currentUser).set({
-                    xp: currentXP,
-                    level: Math.floor(currentXP / 100) + 1,
-                    pokeDollars: pokeDollars // Sync the new wallet total to the cloud
-                }, { merge: true }).catch(e => console.error("Firebase sync error:", e));
-                
-                updateXPUI();
-                document.getElementById('home-display-wallet').innerText = pokeDollars; // Update top-right home UI
-            }
+    if (currentUser) {
+        currentXP += xpReward;
+        pokeDollars += coinReward; // Add coins to the active wallet
+        
+        localStorage.setItem(`xp_${currentUser}`, currentXP);
+        localStorage.setItem(`pokeDollars_${currentUser}`, pokeDollars);
+        
+        db.collection("trainers").doc(currentUser).set({
+            xp: currentXP,
+            level: Math.floor(currentXP / 100) + 1,
+            pokeDollars: pokeDollars // Sync the new wallet total to the cloud
+        }, { merge: true }).catch(e => console.error("Firebase sync error:", e));
+        
+        updateXPUI();
+        document.getElementById('home-display-wallet').innerText = pokeDollars; // Update top-right home UI
+    }
 
-            // Transition to the End Screen after a brief pause so they see the final cards
-            setTimeout(() => {
-                showScreen(endScreen);
-                
-                // Reuse the end screen but change labels for War Mode
-                document.getElementById('end-right').previousElementSibling.innerText = "Player";
-                document.getElementById('end-wrong').previousElementSibling.innerText = "CPU";
-                
-                document.getElementById('end-right').innerText = playerScore;
-                document.getElementById('end-wrong').innerText = compScore;
-                document.getElementById('end-session-xp').innerText = xpReward;
-                document.getElementById('end-session-money').innerText = coinReward; // Display the earned coins
+    // Transition to the End Screen after a brief pause so they see the final cards
+    setTimeout(() => {
+        showScreen(endScreen);
+        
+        // Reuse the end screen but change labels for War Mode
+        document.getElementById('end-right').previousElementSibling.innerText = "Player";
+        document.getElementById('end-wrong').previousElementSibling.innerText = "CPU";
+        
+        document.getElementById('end-right').innerText = playerScore;
+        document.getElementById('end-wrong').innerText = compScore;
+        document.getElementById('end-session-xp').innerText = xpReward;
+        document.getElementById('end-session-money').innerText = coinReward; // Display the earned coins
 
-                const endTitleEl = document.getElementById('end-title');
-                const endMessageEl = document.getElementById('end-message');
+        const endTitleEl = document.getElementById('end-title');
+        const endMessageEl = document.getElementById('end-message');
 
-                if (isWin) {
-                    endTitleEl.innerHTML = '<img src="amazingjob.png" style="width: 100%; max-width: 320px; filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9));">'; 
-                    endMessageEl.innerText = "You won the PKMN Card War!";
-                } else {
-                    endTitleEl.innerHTML = '<img src="nicetry.png" style="width: 100%; max-width: 320px; filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9));">'; 
-                    endMessageEl.innerText = "The Computer won the PKMN Card War!";
-                }
-            }, 1500);
+        if (isWin) {
+            endTitleEl.innerHTML = '<img src="amazingjob.png" style="width: 100%; max-width: 320px; filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9));">'; 
+            endMessageEl.innerText = "You won the PKMN Card War!";
+        } else {
+            endTitleEl.innerHTML = '<img src="nicetry.png" style="width: 100%; max-width: 320px; filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9));">'; 
+            endMessageEl.innerText = "The Computer won the PKMN Card War!";
         }
-
+    }, 1500);
+}
         // Remove these lines from resetCardWarGame():
 // const drawBtn = document.getElementById("draw-btn");
 // drawBtn.disabled = false;
